@@ -1,0 +1,27 @@
+### Dependencies ###
+# Node dependencies directory
+node_modules
+
+### Temporary files ###
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Users Environment Variables
+.lock-wscript
+
+### IDE files ###
+# Komodo Tools
+*.komodoproject
+.komodotools
+
+# WebStorm
+.idea
+
+# Emacs
+*~
