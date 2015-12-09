@@ -1,5 +1,5 @@
 {
-  "name": "build-tools",
+  "name": "via-build-tools",
   "version": "0.1.0",
   "description": "Shared gulp tasks to produce universal code from TypeScript.",
   "private": true,
@@ -12,6 +12,7 @@
     "gulp-plumber": "^1.0.1",
     "gulp-typescript": "^2.10.0",
     "gulp-util": "^3.0.7",
+    "jspm": "^0.16.15",
     "lodash": "^3.10.1",
     "merge2": "^0.3.6",
     "vinyl-buffer": "^1.0.0",
