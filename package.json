@@ -1,5 +1,5 @@
 {
-  "name": "build-tools",
+  "name": "via-build-tools",
   "version": "0.1.0",
   "description": "Shared gulp tasks to produce universal code from TypeScript.",
   "private": true,
