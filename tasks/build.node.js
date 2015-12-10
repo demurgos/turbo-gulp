@@ -21,10 +21,10 @@ var defaultOptions = {
 module.exports = function (gulp, options) {
   var locs = getLocations(options);
 
-  var tsSources = [locs.tsdTypings+'/**/*.d.ts', locs.personnalTypings+'/**/*.d.ts'];
+  var tsSources = []; // [locs.tsdTypings+'/**/*.d.ts', locs.personnalTypings+'/**/*.d.ts'];
 
-  if(options && options.locations && options.locations.browserSrc){
-    tsSources = tsSources.concat(options.locations.browserSrc);
+  if(options && options.locations && options.locations.nodeSrc){
+    tsSources = tsSources.concat(options.locations.nodeSrc);
   }else{
     tsSources.push(locs.src+'/**/*.ts');
   }

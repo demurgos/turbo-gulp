@@ -34,10 +34,10 @@ module.exports = function (gulp, options) {
     typescript: options.typescript
   });
 
-  var tsSources = [locs.tsdTypings+'/**/*.d.ts', locs.personnalTypings+'/**/*.d.ts'];
+  var tsSources = []; // [locs.tsdTypings+'/**/*.d.ts', locs.personnalTypings+'/**/*.d.ts'];
 
-  if(options && options.locations && options.locations.nodeSrc){
-    tsSources = tsSources.concat(options.locations.nodeSrc);
+  if(options && options.locations && options.locations.browserSrc){
+    tsSources = tsSources.concat(options.locations.browserSrc);
   }else{
     tsSources.push(locs.src+'/**/*.ts');
   }
