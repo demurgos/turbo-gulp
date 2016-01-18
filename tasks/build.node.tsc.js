@@ -7,9 +7,10 @@ var defaultTscConfig = require('../config/tsc');
 module.exports = function (gulp, locations, options) {
   var tsSources = [];
 
-  // tsSources.concat(locations.getDefinitionsNode());
+  tsSources = tsSources.concat(locations.getDefinitionsNode());
   tsSources.push(locations.getSrcCoreDir()+'/**/*.ts');
   tsSources.push(locations.getSrcNodeDir()+'/**/*.ts');
+  tsSources.push('!**/*.spec.ts');
 
   var tscConfig = _.assign({}, defaultTscConfig, options.tsc);
 

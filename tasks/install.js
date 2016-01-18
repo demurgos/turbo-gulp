@@ -26,12 +26,6 @@ module.exports = function (gulp, locations, userOptions) {
     require('./install.typings')(gulp, locations);
   }
 
-  for(var key in defaultInstall){
-    if(installOptions[key]){
-      installTasks.push('install.'+key);
-    }
-  }
-
   gulp.task('install', installTasks);
   gulp.task('install.noNpm', _.without(installTasks, 'install.npm'));
 

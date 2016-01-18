@@ -9,10 +9,11 @@ defaultTscConfig.moduleResolution = 'node';
 module.exports = function (gulp, locations, options) {
   var tsSources = [];
 
-  // tsSources.concat(locations.getDefinitionsBrowser());
+  tsSources = tsSources.concat(locations.getDefinitionsBrowser());
   tsSources.push(locations.getSrcCoreDir()+'/**/*.ts');
   tsSources.push(locations.getSrcBrowserDir()+'/**/*.ts');
-
+  tsSources.push('!**/*.spec.ts');
+  
   var tscConfig = _.assign({}, defaultTscConfig, options.tsc);
 
   gulp.task('build.browser.tsc', function () {
