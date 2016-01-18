@@ -1,5 +1,10 @@
 module.exports = {
-  buildBrowser: require('./tasks/build.browser'),
-  buildNode: require('./tasks/build.node'),
-  install: require('./tasks/install')
+  config: {
+    Locations: require('./config/locations')
+  },
+  tasks: {
+    build: require('./tasks/build'),
+    install: require('./tasks/install'),
+    project: require('./tasks/project')
+  }
 };

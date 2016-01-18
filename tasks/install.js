@@ -1,20 +1,31 @@
 var _ = require('lodash');
 
-var install = require("gulp-install");
-var jspm = require('jspm');
-
 var defaultInstall = {
+  jspm: true,
   npm: true,
-  tsd: true,
-  bower: true,
-  jspm: true
+  typings: true
 };
 
-module.exports = function (gulp, options) {
+module.exports = function (gulp, locations, userOptions) {
 
-  var installOptions = _.assign({}, defaultInstall, options.install);
-
+  var installOptions = _.assign({}, defaultInstall, userOptions);
   var installTasks = [];
+
+  if(installOptions.jspm){
+    installTasks.push('install.jspm');
+    require('./install.jspm')(gulp, locations);
+  }
+
+  if(installOptions.npm){
+    installTasks.push('install.npm');
+    require('./install.npm')(gulp, locations);
+  }
+
+  if(installOptions.typings){
+    installTasks.push('install.typings');
+    require('./install.typings')(gulp, locations);
+  }
+
   for(var key in defaultInstall){
     if(installOptions[key]){
       installTasks.push('install.'+key);
@@ -22,25 +33,6 @@ module.exports = function (gulp, options) {
   }
 
   gulp.task('install', installTasks);
-
-  gulp.task('install.tsd', function () {
-    return gulp.src(['./tsd.json'])
-      .pipe(install());
-  });
-
-  gulp.task('install.npm', function () {
-    return gulp.src(['./package.json'])
-      .pipe(install());
-  });
-
-  gulp.task('install.bower', function () {
-    return gulp.src(['./bower.json'])
-      .pipe(install());
-  });
-
-  gulp.task('install.jspm', function () {
-    jspm.setPackagePath('.');
-    return jspm.install(true);
-  });
+  gulp.task('install.noNpm', _.without(installTasks, 'install.npm'));
 
 };
