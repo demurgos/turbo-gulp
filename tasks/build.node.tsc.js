@@ -11,7 +11,7 @@ module.exports = function (gulp, locations, options) {
   tsSources.push(locations.getSrcCoreDir()+'/**/*.ts');
   tsSources.push(locations.getSrcNodeDir()+'/**/*.ts');
 
-  var tscConfig = _.merge({}, defaultTscConfig, options.tsc);
+  var tscConfig = _.assign({}, defaultTscConfig, options.tsc);
 
   gulp.task('build.node.tsc', function () {
     var tsResult = gulp

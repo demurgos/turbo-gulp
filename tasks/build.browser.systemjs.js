@@ -5,7 +5,7 @@ var systemjsBuilder = require('systemjs-builder');
 
 module.exports = function (gulp, locations, options) {
 
-  require('build.browser.tsc')(gulp, locations, options);
+  require('./build.browser.tsc')(gulp, locations, options);
 
   gulp.task('build.browser.systemjs', ['build.browser.tsc'], function () {
     var builder = new systemjsBuilder(locations.getRootDir(), locations.getSystemJSConfig());

@@ -13,7 +13,7 @@ module.exports = function (gulp, locations, options) {
   tsSources.push(locations.getSrcCoreDir()+'/**/*.ts');
   tsSources.push(locations.getSrcBrowserDir()+'/**/*.ts');
 
-  var tscConfig = _.merge({}, defaultTscConfig, options.tsc);
+  var tscConfig = _.assign({}, defaultTscConfig, options.tsc);
 
   gulp.task('build.browser.tsc', function () {
     var tsResult = gulp
