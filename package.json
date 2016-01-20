@@ -2,10 +2,15 @@
   "name": "via-build-tools",
   "version": "0.2.2",
   "description": "Shared gulp tasks to produce universal code from TypeScript.",
-  "private": true,
+  "private": false,
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Demurgos/via-build-tools.git"
+  },
   "dependencies": {
     "gulp-install": "^0.6.0",
+    "gulp-mocha": "^2.2.0",
     "gulp-typescript": "^2.10.0",
     "jspm": "^0.16.15",
     "lodash": "^3.10.1",
