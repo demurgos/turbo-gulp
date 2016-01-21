@@ -109,9 +109,9 @@ Locations.prototype.getDefinitionsNode = function() {
 Locations.prototype.getSourcesNode = function(withTests) {
   var sources = [];
 
-  sources = tsSources.concat(locations.getDefinitionsNode());
-  sources.push(locations.getSrcCoreDir()+'/**/*.ts');
-  sources.push(locations.getSrcNodeDir()+'/**/*.ts');
+  sources = sources.concat(this.getDefinitionsNode());
+  sources.push(this.getSrcCoreDir()+'/**/*.ts');
+  sources.push(this.getSrcNodeDir()+'/**/*.ts');
   if(!withTests){
     tsSources.push('!**/*.spec.ts');
   }
