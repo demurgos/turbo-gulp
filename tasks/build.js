@@ -13,6 +13,9 @@ module.exports = function (gulp, locations, userOptions) {
   if(buildOptions.node){
     buildTasks.push('build.node');
     require('./build.node')(gulp, locations, userOptions);
+
+    buildTasks.push('build.node-test');
+    require('./build.node-test')(gulp, locations, userOptions);
   }
 
   if(buildOptions.browser){

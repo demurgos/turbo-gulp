@@ -25,6 +25,8 @@ build.browser.systemjs
 build.browser.tsc
 build.node
 build.node.tsc
+build.node-test
+build.node-test.tsc
 test
 test.node
 project.bump

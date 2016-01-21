@@ -72,6 +72,10 @@ Locations.prototype.getBuildNodeDir = function() {
   return path.join(this.root, this.build.node);
 };
 
+Locations.prototype.getBuildNodeTestDir = function() {
+  return path.join(this.root, this.build.node + '-test');
+};
+
 Locations.prototype.getBuildSystemJSDir = function() {
   return path.join(this.root, this.build.systemjs);
 };
@@ -100,6 +104,19 @@ Locations.prototype.getDefinitionsNode = function() {
     path.join(this.getTypingsDir(), 'main.d.ts'),
     path.join(this.getCustomDefinitionsDir(), '**/*.d.ts')
   ];
+};
+
+Locations.prototype.getSourcesNode = function(withTests) {
+  var sources = [];
+
+  sources = tsSources.concat(locations.getDefinitionsNode());
+  sources.push(locations.getSrcCoreDir()+'/**/*.ts');
+  sources.push(locations.getSrcNodeDir()+'/**/*.ts');
+  if(!withTests){
+    tsSources.push('!**/*.spec.ts');
+  }
+
+  return sources;
 };
 
 module.exports = Locations;
