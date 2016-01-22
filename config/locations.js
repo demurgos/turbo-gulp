@@ -113,7 +113,7 @@ Locations.prototype.getSourcesNode = function(withTests) {
   sources.push(this.getSrcCoreDir()+'/**/*.ts');
   sources.push(this.getSrcNodeDir()+'/**/*.ts');
   if(!withTests){
-    tsSources.push('!**/*.spec.ts');
+    sources.push('!**/*.spec.ts');
   }
 
   return sources;
