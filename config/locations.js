@@ -19,6 +19,10 @@ var defaultLocations = {
     systemjs: 'build/systemjs',
     coverage: 'build/coverage'
   },
+  dist: {
+    dir: 'dist',
+    node: 'dist/node'
+  },
   tmp: {
     dir: 'tmp'
   },
@@ -82,6 +86,10 @@ Locations.prototype.getBuildSystemJSDir = function() {
 
 Locations.prototype.getBuildBrowserDir = function() {
   return path.join(this.root, this.build.browser);
+};
+
+Locations.prototype.getDistNodeDir = function() {
+  return path.join(this.root, this.dist.node);
 };
 
 Locations.prototype.getTypingsDir = function() {
