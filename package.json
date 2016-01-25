@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.1.4",
     "gulp-install": "^0.6.0",
     "gulp-mocha": "^2.2.0",
     "gulp-tslint": "^4.3.1",
@@ -17,6 +18,7 @@
     "jspm": "^0.16.15",
     "lodash": "^3.10.1",
     "merge2": "^0.3.6",
+    "semver": "^5.1.0",
     "systemjs-builder": "^0.15.3",
     "tslint": "^3.2.2",
     "typescript": "^1.7.5",
