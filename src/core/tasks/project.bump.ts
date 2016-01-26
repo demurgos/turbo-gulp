@@ -1,4 +1,4 @@
-var project = require('../utils/project');
+var project = require('./project');
 
 function bump(type, locations){
   return project

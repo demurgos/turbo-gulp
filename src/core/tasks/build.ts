@@ -12,15 +12,15 @@ module.exports = function (gulp, locations, userOptions) {
 
   if(buildOptions.node){
     buildTasks.push('build.node');
-    require('./build.node')(gulp, locations, userOptions);
+    require('./build.node.ts')(gulp, locations, userOptions);
 
     buildTasks.push('build.node-test');
-    require('./build.node-test')(gulp, locations, userOptions);
+    require('./build.node-test.ts')(gulp, locations, userOptions);
   }
 
   if(buildOptions.browser){
     buildTasks.push('build.browser');
-    require('./build.browser')(gulp, locations, userOptions);
+    require('./build.browser.ts')(gulp, locations, userOptions);
   }
 
   gulp.task('build', buildTasks);

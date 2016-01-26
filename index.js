@@ -1,11 +1,11 @@
 module.exports = {
   config: {
-    Locations: require('./config/locations')
+    Locations: require('./src/core/config/locations')
   },
   tasks: {
-    build: require('./tasks/build'),
-    install: require('./tasks/install'),
-    project: require('./tasks/project'),
-    test: require('./tasks/test')
+    build: require('./src/core/tasks/build'),
+    install: require('./src/core/tasks/install'),
+    project: require('./src/core/tasks/project'),
+    test: require('./src/core/tasks/test')
   }
 };

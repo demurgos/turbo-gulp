@@ -13,17 +13,17 @@ module.exports = function (gulp, locations, userOptions) {
 
   if(installOptions.jspm){
     installTasks.push('install.jspm');
-    require('./install.jspm')(gulp, locations);
+    require('./install.jspm.ts')(gulp, locations);
   }
 
   if(installOptions.npm){
     installTasks.push('install.npm');
-    require('./install.npm')(gulp, locations);
+    require('./install.npm.ts')(gulp, locations);
   }
 
   if(installOptions.typings){
     installTasks.push('install.typings');
-    require('./install.typings')(gulp, locations);
+    require('./install.typings.ts')(gulp, locations);
   }
 
   gulp.task('install', installTasks);
