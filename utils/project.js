@@ -18,24 +18,28 @@ function ensureUnusedTag(tag){
     });
 }
 
-function release(version, locations){
+function commitVersion(version, locations){
   var tag = 'v'+version;
   var message = 'Release '+tag;
+  return git.exec('add', ['.'])
+    .then(function(){
+      return git.exec('commit', ['-m', message]);
+    })
+    .then(function(){
+      return git.exec('tag', ['-a', tag, '-m', message]);
+    });
+}
+
+function release(version, locations){
   return Promise.all([
-      readPackage(locations),
       ensureUnusedTag(tag),
       git.ensureCleanMaster()
     ])
-    .spread(function(pkg, tagResult, cleanResult) {
-      pkg.version = newVersion;
-      return writePackage(pkg, locations);
-    })
     .then(function() {
-      return git.exec('add', [locations.getPackage()]);
-    }).then(function(){
-      return git.exec('commit', ['-m', message]);
-    }).then(function(){
-      return git.exec('tag', ['-a', tag, '-m', message]);
+      return setPackageVersion(version, locations);
+    })
+    .then(function(){
+      return commitVersion(version, locations);
     });
 }
 
@@ -45,6 +49,14 @@ function readPackage(locations){
 
 function writePackage(data, locations){
   return writeFile(locations.getPackage(), JSON.stringify(data, null, 2));
+}
+
+function setPackageVersion(version, locations){
+  return readPackage(locations)
+    .spread(function(pkg) {
+      pkg.version = newVersion;
+      return writePackage(pkg, locations);
+    });
 }
 
 // type: major/minor/patch
