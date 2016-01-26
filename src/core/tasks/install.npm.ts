@@ -1,6 +1,15 @@
-var install = require("gulp-install");
+import * as install from "gulp-install";
 
-module.exports = function (gulp, locations) {
+// TODO: move to custom definitions
+declare module "gulp-install"{
+  interface StaticGulpInstall{
+    (): any;
+  }
+  let staticGulpInstall: StaticGulpInstall;
+  export = staticGulpInstall;
+}
+
+export default function registerTask (gulp, locations) {
   gulp.task('install.npm', function () {
     return gulp.src([locations.getPackage()])
       .pipe(install());

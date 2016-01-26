@@ -1,6 +1,6 @@
-var mocha = require('gulp-mocha');
+import * as mocha from 'mocha';
 
-module.exports = function (gulp, locations, options) {
+export default function registerTask (gulp, locations, options) {
   gulp.task('test.node', ['build.node-test'], function(){
     return gulp
       .src([locations.getBuildNodeTestDir()+'/**/*.spec.js'], { base: locations.getBuildNodeTestDir()})

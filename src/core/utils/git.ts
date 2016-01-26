@@ -4,7 +4,7 @@ var fs = require('fs');
 
 var execFileAsync = Promise.promisify(childProcess.execFile);
 
-function exec(cmd, args, options){
+function exec(cmd, args: string[], options?: any){
   args.unshift(cmd);
   return execFileAsync('git', args, options);
 }
@@ -15,7 +15,7 @@ function ensureCleanMaster(options){
       if (stdout.trim() !== 'refs/heads/master') {
         throw new Error('Not on master branch');
       }
-      return execGit('status', ['--porcelain']);
+      return exec('status', ['--porcelain']);
     })
     .then(function (stdout) {
       if (stdout.trim().length) {

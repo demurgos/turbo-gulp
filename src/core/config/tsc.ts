@@ -1,6 +1,4 @@
-"use strict";
-
-module.exports = {
+export default {
   declaration: true,
   noExternalResolve: false,
   noImplicitAny: true,

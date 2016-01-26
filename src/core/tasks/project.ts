@@ -1,8 +1,12 @@
-module.exports = function (gulp, locations, userOptions) {
+import projectLintTs from './project.lint';
+import projectBump from './project.bump';
+import projectDistNode from './project.dist.node';
 
-  require('./project.lint.ts')(gulp, locations, userOptions);
-  require('./project.bump.ts')(gulp, locations, userOptions);
-  require('./project.dist.node.ts')(gulp, locations, userOptions);
+export default function registerTask (gulp, locations, userOptions) {
+
+  projectLintTs(gulp, locations, userOptions);
+  projectBump(gulp, locations, userOptions);
+  projectDistNode(gulp, locations, userOptions);
 
   gulp.task('project', ['project.lint']);
 

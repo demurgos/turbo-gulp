@@ -1,10 +1,10 @@
-var _ = require('lodash');
-var tsc = require('gulp-typescript');
-var merge = require('merge2');
+import * as _ from 'lodash';
+import * as tsc from 'gulp-typescript';
+import * as merge from 'merge2';
 
-var defaultTscConfig = require('../config/tsc');
+import defaultTscConfig from '../config/tsc';
 
-module.exports = function (gulp, locations, options) {
+export default function registerTask (gulp, locations, options) {
   var tscConfig = _.assign({}, defaultTscConfig, options.tsc);
 
   gulp.task('build.node.tsc', function () {

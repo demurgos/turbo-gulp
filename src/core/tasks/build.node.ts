@@ -1,4 +1,6 @@
-module.exports = function (gulp, locations, options) {
-  require('./build.node.tsc.ts')(gulp, locations, options || {});
+import buildNodeTsc from './build.node.tsc';
+
+export default function registerTask (gulp, locations, options) {
+  buildNodeTsc(gulp, locations, options || {});
   gulp.task('build.node', ['build.node.tsc']);
 };

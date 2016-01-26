@@ -1,6 +1,6 @@
-var typings = require('typings');
+import typings from 'typings';
 
-module.exports = function (gulp, locations) {
+export default function registerTask (gulp, locations) {
   gulp.task('install.typings', function () {
     return typings.install({production: false, cwd: locations.getRootDir()});
   });

@@ -1,26 +1,48 @@
-var _ = require('lodash');
+// TODO: move to custom definitions
+declare module "gulp-typescript"{
+  interface StaticGulpTypescript{
+    (tsConfig: any): any;
+  }
+  let staticGulpTypescript: StaticGulpTypescript;
+  export = staticGulpTypescript;
+}
+
+// TODO: move to custom definitions
+declare module "merge2"{
+  interface StaticMerge2{
+    (streams: any[]): any;
+  }
+  let staticMerge2: StaticMerge2;
+  export = staticMerge2;
+}
+
+import _ from 'lodash';
+
+import buildNode from './build.node';
+import buildNodeTest from './build.node-test';
+import buildBrowser from './build.browser';
 
 var defaultBuilds = {
   node: true,
   browser: true
 };
 
-module.exports = function (gulp, locations, userOptions) {
+export default function registerTask (gulp, locations, userOptions) {
 
   var buildOptions = _.assign({}, defaultBuilds, userOptions);
   var buildTasks = [];
 
   if(buildOptions.node){
     buildTasks.push('build.node');
-    require('./build.node.ts')(gulp, locations, userOptions);
+    buildNode(gulp, locations, userOptions);
 
     buildTasks.push('build.node-test');
-    require('./build.node-test.ts')(gulp, locations, userOptions);
+    buildNodeTest(gulp, locations, userOptions);
   }
 
   if(buildOptions.browser){
     buildTasks.push('build.browser');
-    require('./build.browser.ts')(gulp, locations, userOptions);
+    buildBrowser(gulp, locations, userOptions);
   }
 
   gulp.task('build', buildTasks);

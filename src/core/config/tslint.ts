@@ -1,6 +1,4 @@
-"use strict";
-
-module.exports = {
+export default {
   rules: {
     "comment-format": [
       true,

@@ -1,6 +1,14 @@
-module.exports = function (gulp, locations, userOptions) {
+import tslint from "gulp-tslint";
 
-  require('./project.lint.ts.ts')(gulp, locations, userOptions);
-  gulp.task('project.lint', ['project.lint.ts']);
+import defaultTslintConfig from '../config/tslint';
 
+export default function registerTask (gulp, locations, userOptions) {
+  gulp.task('project.lint', function(){
+    gulp.src(locations.getSrcDir() + '/**/*.ts', {base: locations.getSrcDir()})
+      .pipe(tslint({
+        configuration: defaultTslintConfig
+      }))
+      .pipe(tslint.report("verbose"));
+  });
 };
+

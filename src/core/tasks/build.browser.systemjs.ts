@@ -1,14 +1,25 @@
-var path = require('path');
+import * as path from 'path';
 
-var _ = require('lodash');
-var systemjsBuilder = require('systemjs-builder');
+import * as _ from 'lodash';
+import * as Builder from 'systemjs-builder';
 
-module.exports = function (gulp, locations, options) {
+import buildBrowserTsc from './build.browser.tsc';
 
-  require('./build.browser.tsc.ts')(gulp, locations, options);
+// TODO: move to custom definitions
+declare module "systemjs-builder"{
+  class Builder{
+    constructor(projectRoot: string, systemjsConfigPath: string);
+    build(entryPointPath: string, ouputFile: string): any;
+  }
+  export = Builder;
+}
+
+export default function registerTask (gulp, locations, options) {
+
+  buildBrowserTsc(gulp, locations, options);
 
   gulp.task('build.browser.systemjs', ['build.browser.tsc'], function () {
-    var builder = new systemjsBuilder(locations.getRootDir(), locations.getSystemJSConfig());
+    var builder = new Builder(locations.getRootDir(), locations.getSystemJSConfig());
 
     var fdi;
 

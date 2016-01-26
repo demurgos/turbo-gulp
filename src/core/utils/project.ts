@@ -8,7 +8,7 @@ var git = require('./git');
 var readFile = Promise.promisify(fs.readFile);
 var writeFile = Promise.promisify(fs.writeFile);
 
-function ensureUnusedTag(tag){
+export function ensureUnusedTag(tag){
   return git.checkTag(tag)
     .then(function(exists){
       if(exists){
@@ -18,9 +18,17 @@ function ensureUnusedTag(tag){
     });
 }
 
-function commitVersion(version, locations){
-  var tag = 'v'+version;
-  var message = 'Release '+tag;
+export function getVersionTag(version){
+  return 'v'+version;
+}
+
+export function getVersionMessage(version){
+  return 'Release v'+version;
+}
+
+export function commitVersion(version, locations){
+  var tag = getVersionTag(version);
+  var message = getVersionMessage(version);
   return git.exec('add', ['.'])
     .then(function(){
       return git.exec('commit', ['-m', message]);
@@ -30,9 +38,9 @@ function commitVersion(version, locations){
     });
 }
 
-function release(version, locations){
+export function release(version, locations){
   return Promise.all([
-      ensureUnusedTag(tag),
+      ensureUnusedTag(getVersionTag(version)),
       git.ensureCleanMaster()
     ])
     .then(function() {
@@ -43,32 +51,26 @@ function release(version, locations){
     });
 }
 
-function readPackage(locations){
+export function readPackage(locations){
   return readFile(locations.getPackage()).then(JSON.parse);
 }
 
-function writePackage(data, locations){
+export function writePackage(data, locations){
   return writeFile(locations.getPackage(), JSON.stringify(data, null, 2));
 }
 
-function setPackageVersion(version, locations){
+export function setPackageVersion(version, locations){
   return readPackage(locations)
     .spread(function(pkg) {
-      pkg.version = newVersion;
+      pkg.version = version;
       return writePackage(pkg, locations);
     });
 }
 
 // type: major/minor/patch
-function getNextVersion(type, locations){
+export function getNextVersion(type, locations){
   return readPackage(locations)
     .then(function(pkg){
-      return semver.inc(oldVersion, pkg.version);
+      return semver.inc(pkg.version, type);
     });
 }
-
-exports.ensureUnusedTag = ensureUnusedTag;
-exports.release = release;
-exports.readPackage = readPackage;
-exports.writePackage = writePackage;
-exports.getNextVersion = getNextVersion;

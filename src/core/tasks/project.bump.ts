@@ -1,14 +1,13 @@
-var project = require('./project');
+import {getNextVersion, release} from '../utils/project';
 
 function bump(type, locations){
-  return project
-    .getNextVersion(type, locations)
+  return getNextVersion(type, locations)
     .then(function(nextVersion){
-      return project.release(nextVersion, locations);
+      return release(nextVersion, locations);
     });
 }
 
-module.exports = function (gulp, locations, userOptions) {
+export default function registerTask (gulp, locations, userOptions) {
 
   gulp.task('project.bump.major', function(){
     bump('major', locations);
