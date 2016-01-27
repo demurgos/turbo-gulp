@@ -1,130 +1,82 @@
-"use strict";
+import * as path from 'path';
+import * as _ from 'lodash';
 
-var path = require('path');
-var _ = require('lodash');
-
-var defaultLocations = {
-  root: process.cwd(),
-  src: {
-    dir: 'src',
-    core: 'src/core',
-    browser: 'src/browser',
-    browserMain: 'src/browser/main',
-    node: 'src/node'
-  },
-  build: {
-    dir: 'build',
-    node: 'build/node',
-    browser: 'build/browser',
-    systemjs: 'build/systemjs',
-    coverage: 'build/coverage'
-  },
-  dist: {
-    dir: 'dist',
-    node: 'dist/node'
-  },
-  tmp: {
-    dir: 'tmp'
-  },
-  definitions: {
-    typings: 'typings',
-    customDefinitions: 'custom_definitions'
-  }
-};
-
-function Locations(userLocations) {
-  _.merge(this, defaultLocations, userLocations);
+export interface TargetConfig{
+  base: string;
+  typescript: string[];
+  definitions: string[];
+  main?: string;
 }
 
-Locations.prototype.getRootDir = function() {
-  return this.root;
-};
+export interface Config{
+  project: {
+    root: string;
+    "package": string;
+  },
+  core: TargetConfig,
+  targets: {
+    node?: TargetConfig;
+    browser?: TargetConfig;
+  }
+}
 
-Locations.prototype.getPackage = function() {
-  return path.join(this.root, 'package.json');
-};
+export function getDefaultConfig():any{
+  return {
+    project: {
+      root: process.cwd(),
+      "package": 'package.json',
+      build: 'build',
+      dist: 'dist',
+      coverage: 'coverage'
+    },
+    core: {
+      base: 'src/core',
+      typescript: ['**/*.ts'],
+      definitions: []
+    },
+    targets: {
+      node: {
+        base: 'src/node',
+        typescript: ['**/*.ts'],
+        main: 'main',
+        definitions: ['../../typings/main.d.ts', '../../typings/main/**/*.d.ts']
+      },
+    browser: {
+      base: 'src/browser',
+        typescript: ['**/*.ts'],
+        main: 'main',
+        definitions: ['../../typings/browser.d.ts', '../../typings/browser/**/*.d.ts']
+    }
+    }
+  }
+}
 
-Locations.prototype.getSystemJSConfig = function() {
-  return path.join(this.root, 'systemjs.config.js');
-};
+export default class Locations{
+  config: Config;
 
-Locations.prototype.getSrcDir = function() {
-  return path.join(this.root, this.src.dir);
-};
-
-Locations.prototype.getSrcCoreDir = function() {
-  return path.join(this.root, this.src.core);
-};
-
-Locations.prototype.getSrcNodeDir = function() {
-  return path.join(this.root, this.src.node);
-};
-
-Locations.prototype.getSrcBrowserDir = function() {
-  return path.join(this.root, this.src.browser);
-};
-
-Locations.prototype.getSrcBrowserMain = function() {
-  return path.join(this.root, this.src.browserMain);
-};
-
-Locations.prototype.getBuildDir = function() {
-  return path.join(this.root, this.build.dir);
-};
-
-Locations.prototype.getBuildNodeDir = function() {
-  return path.join(this.root, this.build.node);
-};
-
-Locations.prototype.getBuildNodeTestDir = function() {
-  return path.join(this.root, this.build.node + '-test');
-};
-
-Locations.prototype.getBuildSystemJSDir = function() {
-  return path.join(this.root, this.build.systemjs);
-};
-
-Locations.prototype.getBuildBrowserDir = function() {
-  return path.join(this.root, this.build.browser);
-};
-
-Locations.prototype.getDistNodeDir = function() {
-  return path.join(this.root, this.dist.node);
-};
-
-Locations.prototype.getTypingsDir = function() {
-  return path.join(this.root, this.definitions.typings);
-};
-
-Locations.prototype.getCustomDefinitionsDir = function() {
-  return path.join(this.root, this.definitions.customDefinitions);
-};
-
-Locations.prototype.getDefinitionsBrowser = function() {
-  return [
-    path.join(this.getTypingsDir(), 'browser.d.ts'),
-    path.join(this.getCustomDefinitionsDir(), '**/*.d.ts')
-  ];
-};
-
-Locations.prototype.getDefinitionsNode = function() {
-  return [
-    path.join(this.getTypingsDir(), 'main.d.ts'),
-    path.join(this.getCustomDefinitionsDir(), '**/*.d.ts')
-  ];
-};
-
-Locations.prototype.getSourcesNode = function(withTests) {
-  var sources = [];
-
-  sources = sources.concat(this.getDefinitionsNode());
-  sources.push(this.getSrcCoreDir()+'/**/*.ts');
-  sources.push(this.getSrcNodeDir()+'/**/*.ts');
-  if(!withTests){
-    sources.push('!**/*.spec.ts');
+  constructor (config: any){
+    this.config = _.merge({}, getDefaultConfig(), config);
   }
 
-  return sources;
-};
+  getTypescriptSources(targetName: string, excludeSpec: boolean = false):string[]{
+    let core = this.config.core;
+    let target = this.config.targets[targetName];
+    console.log(this.config);
+    let sources: string[] = [].concat(
+        core.definitions
+          .map((definitionPath: string) => path.join(core.base, definitionPath)),
+        target.definitions
+          .map((sourcePath: string) => path.join(target.base, sourcePath)),
+        core.typescript
+          .map((definitionPath: string) => path.join(core.base, definitionPath)),
+        target.typescript
+          .map((sourcePath: string) => path.join(target.base, sourcePath))
+      ).map(item => path.join(this.config.project.root, item));
 
-module.exports = Locations;
+    if(excludeSpec){
+      sources.push('!**/*.spec.ts');
+    }
+
+    return sources;
+  }
+}

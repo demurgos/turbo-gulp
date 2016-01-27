@@ -9,7 +9,7 @@ export default function registerTask (gulp, locations, options) {
 
   gulp.task('build.node-test.tsc', function () {
     var tsResult = gulp
-      .src(locations.getSourcesNode(true), {base: locations.getSrcDir()})
+      .src(locations.getTypescriptSources('node'), {base: locations.config.targets.node.base})
       .pipe(tsc(tscConfig));
 
     return merge([

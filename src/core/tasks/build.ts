@@ -16,7 +16,7 @@ declare module "merge2"{
   export = staticMerge2;
 }
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import buildNode from './build.node';
 import buildNodeTest from './build.node-test';
