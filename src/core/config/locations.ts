@@ -12,6 +12,9 @@ export interface Config{
   project: {
     root: string;
     "package": string;
+    build: string;
+    dist: string;
+    coverage: string;
   },
   core: TargetConfig,
   targets: {
@@ -79,4 +82,9 @@ export default class Locations{
 
     return sources;
   }
+
+  getBuildDirectory(targetName: string):string{
+    return path.join(this.config.project.root, this.config.project.build, targetName);
+  }
+
 }
