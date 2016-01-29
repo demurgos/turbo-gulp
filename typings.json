@@ -2,9 +2,12 @@
   "dependencies": {},
   "devDependencies": {},
   "ambientDependencies": {
+    "bluebird": "github:DefinitelyTyped/DefinitelyTyped/bluebird/bluebird.d.ts#8d852210cf8378ac5fe11380b5d1d17f2e5b0968",
     "chai": "github:DefinitelyTyped/DefinitelyTyped/chai/chai.d.ts#ef1741f3d614a6da73e3a46d4dc191def7e645a4",
+    "gulp": "github:DefinitelyTyped/DefinitelyTyped/gulp/gulp.d.ts#052725d74978d6b8d7c4ff537b5a3b21ee755a49",
     "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#ef1741f3d614a6da73e3a46d4dc191def7e645a4",
     "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#ef1741f3d614a6da73e3a46d4dc191def7e645a4",
-    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#ef1741f3d614a6da73e3a46d4dc191def7e645a4"
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#ef1741f3d614a6da73e3a46d4dc191def7e645a4",
+    "semver": "github:DefinitelyTyped/DefinitelyTyped/semver/semver.d.ts#0008781fb2a165a68d10b7f579330dcb4f6a1cb6"
   }
 }

@@ -1,76 +1,83 @@
-var fs = require('fs');
+import * as fs from 'fs';
 
-var Promise = require('bluebird');
-var semver = require('semver');
+import * as Promise from 'bluebird';
+import * as semver from 'semver';
 
-var git = require('./git');
+import * as git from './git';
+import Locations from "../config/locations";
 
-var readFile = Promise.promisify(fs.readFile);
-var writeFile = Promise.promisify(fs.writeFile);
+let readFile = Promise.promisify(fs.readFile);
+let writeFile = Promise.promisify(fs.writeFile);
 
-export function ensureUnusedTag(tag){
+export function ensureUnusedTag(tag: string){
   return git.checkTag(tag)
-    .then(function(exists){
+    .then((exists: boolean) => {
       if(exists){
         throw new Error('Tag '+tag+' already exists');
       }
-      return true;
     });
 }
 
-export function getVersionTag(version){
+export function getVersionTag(version:string): string{
   return 'v'+version;
 }
 
-export function getVersionMessage(version){
+export function getVersionMessage(version: string): string{
   return 'Release v'+version;
 }
 
-export function commitVersion(version, locations){
-  var tag = getVersionTag(version);
-  var message = getVersionMessage(version);
+export function commitVersion(version:string, projectRoot?: string){
+  let tag = getVersionTag(version);
+  let message = getVersionMessage(version);
   return git.exec('add', ['.'])
-    .then(function(){
+    .then(() => {
       return git.exec('commit', ['-m', message]);
     })
-    .then(function(){
+    .then(() => {
       return git.exec('tag', ['-a', tag, '-m', message]);
     });
 }
 
-export function release(version, locations){
+export function release(version: string, locations: Locations){
   return Promise.all([
       ensureUnusedTag(getVersionTag(version)),
       git.ensureCleanMaster()
     ])
-    .then(function() {
+    .then(() => {
       return setPackageVersion(version, locations);
     })
-    .then(function(){
-      return commitVersion(version, locations);
+    .then(() => {
+      return commitVersion(version, locations.config.project.root);
     });
 }
 
-export function readPackage(locations){
-  return readFile(locations.getPackage()).then(JSON.parse);
+export interface IPackageJson{
+  version: string;
 }
 
-export function writePackage(data, locations){
-  return writeFile(locations.getPackage(), JSON.stringify(data, null, 2));
+export function readPackage(locations: Locations){
+  return readFile(locations.config.project.package)
+    .then((content:string) => {
+      return JSON.parse(content)
+    });
 }
 
-export function setPackageVersion(version, locations){
+export function writePackage(pkg: IPackageJson, locations: Locations){
+  return writeFile(locations.config.project.package, JSON.stringify(pkg, null, 2));
+}
+
+export function setPackageVersion(version: string, locations: Locations){
   return readPackage(locations)
-    .spread(function(pkg) {
+    .spread(function(pkg: IPackageJson) {
       pkg.version = version;
       return writePackage(pkg, locations);
     });
 }
 
 // type: major/minor/patch
-export function getNextVersion(type, locations){
+export function getNextVersion(type: string, locations: Locations){
   return readPackage(locations)
-    .then(function(pkg){
+    .then((pkg: IPackageJson) => {
       return semver.inc(pkg.version, type);
     });
 }

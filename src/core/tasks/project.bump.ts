@@ -1,13 +1,14 @@
 import {getNextVersion, release} from '../utils/project';
+import Locations from "../config/locations";
 
-function bump(type, locations){
+function bump(type: string, locations: Locations):Promise<any>{
   return getNextVersion(type, locations)
-    .then(function(nextVersion){
+    .then((nextVersion: string) =>{
       return release(nextVersion, locations);
     });
 }
 
-export default function registerTask (gulp, locations, userOptions) {
+export default function registerTask (gulp:any, locations: Locations, userOptions?: any): void {
 
   gulp.task('project.bump.major', function(){
     bump('major', locations);

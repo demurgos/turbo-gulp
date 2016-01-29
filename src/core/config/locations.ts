@@ -12,6 +12,7 @@ export interface Config{
   project: {
     root: string;
     "package": string;
+    "systemjsConfig": string;
     build: string;
     dist: string;
     coverage: string;
@@ -23,11 +24,12 @@ export interface Config{
   }
 }
 
-export function getDefaultConfig():any{
+export function getDefaultConfig():Config{
   return {
     project: {
       root: process.cwd(),
       "package": 'package.json',
+      "systemjsConfig": 'sytemjs.config.js',
       build: 'build',
       dist: 'dist',
       coverage: 'coverage'
@@ -64,7 +66,6 @@ export default class Locations{
   getTypescriptSources(targetName: string, excludeSpec: boolean = false):string[]{
     let core = this.config.core;
     let target = this.config.targets[targetName];
-    console.log(this.config);
     let sources: string[] = [].concat(
         core.definitions
           .map((definitionPath: string) => path.join(core.base, definitionPath)),
@@ -85,6 +86,14 @@ export default class Locations{
 
   getBuildDirectory(targetName: string):string{
     return path.join(this.config.project.root, this.config.project.build, targetName);
+  }
+
+  getDistDirectory(targetName: string):string{
+    return path.join(this.config.project.root, this.config.project.dist, targetName);
+  }
+
+  getCoverageDirectory(targetName: string):string{
+    return path.join(this.config.project.root, this.config.project.coverage, targetName);
   }
 
 }

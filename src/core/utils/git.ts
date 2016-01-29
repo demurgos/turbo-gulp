@@ -1,37 +1,34 @@
-var Promise = require('bluebird');
-var childProcess = require('child_process');
-var fs = require('fs');
+import * as fs from 'fs';
+import * as childProcess from 'child_process';
 
-var execFileAsync = Promise.promisify(childProcess.execFile);
+import * as Promise from 'bluebird';
 
-function exec(cmd, args: string[], options?: any){
+let execFileAsync = Promise.promisify(childProcess.execFile);
+
+export function exec(cmd: string, args: string[], options?: any):Promise<Buffer>{
   args.unshift(cmd);
   return execFileAsync('git', args, options);
 }
 
-function ensureCleanMaster(options){
+export function ensureCleanMaster(options?: any):Promise<void>{
   return exec('symbolic-ref', ['HEAD'])
     .then(function (stdout) {
-      if (stdout.trim() !== 'refs/heads/master') {
+      if (stdout.toString('utf8').trim() !== 'refs/heads/master') {
         throw new Error('Not on master branch');
       }
       return exec('status', ['--porcelain']);
     })
     .then(function (stdout) {
-      if (stdout.trim().length) {
+      if (stdout.toString('utf8').trim().length) {
         throw new Error('Working copy is dirty');
       }
     });
 }
 
 // checks if the tag exists
-function checkTag(tag){
+export function checkTag(tag: string):Promise<boolean>{
   return exec('tag', ['-l', tag])
-    .then(function (stdout) {
-      return !!stdout.trim().length;
+    .then((stdout) => {
+      return !!stdout.toString('utf8').trim().length;
     });
 }
-
-exports.exec = exec;
-exports.ensureCleanMaster = ensureCleanMaster;
-exports.checkTag = checkTag;

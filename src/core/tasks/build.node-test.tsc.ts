@@ -3,8 +3,9 @@ import * as tsc from 'gulp-typescript';
 import * as merge from 'merge2';
 
 import defaultTscConfig from '../config/tsc';
+import Locations from "../config/locations";
 
-export default function registerTask (gulp, locations, options) {
+export default function registerTask (gulp:any, locations: Locations, options?: any) {
   var tscConfig = _.assign({}, defaultTscConfig, options.tsc);
 
   gulp.task('build.node-test.tsc', function () {
@@ -14,7 +15,7 @@ export default function registerTask (gulp, locations, options) {
 
     return merge([
       // tsResult.dts.pipe(gulp.dest(locs.definitions)),
-      tsResult.js.pipe(gulp.dest(locations.getBuildNodeTestDir()))
+      tsResult.js.pipe(gulp.dest(locations.getCoverageDirectory('node')))
     ]);
   });
 };

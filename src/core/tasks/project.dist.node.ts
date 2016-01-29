@@ -1,7 +1,10 @@
-export default function registerTask (gulp, locations, userOptions) {
+import * as path from 'path';
+import Locations from "../config/locations";
+
+export default function registerTask (gulp:any, locations: Locations, userOptions?: any) {
   gulp.task('project.dist.node', ['build.node'], function(){
     return gulp
-      .src([locations.getBuildNodeDir()+'/**/*'], {base: locations.getBuildNodeDir()})
-      .pipe(gulp.dest(locations.getDistNodeDir()))
+      .src([path.join(locations.getBuildDirectory('node'), '**/*')], {base: locations.getBuildDirectory('node')})
+      .pipe(gulp.dest(locations.getDistDirectory('node')))
   });
 };

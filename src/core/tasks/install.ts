@@ -3,17 +3,24 @@ import * as _ from 'lodash';
 import installJspm from './install.jspm';
 import installNpm from './install.npm';
 import installTypings from './install.typings';
+import Locations from "../config/locations";
 
-var defaultInstall = {
+interface InstallConfig{
+  jspm: boolean;
+  npm: boolean;
+  typings: boolean;
+}
+
+let defaultInstall: InstallConfig = {
   jspm: true,
   npm: true,
   typings: true
 };
 
-export default function registerTask (gulp, locations, userOptions) {
+export default function registerTask (gulp:any, locations: Locations, userOptions?: any) {
 
-  var installOptions = _.assign({}, defaultInstall, userOptions);
-  var installTasks = [];
+  let installOptions:InstallConfig = _.assign({}, defaultInstall, userOptions);
+  let installTasks:string[] = [];
 
   if(installOptions.jspm){
     installTasks.push('install.jspm');

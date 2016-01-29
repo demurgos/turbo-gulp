@@ -1,4 +1,5 @@
 // TODO: move to custom definitions
+import Locations from "../config/locations";
 declare module "gulp-typescript"{
   interface StaticGulpTypescript{
     (tsConfig: any): any;
@@ -27,7 +28,7 @@ var defaultBuilds = {
   browser: true
 };
 
-export default function registerTask (gulp, locations, userOptions) {
+export default function registerTask (gulp:any, locations: Locations, userOptions?:any) {
 
   var buildOptions = _.assign({}, defaultBuilds, userOptions);
   var buildTasks = [];
