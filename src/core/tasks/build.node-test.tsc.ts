@@ -6,7 +6,7 @@ import defaultTscConfig from '../config/tsc';
 import Locations from "../config/locations";
 
 export default function registerTask (gulp:any, locations: Locations, options?: any) {
-  var tscConfig = _.assign({}, defaultTscConfig, options.tsc);
+  var tscConfig = _.merge({}, defaultTscConfig, options.tsc);
 
   gulp.task('build.node-test.tsc', function () {
     var tsResult = gulp

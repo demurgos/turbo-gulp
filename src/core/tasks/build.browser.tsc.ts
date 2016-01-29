@@ -4,15 +4,13 @@ import * as merge from 'merge2';
 
 import defaultTscConfig from '../config/tsc';
 import Locations from "../config/locations";
-defaultTscConfig.module = 'system';
-defaultTscConfig.moduleResolution = 'node';
 
 export default function registerTask (gulp:any, locations: Locations, options?: any) {
-  var tsSources = [];
+  var tsSources:string[] = [];
 
   tsSources = locations.getTypescriptSources('browser', true);
   
-  var tscConfig = _.assign({}, defaultTscConfig, options.tsc);
+  var tscConfig = _.merge({module: 'system', moduleResolution: 'node'}, defaultTscConfig, options.tsc);
 
   gulp.task('build.browser.tsc', function () {
     var tsResult = gulp

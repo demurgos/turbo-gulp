@@ -65,7 +65,7 @@ export default class Locations{
 
   getTypescriptSources(targetName: string, excludeSpec: boolean = false):string[]{
     let core = this.config.core;
-    let target = this.config.targets[targetName];
+    let target:TargetConfig = (<any>this.config.targets)[targetName];
     let sources: string[] = [].concat(
         core.definitions
           .map((definitionPath: string) => path.join(core.base, definitionPath)),

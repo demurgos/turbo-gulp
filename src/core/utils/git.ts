@@ -3,9 +3,9 @@ import * as childProcess from 'child_process';
 
 import * as Promise from 'bluebird';
 
-let execFileAsync = Promise.promisify(childProcess.execFile);
+let execFileAsync:(file: string, args?: string[], options?: any)=>Promise<any> = Promise.promisify(childProcess.execFile);
 
-export function exec(cmd: string, args: string[], options?: any):Promise<Buffer>{
+export function exec(cmd: string, args?: string[], options?: any):Promise<Buffer>{
   args.unshift(cmd);
   return execFileAsync('git', args, options);
 }

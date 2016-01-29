@@ -1,4 +1,4 @@
-import typings from 'typings';
+import * as typings from 'typings';
 import Locations from "../config/locations";
 
 export default function registerTask (gulp:any, locations: Locations, userOptions?: any) {

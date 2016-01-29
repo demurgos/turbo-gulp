@@ -2,12 +2,12 @@ var _ = require('lodash');
 var tsc = require('gulp-typescript');
 var merge = require('merge2');
 var tsc_1 = require('../config/tsc');
-tsc_1.default.module = 'system';
-tsc_1.default.moduleResolution = 'node';
 function registerTask(gulp, locations, options) {
     var tsSources = [];
     tsSources = locations.getTypescriptSources('browser', true);
     var tscConfig = _.assign({}, tsc_1.default, options.tsc);
+    tscConfig.module = 'system';
+    tscConfig.moduleResolution = 'node';
     gulp.task('build.browser.tsc', function () {
         var tsResult = gulp
             .src(tsSources, { base: locations.config.targets.browser.base })

@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import * as mocha from 'mocha';
+import * as mocha from 'gulp-mocha';
 import Locations from "../config/locations";
 
 export default function registerTask (gulp:any, locations: Locations, options?: any) {

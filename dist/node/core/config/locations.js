@@ -40,7 +40,7 @@ var Locations = (function () {
         if (excludeSpec === void 0) { excludeSpec = false; }
         var core = this.config.core;
         var target = this.config.targets[targetName];
-        console.log(this.config);
+        // console.log(this.config);
         var sources = [].concat(core.definitions
             .map(function (definitionPath) { return path.join(core.base, definitionPath); }), target.definitions
             .map(function (sourcePath) { return path.join(target.base, sourcePath); }), core.typescript

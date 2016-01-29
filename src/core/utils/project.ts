@@ -6,8 +6,8 @@ import * as semver from 'semver';
 import * as git from './git';
 import Locations from "../config/locations";
 
-let readFile = Promise.promisify(fs.readFile);
-let writeFile = Promise.promisify(fs.writeFile);
+let readFile:(filename: string)=>Promise<Buffer> = Promise.promisify(fs.readFile);
+let writeFile:(filename: string, data: any)=>Promise<any> = Promise.promisify(fs.writeFile);
 
 export function ensureUnusedTag(tag: string){
   return git.checkTag(tag)
@@ -57,8 +57,8 @@ export interface IPackageJson{
 
 export function readPackage(locations: Locations){
   return readFile(locations.config.project.package)
-    .then((content:string) => {
-      return JSON.parse(content)
+    .then((content:Buffer) => {
+      return JSON.parse(content.toString('utf8'));
     });
 }
 

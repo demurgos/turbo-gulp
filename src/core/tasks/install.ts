@@ -19,7 +19,7 @@ let defaultInstall: InstallConfig = {
 
 export default function registerTask (gulp:any, locations: Locations, userOptions?: any) {
 
-  let installOptions:InstallConfig = _.assign({}, defaultInstall, userOptions);
+  let installOptions:InstallConfig = <InstallConfig>_.merge({}, defaultInstall, userOptions);
   let installTasks:string[] = [];
 
   if(installOptions.jspm){
