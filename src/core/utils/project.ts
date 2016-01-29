@@ -1,40 +1,40 @@
-import * as fs from 'fs';
+import * as fs from "fs";
 
-import * as Promise from 'bluebird';
-import * as semver from 'semver';
+import * as Promise from "bluebird";
+import * as semver from "semver";
 
-import * as git from './git';
+import * as git from "./git";
 import Locations from "../config/locations";
 
-let readFile:(filename: string)=>Promise<Buffer> = Promise.promisify(fs.readFile);
-let writeFile:(filename: string, data: any)=>Promise<any> = Promise.promisify(fs.writeFile);
+let readFile: (filename: string)=>Promise<Buffer> = Promise.promisify(fs.readFile);
+let writeFile: (filename: string, data: any)=>Promise<any> = Promise.promisify(fs.writeFile);
 
 export function ensureUnusedTag(tag: string){
   return git.checkTag(tag)
     .then((exists: boolean) => {
-      if(exists){
-        throw new Error('Tag '+tag+' already exists');
+      if (exists) {
+        throw new Error("Tag "+tag+" already exists");
       }
     });
 }
 
-export function getVersionTag(version:string): string{
-  return 'v'+version;
+export function getVersionTag(version: string): string{
+  return "v"+version;
 }
 
 export function getVersionMessage(version: string): string{
-  return 'Release v'+version;
+  return "Release v"+version;
 }
 
-export function commitVersion(version:string, projectRoot?: string){
+export function commitVersion(version: string, projectRoot?: string){
   let tag = getVersionTag(version);
   let message = getVersionMessage(version);
-  return git.exec('add', ['.'])
+  return git.exec("add", ["."])
     .then(() => {
-      return git.exec('commit', ['-m', message]);
+      return git.exec("commit", ["-m", message]);
     })
     .then(() => {
-      return git.exec('tag', ['-a', tag, '-m', message]);
+      return git.exec("tag", ["-a", tag, "-m", message]);
     });
 }
 
@@ -57,8 +57,8 @@ export interface IPackageJson{
 
 export function readPackage(locations: Locations){
   return readFile(locations.config.project.package)
-    .then((content:Buffer) => {
-      return JSON.parse(content.toString('utf8'));
+    .then((content: Buffer) => {
+      return JSON.parse(content.toString("utf8"));
     });
 }
 

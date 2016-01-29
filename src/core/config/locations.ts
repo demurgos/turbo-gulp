@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as _ from 'lodash';
+import * as path from "path";
+import * as _ from "lodash";
 
 export interface TargetConfig{
   base: string;
@@ -17,45 +17,45 @@ export interface Config{
     dist: string;
     coverage: string;
     sources: string;
-  },
-  core: TargetConfig,
+  };
+  core: TargetConfig;
   targets: {
     node?: TargetConfig;
     browser?: TargetConfig;
-  }
+  };
 }
 
-export function getDefaultConfig():Config{
+export function getDefaultConfig(): Config {
   return {
     project: {
       root: process.cwd(),
-      "package": 'package.json',
-      "systemjsConfig": 'sytemjs.config.js',
-      build: 'build',
-      dist: 'dist',
-      coverage: 'coverage',
-      sources: 'src'
+      "package": "package.json",
+      "systemjsConfig": "sytemjs.config.js",
+      build: "build",
+      dist: "dist",
+      coverage: "coverage",
+      sources: "src"
     },
     core: {
-      base: 'src/core',
-      typescript: ['**/*.ts'],
+      base: "src/core",
+      typescript: ["**/*.ts"],
       definitions: []
     },
     targets: {
       node: {
-        base: 'src/node',
-        typescript: ['**/*.ts'],
-        main: 'main',
-        definitions: ['../../typings/main.d.ts', '../../typings/main/**/*.d.ts']
+        base: "src/node",
+        typescript: ["**/*.ts"],
+        main: "main",
+        definitions: ["../../typings/main.d.ts", "../../typings/main/**/*.d.ts"]
       },
     browser: {
-      base: 'src/browser',
-        typescript: ['**/*.ts'],
-        main: 'main',
-        definitions: ['../../typings/browser.d.ts', '../../typings/browser/**/*.d.ts']
+      base: "src/browser",
+        typescript: ["**/*.ts"],
+        main: "main",
+        definitions: ["../../typings/browser.d.ts", "../../typings/browser/**/*.d.ts"]
     }
     }
-  }
+  };
 }
 
 export default class Locations{
@@ -65,9 +65,9 @@ export default class Locations{
     this.config = _.merge({}, getDefaultConfig(), config);
   }
 
-  getTypescriptSources(targetName: string, excludeSpec: boolean = false):string[]{
+  getTypescriptSources(targetName: string, excludeSpec: boolean = false): string[] {
     let core = this.config.core;
-    let target:TargetConfig = (<any>this.config.targets)[targetName];
+    let target: TargetConfig = (<any> this.config.targets)[targetName];
     let sources: string[] = [].concat(
         core.definitions
           .map((definitionPath: string) => path.join(core.base, definitionPath)),
@@ -79,22 +79,22 @@ export default class Locations{
           .map((sourcePath: string) => path.join(target.base, sourcePath))
       ).map(item => path.join(this.config.project.root, item));
 
-    if(excludeSpec){
-      sources.push('!**/*.spec.ts');
+    if (excludeSpec) {
+      sources.push("!**/*.spec.ts");
     }
 
     return sources;
   }
 
-  getBuildDirectory(targetName: string):string{
+  getBuildDirectory(targetName: string): string {
     return path.join(this.config.project.root, this.config.project.build, targetName);
   }
 
-  getDistDirectory(targetName: string):string{
+  getDistDirectory(targetName: string): string {
     return path.join(this.config.project.root, this.config.project.dist, targetName);
   }
 
-  getCoverageDirectory(targetName: string):string{
+  getCoverageDirectory(targetName: string): string {
     return path.join(this.config.project.root, this.config.project.coverage, targetName);
   }
 

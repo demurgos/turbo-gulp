@@ -1,4 +1,4 @@
-declare module 'gulp-mocha'{
+declare module "gulp-mocha"{
     interface StaticMocha{
         (options?: any): any;
     }
@@ -22,7 +22,7 @@ declare module "merge2"{
     export = staticMerge2;
 }
 
-declare module 'typings'{
+declare module "typings"{
     export function install(options?: any): any;
 }
 
@@ -43,12 +43,12 @@ declare module "systemjs-builder"{
         build(entryPointPath: string, ouputFile: string): any;
     }
 
-    let systemjsBuilder:StaticBuilder;
+    let systemjsBuilder: StaticBuilder;
 
     export = systemjsBuilder;
 }
 
-declare module 'jspm'{
+declare module "jspm"{
     interface StaticJspm{
         setPackagePath(path: string): any;
         install(fromPackage: boolean): any;
