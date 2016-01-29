@@ -1,35 +1,35 @@
-var fs = require('fs');
-var Promise = require('bluebird');
-var semver = require('semver');
-var git = require('./git');
+var fs = require("fs");
+var Promise = require("bluebird");
+var semver = require("semver");
+var git = require("./git");
 var readFile = Promise.promisify(fs.readFile);
 var writeFile = Promise.promisify(fs.writeFile);
 function ensureUnusedTag(tag) {
     return git.checkTag(tag)
         .then(function (exists) {
         if (exists) {
-            throw new Error('Tag ' + tag + ' already exists');
+            throw new Error("Tag " + tag + " already exists");
         }
     });
 }
 exports.ensureUnusedTag = ensureUnusedTag;
 function getVersionTag(version) {
-    return 'v' + version;
+    return "v" + version;
 }
 exports.getVersionTag = getVersionTag;
 function getVersionMessage(version) {
-    return 'Release v' + version;
+    return "Release v" + version;
 }
 exports.getVersionMessage = getVersionMessage;
 function commitVersion(version, projectRoot) {
     var tag = getVersionTag(version);
     var message = getVersionMessage(version);
-    return git.exec('add', ['.'])
+    return git.exec("add", ["."])
         .then(function () {
-        return git.exec('commit', ['-m', message]);
+        return git.exec("commit", ["-m", message]);
     })
         .then(function () {
-        return git.exec('tag', ['-a', tag, '-m', message]);
+        return git.exec("tag", ["-a", tag, "-m", message]);
     });
 }
 exports.commitVersion = commitVersion;
@@ -49,7 +49,7 @@ exports.release = release;
 function readPackage(locations) {
     return readFile(locations.config.project.package)
         .then(function (content) {
-        return JSON.parse(content.toString('utf8'));
+        return JSON.parse(content.toString("utf8"));
     });
 }
 exports.readPackage = readPackage;

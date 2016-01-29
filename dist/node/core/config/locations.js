@@ -1,33 +1,33 @@
-var path = require('path');
-var _ = require('lodash');
+var path = require("path");
+var _ = require("lodash");
 function getDefaultConfig() {
     return {
         project: {
             root: process.cwd(),
-            "package": 'package.json',
-            "systemjsConfig": 'sytemjs.config.js',
-            build: 'build',
-            dist: 'dist',
-            coverage: 'coverage',
-            sources: 'src'
+            "package": "package.json",
+            "systemjsConfig": "sytemjs.config.js",
+            build: "build",
+            dist: "dist",
+            coverage: "coverage",
+            sources: "src"
         },
         core: {
-            base: 'src/core',
-            typescript: ['**/*.ts'],
+            base: "src/core",
+            typescript: ["**/*.ts"],
             definitions: []
         },
         targets: {
             node: {
-                base: 'src/node',
-                typescript: ['**/*.ts'],
-                main: 'main',
-                definitions: ['../../typings/main.d.ts', '../../typings/main/**/*.d.ts']
+                base: "src/node",
+                typescript: ["**/*.ts"],
+                main: "main",
+                definitions: ["../../typings/main.d.ts", "../../typings/main/**/*.d.ts"]
             },
             browser: {
-                base: 'src/browser',
-                typescript: ['**/*.ts'],
-                main: 'main',
-                definitions: ['../../typings/browser.d.ts', '../../typings/browser/**/*.d.ts']
+                base: "src/browser",
+                typescript: ["**/*.ts"],
+                main: "main",
+                definitions: ["../../typings/browser.d.ts", "../../typings/browser/**/*.d.ts"]
             }
         }
     };
@@ -48,7 +48,7 @@ var Locations = (function () {
             .map(function (definitionPath) { return path.join(core.base, definitionPath); }), target.typescript
             .map(function (sourcePath) { return path.join(target.base, sourcePath); })).map(function (item) { return path.join(_this.config.project.root, item); });
         if (excludeSpec) {
-            sources.push('!**/*.spec.ts');
+            sources.push("!**/*.spec.ts");
         }
         return sources;
     };

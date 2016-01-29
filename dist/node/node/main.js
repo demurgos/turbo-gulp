@@ -1,8 +1,8 @@
-var locations_1 = require('../core/config/locations');
-var build_1 = require('../core/tasks/build');
-var install_1 = require('../core/tasks/install');
-var project_1 = require('../core/tasks/project');
-var test_1 = require('../core/tasks/test');
+var locations_1 = require("../core/config/locations");
+var build_1 = require("../core/tasks/build");
+var install_1 = require("../core/tasks/install");
+var project_1 = require("../core/tasks/project");
+var test_1 = require("../core/tasks/test");
 exports.config = {
     Locations: locations_1.default
 };
