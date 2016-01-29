@@ -10,7 +10,7 @@ export function exec(cmd: string, args?: string[], options?: any): Promise<Buffe
   return execFileAsync("git", args, options);
 }
 
-export function ensureCleanMaster(options?: any): Promise<void>{
+export function ensureCleanMaster(options?: any): Promise<any>{
   return exec("symbolic-ref", ["HEAD"])
     .then(function (stdout) {
       if (stdout.toString("utf8").trim() !== "refs/heads/master") {

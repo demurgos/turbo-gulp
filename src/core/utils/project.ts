@@ -55,7 +55,7 @@ export interface IPackageJson{
   version: string;
 }
 
-export function readPackage(locations: Locations){
+export function readPackage(locations: Locations): Promise<IPackageJson> {
   return readFile(locations.config.project.package)
     .then((content: Buffer) => {
       return JSON.parse(content.toString("utf8"));
@@ -66,16 +66,16 @@ export function writePackage(pkg: IPackageJson, locations: Locations){
   return writeFile(locations.config.project.package, JSON.stringify(pkg, null, 2));
 }
 
-export function setPackageVersion(version: string, locations: Locations){
+export function setPackageVersion(version: string, locations: Locations): Promise<any> {
   return readPackage(locations)
-    .spread(function(pkg: IPackageJson) {
+    .then((pkg: IPackageJson) => {
       pkg.version = version;
       return writePackage(pkg, locations);
     });
 }
 
 // type: major/minor/patch
-export function getNextVersion(type: string, locations: Locations){
+export function getNextVersion(type: string, locations: Locations): Promise<string> {
   return readPackage(locations)
     .then((pkg: IPackageJson) => {
       return semver.inc(pkg.version, type);

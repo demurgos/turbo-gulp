@@ -59,7 +59,7 @@ function writePackage(pkg, locations) {
 exports.writePackage = writePackage;
 function setPackageVersion(version, locations) {
     return readPackage(locations)
-        .spread(function (pkg) {
+        .then(function (pkg) {
         pkg.version = version;
         return writePackage(pkg, locations);
     });
