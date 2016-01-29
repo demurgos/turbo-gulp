@@ -2,7 +2,19 @@
 # Node dependencies directory
 node_modules
 
+# Typings definitions
+typings
+
+# JSPM packages
+jspm_packages
+
+### Build directory ###
+build
+
 ### Temporary files ###
+# Temporary directory
+tmp
+
 # Logs
 logs
 *.log
@@ -13,7 +25,7 @@ pids
 *.seed
 
 # Users Environment Variables
-.lock-wscript
+
 
 ### IDE files ###
 # Komodo Tools
@@ -22,6 +34,3 @@ pids
 
 # WebStorm
 .idea
-
-# Emacs
-*~

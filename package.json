@@ -22,8 +22,11 @@
     "systemjs-builder": "^0.15.3",
     "tslint": "^3.2.2",
     "typescript": "1.7.5",
-    "typings": "^0.6.1",
+    "typings": "^0.6.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
   }
 }
