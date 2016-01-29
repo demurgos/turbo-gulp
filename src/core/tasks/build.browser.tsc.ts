@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import * as _ from 'lodash';
 import * as tsc from 'gulp-typescript';
 import * as merge from 'merge2';
@@ -6,15 +8,13 @@ import defaultTscConfig from '../config/tsc';
 import Locations from "../config/locations";
 
 export default function registerTask (gulp:any, locations: Locations, options?: any) {
-  var tsSources:string[] = [];
-
-  tsSources = locations.getTypescriptSources('browser', true);
-  
-  var tscConfig = _.merge({module: 'system', moduleResolution: 'node'}, defaultTscConfig, options.tsc);
+  var tscConfig = _.assign({module: 'system', moduleResolution: 'node'}, defaultTscConfig, options.tsc);
 
   gulp.task('build.browser.tsc', function () {
     var tsResult = gulp
-      .src(tsSources, {base: locations.config.targets.browser.base})
+        .src(locations.getTypescriptSources('browser', false), {
+          base: path.join(locations.config.project.root, locations.config.project.sources)
+        })
       .pipe(tsc(tscConfig));
 
     return merge([

@@ -8,7 +8,7 @@ var defaultInstall = {
     typings: true
 };
 function registerTask(gulp, locations, userOptions) {
-    var installOptions = _.assign({}, defaultInstall, userOptions);
+    var installOptions = _.merge({}, defaultInstall, userOptions);
     var installTasks = [];
     if (installOptions.jspm) {
         installTasks.push('install.jspm');

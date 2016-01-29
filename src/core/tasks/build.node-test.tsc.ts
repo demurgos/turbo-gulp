@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import * as _ from 'lodash';
 import * as tsc from 'gulp-typescript';
 import * as merge from 'merge2';
@@ -10,7 +12,9 @@ export default function registerTask (gulp:any, locations: Locations, options?: 
 
   gulp.task('build.node-test.tsc', function () {
     var tsResult = gulp
-      .src(locations.getTypescriptSources('node'), {base: locations.config.targets.node.base})
+        .src(locations.getTypescriptSources('node', false), {
+          base: path.join(locations.config.project.root, locations.config.project.sources)
+        })
       .pipe(tsc(tscConfig));
 
     return merge([

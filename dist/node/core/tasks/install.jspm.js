@@ -1,7 +1,7 @@
 var jspm = require('jspm');
 function registerTask(gulp, locations) {
     gulp.task('install.jspm', function () {
-        jspm.setPackagePath(locations.getRootDir());
+        jspm.setPackagePath(locations.config.project.root);
         return jspm.install(true);
     });
 }

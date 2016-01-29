@@ -5,9 +5,11 @@ function getDefaultConfig() {
         project: {
             root: process.cwd(),
             "package": 'package.json',
+            "systemjsConfig": 'sytemjs.config.js',
             build: 'build',
             dist: 'dist',
-            coverage: 'coverage'
+            coverage: 'coverage',
+            sources: 'src'
         },
         core: {
             base: 'src/core',
@@ -40,7 +42,6 @@ var Locations = (function () {
         if (excludeSpec === void 0) { excludeSpec = false; }
         var core = this.config.core;
         var target = this.config.targets[targetName];
-        // console.log(this.config);
         var sources = [].concat(core.definitions
             .map(function (definitionPath) { return path.join(core.base, definitionPath); }), target.definitions
             .map(function (sourcePath) { return path.join(target.base, sourcePath); }), core.typescript
@@ -53,6 +54,12 @@ var Locations = (function () {
     };
     Locations.prototype.getBuildDirectory = function (targetName) {
         return path.join(this.config.project.root, this.config.project.build, targetName);
+    };
+    Locations.prototype.getDistDirectory = function (targetName) {
+        return path.join(this.config.project.root, this.config.project.dist, targetName);
+    };
+    Locations.prototype.getCoverageDirectory = function (targetName) {
+        return path.join(this.config.project.root, this.config.project.coverage, targetName);
     };
     return Locations;
 })();

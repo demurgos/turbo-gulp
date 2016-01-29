@@ -10,7 +10,6 @@ function ensureUnusedTag(tag) {
         if (exists) {
             throw new Error('Tag ' + tag + ' already exists');
         }
-        return true;
     });
 }
 exports.ensureUnusedTag = ensureUnusedTag;
@@ -22,7 +21,7 @@ function getVersionMessage(version) {
     return 'Release v' + version;
 }
 exports.getVersionMessage = getVersionMessage;
-function commitVersion(version, locations) {
+function commitVersion(version, projectRoot) {
     var tag = getVersionTag(version);
     var message = getVersionMessage(version);
     return git.exec('add', ['.'])
@@ -43,16 +42,19 @@ function release(version, locations) {
         return setPackageVersion(version, locations);
     })
         .then(function () {
-        return commitVersion(version, locations);
+        return commitVersion(version, locations.config.project.root);
     });
 }
 exports.release = release;
 function readPackage(locations) {
-    return readFile(locations.getPackage()).then(JSON.parse);
+    return readFile(locations.config.project.package)
+        .then(function (content) {
+        return JSON.parse(content.toString('utf8'));
+    });
 }
 exports.readPackage = readPackage;
-function writePackage(data, locations) {
-    return writeFile(locations.getPackage(), JSON.stringify(data, null, 2));
+function writePackage(pkg, locations) {
+    return writeFile(locations.config.project.package, JSON.stringify(pkg, null, 2));
 }
 exports.writePackage = writePackage;
 function setPackageVersion(version, locations) {

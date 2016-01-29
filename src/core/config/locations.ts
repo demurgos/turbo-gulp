@@ -16,6 +16,7 @@ export interface Config{
     build: string;
     dist: string;
     coverage: string;
+    sources: string;
   },
   core: TargetConfig,
   targets: {
@@ -32,7 +33,8 @@ export function getDefaultConfig():Config{
       "systemjsConfig": 'sytemjs.config.js',
       build: 'build',
       dist: 'dist',
-      coverage: 'coverage'
+      coverage: 'coverage',
+      sources: 'src'
     },
     core: {
       base: 'src/core',

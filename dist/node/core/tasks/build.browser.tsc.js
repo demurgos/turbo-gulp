@@ -1,20 +1,19 @@
+var path = require('path');
 var _ = require('lodash');
 var tsc = require('gulp-typescript');
 var merge = require('merge2');
 var tsc_1 = require('../config/tsc');
 function registerTask(gulp, locations, options) {
-    var tsSources = [];
-    tsSources = locations.getTypescriptSources('browser', true);
-    var tscConfig = _.assign({}, tsc_1.default, options.tsc);
-    tscConfig.module = 'system';
-    tscConfig.moduleResolution = 'node';
+    var tscConfig = _.assign({ module: 'system', moduleResolution: 'node' }, tsc_1.default, options.tsc);
     gulp.task('build.browser.tsc', function () {
         var tsResult = gulp
-            .src(tsSources, { base: locations.config.targets.browser.base })
+            .src(locations.getTypescriptSources('browser', false), {
+            base: path.join(locations.config.project.root, locations.config.project.sources)
+        })
             .pipe(tsc(tscConfig));
         return merge([
             // tsResult.dts.pipe(gulp.dest(locs.definitions)),
-            tsResult.js.pipe(gulp.dest(locations.getBuildSystemJSDir()))
+            tsResult.js.pipe(gulp.dest(locations.getBuildDirectory('systemjs')))
         ]);
     });
 }

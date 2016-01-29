@@ -1,8 +1,9 @@
-var mocha = require('mocha');
+var path = require('path');
+var mocha = require('gulp-mocha');
 function registerTask(gulp, locations, options) {
     gulp.task('test.node', ['build.node-test'], function () {
         return gulp
-            .src([locations.getBuildNodeTestDir() + '/**/*.spec.js'], { base: locations.getBuildNodeTestDir() })
+            .src([path.join(locations.getBuildDirectory('node'), '**/*.spec.js')], { base: locations.getBuildDirectory('node') })
             .pipe(mocha({
             reporter: 'spec'
         }));
