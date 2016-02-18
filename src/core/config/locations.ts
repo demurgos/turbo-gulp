@@ -10,18 +10,19 @@ export interface TargetConfig{
 
 export interface Config{
   project: {
-    root: string;
-    "package": string;
-    "systemjsConfig": string;
-    build: string;
-    dist: string;
-    coverage: string;
-    sources: string;
+    root: string,
+    "package": string,
+    "systemjsConfig": string,
+    build: string,
+    dist: string,
+    coverage: string,
+    sources: string
   };
   core: TargetConfig;
   targets: {
-    node?: TargetConfig;
-    browser?: TargetConfig;
+    node?: TargetConfig,
+    browser?: TargetConfig,
+    electron?: TargetConfig
   };
 }
 
@@ -48,12 +49,18 @@ export function getDefaultConfig(): Config {
         main: "main",
         definitions: ["../../typings/main.d.ts", "../../typings/main/**/*.d.ts"]
       },
-    browser: {
-      base: "src/browser",
+      browser: {
+        base: "src/browser",
+          typescript: ["**/*.ts"],
+          main: "main",
+          definitions: ["../../typings/browser.d.ts", "../../typings/browser/**/*.d.ts"]
+      },
+      electron: {
+        base: "src/electron",
         typescript: ["**/*.ts"],
         main: "main",
-        definitions: ["../../typings/browser.d.ts", "../../typings/browser/**/*.d.ts"]
-    }
+        definitions: ["../../typings/main.d.ts", "../../typings/main/**/*.d.ts"]
+      }
     }
   };
 }
@@ -84,6 +91,18 @@ export default class Locations{
     }
 
     return sources;
+  }
+
+  getSourceDirectory(targetName: string): string {
+    switch(targetName){
+      case "browser":
+        return path.join(this.config.project.root, this.config.targets.browser.base);
+      case "electron":
+        return path.join(this.config.project.root, this.config.targets.electron.base);
+      case "node":
+      default:
+        return path.join(this.config.project.root, this.config.targets.node.base);
+    }
   }
 
   getBuildDirectory(targetName: string): string {

@@ -5,15 +5,18 @@ import * as _ from "lodash";
 import buildNode from "./build.node";
 import buildNodeTest from "./build.node-test";
 import buildBrowser from "./build.browser";
+import buildElectron from "./build.electron";
 
 interface BuildOptions {
   node: boolean;
   browser: boolean;
+  electron: boolean;
 }
 
 let defaultBuilds: BuildOptions = {
   node: true,
-  browser: true
+  browser: true,
+  electron: true
 };
 
 export default function registerTask (gulp: any, locations: Locations, userOptions?: any) {
@@ -31,6 +34,11 @@ export default function registerTask (gulp: any, locations: Locations, userOptio
 
   if (buildOptions.browser) {
     buildTasks.push("build.browser");
+    buildBrowser(gulp, locations, userOptions);
+  }
+
+  if (buildOptions.electron) {
+    buildTasks.push("build.electron");
     buildBrowser(gulp, locations, userOptions);
   }
 

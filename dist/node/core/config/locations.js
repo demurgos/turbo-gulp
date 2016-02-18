@@ -28,6 +28,12 @@ function getDefaultConfig() {
                 typescript: ["**/*.ts"],
                 main: "main",
                 definitions: ["../../typings/browser.d.ts", "../../typings/browser/**/*.d.ts"]
+            },
+            electron: {
+                base: "src/electron",
+                typescript: ["**/*.ts"],
+                main: "main",
+                definitions: ["../../typings/main.d.ts", "../../typings/main/**/*.d.ts"]
             }
         }
     };
@@ -51,6 +57,17 @@ var Locations = (function () {
             sources.push("!**/*.spec.ts");
         }
         return sources;
+    };
+    Locations.prototype.getSourceDirectory = function (targetName) {
+        switch (targetName) {
+            case "browser":
+                return path.join(this.config.project.root, this.config.targets.browser.base);
+            case "electron":
+                return path.join(this.config.project.root, this.config.targets.electron.base);
+            case "node":
+            default:
+                return path.join(this.config.project.root, this.config.targets.node.base);
+        }
     };
     Locations.prototype.getBuildDirectory = function (targetName) {
         return path.join(this.config.project.root, this.config.project.build, targetName);
