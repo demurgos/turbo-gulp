@@ -19,7 +19,7 @@ export default function registerTask (gulp: any, locations: Locations, options?:
 
     return merge([
       // tsResult.dts.pipe(gulp.dest(locs.definitions)),
-      tsResult.js.pipe(path.resolve(gulp.dest(locations.getBuildDirectory("electron"), "electron")))
+      tsResult.js.pipe(gulp.dest(path.resolve(locations.getBuildDirectory("electron"), "electron")))
     ]);
   });
 };
