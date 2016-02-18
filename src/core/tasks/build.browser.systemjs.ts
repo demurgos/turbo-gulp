@@ -11,18 +11,19 @@ export default function registerTask (gulp: any, locations: Locations, options?:
   buildBrowserTsc(gulp, locations, options);
 
   gulp.task("build.browser.systemjs", ["build.browser.tsc"], function () {
-    let builder = new Builder(locations.config.project.root, locations.config.project.systemjsConfig);
+    let root = locations.config.project.root;
+    let builder = new Builder(".", path.relative(root, locations.config.project.systemjsConfig));
 
-    /*var browserDir = locations.getSrcBrowserDir();
-    var browserMain = locations.getSrcBrowserMain();*/
-
-    let relativeBrowserMain = "browser/main"; // path.relative(browserDir, browserMain);
+    let relativeBrowserMain = "browser/main.js"; // path.relative(browserDir, browserMain);
 
     let systemDir = locations.getBuildDirectory("systemjs");
     let buildDir = locations.getBuildDirectory("browser");
 
+    let relativeInput = path.relative(root, path.resolve(systemDir, relativeBrowserMain));
+    let relativeOutput = path.relative(root, path.resolve(buildDir, relativeBrowserMain));
+
     return builder
-      .build(path.resolve(systemDir, relativeBrowserMain), path.resolve(buildDir, relativeBrowserMain));
+      .buildStatic(relativeInput, relativeOutput);
 
   });
 };

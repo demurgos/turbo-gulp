@@ -30,7 +30,7 @@ export function getDefaultConfig(): Config {
     project: {
       root: process.cwd(),
       "package": "package.json",
-      "systemjsConfig": "sytemjs.config.js",
+      "systemjsConfig": "systemjs.config.js",
       build: "build",
       dist: "dist",
       coverage: "coverage",

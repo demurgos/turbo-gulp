@@ -41,6 +41,7 @@ declare module "systemjs-builder"{
 
     interface Builder{
         build(entryPointPath: string, ouputFile: string): any;
+        buildStatic(entryPointPath: string, ouputFile: string): any;
     }
 
     let systemjsBuilder: StaticBuilder;
