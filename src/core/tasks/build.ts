@@ -39,7 +39,7 @@ export default function registerTask (gulp: any, locations: Locations, userOptio
 
   if (buildOptions.electron) {
     buildTasks.push("build.electron");
-    buildBrowser(gulp, locations, userOptions);
+    buildElectron(gulp, locations, userOptions);
   }
 
   gulp.task("build", buildTasks);
