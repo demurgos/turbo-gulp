@@ -2,9 +2,11 @@ var _ = require("lodash");
 var build_node_1 = require("./build.node");
 var build_node_test_1 = require("./build.node-test");
 var build_browser_1 = require("./build.browser");
+var build_electron_1 = require("./build.electron");
 var defaultBuilds = {
     node: true,
-    browser: true
+    browser: true,
+    electron: true
 };
 function registerTask(gulp, locations, userOptions) {
     var buildOptions = _.assign({}, defaultBuilds, userOptions);
@@ -18,6 +20,10 @@ function registerTask(gulp, locations, userOptions) {
     if (buildOptions.browser) {
         buildTasks.push("build.browser");
         build_browser_1.default(gulp, locations, userOptions);
+    }
+    if (buildOptions.electron) {
+        buildTasks.push("build.electron");
+        build_electron_1.default(gulp, locations, userOptions);
     }
     gulp.task("build", buildTasks);
 }
