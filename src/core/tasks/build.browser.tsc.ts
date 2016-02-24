@@ -8,7 +8,7 @@ import defaultTscConfig from "../config/tsc";
 import Locations from "../config/locations";
 
 export default function registerTask (gulp: any, locations: Locations, options?: any) {
-  let tscConfig = _.assign({module: "system", moduleResolution: "node"}, defaultTscConfig, options.tsc);
+  let tscConfig = _.assign({}, defaultTscConfig, {module: "system", moduleResolution: "node"}, options.tsc);
 
   gulp.task("build.browser.tsc", function () {
     let tsResult = gulp

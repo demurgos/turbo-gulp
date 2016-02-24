@@ -4,7 +4,7 @@ var tsc = require("gulp-typescript");
 var merge = require("merge2");
 var tsc_1 = require("../config/tsc");
 function registerTask(gulp, locations, options) {
-    var tscConfig = _.assign({ module: "system", moduleResolution: "node" }, tsc_1.default, options.tsc);
+    var tscConfig = _.assign({}, tsc_1.default, { module: "system", moduleResolution: "node" }, options.tsc);
     gulp.task("build.browser.tsc", function () {
         var tsResult = gulp
             .src(locations.getTypescriptSources("browser", false), {
