@@ -1,3 +1,4 @@
+"use strict";
 var jspm = require("jspm");
 function registerTask(gulp, locations) {
     gulp.task("install.jspm", function () {

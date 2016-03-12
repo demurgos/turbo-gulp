@@ -1,3 +1,4 @@
+"use strict";
 var project_1 = require("../utils/project");
 function bump(type, locations) {
     return project_1.getNextVersion(type, locations)

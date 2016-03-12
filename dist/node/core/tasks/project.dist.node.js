@@ -1,3 +1,4 @@
+"use strict";
 var path = require("path");
 function registerTask(gulp, locations, userOptions) {
     gulp.task("project.dist.node", ["build.node"], function () {

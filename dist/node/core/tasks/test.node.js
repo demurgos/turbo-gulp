@@ -1,3 +1,4 @@
+"use strict";
 var path = require("path");
 var mocha = require("gulp-mocha");
 function registerTask(gulp, locations, options) {

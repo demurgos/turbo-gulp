@@ -1,3 +1,4 @@
+"use strict";
 var locations_1 = require("../core/config/locations");
 var build_1 = require("../core/tasks/build");
 var install_1 = require("../core/tasks/install");

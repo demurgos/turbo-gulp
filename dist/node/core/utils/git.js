@@ -1,3 +1,4 @@
+"use strict";
 var childProcess = require("child_process");
 var Promise = require("bluebird");
 var execFileAsync = Promise.promisify(childProcess.execFile);

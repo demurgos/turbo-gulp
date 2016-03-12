@@ -1,3 +1,4 @@
+"use strict";
 var typings = require("typings");
 function registerTask(gulp, locations, userOptions) {
     gulp.task("install.typings", function () {

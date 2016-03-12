@@ -1,3 +1,4 @@
+"use strict";
 var _ = require("lodash");
 var build_node_1 = require("./build.node");
 var build_node_test_1 = require("./build.node-test");

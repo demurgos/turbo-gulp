@@ -1,3 +1,4 @@
+"use strict";
 var path = require("path");
 var Builder = require("systemjs-builder");
 var build_browser_tsc_1 = require("./build.browser.tsc");

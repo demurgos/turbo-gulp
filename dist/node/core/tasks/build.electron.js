@@ -1,3 +1,4 @@
+"use strict";
 var build_electron_tsc_1 = require("./build.electron.tsc");
 var build_electron_browser_1 = require("./build.electron.browser");
 var build_electron_package_1 = require("./build.electron.package");

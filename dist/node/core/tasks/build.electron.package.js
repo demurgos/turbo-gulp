@@ -1,3 +1,4 @@
+"use strict";
 var path = require("path");
 function registerTask(gulp, locations, options) {
     gulp.task('build.electron.package', function () {

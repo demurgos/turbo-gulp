@@ -1,3 +1,4 @@
+"use strict";
 var project_lint_1 = require("./project.lint");
 var project_bump_1 = require("./project.bump");
 var project_dist_node_1 = require("./project.dist.node");

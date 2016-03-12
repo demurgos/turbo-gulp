@@ -1,3 +1,4 @@
+"use strict";
 var fs = require("fs");
 var Promise = require("bluebird");
 var semver = require("semver");

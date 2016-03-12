@@ -1,3 +1,4 @@
+"use strict";
 var path = require("path");
 var _ = require("lodash");
 function getDefaultConfig() {
@@ -79,6 +80,6 @@ var Locations = (function () {
         return path.join(this.config.project.root, this.config.project.coverage, targetName);
     };
     return Locations;
-})();
+}());
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Locations;

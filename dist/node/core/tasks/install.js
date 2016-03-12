@@ -1,3 +1,4 @@
+"use strict";
 var _ = require("lodash");
 var install_jspm_1 = require("./install.jspm");
 var install_npm_1 = require("./install.npm");

@@ -1,3 +1,4 @@
+"use strict";
 var install = require("gulp-install");
 function registerTask(gulp, locations) {
     gulp.task("install.npm", function () {
