@@ -19,6 +19,7 @@ export default function registerTask (gulp: any, locations: Locations, options?:
 
     return merge([
       // tsResult.dts.pipe(gulp.dest(locs.definitions)),
+      tsResult.dts.pipe(gulp.dest(locations.getBuildDirectory("node"))),
       tsResult.js.pipe(gulp.dest(locations.getBuildDirectory("node")))
     ]);
   });

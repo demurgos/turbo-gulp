@@ -1,7 +1,7 @@
 "use strict";
 var path = require("path");
 function registerTask(gulp, locations, options) {
-    gulp.task('build.electron.package', function () {
+    gulp.task("build.electron.package", function () {
         var electronSrc = locations.getSourceDirectory("electron");
         var packageInput = path.resolve(electronSrc, "package.json");
         return gulp.src([packageInput], { base: electronSrc })

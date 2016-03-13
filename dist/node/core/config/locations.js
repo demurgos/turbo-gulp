@@ -66,8 +66,9 @@ var Locations = (function () {
             case "electron":
                 return path.join(this.config.project.root, this.config.targets.electron.base);
             case "node":
-            default:
                 return path.join(this.config.project.root, this.config.targets.node.base);
+            default:
+                throw new Error("Unknown target " + targetName);
         }
     };
     Locations.prototype.getBuildDirectory = function (targetName) {

@@ -1,0 +1,33 @@
+declare var _default: {
+    rules: {
+        "comment-format": (boolean | string)[];
+        "curly": boolean;
+        "eofline": boolean;
+        "indent": string;
+        "max-line-length": number;
+        "member-ordering": (boolean | string)[];
+        "no-any": boolean;
+        "no-arg": boolean;
+        "no-bitwise": boolean;
+        "no-conditional-assignment": boolean;
+        "no-consecutive-blank-lines": boolean;
+        "no-debugger": boolean;
+        "no-duplicate-key": boolean;
+        "no-empty": boolean;
+        "no-eval": boolean;
+        "no-null-keyword": boolean;
+        "no-require-imports": boolean;
+        "no-switch-case-fall-through": boolean;
+        "no-trailing-whitespace": boolean;
+        "no-unreachable": boolean;
+        "no-use-before-declare": boolean;
+        "no-var-keyword": boolean;
+        "one-line": (boolean | string)[];
+        "quotemark": (boolean | string)[];
+        "radix": boolean;
+        "semicolon": boolean;
+        "triple-equals": boolean;
+        "whitespace": (boolean | string)[];
+    };
+};
+export default _default;

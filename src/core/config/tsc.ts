@@ -8,5 +8,7 @@ export default {
   target: "ES5",
   emitDecoratorMetadata: true,
   experimentalDecorators: true,
-  removeComments: false
+  removeComments: false,
+  forceConsistentCasingInFileNames: true,
+  allowSyntheticDefaultImports: true
 };

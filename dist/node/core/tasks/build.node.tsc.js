@@ -14,6 +14,7 @@ function registerTask(gulp, locations, options) {
             .pipe(tsc(tscConfig));
         return merge([
             // tsResult.dts.pipe(gulp.dest(locs.definitions)),
+            tsResult.dts.pipe(gulp.dest(locations.getBuildDirectory("node"))),
             tsResult.js.pipe(gulp.dest(locations.getBuildDirectory("node")))
         ]);
     });

@@ -94,14 +94,15 @@ export default class Locations{
   }
 
   getSourceDirectory(targetName: string): string {
-    switch(targetName){
+    switch (targetName) {
       case "browser":
         return path.join(this.config.project.root, this.config.targets.browser.base);
       case "electron":
         return path.join(this.config.project.root, this.config.targets.electron.base);
       case "node":
-      default:
         return path.join(this.config.project.root, this.config.targets.node.base);
+      default:
+        throw new Error(`Unknown target ${targetName}`);
     }
   }
 
