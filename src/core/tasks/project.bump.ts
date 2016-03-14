@@ -1,3 +1,5 @@
+import * as Promise from "bluebird";
+
 import {getNextVersion, release} from "../utils/project";
 import Locations from "../config/locations";
 
