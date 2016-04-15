@@ -1,9 +1,11 @@
 {
+  "name": "via-build-tools",
   "dependencies": {
     "bluebird": "registry:npm/bluebird#3.3.4+20160411163813",
     "gulp": "registry:npm/gulp#3.8.0+20160211003958",
     "lodash": "registry:npm/lodash#4.0.0+20160412191219",
-    "semver": "registry:npm/semver#5.0.0+20160211003958"
+    "semver": "registry:npm/semver#5.0.0+20160211003958",
+    "typings-core": "npm:typings-core"
   },
   "devDependencies": {},
   "ambientDependencies": {
