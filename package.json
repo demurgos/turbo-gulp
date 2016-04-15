@@ -3,7 +3,7 @@
   "version": "0.8.0",
   "description": "Shared gulp tasks to produce universal code from TypeScript.",
   "private": false,
-  "main": "dist/node/node/main.js",
+  "main": "dist/node/main.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/Demurgos/via-build-tools.git"
