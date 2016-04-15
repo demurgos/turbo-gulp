@@ -13,28 +13,28 @@ function getDefaultConfig() {
             sources: "src"
         },
         core: {
-            base: "src/core",
-            typescript: ["**/*.ts"],
-            definitions: []
+            base: "src",
+            typescript: ["**/*.ts", "!platform/**/*.ts"],
+            definitions: ["../typings/main.d.ts"]
         },
         targets: {
             node: {
-                base: "src/node",
+                base: "src/platform/node",
                 typescript: ["**/*.ts"],
                 main: "main",
-                definitions: ["../../typings/main.d.ts", "../../typings/main/**/*.d.ts"]
+                definitions: []
             },
             browser: {
-                base: "src/browser",
+                base: "src/platform/browser",
                 typescript: ["**/*.ts"],
                 main: "main",
-                definitions: ["../../typings/browser.d.ts", "../../typings/browser/**/*.d.ts"]
+                definitions: []
             },
             electron: {
-                base: "src/electron",
+                base: "src/platform/electron",
                 typescript: ["**/*.ts"],
                 main: "main",
-                definitions: ["../../typings/main.d.ts", "../../typings/main/**/*.d.ts"]
+                definitions: []
             }
         }
     };

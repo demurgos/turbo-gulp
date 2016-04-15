@@ -3,10 +3,23 @@
 var path = require('path');
 var gulp = require('gulp');
 var typescript = require('typescript');
-var buildTools = require('./dist/node/node/main');
+var buildTools = require('./build/node/main');
 
 var locations = new buildTools.config.Locations({
-  root: path.resolve(__dirname)
+  root: path.resolve(__dirname),
+  core: {
+    base: "src",
+    typescript: ["**/*.ts", "!platform/**/*.ts"],
+    definitions: ["../typings/main.d.ts"]
+  },
+  targets: {
+    node: {
+      base: "src/platform/node",
+      typescript: ["**/*.ts"],
+      main: "main",
+      definitions: []
+    }
+  }
 });
 
 buildTools.tasks.build(gulp, locations, {tsc: {typescript: typescript}});

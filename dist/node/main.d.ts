@@ -1,4 +1,4 @@
-import configLocations from "../core/config/locations";
+import configLocations from "./config/locations";
 export declare var config: {
     Locations: typeof configLocations;
 };

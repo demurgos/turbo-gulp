@@ -1,14 +1,13 @@
 {
   "dependencies": {
-    "bluebird": "registry:npm/bluebird#3.2.1+20160211005852",
+    "bluebird": "registry:npm/bluebird#3.3.4+20160411163813",
     "gulp": "registry:npm/gulp#3.8.0+20160211003958",
-    "lodash": "registry:npm/lodash#4.0.0+20160305082308",
+    "lodash": "registry:npm/lodash#4.0.0+20160412191219",
     "semver": "registry:npm/semver#5.0.0+20160211003958"
   },
   "devDependencies": {},
   "ambientDependencies": {
-    "chai": "registry:dt/chai#3.4.0+20160216071402",
-    "mocha": "registry:dt/mocha#2.2.5+20151023103246",
-    "node": "registry:dt/node#4.0.0+20160311162451"
+    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
+    "node": "registry:dt/node#4.0.0+20160412142033"
   }
 }
