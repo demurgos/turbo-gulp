@@ -40,7 +40,7 @@ export function getDefaultConfig(): Config {
     core: {
       base: "src",
       typescript: ["**/*.ts", "!platform/**/*.ts"],
-      definitions: ["../typings/main.d.ts"]
+      definitions: ["../typings/**/*.d.ts"]
     },
     targets: {
       node: {

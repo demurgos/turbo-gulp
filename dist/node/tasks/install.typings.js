@@ -2,7 +2,11 @@
 var typings = require("typings-core");
 function registerTask(gulp, locations, userOptions) {
     gulp.task("install.typings", function () {
-        return typings.install({ production: false, cwd: locations.config.project.root });
+        var options = {
+            production: false,
+            cwd: locations.config.project.root
+        };
+        return typings.install(options);
     });
 }
 Object.defineProperty(exports, "__esModule", { value: true });

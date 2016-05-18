@@ -1,15 +1,17 @@
 {
   "name": "via-build-tools",
   "dependencies": {
-    "bluebird": "registry:npm/bluebird#3.3.4+20160411163813",
+    "bluebird": "registry:npm/bluebird#3.3.4+20160515010139",
     "gulp": "registry:npm/gulp#3.8.0+20160211003958",
-    "lodash": "registry:npm/lodash#4.0.0+20160412191219",
+    "lodash": "registry:npm/lodash#4.0.0+20160416211519",
     "semver": "registry:npm/semver#5.0.0+20160211003958",
     "typings-core": "npm:typings-core"
   },
-  "devDependencies": {},
-  "ambientDependencies": {
-    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
-    "node": "registry:dt/node#4.0.0+20160412142033"
+  "devDependencies": {
+    "chai": "registry:npm/chai#3.5.0+20160415060238"
+  },
+  "globalDependencies": {
+    "mocha": "registry:env/mocha#2.2.5+20160321223601",
+    "node": "registry:env/node#4.0.0+20160507210304"
   }
 }
