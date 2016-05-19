@@ -12,6 +12,6 @@
   },
   "globalDependencies": {
     "mocha": "registry:env/mocha#2.2.5+20160321223601",
-    "node": "registry:env/node#4.0.0+20160507210304"
+    "node": "github:demurgos/env-node/4#d64f790aaa018e9ae9e02bf7b4666f15eef39c08"
   }
 }
