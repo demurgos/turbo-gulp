@@ -4,7 +4,7 @@ declare var _default: {
     noImplicitAny: boolean;
     module: string;
     moduleResolution: string;
-    typescript: null;
+    typescript: any;
     target: string;
     emitDecoratorMetadata: boolean;
     experimentalDecorators: boolean;
