@@ -1,11 +1,11 @@
 declare var _default: {
     rules: {
-        "comment-format": (boolean | string)[];
+        "comment-format": (string | boolean)[];
         "curly": boolean;
         "eofline": boolean;
         "indent": string;
         "max-line-length": number;
-        "member-ordering": (boolean | string)[];
+        "member-ordering": (string | boolean)[];
         "no-any": boolean;
         "no-arg": boolean;
         "no-bitwise": boolean;
@@ -22,12 +22,12 @@ declare var _default: {
         "no-unreachable": boolean;
         "no-use-before-declare": boolean;
         "no-var-keyword": boolean;
-        "one-line": (boolean | string)[];
-        "quotemark": (boolean | string)[];
+        "one-line": (string | boolean)[];
+        "quotemark": (string | boolean)[];
         "radix": boolean;
         "semicolon": boolean;
         "triple-equals": boolean;
-        "whitespace": (boolean | string)[];
+        "whitespace": (string | boolean)[];
     };
 };
 export default _default;

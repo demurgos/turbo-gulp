@@ -1,17 +1,17 @@
 {
   "name": "via-build-tools",
   "dependencies": {
-    "bluebird": "registry:npm/bluebird#3.3.4+20160515010139",
-    "gulp": "registry:npm/gulp#3.8.0+20160211003958",
-    "lodash": "registry:npm/lodash#4.0.0+20160416211519",
-    "semver": "registry:npm/semver#5.0.0+20160211003958",
+    "bluebird": "registry:npm/bluebird#3.4.1+20160909132857",
+    "gulp": "registry:npm/gulp#4.0.0-alpha.2+20160817105618",
+    "lodash": "registry:npm/lodash#4.0.0+20160723033700",
+    "semver": "registry:npm/semver#5.0.0+20160723033700",
     "typings-core": "npm:typings-core"
   },
   "devDependencies": {
-    "chai": "registry:npm/chai#3.5.0+20160415060238"
+    "chai": "registry:npm/chai#3.5.0+20160723033700",
   },
   "globalDependencies": {
-    "mocha": "registry:env/mocha#2.2.5+20160321223601",
-    "node": "github:demurgos/env-node/4#d64f790aaa018e9ae9e02bf7b4666f15eef39c08"
+    "mocha": "registry:env/mocha#2.2.5+20160926180742",
+    "node": "registry:env/node#6.0.0+20160918225031"
   }
 }
