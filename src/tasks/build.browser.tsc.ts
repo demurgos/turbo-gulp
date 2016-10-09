@@ -7,10 +7,12 @@ import * as merge from "merge2";
 import defaultTscConfig from "../config/tsc";
 import Locations from "../config/locations";
 
-export default function registerTask (gulp: any, locations: Locations, options?: any) {
+export const taskName = "build:browser:tsc";
+
+export function registerTask (gulp: any, locations: Locations, options?: any) {
   let tscConfig = _.assign({}, defaultTscConfig, {module: "system", moduleResolution: "node"}, options.tsc);
 
-  gulp.task("build.browser.tsc", function () {
+  gulp.task(taskName, function () {
     let tsResult = gulp
         .src(locations.getTypescriptSources("browser", false), {
           base: path.join(locations.config.project.root, locations.config.project.sources)
@@ -22,4 +24,6 @@ export default function registerTask (gulp: any, locations: Locations, options?:
       tsResult.js.pipe(gulp.dest(locations.getBuildDirectory("systemjs")))
     ]);
   });
-};
+}
+
+export default registerTask;

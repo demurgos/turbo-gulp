@@ -2,14 +2,15 @@ import * as path from "path";
 
 import * as Builder from "systemjs-builder";
 
-import buildBrowserTsc from "./build.browser.tsc";
+import * as buildBrowserTsc from "./build.browser.tsc";
 import Locations from "../config/locations";
 
-export default function registerTask (gulp: any, locations: Locations, options?: any) {
+export const taskName = "build:browser:systemjs";
 
-  buildBrowserTsc(gulp, locations, options);
+export function registerTask (gulp: any, locations: Locations, options?: any) {
+  buildBrowserTsc.registerTask(gulp, locations, options);
 
-  gulp.task("build.browser.systemjs", ["build.browser.tsc"], function () {
+  gulp.task(taskName, [buildBrowserTsc.taskName], function () {
     let root = locations.config.project.root;
     let builder = new Builder(".", path.relative(root, locations.config.project.systemjsConfig));
 
@@ -21,8 +22,8 @@ export default function registerTask (gulp: any, locations: Locations, options?:
     let relativeInput = path.relative(root, path.resolve(systemDir, relativeBrowserMain));
     let relativeOutput = path.relative(root, path.resolve(buildDir, relativeBrowserMain));
 
-    return builder
-      .buildStatic(relativeInput, relativeOutput);
-
+    return builder.buildStatic(relativeInput, relativeOutput);
   });
-};
+}
+
+export default registerTask;

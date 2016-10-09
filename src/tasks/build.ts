@@ -2,10 +2,12 @@ import Locations from "../config/locations";
 
 import * as _ from "lodash";
 
-import buildNode from "./build.node";
-import buildNodeTest from "./build.node-test";
-import buildBrowser from "./build.browser";
-import buildElectron from "./build.electron";
+import * as buildNode from "./build.node";
+import * as buildNodeTest from "./build.node-test";
+import * as buildBrowser from "./build.browser";
+import * as buildElectron from "./build.electron";
+
+export const taskName = "build";
 
 interface BuildOptions {
   node: boolean;
@@ -19,29 +21,29 @@ let defaultBuilds: BuildOptions = {
   electron: true
 };
 
-export default function registerTask (gulp: any, locations: Locations, userOptions?: any) {
-
+export function registerTask (gulp: any, locations: Locations, userOptions?: any) {
   let buildOptions: BuildOptions = <BuildOptions> _.assign({}, defaultBuilds, userOptions);
   let buildTasks: string[] = [];
 
   if (buildOptions.node) {
-    buildTasks.push("build.node");
-    buildNode(gulp, locations, userOptions);
+    buildTasks.push(buildNode.taskName);
+    buildNode.registerTask(gulp, locations, userOptions);
 
-    buildTasks.push("build.node-test");
-    buildNodeTest(gulp, locations, userOptions);
+    buildTasks.push(buildNodeTest.taskName);
+    buildNodeTest.registerTask(gulp, locations, userOptions);
   }
 
   if (buildOptions.browser) {
-    buildTasks.push("build.browser");
-    buildBrowser(gulp, locations, userOptions);
+    buildTasks.push(buildBrowser.taskName);
+    buildBrowser.registerTask(gulp, locations, userOptions);
   }
 
   if (buildOptions.electron) {
-    buildTasks.push("build.electron");
-    buildElectron(gulp, locations, userOptions);
+    buildTasks.push(buildElectron.taskName);
+    buildElectron.registerTask(gulp, locations, userOptions);
   }
 
-  gulp.task("build", buildTasks);
+  gulp.task(taskName, buildTasks);
+}
 
-};
+export default registerTask;

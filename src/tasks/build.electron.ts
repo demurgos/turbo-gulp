@@ -1,11 +1,16 @@
-import buildElectronTsc from "./build.electron.tsc";
-import buildElectronBrowser from "./build.electron.browser";
-import buildElectronPackage from "./build.electron.package";
+import * as buildElectronTsc from "./build.electron.tsc";
+import * as buildElectronBrowser from "./build.electron.browser";
+import * as buildElectronPackage from "./build.electron.package";
 import Locations from "../config/locations";
 
-export default function registerTask (gulp: any, locations: Locations, options?: any) {
-  buildElectronTsc(gulp, locations, options || {});
-  buildElectronBrowser(gulp, locations, options || {});
-  buildElectronPackage(gulp, locations, options || {});
-  gulp.task("build.electron", ["build.electron.tsc", "build.electron.browser", "build.electron.package"]);
-};
+export const taskName = "build:electron";
+
+export function registerTask (gulp: any, locations: Locations, options?: any) {
+  buildElectronTsc.registerTask(gulp, locations, options || {});
+  buildElectronBrowser.registerTask(gulp, locations, options || {});
+  buildElectronPackage.registerTask(gulp, locations, options || {});
+
+  gulp.task(taskName, [buildElectronTsc.taskName, buildElectronBrowser.taskName, buildElectronPackage.taskName]);
+}
+
+export default registerTask;

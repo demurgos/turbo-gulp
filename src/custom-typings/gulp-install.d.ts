@@ -1,5 +1,5 @@
-declare module "gulp-install"{
-  interface StaticGulpInstall{
+declare module "gulp-install" {
+  interface StaticGulpInstall {
     (): any;
   }
   let staticGulpInstall: StaticGulpInstall;

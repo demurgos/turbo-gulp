@@ -1,4 +1,5 @@
-export default {
+// TODO: use interface
+export const tslintConfig = {
   rules: {
     "comment-format": [
       true,
@@ -91,3 +92,5 @@ export default {
     ]
   }
 };
+
+export default tslintConfig;

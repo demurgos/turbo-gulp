@@ -1,7 +1,12 @@
-import buildBrowserSystemjs from "./build.browser.systemjs";
+import * as buildBrowserSystemjs from "./build.browser.systemjs";
 import Locations from "../config/locations";
 
-export default function registerTask (gulp: any, locations: Locations, options?: any) {
-  buildBrowserSystemjs(gulp, locations, options);
-  gulp.task("build.browser", ["build.browser.systemjs"]);
-};
+export const taskName = "build:browser";
+
+export function registerTask (gulp: any, locations: Locations, options?: any) {
+  buildBrowserSystemjs.registerTask(gulp, locations, options|| {});
+
+  gulp.task(taskName, [buildBrowserSystemjs.taskName]);
+}
+
+export default registerTask;

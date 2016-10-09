@@ -1,9 +1,11 @@
 import * as _ from "lodash";
 
-import installJspm from "./install.jspm";
-import installNpm from "./install.npm";
-import installTypings from "./install.typings";
+import * as installJspm from "./install.jspm";
+import * as installNpm from "./install.npm";
+import * as installTypings from "./install.typings";
 import Locations from "../config/locations";
+
+export const taskName = "install";
 
 interface InstallConfig {
   jspm: boolean;
@@ -17,27 +19,26 @@ let defaultInstall: InstallConfig = {
   typings: true
 };
 
-export default function registerTask (gulp: any, locations: Locations, userOptions?: any) {
-
+export function registerTask (gulp: any, locations: Locations, userOptions?: any) {
   let installOptions: InstallConfig = <InstallConfig> _.merge({}, defaultInstall, userOptions);
   let installTasks: string[] = [];
 
   if (installOptions.jspm) {
-    installTasks.push("install.jspm");
-    installJspm(gulp, locations);
+    installTasks.push(installJspm.taskName);
+    installJspm.registerTask(gulp, locations, userOptions || {});
   }
 
   if (installOptions.npm) {
-    installTasks.push("install.npm");
-    installNpm(gulp, locations);
+    installTasks.push(installNpm.taskName);
+    installNpm.registerTask(gulp, locations, userOptions || {});
   }
 
   if (installOptions.typings) {
-    installTasks.push("install.typings");
-    installTypings(gulp, locations);
+    installTasks.push(installTypings.taskName);
+    installTypings.registerTask(gulp, locations, userOptions || {});
   }
 
-  gulp.task("install", installTasks);
-  gulp.task("install.noNpm", _.without(installTasks, "install.npm"));
+  gulp.task(taskName, installTasks);
+}
 
-};
+export default registerTask;

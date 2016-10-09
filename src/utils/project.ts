@@ -1,13 +1,13 @@
 import * as fs from "fs";
 
-import * as Promise from "bluebird";
+import * as Bluebird from "bluebird";
 import * as semver from "semver";
 
 import * as git from "./git";
 import Locations from "../config/locations";
 
-let readFile: (filename: string)=>Promise<Buffer> = Promise.promisify(fs.readFile);
-let writeFile: (filename: string, data: any)=>Promise<any> = Promise.promisify(fs.writeFile);
+const readFile = Bluebird.promisify(fs.readFile);
+const writeFile = Bluebird.promisify(fs.writeFile);
 
 export function ensureUnusedTag(tag: string){
   return git.checkTag(tag)
@@ -39,7 +39,7 @@ export function commitVersion(version: string, projectRoot?: string){
 }
 
 export function release(version: string, locations: Locations){
-  return Promise.all([
+  return Bluebird.all([
       ensureUnusedTag(getVersionTag(version)),
       git.ensureCleanMaster()
     ])
@@ -55,10 +55,10 @@ export interface IPackageJson{
   version: string;
 }
 
-export function readPackage(locations: Locations): Promise<IPackageJson> {
-  return readFile(locations.config.project.package)
-    .then((content: Buffer) => {
-      return JSON.parse(content.toString("utf8"));
+export function readPackage(locations: Locations): Bluebird<IPackageJson> {
+  return readFile(locations.config.project.package, "utf8")
+    .then((content: string) => {
+      return JSON.parse(content);
     });
 }
 
@@ -66,7 +66,7 @@ export function writePackage(pkg: IPackageJson, locations: Locations){
   return writeFile(locations.config.project.package, JSON.stringify(pkg, null, 2));
 }
 
-export function setPackageVersion(version: string, locations: Locations): Promise<any> {
+export function setPackageVersion(version: string, locations: Locations): Bluebird<any> {
   return readPackage(locations)
     .then((pkg: IPackageJson) => {
       pkg.version = version;
@@ -74,10 +74,16 @@ export function setPackageVersion(version: string, locations: Locations): Promis
     });
 }
 
-// type: major/minor/patch
-export function getNextVersion(type: string, locations: Locations): Promise<string> {
+export function getNextVersion(bumpKind: "major" | "minor" | "patch", locations: Locations): Bluebird<string> {
   return readPackage(locations)
     .then((pkg: IPackageJson) => {
-      return semver.inc(pkg.version, type);
+      return semver.inc(pkg.version, bumpKind);
+    });
+}
+
+export function bumpVersion (bumpKind: "major" | "minor" | "patch", locations: Locations): Bluebird<any> {
+  return getNextVersion(bumpKind, locations)
+    .then((nextVersion: string) => {
+      return release(nextVersion, locations);
     });
 }
