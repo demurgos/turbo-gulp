@@ -1,4 +1,4 @@
-declare var _default: {
+export declare const tslintConfig: {
     rules: {
         "comment-format": (string | boolean)[];
         "curly": boolean;
@@ -30,4 +30,4 @@ declare var _default: {
         "whitespace": (string | boolean)[];
     };
 };
-export default _default;
+export default tslintConfig;

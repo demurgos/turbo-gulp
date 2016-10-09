@@ -1,10 +1,9 @@
 "use strict";
-var install = require("gulp-install");
-exports.taskName = "install:npm";
+var project_1 = require("../utils/project");
+exports.taskName = "project:bump-major";
 function registerTask(gulp, locations, userOptions) {
     gulp.task(exports.taskName, function () {
-        return gulp.src([locations.config.project.package])
-            .pipe(install());
+        project_1.bumpVersion("major", locations);
     });
 }
 exports.registerTask = registerTask;

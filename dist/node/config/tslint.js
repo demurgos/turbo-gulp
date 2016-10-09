@@ -1,6 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+// TODO: use interface
+exports.tslintConfig = {
     rules: {
         "comment-format": [
             true,
@@ -92,3 +92,5 @@ exports.default = {
         ]
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = exports.tslintConfig;

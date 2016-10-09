@@ -5,7 +5,6 @@ declare var _default: {
     emitBOM: boolean;
     experimentalDecorators: boolean;
     forceConsistentCasingInFileNames: boolean;
-    noResolve: boolean;
     noImplicitAny: boolean;
     module: string;
     moduleResolution: string;

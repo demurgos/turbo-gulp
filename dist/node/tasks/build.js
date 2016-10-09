@@ -1,9 +1,10 @@
 "use strict";
 var _ = require("lodash");
-var build_node_1 = require("./build.node");
-var build_node_test_1 = require("./build.node-test");
-var build_browser_1 = require("./build.browser");
-var build_electron_1 = require("./build.electron");
+var buildNode = require("./build.node");
+var buildNodeTest = require("./build.node-test");
+var buildBrowser = require("./build.browser");
+var buildElectron = require("./build.electron");
+exports.taskName = "build";
 var defaultBuilds = {
     node: true,
     browser: true,
@@ -13,21 +14,21 @@ function registerTask(gulp, locations, userOptions) {
     var buildOptions = _.assign({}, defaultBuilds, userOptions);
     var buildTasks = [];
     if (buildOptions.node) {
-        buildTasks.push("build.node");
-        build_node_1.default(gulp, locations, userOptions);
-        buildTasks.push("build.node-test");
-        build_node_test_1.default(gulp, locations, userOptions);
+        buildTasks.push(buildNode.taskName);
+        buildNode.registerTask(gulp, locations, userOptions);
+        buildTasks.push(buildNodeTest.taskName);
+        buildNodeTest.registerTask(gulp, locations, userOptions);
     }
     if (buildOptions.browser) {
-        buildTasks.push("build.browser");
-        build_browser_1.default(gulp, locations, userOptions);
+        buildTasks.push(buildBrowser.taskName);
+        buildBrowser.registerTask(gulp, locations, userOptions);
     }
     if (buildOptions.electron) {
-        buildTasks.push("build.electron");
-        build_electron_1.default(gulp, locations, userOptions);
+        buildTasks.push(buildElectron.taskName);
+        buildElectron.registerTask(gulp, locations, userOptions);
     }
-    gulp.task("build", buildTasks);
+    gulp.task(exports.taskName, buildTasks);
 }
+exports.registerTask = registerTask;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = registerTask;
-;

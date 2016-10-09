@@ -1,13 +1,18 @@
 "use strict";
-var project_lint_1 = require("./project.lint");
-var project_bump_1 = require("./project.bump");
-var project_dist_node_1 = require("./project.dist.node");
+var projectLint = require("./project.lint");
+var projectBumpMajor = require("./project.bump-major");
+var projectBumpMinor = require("./project.bump-minor");
+var projectBumpPatch = require("./project.bump-patch");
+var projectDistNode = require("./project.dist.node");
+exports.taskName = "project";
 function registerTask(gulp, locations, userOptions) {
-    project_lint_1.default(gulp, locations, userOptions);
-    project_bump_1.default(gulp, locations, userOptions);
-    project_dist_node_1.default(gulp, locations, userOptions);
-    gulp.task("project", ["project.lint"]);
+    projectLint.registerTask(gulp, locations, userOptions);
+    projectBumpMajor.registerTask(gulp, locations, userOptions);
+    projectBumpMinor.registerTask(gulp, locations, userOptions);
+    projectBumpPatch.registerTask(gulp, locations, userOptions);
+    projectDistNode.registerTask(gulp, locations, userOptions);
+    gulp.task(exports.taskName, [projectLint.taskName]);
 }
+exports.registerTask = registerTask;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = registerTask;
-;

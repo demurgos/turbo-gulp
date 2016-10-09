@@ -1,9 +1,10 @@
 "use strict";
-var build_node_tsc_1 = require("./build.node.tsc");
+var buildNodeTsc = require("./build.node.tsc");
+exports.taskName = "build:node";
 function registerTask(gulp, locations, options) {
-    build_node_tsc_1.default(gulp, locations, options || {});
-    gulp.task("build.node", ["build.node.tsc"]);
+    buildNodeTsc.registerTask(gulp, locations, options || {});
+    gulp.task(exports.taskName, [buildNodeTsc.taskName]);
 }
+exports.registerTask = registerTask;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = registerTask;
-;

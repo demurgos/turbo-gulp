@@ -1,9 +1,10 @@
 "use strict";
-var build_browser_systemjs_1 = require("./build.browser.systemjs");
+var buildBrowserSystemjs = require("./build.browser.systemjs");
+exports.taskName = "build:browser";
 function registerTask(gulp, locations, options) {
-    build_browser_systemjs_1.default(gulp, locations, options);
-    gulp.task("build.browser", ["build.browser.systemjs"]);
+    buildBrowserSystemjs.registerTask(gulp, locations, options || {});
+    gulp.task(exports.taskName, [buildBrowserSystemjs.taskName]);
 }
+exports.registerTask = registerTask;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = registerTask;
-;

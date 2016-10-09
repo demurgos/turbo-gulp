@@ -1,7 +1,7 @@
 "use strict";
 var childProcess = require("child_process");
-var Promise = require("bluebird");
-var execFileAsync = Promise.promisify(childProcess.execFile);
+var Bluebird = require("bluebird");
+var execFileAsync = Bluebird.promisify(childProcess.execFile);
 function exec(cmd, args, options) {
     args.unshift(cmd);
     return execFileAsync("git", args, options);

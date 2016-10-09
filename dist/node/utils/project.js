@@ -1,10 +1,10 @@
 "use strict";
 var fs = require("fs");
-var Promise = require("bluebird");
+var Bluebird = require("bluebird");
 var semver = require("semver");
 var git = require("./git");
-var readFile = Promise.promisify(fs.readFile);
-var writeFile = Promise.promisify(fs.writeFile);
+var readFile = Bluebird.promisify(fs.readFile);
+var writeFile = Bluebird.promisify(fs.writeFile);
 function ensureUnusedTag(tag) {
     return git.checkTag(tag)
         .then(function (exists) {
@@ -35,7 +35,7 @@ function commitVersion(version, projectRoot) {
 }
 exports.commitVersion = commitVersion;
 function release(version, locations) {
-    return Promise.all([
+    return Bluebird.all([
         ensureUnusedTag(getVersionTag(version)),
         git.ensureCleanMaster()
     ])
@@ -48,9 +48,9 @@ function release(version, locations) {
 }
 exports.release = release;
 function readPackage(locations) {
-    return readFile(locations.config.project.package)
+    return readFile(locations.config.project.package, "utf8")
         .then(function (content) {
-        return JSON.parse(content.toString("utf8"));
+        return JSON.parse(content);
     });
 }
 exports.readPackage = readPackage;
@@ -66,11 +66,17 @@ function setPackageVersion(version, locations) {
     });
 }
 exports.setPackageVersion = setPackageVersion;
-// type: major/minor/patch
-function getNextVersion(type, locations) {
+function getNextVersion(bumpKind, locations) {
     return readPackage(locations)
         .then(function (pkg) {
-        return semver.inc(pkg.version, type);
+        return semver.inc(pkg.version, bumpKind);
     });
 }
 exports.getNextVersion = getNextVersion;
+function bumpVersion(bumpKind, locations) {
+    return getNextVersion(bumpKind, locations)
+        .then(function (nextVersion) {
+        return release(nextVersion, locations);
+    });
+}
+exports.bumpVersion = bumpVersion;

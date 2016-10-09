@@ -1,9 +1,10 @@
 "use strict";
-var test_node_1 = require("./test.node");
+var testNode = require("./test.node");
+exports.taskName = "test";
 function registerTask(gulp, locations, options) {
-    test_node_1.default(gulp, locations, options || {});
-    gulp.task("test", ["test.node"]);
+    testNode.registerTask(gulp, locations, options || {});
+    gulp.task(exports.taskName, [testNode.taskName]);
 }
+exports.registerTask = registerTask;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = registerTask;
-;

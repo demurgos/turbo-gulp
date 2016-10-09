@@ -5,10 +5,9 @@ export default {
   emitBOM: false,
   experimentalDecorators: true,
   forceConsistentCasingInFileNames: true,
-  noResolve: false,
   noImplicitAny: true,
   module: "commonjs",
-  moduleResolution: "classic",
+  moduleResolution: "node",
   typescript: null, // must be provided by user
   target: "ES5",
   emitDecoratorMetadata: true,

@@ -6,8 +6,8 @@ import * as semver from "semver";
 import * as git from "./git";
 import Locations from "../config/locations";
 
-const readFile = Bluebird.promisify(fs.readFile);
-const writeFile = Bluebird.promisify(fs.writeFile);
+const readFile: (filename: string, encoding: string) => Bluebird<string> = <any> Bluebird.promisify(fs.readFile);
+const writeFile: (filename: string, data: any) => Bluebird<any> = Bluebird.promisify(fs.writeFile);
 
 export function ensureUnusedTag(tag: string){
   return git.checkTag(tag)
