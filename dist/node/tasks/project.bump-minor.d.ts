@@ -1,4 +1,4 @@
 import Locations from "../config/locations";
-export declare const taskName = "project:bump-minor";
+export declare const taskName: string;
 export declare function registerTask(gulp: any, locations: Locations, userOptions?: any): void;
 export default registerTask;

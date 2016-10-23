@@ -3,7 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var typescript = require('typescript');
-var buildTools = require('./dist/node/main');
+var buildTools = require('./build/node/main');
 
 var locations = new buildTools.config.Locations({
   root: path.resolve(__dirname),

@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import * as Bluebird from "bluebird";
 import Locations from "../config/locations";
 export declare function ensureUnusedTag(tag: string): Bluebird<void>;
