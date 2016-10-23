@@ -11,16 +11,16 @@ export function registerTask (gulp: any, locations: Locations, options?: any) {
   buildBrowserTsc.registerTask(gulp, locations, options);
 
   gulp.task(taskName, [buildBrowserTsc.taskName], function () {
-    let root = locations.config.project.root;
-    let builder = new Builder(".", path.relative(root, locations.config.project.systemjsConfig));
+    const root = locations.config.project.root;
+    const builder = new Builder(".", path.relative(root, locations.config.project.systemjsConfig));
 
-    let relativeBrowserMain = "browser/main.js"; // path.relative(browserDir, browserMain);
+    const relativeBrowserMain = "browser/main.js"; // path.relative(browserDir, browserMain);
 
-    let systemDir = locations.getBuildDirectory("systemjs");
-    let buildDir = locations.getBuildDirectory("browser");
+    const systemDir = locations.getBuildDirectory("systemjs");
+    const buildDir = locations.getBuildDirectory("browser");
 
-    let relativeInput = path.relative(root, path.resolve(systemDir, relativeBrowserMain));
-    let relativeOutput = path.relative(root, path.resolve(buildDir, relativeBrowserMain));
+    const relativeInput = path.relative(root, path.resolve(systemDir, relativeBrowserMain));
+    const relativeOutput = path.relative(root, path.resolve(buildDir, relativeBrowserMain));
 
     return builder.buildStatic(relativeInput, relativeOutput);
   });

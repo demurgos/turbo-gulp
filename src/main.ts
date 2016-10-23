@@ -1,16 +1,18 @@
 import configLocations from "./config/locations";
-import tasksBuild from "./tasks/build";
-import tasksInstall from "./tasks/install";
-import tasksProject from "./tasks/project";
-import tasksTest from "./tasks/test";
+import taskBuild from "./tasks/build";
+import taskClean from "./tasks/clean";
+import taskInstall from "./tasks/install";
+import taskProject from "./tasks/project";
+import taskTest from "./tasks/test";
 
-export var config = {
+export const config = {
   Locations: configLocations
 };
 
-export var tasks = {
-  build: tasksBuild,
-  install: tasksInstall,
-  project: tasksProject,
-  test: tasksTest
+export const tasks = {
+  build: taskBuild,
+  clean: taskClean,
+  install: taskInstall,
+  project: taskProject,
+  test: taskTest
 };

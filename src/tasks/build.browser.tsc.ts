@@ -10,10 +10,10 @@ import Locations from "../config/locations";
 export const taskName = "build:browser:tsc";
 
 export function registerTask (gulp: any, locations: Locations, options?: any) {
-  let tscConfig = _.assign({}, defaultTscConfig, {module: "system", moduleResolution: "node"}, options.tsc);
+  const tscConfig = _.assign({}, defaultTscConfig, {module: "system", moduleResolution: "node"}, options.tsc);
 
   gulp.task(taskName, function () {
-    let tsResult = gulp
+    const tsResult = gulp
         .src(locations.getTypescriptSources("browser", false), {
           base: path.join(locations.config.project.root, locations.config.project.sources)
         })

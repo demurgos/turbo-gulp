@@ -15,15 +15,15 @@ interface BuildOptions {
   electron: boolean;
 }
 
-let defaultBuilds: BuildOptions = {
+const defaultBuilds: BuildOptions = {
   node: true,
   browser: true,
   electron: true
 };
 
 export function registerTask (gulp: any, locations: Locations, userOptions?: any) {
-  let buildOptions: BuildOptions = <BuildOptions> _.assign({}, defaultBuilds, userOptions);
-  let buildTasks: string[] = [];
+  const buildOptions: BuildOptions = <BuildOptions> _.assign({}, defaultBuilds, userOptions);
+  const buildTasks: string[] = [];
 
   if (buildOptions.node) {
     buildTasks.push(buildNode.taskName);

@@ -6,8 +6,8 @@ export const taskName = "build:electron:package";
 
 export function registerTask (gulp: any, locations: Locations, options?: any) {
   gulp.task(taskName, function(){
-    let electronSrc = locations.getSourceDirectory("electron");
-    let packageInput = path.resolve(electronSrc, "package.json");
+    const electronSrc = locations.getSourceDirectory("electron");
+    const packageInput = path.resolve(electronSrc, "package.json");
     return gulp.src([packageInput], {base: electronSrc})
       .pipe(gulp.dest(locations.getBuildDirectory("electron")));
   });

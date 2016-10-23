@@ -6,7 +6,7 @@
   "main": "dist/node/main.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Demurgos/via-build-tools.git"
+    "url": "git://github.com/demurgos/via-build-tools.git"
   },
   "license": "MIT",
   "dependencies": {

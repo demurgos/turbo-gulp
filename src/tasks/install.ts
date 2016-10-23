@@ -13,15 +13,15 @@ interface InstallConfig {
   typings: boolean;
 }
 
-let defaultInstall: InstallConfig = {
+const defaultInstall: InstallConfig = {
   jspm: true,
   npm: true,
   typings: true
 };
 
 export function registerTask (gulp: any, locations: Locations, userOptions?: any) {
-  let installOptions: InstallConfig = <InstallConfig> _.merge({}, defaultInstall, userOptions);
-  let installTasks: string[] = [];
+  const installOptions: InstallConfig = <InstallConfig> _.merge({}, defaultInstall, userOptions);
+  const installTasks: string[] = [];
 
   if (installOptions.jspm) {
     installTasks.push(installJspm.taskName);
