@@ -22,7 +22,7 @@ export interface Config {
     };
 }
 export declare function getDefaultConfig(): Config;
-export default class Locations {
+export declare class Locations {
     config: Config;
     constructor(config: any);
     getTypescriptSources(targetName: string, excludeSpec?: boolean): string[];
@@ -31,3 +31,4 @@ export default class Locations {
     getDistDirectory(targetName: string): string;
     getCoverageDirectory(targetName: string): string;
 }
+export default Locations;

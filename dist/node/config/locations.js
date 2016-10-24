@@ -82,5 +82,6 @@ var Locations = (function () {
     };
     return Locations;
 }());
+exports.Locations = Locations;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Locations;
