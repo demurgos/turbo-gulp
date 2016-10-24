@@ -65,7 +65,7 @@ export function getDefaultConfig(): Config {
   };
 }
 
-export default class Locations{
+export class Locations {
   config: Config;
 
   constructor (config: any){
@@ -117,5 +117,6 @@ export default class Locations{
   getCoverageDirectory(targetName: string): string {
     return path.join(this.config.project.root, this.config.project.coverage, targetName);
   }
-
 }
+
+export default Locations;

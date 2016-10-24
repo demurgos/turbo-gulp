@@ -3,7 +3,6 @@
   "dependencies": {
     "bluebird": "registry:npm/bluebird#3.4.1+20160909132857",
     "del": "registry:npm/del#2.2.0+20160416211512",
-    "gulp": "registry:npm/gulp#4.0.0-alpha.2+20160817105618",
     "lodash": "registry:npm/lodash#4.0.0+20160723033700",
     "semver": "registry:npm/semver#5.0.0+20160723033700",
     "typings-core": "npm:typings-core"
@@ -12,7 +11,6 @@
     "chai": "registry:npm/chai#3.5.0+20160723033700"
   },
   "globalDependencies": {
-    "mocha": "registry:env/mocha#2.2.5+20160926180742",
-    "node": "registry:env/node#6.0.0+20160918225031"
+    "mocha": "registry:env/mocha#2.2.5+20160926180742"
   }
 }
