@@ -10,7 +10,7 @@ export interface Options {
 
 export function registerTask (gulp: Gulp, {project}: Options): void {
   gulp.task(taskName, function(){
-    bumpVersion("minor", project);
+    bumpVersion("patch", project);
   });
 }
 
