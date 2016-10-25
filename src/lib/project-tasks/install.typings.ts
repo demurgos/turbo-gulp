@@ -1,13 +1,17 @@
 import * as typings from "typings-core";
-import Locations from "../config/config";
+import {ProjectOptions} from "../config/config";
 
 export const taskName = "install:typings";
 
-export function registerTask (gulp: any, locations: Locations, userOptions?: any) {
+export interface Options {
+  project: ProjectOptions;
+}
+
+export function registerTask (gulp: any, {project}: Options) {
   gulp.task(taskName, function () {
     const options: typings.InstallOptions = {
       production: false,
-      cwd: locations.config.project.root
+      cwd: project.root
     };
     return typings.install(options);
   });

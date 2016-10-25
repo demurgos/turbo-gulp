@@ -41,19 +41,18 @@ project.lint
 ├── dist/
 ├── coverage/
 ├── src/
-|   ├── dir1/
-|   |   ├── mod1a.ts
-|   |   └── mod1b.ts
-|   ├── dir2/
-|   |   ├── mod2a.ts
-|   |   └── mod2b.ts
-|   ├── platform/
-|   |   ├── browser/
-|   |   └── node/
-|   └── main.ts
+|   ├── lib/
+|   |   ├── ...
+|   |   └── index.ts
+|   ├── test/
+|   |   └── ...
+|   └── main/
+|       ├── ...
+|       └── main.ts
+├── LICENSE.md
+├── NOTICE.md
 ├── README.md
 ├── package.json
 ├── gulpfile.js
-├── typings.json
-└── systemjs.config.js
+└── typings.json
 ````

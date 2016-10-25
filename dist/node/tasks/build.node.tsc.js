@@ -6,7 +6,7 @@ var merge = require("merge2");
 var tsc_1 = require("../config/tsc");
 exports.taskName = "build:node:tsc";
 function registerTask(gulp, locations, options) {
-    var tscConfig = _.assign({}, tsc_1.default, options.tsc);
+    var tscConfig = _.assign({}, tsc_1.default, options.tsc, {target: "es6"});
     gulp.task(exports.taskName, function () {
         var tsResult = gulp
             .src(locations.getTypescriptSources("node", true), {

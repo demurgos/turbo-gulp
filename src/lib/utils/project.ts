@@ -4,7 +4,7 @@ import * as Bluebird from "bluebird";
 import * as semver from "semver";
 
 import * as git from "./git";
-import Locations from "../config/config";
+import {ProjectOptions} from "../config/config";
 
 const readFile: (filename: string, encoding: string) => Bluebird<string> = <any> Bluebird.promisify(fs.readFile);
 const writeFile: (filename: string, data: any) => Bluebird<any> = Bluebird.promisify(fs.writeFile);
@@ -38,7 +38,7 @@ export function commitVersion(version: string, projectRoot?: string){
     });
 }
 
-export function release(version: string, locations: Locations){
+export function release(version: string, locations: ProjectOptions){
   return Bluebird.all([
       ensureUnusedTag(getVersionTag(version)),
       git.ensureCleanMaster()
@@ -47,7 +47,7 @@ export function release(version: string, locations: Locations){
       return setPackageVersion(version, locations);
     })
     .then(() => {
-      return commitVersion(version, locations.config.project.root);
+      return commitVersion(version, locations.root);
     });
 }
 
@@ -55,18 +55,18 @@ export interface IPackageJson{
   version: string;
 }
 
-export function readPackage(locations: Locations): Bluebird<IPackageJson> {
-  return readFile(locations.config.project.package, "utf8")
+export function readPackage(locations: ProjectOptions): Bluebird<IPackageJson> {
+  return readFile(locations.package, "utf8")
     .then((content: string) => {
       return JSON.parse(content);
     });
 }
 
-export function writePackage(pkg: IPackageJson, locations: Locations){
-  return writeFile(locations.config.project.package, JSON.stringify(pkg, null, 2));
+export function writePackage(pkg: IPackageJson, locations: ProjectOptions){
+  return writeFile(locations.package, JSON.stringify(pkg, null, 2));
 }
 
-export function setPackageVersion(version: string, locations: Locations): Bluebird<any> {
+export function setPackageVersion(version: string, locations: ProjectOptions): Bluebird<any> {
   return readPackage(locations)
     .then((pkg: IPackageJson) => {
       pkg.version = version;
@@ -74,14 +74,14 @@ export function setPackageVersion(version: string, locations: Locations): Bluebi
     });
 }
 
-export function getNextVersion(bumpKind: "major" | "minor" | "patch", locations: Locations): Bluebird<string> {
+export function getNextVersion(bumpKind: "major" | "minor" | "patch", locations: ProjectOptions): Bluebird<string> {
   return readPackage(locations)
     .then((pkg: IPackageJson) => {
       return semver.inc(pkg.version, bumpKind);
     });
 }
 
-export function bumpVersion (bumpKind: "major" | "minor" | "patch", locations: Locations): Bluebird<any> {
+export function bumpVersion (bumpKind: "major" | "minor" | "patch", locations: ProjectOptions): Bluebird<any> {
   return getNextVersion(bumpKind, locations)
     .then((nextVersion: string) => {
       return release(nextVersion, locations);

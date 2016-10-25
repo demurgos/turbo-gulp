@@ -28,6 +28,6 @@ export function ensureCleanMaster(options?: any): Bluebird<any>{
 export function checkTag(tag: string): Bluebird<boolean>{
   return exec("tag", ["-l", tag])
     .then((stdout) => {
-      return !!stdout.toString("utf8").trim().length;
+      return stdout.toString("utf8").trim().length > 0;
     });
 }

@@ -25,5 +25,5 @@ export function generateNodeTasks (gulp: any, targetName: string, {project, targ
     buildDir: buildDir
   };
 
-  buildTypescript.registerTask(gulp, targetName, options);
+  buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
 }
