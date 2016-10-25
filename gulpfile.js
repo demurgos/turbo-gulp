@@ -3,7 +3,7 @@
 const path = require('path');
 const gulp = require('gulp');
 const typescript = require('typescript');
-const buildTools = require('./dist/lib/index');
+const buildTools = require('via-build-tools'); // Going meta
 
 const projectOptions = buildTools.config.DEFAULT_CONFIG;
 const libTarget = buildTools.config.LIB_TARGET;
