@@ -1,7 +1,7 @@
 import {bumpVersion} from "../utils/project";
 import {ProjectOptions} from "../config/config";
 
-export const taskName = "project:bump-major";
+export const taskName = "project:bump-patch";
 
 export interface Options {
   project: ProjectOptions;

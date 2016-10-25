@@ -13,8 +13,8 @@ export interface Options {
 
 export function generateTarget (gulp: any, targetName: string, {project, target, tsc}: Options) {
   const buildDir: string = path.resolve(project.root, project.buildDir, targetName);
-  const srcDir: string = path.resolve(project.root, project.srcDir, targetName);
-  const distDir: string = path.resolve(project.root, project.distDir);
+  const srcDir: string = path.resolve(project.root, project.srcDir);
+  // const distDir: string = path.resolve(project.root, project.distDir, targetName);
 
   const baseDir: string = path.resolve(srcDir, target.baseDir);
   const sources: string[] = [...target.declarations, ...target.scripts];

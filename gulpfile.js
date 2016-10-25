@@ -1,30 +1,37 @@
 'use strict';
 
-var path = require('path');
-var gulp = require('gulp');
-var typescript = require('typescript');
-var buildTools = require('./dist/node/main');
+const path = require('path');
+const gulp = require('gulp');
+const typescript = require('typescript');
+const buildTools = require('./dist/lib/index');
 
-var locations = new buildTools.config.Locations({
-  root: path.resolve(__dirname),
-  core: {
-    base: "src/lib",
-    typescript: ["**/*.ts"],
-    definitions: ["../../typings/**/*.d.ts"]
-  },
-  targets: {
-    node: {
-      base: "src/lib",
-      typescript: ["**/*.ts"],
-      main: "main",
-      definitions: []
-    },
-    test: null
-  }
-});
+const projectOptions = buildTools.config.DEFAULT_CONFIG;
+const libTarget = buildTools.config.LIB_TARGET;
 
-buildTools.tasks.build(gulp, locations, {tsc: {typescript: typescript, target: "es6", lib: ["es6"]}});
-buildTools.tasks.clean(gulp, locations);
-buildTools.tasks.install(gulp, locations);
-buildTools.tasks.project(gulp, locations);
-buildTools.tasks.test(gulp, locations);
+buildTools.projectTasks.registerAll(gulp, {project: projectOptions, tslintOptions: {}, install: {}});
+
+buildTools.targetGenerators.node.generateTarget(gulp, "lib", {project: projectOptions, target: libTarget});
+
+// var locations = new buildTools.config.Locations({
+//   root: path.resolve(__dirname),
+//   core: {
+//     base: "src/lib",
+//     typescript: ["**/*.ts"],
+//     definitions: ["../../typings/**/*.d.ts"]
+//   },
+//   targets: {
+//     node: {
+//       base: "src/lib",
+//       typescript: ["**/*.ts"],
+//       main: "main",
+//       definitions: []
+//     },
+//     test: null
+//   }
+// });
+//
+// buildTools.tasks.build(gulp, locations, {tsc: {typescript: typescript, target: "es6", lib: ["es6"]}});
+// buildTools.tasks.clean(gulp, locations);
+// buildTools.tasks.install(gulp, locations);
+// buildTools.tasks.project(gulp, locations);
+// buildTools.tasks.test(gulp, locations);

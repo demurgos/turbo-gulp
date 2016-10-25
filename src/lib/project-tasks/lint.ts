@@ -1,4 +1,4 @@
-import * as path from "path";
+import {resolve as resolvePath} from "path";
 
 import tslint = require("tslint");
 import {default as gulpTslint} from "gulp-tslint";
@@ -14,14 +14,17 @@ export interface Options {
 }
 
 export function registerTask (gulp: any, {project, tslintOptions}: Options) {
+  const options = Object.assign({}, {
+    configuration: defaultTslintConfig,
+    formatter: "verbose",
+    tslint: tslint
+  }, tslintOptions);
+
   gulp.task(taskName, function(){
-    const srcDir = path.resolve(project.root, project.srcDir);
-    gulp.src(["**/*.ts"], {base: srcDir})
-      .pipe(gulpTslint({
-        configuration: defaultTslintConfig,
-        formatter: "verbose",
-        tslint: tslint
-      }))
+    const srcDir = resolvePath(project.root, project.srcDir);
+    const sources = resolvePath(srcDir, "**/*.ts");
+    gulp.src([sources], {base: srcDir})
+      .pipe(gulpTslint(options))
       .pipe(gulpTslint.report());
   });
 }

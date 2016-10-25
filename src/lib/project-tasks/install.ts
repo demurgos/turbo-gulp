@@ -4,31 +4,23 @@ import {ProjectOptions} from "../config/config";
 
 export const taskName = "install";
 
-interface InstallConfig {
-}
-
-const defaultInstall: InstallConfig = {
-  npm: true,
-  typings: true
-};
-
 export interface Options {
   project: ProjectOptions;
   install: {
     npm: boolean;
     typings: boolean;
-  }
+  };
 }
 
 export function registerTask (gulp: any, options: Options) {
   const installTasks: string[] = [];
 
-  if (options.install.npm) {
+  if (!(options.install && options.install.npm === false)) {
     installTasks.push(installNpm.taskName);
     installNpm.registerTask(gulp, options);
   }
 
-  if (options.install.npm) {
+  if (!(options.install && options.install.typings === false)) {
     installTasks.push(installTypings.taskName);
     installTypings.registerTask(gulp, options);
   }

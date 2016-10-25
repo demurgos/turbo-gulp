@@ -4,7 +4,7 @@ import * as Bluebird from "bluebird";
 
 let execFileAsync: (file: string, args?: string[], options?: any)=>Bluebird<any> = Bluebird.promisify(childProcess.execFile);
 
-export function exec(cmd: string, args?: string[], options?: any): Bluebird<Buffer>{
+export function exec(cmd: string, args: string[] = [], options?: any): Bluebird<Buffer>{
   args.unshift(cmd);
   return execFileAsync("git", args, options);
 }

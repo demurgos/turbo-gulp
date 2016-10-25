@@ -43,7 +43,7 @@ export const tslintConfig = {
     // allow use of the null keyword literal
     "no-null-keyword": false,
     // disallow invocation of require()
-    "no-require-imports": true,
+    "no-require-imports": false,
     // disallow object access via string literals
     // "no-string-literal": true,
     // disallow falling through case statements

@@ -46,7 +46,7 @@ export const LIB_TARGET: NodeTarget = {
   type: "node",
   baseDir: "lib",
   scripts: ["**/*.ts", "!**/*.spec.ts"],
-  declarations: ["../typings/**/*.d.ts"],
+  declarations: ["../../typings/**/*.d.ts"],
   mainModule: "index"
 };
 

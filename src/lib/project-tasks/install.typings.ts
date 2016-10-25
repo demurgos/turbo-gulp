@@ -9,7 +9,7 @@ export interface Options {
 
 export function registerTask (gulp: any, {project}: Options) {
   gulp.task(taskName, function () {
-    const options: typings.InstallOptions = {
+    const options = {
       production: false,
       cwd: project.root
     };

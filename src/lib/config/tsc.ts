@@ -5,7 +5,7 @@ export const PROD_TSC_OPTIONS = {
   allowUnusedLabels: false,
   charset: "utf8",
   declaration: true,
-  diagnostics:false,
+  diagnostics: false,
   disableSizeLimit: false,
   emitBOM: false,
   emitDecoratorMetadata: false,
@@ -43,6 +43,7 @@ export const PROD_TSC_OPTIONS = {
 };
 
 export const DEV_TSC_OPTIONS = Object.assign({}, PROD_TSC_OPTIONS, {
+  noUnusedLocals: false,
   preserveConstEnums: true,
   removeComments: false,
   sourceMap: true,

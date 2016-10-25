@@ -1,3 +1,4 @@
+import {resolve as resolvePath} from "path";
 import {assign} from "lodash";
 import tsc = require("gulp-typescript");
 import merge = require("merge2");
@@ -16,7 +17,7 @@ export function registerTask (gulp: any, targetName: string, options: BuildScrip
 
   const task = function () {
     const tsResult = gulp
-      .src(options.sources, {base: options.baseDir})
+      .src(options.sources.map(source => resolvePath(options.baseDir, source)), {base: options.baseDir})
       .pipe(tsc(tscOptions));
 
     return merge([
