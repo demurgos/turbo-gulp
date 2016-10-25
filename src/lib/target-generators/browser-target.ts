@@ -1,4 +1,5 @@
 import * as path from "path";
+import {Gulp} from "gulp";
 
 import {ProjectOptions, NodeTarget} from "../config/config";
 
@@ -10,7 +11,7 @@ export interface Options {
   tsc: {typescript: any};
 }
 
-export function generateNodeTasks (gulp: any, targetName: string, {project, target, tsc}: Options) {
+export function generateNodeTasks (gulp: Gulp, targetName: string, {project, target, tsc}: Options) {
   const buildDir: string = path.resolve(project.root, project.buildDir, targetName);
   const srcDir: string = path.resolve(project.root, project.srcDir, targetName);
   // const distDir: string = path.resolve(project.root, project.distDir);

@@ -1,4 +1,5 @@
 import {resolve as resolvePath} from "path";
+import {Gulp} from "gulp";
 
 import tslint = require("tslint");
 import {default as gulpTslint} from "gulp-tslint";
@@ -13,7 +14,7 @@ export interface Options {
   tslintOptions: {};
 }
 
-export function registerTask (gulp: any, {project, tslintOptions}: Options) {
+export function registerTask (gulp: Gulp, {project, tslintOptions}: Options) {
   const options = Object.assign({}, {
     configuration: defaultTslintConfig,
     formatter: "verbose",

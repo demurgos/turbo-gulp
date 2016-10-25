@@ -1,6 +1,7 @@
 import Bluebird = require("bluebird");
 import {resolve as resolvePath} from "path";
 import del = require("del");
+import {Gulp} from "gulp";
 
 import {ProjectOptions, NodeTarget} from "../config/config";
 
@@ -14,7 +15,7 @@ export interface Options {
   };
 }
 
-export function generateTarget (gulp: any, targetName: string, {project, target, tsOptions}: Options) {
+export function generateTarget (gulp: Gulp, targetName: string, {project, target, tsOptions}: Options) {
   const buildDir: string = resolvePath(project.root, project.buildDir, targetName);
   const srcDir: string = resolvePath(project.root, project.srcDir);
   const distDir: string = resolvePath(project.root, project.distDir, targetName);

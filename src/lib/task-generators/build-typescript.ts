@@ -2,6 +2,7 @@ import {resolve as resolvePath} from "path";
 import {assign} from "lodash";
 import tsc = require("gulp-typescript");
 import merge = require("merge2");
+import {Gulp} from "gulp";
 
 import {DEV_TSC_OPTIONS} from "../config/tsc";
 
@@ -12,7 +13,7 @@ export interface BuildScriptsOptions {
   buildDir: string;
 }
 
-export function registerTask (gulp: any, targetName: string, options: BuildScriptsOptions) {
+export function registerTask (gulp: Gulp, targetName: string, options: BuildScriptsOptions) {
   const tsOptions = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
 
   const task = function () {

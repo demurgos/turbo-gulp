@@ -5,6 +5,7 @@ import * as install from "./install";
 import * as installNpm from "./install.npm";
 import * as installTypings from "./install.typings";
 import * as lint from "./lint";
+import {Gulp} from "gulp";
 
 export interface Options extends
   bumpMajor.Options,
@@ -13,7 +14,7 @@ export interface Options extends
   install.Options,
   lint.Options {}
 
-export function registerAll (gulp: any, options: Options) {
+export function registerAll (gulp: Gulp, options: Options) {
   bumpMajor.registerTask(gulp, options);
   bumpMinor.registerTask(gulp, options);
   bumpPatch.registerTask(gulp, options);

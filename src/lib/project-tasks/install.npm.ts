@@ -1,4 +1,5 @@
 import * as install from "gulp-install";
+import {Gulp} from "gulp";
 
 import {ProjectOptions} from "../config/config";
 
@@ -8,7 +9,7 @@ export interface Options {
   project: ProjectOptions;
 }
 
-export function registerTask (gulp: any, {project}: Options) {
+export function registerTask (gulp: Gulp, {project}: Options) {
   gulp.task(taskName, function () {
     return gulp.src([project.package])
       .pipe(install());
