@@ -8,17 +8,18 @@ var buildTools = require('./dist/node/main');
 var locations = new buildTools.config.Locations({
   root: path.resolve(__dirname),
   core: {
-    base: "src",
-    typescript: ["**/*.ts", "!platform/**/*.ts"],
-    definitions: ["../typings/**/*.d.ts"]
+    base: "src/lib",
+    typescript: ["**/*.ts"],
+    definitions: ["../../typings/**/*.d.ts"]
   },
   targets: {
     node: {
-      base: "src/platform/node",
+      base: "src/lib",
       typescript: ["**/*.ts"],
       main: "main",
       definitions: []
-    }
+    },
+    test: null
   }
 });
 
