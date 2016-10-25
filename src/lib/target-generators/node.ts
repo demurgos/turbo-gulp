@@ -1,4 +1,5 @@
-import * as path from "path";
+import Bluebird = require("bluebird");
+import {resolve as resolvePath} from "path";
 import del = require("del");
 
 import {ProjectOptions, NodeTarget} from "../config/config";
@@ -14,11 +15,11 @@ export interface Options {
 }
 
 export function generateTarget (gulp: any, targetName: string, {project, target, tsOptions}: Options) {
-  const buildDir: string = path.resolve(project.root, project.buildDir, targetName);
-  const srcDir: string = path.resolve(project.root, project.srcDir);
-  // const distDir: string = path.resolve(project.root, project.distDir, targetName);
+  const buildDir: string = resolvePath(project.root, project.buildDir, targetName);
+  const srcDir: string = resolvePath(project.root, project.srcDir);
+  const distDir: string = resolvePath(project.root, project.distDir, targetName);
 
-  const baseDir: string = path.resolve(srcDir, target.baseDir);
+  const baseDir: string = resolvePath(srcDir, target.baseDir);
   const sources: string[] = [...target.declarations, ...target.scripts];
 
   const buildTypescriptOptions: buildTypescript.BuildScriptsOptions = {
@@ -30,7 +31,18 @@ export function generateTarget (gulp: any, targetName: string, {project, target,
 
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
 
+  gulp.task(`build:${targetName}`, [`build:${targetName}:scripts`]);
+
   gulp.task(`clean:${targetName}`, function() {
     return del(buildDir);
+  });
+
+  gulp.task(`dist:${targetName}`, [`clean:${targetName}`, `build:${targetName}`], function () {
+    return del(distDir)
+      .then((deleted: string[]) => {
+        return gulp
+          .src([resolvePath(buildDir, "**/*")], {base: resolvePath(buildDir)})
+          .pipe(gulp.dest(distDir));
+      });
   });
 }
