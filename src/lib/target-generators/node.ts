@@ -8,10 +8,12 @@ import * as buildTypescript from "../task-generators/build-typescript";
 export interface Options {
   project: ProjectOptions;
   target: NodeTarget;
-  tsc: {typescript: any};
+  tsOptions: {
+    typescript: any
+  };
 }
 
-export function generateTarget (gulp: any, targetName: string, {project, target, tsc}: Options) {
+export function generateTarget (gulp: any, targetName: string, {project, target, tsOptions}: Options) {
   const buildDir: string = path.resolve(project.root, project.buildDir, targetName);
   const srcDir: string = path.resolve(project.root, project.srcDir);
   // const distDir: string = path.resolve(project.root, project.distDir, targetName);
@@ -20,7 +22,7 @@ export function generateTarget (gulp: any, targetName: string, {project, target,
   const sources: string[] = [...target.declarations, ...target.scripts];
 
   const buildTypescriptOptions: buildTypescript.BuildScriptsOptions = {
-    tscOptions: tsc,
+    tsOptions: tsOptions,
     baseDir: baseDir,
     sources: sources,
     buildDir: buildDir

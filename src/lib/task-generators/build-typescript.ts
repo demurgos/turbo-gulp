@@ -6,19 +6,19 @@ import merge = require("merge2");
 import {DEV_TSC_OPTIONS} from "../config/tsc";
 
 export interface BuildScriptsOptions {
-  tscOptions: any;
+  tsOptions: any;
   baseDir: string;
   sources: string[];
   buildDir: string;
 }
 
 export function registerTask (gulp: any, targetName: string, options: BuildScriptsOptions) {
-  const tscOptions = assign({}, DEV_TSC_OPTIONS, options.tscOptions);
+  const tsOptions = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
 
   const task = function () {
     const tsResult = gulp
       .src(options.sources.map(source => resolvePath(options.baseDir, source)), {base: options.baseDir})
-      .pipe(tsc(tscOptions));
+      .pipe(tsc(tsOptions));
 
     return merge([
       tsResult.dts.pipe(gulp.dest(options.buildDir)),
