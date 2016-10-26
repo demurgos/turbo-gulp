@@ -54,7 +54,7 @@ export const LIB_TEST_TARGET: TestTarget = {
   type: "test",
   baseDir: "test",
   scripts: ["**/*.ts", "../lib/**/*.ts"],
-  declarations: ["../typings/**/*.d.ts"],
+  declarations: ["../../typings/**/*.d.ts"],
   mainModule: "index"
 };
 

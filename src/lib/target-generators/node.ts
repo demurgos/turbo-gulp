@@ -27,7 +27,8 @@ export function generateTarget (gulp: Gulp, targetName: string, {project, target
     tsOptions: tsOptions,
     baseDir: baseDir,
     sources: sources,
-    buildDir: buildDir
+    buildDir: buildDir,
+    srcDir: srcDir
   };
 
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
