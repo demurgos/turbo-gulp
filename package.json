@@ -1,6 +1,6 @@
 {
   "name": "via-build-tools",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Shared gulp tasks to produce universal code from TypeScript.",
   "private": false,
   "main": "dist/lib/lib/index.js",
