@@ -1,3 +1,4 @@
+import * as angular from "./angular";
 import * as node from "./node";
 
-export {node};
+export {angular, node};

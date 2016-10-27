@@ -1,44 +1,112 @@
-// import webpack = require("webpack");
-// import webpackStream = require("webpack-stream");
+import {Webpack, Configuration as WebpackConfiguration, compiler as webpackCompiler} from "webpack";
+import webpackStream = require("webpack-stream");
+import webpackMerge = require("webpack-merge");
+import {resolve as resolvePath} from "path";
+import {PluginError, log as gulpLog} from "gulp-util";
+import {Gulp} from "gulp";
 
-export interface BuildScriptsOptions {
-  production: boolean;
-  tscOptions: any;
-  baseDir: string;
-  sources: string[];
+export interface Options {
+  /**
+   * Root of the main project (with package.json)
+   */
+  projectRoot: string;
+
+  /**
+   * Directory containing the JS sources.
+   */
+  srcDir: string;
+
+  /**
+   * Directory were the result will be piped
+   */
   buildDir: string;
+
+  /**
+   * Entry module, relative to `jsSrcDir`
+   */
+  entry: string;
+
+  /**
+   * Webpack object to use
+   */
+  webpack: Webpack;
+
+  /**
+   * Customize the default webpack configuration
+   */
+  webpackConfig: WebpackConfiguration;
 }
 
-export function registerTask (gulp: any, targetName: string, options: BuildScriptsOptions) {
-  // const task = function (callback) {
-  //   // modify some webpack config options
-  //   var myConfig = Object.create(webpackConfig);
-  //   myConfig.plugins = myConfig.plugins.concat(
-  //     new webpack.DefinePlugin({
-  //       "process.env": {
-  //         // This has effect on the react lib size
-  //         "NODE_ENV": JSON.stringify("production")
-  //       }
-  //     }),
-  //     new webpack.optimize.DedupePlugin(),
-  //     new webpack.optimize.UglifyJsPlugin()
-  //   );
-  //
-  //   // run webpack
-  //   webpack(myConfig, function(err, stats) {
-  //     if(err) throw new gutil.PluginError("webpack:build", err);
-  //     gutil.log("[webpack:build]", stats.toString({
-  //       colors: true
-  //     }));
-  //     callback();
-  //   });
-  // };
-  //
-  //
-  //
-  // gulp.task(`build:${targetName}:webpack`, task);
-  //
-  // return task;
+export function getTaskName(targetName: string): string {
+  return `build:${targetName}:webpack`;
+}
+
+export function generateTask(gulp: Gulp, targetName: string, options: Options): Function {
+  const taskName: string = getTaskName(targetName);
+  const entryFile = options.entry + ".js";
+
+  const angularWebpackConfig: WebpackConfiguration = {
+    context: options.projectRoot,
+    target: "web",
+    resolve: {
+      extensions: [".js", ".json"]
+    },
+    module: {
+      loaders: [
+        {test: /\.ts$/, loaders: ["angular2-template-loader"]},
+        {test: /\.json$/, loader: "json-loader"}
+      ]
+    },
+    plugins: [
+      new options.webpack.ContextReplacementPlugin(
+        // The (\\|\/) piece accounts for path separators in posix and Windows
+        /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
+        options.srcDir,
+        {}
+      )
+      // new webpack.DefinePlugin({
+      //   "process.env": {
+      //     "NODE_ENV": JSON.stringify("production")
+      //   }
+      // }),
+      // new webpack.optimize.DedupePlugin(),
+      // new webpack.optimize.UglifyJsPlugin()
+    ],
+    node: {
+      global: true,
+      __dirname: true,
+      __filename: true,
+      process: true,
+      Buffer: true
+    },
+    output: {
+      filename: '[name].js',
+    },
+  };
+
+  const task = function () {
+    return gulp
+      .src([resolvePath(options.srcDir, entryFile)], {base: options.srcDir})
+      .pipe(webpackStream(
+        webpackMerge(angularWebpackConfig, options.webpackConfig),
+        options.webpack,
+        (err: Error, stats: webpackCompiler.Stats): void => {
+          if (err) {
+            throw new PluginError(taskName, err);
+          }
+          gulpLog(`[${taskName}]`, stats.toString({colors: true}));
+        })
+      )
+      .pipe(gulp.dest(options.buildDir));
+  };
+
+  return task;
+}
+
+export function registerTask(gulp: Gulp, targetName: string, options: Options): Function {
+  const taskName: string = getTaskName(targetName);
+  gulp.task(taskName, generateTask(gulp, taskName, options));
+  return Function;
 }
 
 export default registerTask;

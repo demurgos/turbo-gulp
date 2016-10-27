@@ -29,7 +29,7 @@ export interface Target {
   declarations: string[];
 
   /**
-   * The name of tha main module (name of the file without the extenstion).
+   * The name of tha main module (name of the file without the extension), relative to `project.srcDir`.
    */
   mainModule?: string;
 }
@@ -41,6 +41,17 @@ export interface NodeTarget extends Target {
 
 export interface TestTarget extends Target {
   type: "test";
+}
+
+export interface AngularTarget extends Target {
+  type: "angular";
+
+  /**
+   * Directory to store intermediate files during the build, relative to `project.buildDir`.
+   */
+  tmpDir: string;
+
+  mainModule: string;
 }
 
 export const LIB_TARGET: NodeTarget = {

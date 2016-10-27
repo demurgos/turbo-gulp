@@ -6,14 +6,14 @@ import {Gulp} from "gulp";
 
 import {DEV_TSC_OPTIONS} from "../config/tsc";
 
-export interface BuildTypescriptOptions {
+export interface Options {
   tsOptions: any;
   srcDir: string;
   sources: string[];
   buildDir: string;
 }
 
-export function registerTask (gulp: Gulp, targetName: string, options: BuildTypescriptOptions) {
+export function registerTask (gulp: Gulp, targetName: string, options: Options) {
   const tsOptions = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
 
   const task = function () {
