@@ -80,7 +80,7 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
       Buffer: true
     },
     output: {
-      filename: '[name].js',
+      filename: "[name].js",
     },
   };
 
