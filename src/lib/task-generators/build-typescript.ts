@@ -6,20 +6,19 @@ import {Gulp} from "gulp";
 
 import {DEV_TSC_OPTIONS} from "../config/tsc";
 
-export interface BuildScriptsOptions {
+export interface BuildTypescriptOptions {
   tsOptions: any;
   srcDir: string;
-  baseDir: string;
   sources: string[];
   buildDir: string;
 }
 
-export function registerTask (gulp: Gulp, targetName: string, options: BuildScriptsOptions) {
+export function registerTask (gulp: Gulp, targetName: string, options: BuildTypescriptOptions) {
   const tsOptions = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
 
   const task = function () {
     const tsResult = gulp
-      .src(options.sources.map(source => resolvePath(options.baseDir, source)), {base: options.srcDir})
+      .src(options.sources.map(source => resolvePath(options.srcDir, source)), {base: options.srcDir})
       .pipe(tsc(tsOptions));
 
     return merge([

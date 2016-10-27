@@ -19,9 +19,8 @@ export function generateNodeTasks (gulp: Gulp, targetName: string, {project, tar
   const baseDir: string = path.resolve(srcDir, target.baseDir);
   const sources: string[] = [...target.declarations, ...target.scripts];
 
-  const buildTypescriptOptions: buildTypescript.BuildScriptsOptions = {
+  const buildTypescriptOptions: buildTypescript.BuildTypescriptOptions = {
     tsOptions: tsc,
-    baseDir: baseDir,
     sources: sources,
     buildDir: buildDir,
     srcDir: srcDir

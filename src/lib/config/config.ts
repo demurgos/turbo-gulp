@@ -10,20 +10,21 @@ export interface Target {
   /**
    * Type of the target.
    */
-  type: "node" | "test" | "browser";
+  type: "node" | "test" | "angular";
 
   /**
-   * Base directory for the sources of the target, relative to `project.srcDir`.
+   * Base directory for the target, relative to `project.srcDir`.
+   * This is only used wheb generating some target specific configuration files.
    */
   baseDir: string;
 
   /**
-   * List of minimatch glob patterns matching the Typescript scripts, relative to `baseDir`.
+   * List of minimatch glob patterns matching the Typescript scripts, relative to `project.srcDir`.
    */
   scripts: string[];
 
   /**
-   * List of minimatch glob patterns matching the Typescript declarations, relative to `baseDir`.
+   * List of minimatch glob patterns matching the Typescript declarations, relative to `project.srcDir`.
    */
   declarations: string[];
 
@@ -45,20 +46,20 @@ export interface TestTarget extends Target {
 export const LIB_TARGET: NodeTarget = {
   type: "node",
   baseDir: "lib",
-  scripts: ["**/*.ts", "!**/*.spec.ts"],
-  declarations: ["../../typings/**/*.d.ts"],
+  scripts: ["lib/**/*.ts", "!**/*.spec.ts"],
+  declarations: ["../typings/**/*.d.ts"],
   mainModule: "index"
 };
 
 export const LIB_TEST_TARGET: TestTarget = {
   type: "test",
   baseDir: "test",
-  scripts: ["**/*.ts", "../lib/**/*.ts"],
-  declarations: ["../../typings/**/*.d.ts"],
+  scripts: ["test/**/*.ts", "lib/**/*.ts"],
+  declarations: ["../typings/**/*.d.ts"],
   mainModule: "index"
 };
 
-export const DEFAULT_CONFIG: ProjectOptions = {
+export const DEFAULT_PROJECT_OPTIONS: ProjectOptions = {
   root: process.cwd(),
   "package": "package.json",
   buildDir: "build",

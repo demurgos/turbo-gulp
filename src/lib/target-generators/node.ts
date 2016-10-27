@@ -23,9 +23,8 @@ export function generateTarget (gulp: Gulp, targetName: string, {project, target
   const baseDir: string = resolvePath(srcDir, target.baseDir);
   const sources: string[] = [...target.declarations, ...target.scripts];
 
-  const buildTypescriptOptions: buildTypescript.BuildScriptsOptions = {
+  const buildTypescriptOptions: buildTypescript.BuildTypescriptOptions = {
     tsOptions: tsOptions,
-    baseDir: baseDir,
     sources: sources,
     buildDir: buildDir,
     srcDir: srcDir
