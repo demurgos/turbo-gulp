@@ -63,7 +63,7 @@ export function readPackage(locations: ProjectOptions): Bluebird<IPackageJson> {
 }
 
 export function writePackage(pkg: IPackageJson, locations: ProjectOptions){
-  return writeFile(locations.package, JSON.stringify(pkg, null, 2));
+  return writeFile(locations.package, JSON.stringify(pkg, null, 2) + "\n");
 }
 
 export function setPackageVersion(version: string, locations: ProjectOptions): Bluebird<any> {
