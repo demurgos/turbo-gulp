@@ -1,7 +1,7 @@
-declare module "gulp-mocha"{
-  interface StaticMocha{
+declare module "gulp-mocha" {
+  interface StaticGulpMocha {
     (options?: any): any;
   }
-  let staticMocha: StaticMocha;
-  export = staticMocha;
+  let staticGulpMocha: StaticGulpMocha;
+  export = staticGulpMocha;
 }
