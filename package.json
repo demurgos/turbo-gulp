@@ -1,12 +1,12 @@
 {
-  "name": "via-build-tools",
+  "name": "demurgos-web-build-tools",
   "version": "0.11.0",
-  "description": "Shared gulp tasks to produce universal code from TypeScript.",
+  "description": "Gulp tasks generator for standard web projects.",
   "private": false,
   "main": "dist/lib/lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/demurgos/via-build-tools.git"
+    "url": "git://github.com/demurgos/web-build-tools.git"
   },
   "license": "MIT",
   "dependencies": {
