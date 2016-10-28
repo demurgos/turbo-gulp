@@ -4,6 +4,7 @@ import del = require("del");
 import {Gulp} from "gulp";
 import {Webpack, Configuration as WebpackConfiguration} from "webpack";
 import typescript = require("typescript");
+import gulpPug = require("gulp-pug");
 
 import {ProjectOptions, AngularTarget} from "../config/config";
 
@@ -24,17 +25,17 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
   const root: string = resolvePath(options.project.root);
   const buildDir: string = resolvePath(root, options.project.buildDir, targetName);
   const tmpDir: string = resolvePath(root, options.project.buildDir, options.target.tmpDir);
-  const typescriptOutputDir: string = resolvePath(tmpDir, "typescript-output");
   const srcDir: string = resolvePath(root, options.project.srcDir);
   const distDir: string = resolvePath(root, options.project.distDir, targetName);
 
   const baseDir: string = resolvePath(srcDir, options.target.baseDir);
+  const assetsDir: string = resolvePath(srcDir, options.target.assetsDir);
   const sources: string[] = [...options.target.declarations, ...options.target.scripts];
 
   const buildTypescriptOptions: buildTypescript.Options = {
     tsOptions: options.tsOptions,
     sources: sources,
-    buildDir: typescriptOutputDir,
+    buildDir: tmpDir,
     srcDir: srcDir
   };
 
@@ -42,7 +43,7 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
 
   const buildWebpackOptions: buildWebpack.Options = {
     projectRoot: root,
-    srcDir: typescriptOutputDir,
+    srcDir: tmpDir,
     buildDir: buildDir,
     webpack: options.webpack,
     webpackConfig: options.webpackConfig,
@@ -53,7 +54,30 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
 
   gulp.task(buildWebpack.getTaskName(targetName), [`build:${targetName}:scripts`], webpackTask);
 
-  gulp.task(`build:${targetName}`, [`build:${targetName}:webpack`]);
+  gulp.task(`build:${targetName}:assets:pug`, function () {
+    return gulp
+      .src([resolvePath(assetsDir, "./**/*.pug")], {base: assetsDir})
+      .pipe(gulpPug({locals: {}}))
+      .pipe(gulp.dest(buildDir));
+  });
+
+  gulp.task(`build:${targetName}:assets:static`, function () {
+    return gulp
+      .src(
+        [
+          resolvePath(assetsDir, "./**/*"),
+          "!" + resolvePath(assetsDir, "./**/*.pug")
+        ],
+        {
+          base: assetsDir
+        }
+      )
+      .pipe(gulp.dest(buildDir));
+  });
+
+  gulp.task(`build:${targetName}:assets`, [`build:${targetName}:assets:pug`, `build:${targetName}:assets:static`]);
+
+  gulp.task(`build:${targetName}`, [`build:${targetName}:webpack`, `build:${targetName}:assets`]);
 
   gulp.task(`clean:${targetName}`, function() {
     return del([buildDir, tmpDir]);

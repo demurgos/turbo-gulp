@@ -51,6 +51,11 @@ export interface AngularTarget extends Target {
    */
   tmpDir: string;
 
+  /**
+   * Directory containing static assets, .pug and .scss will be compiled, relative to `project.srcDir`.
+   */
+  assetsDir: string;
+
   mainModule: string;
 }
 
