@@ -8,6 +8,10 @@
     "type": "git",
     "url": "git://github.com/demurgos/web-build-tools.git"
   },
+  "scripts": {
+    "test": "gulp project:lint",
+    "prepublishOnly": "npm test && gulp dist:lib"
+  },
   "license": "MIT",
   "dependencies": {
     "@types/gulp": "^3.8.32",
