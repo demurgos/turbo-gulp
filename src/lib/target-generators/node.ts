@@ -32,6 +32,11 @@ export function generateTarget (gulp: Gulp, targetName: string, {project, target
 
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
 
+  gulp.task(`watch:${targetName}`, function () {
+    const {patterns, baseDir} = buildTypescript.getSources(buildTypescriptOptions);
+    gulp.watch(patterns, {cwd: baseDir}, [`build:${targetName}`]);
+  });
+
   gulp.task(`build:${targetName}`, [`build:${targetName}:scripts`]);
 
   gulp.task(`clean:${targetName}`, function() {

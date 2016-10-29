@@ -14,12 +14,20 @@ export interface Options {
   buildDir: string;
 }
 
+export function getSources (options: Options): {baseDir: string; patterns: string[]} {
+  return {
+    baseDir: options.srcDir,
+    patterns: options.sources.map(source => resolvePath(options.srcDir, source))
+  };
+}
+
 export function registerTask (gulp: Gulp, targetName: string, options: Options) {
   const tsOptions = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
+  const {patterns, baseDir} = getSources(options);
 
   const task = function () {
     const tsResult = gulp
-      .src(options.sources.map(source => resolvePath(options.srcDir, source)), {base: options.srcDir})
+      .src(patterns, {base: baseDir})
       .pipe(gulpSourceMaps.init())
       .pipe(gulpTypescript(tsOptions));
 
