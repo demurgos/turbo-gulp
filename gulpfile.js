@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const gulp = require('gulp');
-const typescript = require('typescript');
-const buildTools = require('via-build-tools'); // Going meta
+const gulp = require("gulp");
+const typescript = require("typescript");
+const buildTools = require("demurgos-web-build-tools"); // Going meta
 
 const projectOptions = buildTools.config.DEFAULT_PROJECT_OPTIONS;
 const libTarget = buildTools.config.LIB_TARGET;

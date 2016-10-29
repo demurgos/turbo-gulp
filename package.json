@@ -40,6 +40,6 @@
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "via-build-tools": "latest"
+    "demurgos-web-build-tools": "latest"
   }
 }
