@@ -1,3 +1,7 @@
+# Next
+
+- Target `angular`: Add `build:<target>:assets:sass` for `.scss` files (Sassy CSS)
+
 # 0.11.1
 
 - Rename project to `web-build-tools` (`demurgos-web-build-tools` on _npm_)

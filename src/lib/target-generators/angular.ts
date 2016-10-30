@@ -5,6 +5,8 @@ import {Gulp} from "gulp";
 import {Webpack, Configuration as WebpackConfiguration} from "webpack";
 import typescript = require("typescript");
 import gulpPug = require("gulp-pug");
+import gulpSourceMaps = require("gulp-sourcemaps");
+import gulpSass = require("gulp-sass");
 
 import {ProjectOptions, AngularTarget} from "../config/config";
 
@@ -61,12 +63,22 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
       .pipe(gulp.dest(buildDir));
   });
 
+  gulp.task(`build:${targetName}:assets:sass`, function () {
+    return gulp
+      .src([resolvePath(assetsDir, "./**/*.scss")], {base: assetsDir})
+      .pipe(gulpSourceMaps.init())
+      .pipe(gulpSass().on("error", gulpSass.logError))
+      .pipe(gulpSourceMaps.write())
+      .pipe(gulp.dest(buildDir));
+  });
+
   gulp.task(`build:${targetName}:assets:static`, function () {
     return gulp
       .src(
         [
           resolvePath(assetsDir, "./**/*"),
-          "!" + resolvePath(assetsDir, "./**/*.pug")
+          "!" + resolvePath(assetsDir, "./**/*.pug"),
+          "!" + resolvePath(assetsDir, "./**/*.scss"),
         ],
         {
           base: assetsDir
@@ -75,7 +87,11 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
       .pipe(gulp.dest(buildDir));
   });
 
-  gulp.task(`build:${targetName}:assets`, [`build:${targetName}:assets:pug`, `build:${targetName}:assets:static`]);
+  gulp.task(`build:${targetName}:assets`, [
+    `build:${targetName}:assets:pug`,
+    `build:${targetName}:assets:sass`,
+    `build:${targetName}:assets:static`
+  ]);
 
   gulp.task(`build:${targetName}`, [`build:${targetName}:webpack`, `build:${targetName}:assets`]);
 
