@@ -1,4 +1,4 @@
-# Next
+# 0.11.2
 
 - Target `angular`: Add `build:<target>:assets:sass` for `.scss` files (Sassy CSS)
 
