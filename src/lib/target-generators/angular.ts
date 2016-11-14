@@ -1,5 +1,5 @@
 import Bluebird = require("bluebird");
-import {resolve as resolvePath} from "path";
+import {join as joinPath} from "path";
 import del = require("del");
 import {Gulp} from "gulp";
 import {Webpack, Configuration as WebpackConfiguration} from "webpack";
@@ -24,19 +24,19 @@ export interface Options {
 }
 
 export function generateTarget (gulp: Gulp, targetName: string, options: Options) {
-  const root: string = resolvePath(options.project.root);
-  const buildDir: string = resolvePath(root, options.project.buildDir, targetName);
-  const tmpDir: string = resolvePath(root, options.project.buildDir, options.target.tmpDir);
-  const srcDir: string = resolvePath(root, options.project.srcDir);
-  const distDir: string = resolvePath(root, options.project.distDir, targetName);
+  const root: string = joinPath(options.project.root);
+  const buildDir: string = joinPath(root, options.project.buildDir, targetName);
+  const tmpDir: string = joinPath(root, options.project.buildDir, options.target.tmpDir);
+  const srcDir: string = joinPath(root, options.project.srcDir);
+  const distDir: string = joinPath(root, options.project.distDir, targetName);
 
-  const baseDir: string = resolvePath(srcDir, options.target.baseDir);
-  const assetsDir: string = resolvePath(srcDir, options.target.assetsDir);
-  const sources: string[] = [...options.target.declarations, ...options.target.scripts];
+  const baseDir: string = joinPath(srcDir, options.target.baseDir);
+  const assetsDir: string = joinPath(srcDir, options.target.assetsDir);
 
   const buildTypescriptOptions: buildTypescript.Options = {
     tsOptions: options.tsOptions,
-    sources: sources,
+    typeRoots: options.target.typeRoots,
+    scripts: options.target.scripts,
     buildDir: tmpDir,
     srcDir: srcDir
   };
@@ -58,16 +58,16 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
 
   gulp.task(`build:${targetName}:assets:pug`, function () {
     return gulp
-      .src([resolvePath(assetsDir, "./**/*.pug")], {base: assetsDir})
+      .src([joinPath(assetsDir, "./**/*.pug")], {base: assetsDir})
       .pipe(gulpPug({locals: {}}))
       .pipe(gulp.dest(buildDir));
   });
 
   gulp.task(`build:${targetName}:assets:sass`, function () {
     return gulp
-      .src([resolvePath(assetsDir, "./**/*.scss")], {base: assetsDir})
+      .src([joinPath(assetsDir, "./**/*.scss")], {base: assetsDir})
       .pipe(gulpSourceMaps.init())
-      .pipe(gulpSass().on("error", gulpSass.logError))
+      .pipe(<NodeJS.ReadWriteStream> gulpSass().on("error", (<any> gulpSass).logError))
       .pipe(gulpSourceMaps.write())
       .pipe(gulp.dest(buildDir));
   });
@@ -76,9 +76,9 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
     return gulp
       .src(
         [
-          resolvePath(assetsDir, "./**/*"),
-          "!" + resolvePath(assetsDir, "./**/*.pug"),
-          "!" + resolvePath(assetsDir, "./**/*.scss"),
+          joinPath(assetsDir, "./**/*"),
+          "!" + joinPath(assetsDir, "./**/*.pug"),
+          "!" + joinPath(assetsDir, "./**/*.scss"),
         ],
         {
           base: assetsDir
@@ -103,7 +103,7 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
     return del([distDir])
       .then((deleted: string[]) => {
         return gulp
-          .src([resolvePath(buildDir, "**/*")], {base: resolvePath(buildDir)})
+          .src([joinPath(buildDir, "**/*")], {base: joinPath(buildDir)})
           .pipe(gulp.dest(distDir));
       });
   });

@@ -1,4 +1,4 @@
-import {resolve as resolvePath} from "path";
+import {join as joinPath} from "path";
 import {Gulp} from "gulp";
 
 import tslint = require("tslint");
@@ -22,8 +22,8 @@ export function registerTask (gulp: Gulp, {project, tslintOptions}: Options) {
   }, tslintOptions);
 
   gulp.task(taskName, function(){
-    const srcDir = resolvePath(project.root, project.srcDir);
-    const sources = resolvePath(srcDir, "**/*.ts");
+    const srcDir = joinPath(project.root, project.srcDir);
+    const sources = joinPath(srcDir, "**/*.ts");
     gulp.src([sources], {base: srcDir})
       .pipe(gulpTslint(options))
       .pipe(gulpTslint.report());

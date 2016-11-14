@@ -2,7 +2,12 @@
 
 const gulp = require("gulp");
 const typescript = require("typescript");
-const buildTools = require("demurgos-web-build-tools"); // Going meta
+
+const useDist = true;
+
+const buildTools = (useDist
+  ? require("./dist/lib/lib/index")
+  : require("demurgos-web-build-tools")); // Going meta
 
 const projectOptions = buildTools.config.DEFAULT_PROJECT_OPTIONS;
 const libTarget = buildTools.config.LIB_TARGET;

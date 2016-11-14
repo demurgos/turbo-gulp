@@ -16,8 +16,7 @@
   "dependencies": {
     "@types/gulp": "^3.8.32",
     "@types/gulp-sass": "0.0.29",
-    "@types/node": "^6.0.46",
-    "@types/webpack": "^1.12.35",
+    "@types/webpack": "^1.12.36",
     "@types/webpack-merge": "0.0.3",
     "@types/webpack-stream": "^3.2.4",
     "angular2-template-loader": "^0.4.0",
@@ -32,20 +31,22 @@
     "gulp-typescript": "^3.1.0",
     "gulp-util": "^3.0.7",
     "json-loader": "^0.5.4",
-    "lodash": "^4.16.4",
+    "lodash": "^4.17.1",
     "merge2": "^1.0.2",
+    "minimatch": "^3.0.3",
     "semver": "^5.3.0",
     "systemjs-builder": "^0.15.33",
     "tslint": "^3.15.1",
-    "typescript": "^2.0.6",
-    "typings-core": "^1.6.0",
+    "typescript": "^2.1.1",
+    "typings-core": "^2.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "webpack": "^2.1.0-beta.25",
-    "webpack-merge": "^0.15.0",
+    "webpack": "^2.1.0-beta.27",
+    "webpack-merge": "^0.16.0",
     "webpack-stream": "^3.2.0"
   },
   "devDependencies": {
+    "@types/node": "6.0.46",
     "gulp": "^3.9.0",
     "demurgos-web-build-tools": "latest"
   }

@@ -1,7 +1,7 @@
 import {Webpack, Configuration as WebpackConfiguration, compiler as webpackCompiler} from "webpack";
 import webpackStream = require("webpack-stream");
 import webpackMerge = require("webpack-merge");
-import {resolve as resolvePath} from "path";
+import {join as joinPath} from "path";
 import {PluginError, log as gulpLog} from "gulp-util";
 import {Gulp} from "gulp";
 
@@ -86,7 +86,7 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
 
   const task = function () {
     return gulp
-      .src([resolvePath(options.srcDir, entryFile)], {base: options.srcDir})
+      .src([joinPath(options.srcDir, entryFile)], {base: options.srcDir})
       .pipe(webpackStream(
         webpackMerge(angularWebpackConfig, options.webpackConfig),
         options.webpack,
@@ -105,8 +105,9 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
 
 export function registerTask(gulp: Gulp, targetName: string, options: Options): Function {
   const taskName: string = getTaskName(targetName);
-  gulp.task(taskName, generateTask(gulp, taskName, options));
-  return Function;
+  const task = generateTask(gulp, taskName, options);
+  gulp.task(taskName, task);
+  return task;
 }
 
 export default registerTask;
