@@ -1,11 +1,12 @@
 import Bluebird = require("bluebird");
-import {resolve as resolvePath} from "path";
+import {join as joinPath} from "path";
 import del = require("del");
 import {Gulp} from "gulp";
 
 import {ProjectOptions, NodeTarget} from "../config/config";
 
 import * as buildTypescript from "../task-generators/build-typescript";
+import * as generateTsconfig from "../task-generators/generate-tsconfig";
 
 export interface Options {
   project: ProjectOptions;
@@ -15,31 +16,36 @@ export interface Options {
   };
 }
 
-export function generateTarget (gulp: Gulp, targetName: string, {project, target, tsOptions}: Options) {
-  const buildDir: string = resolvePath(project.root, project.buildDir, targetName);
-  const srcDir: string = resolvePath(project.root, project.srcDir);
-  const distDir: string = resolvePath(project.root, project.distDir, targetName);
+export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
+  const buildDir: string = joinPath(options.project.root, options.project.buildDir, targetName);
+  const srcDir: string = joinPath(options.project.root, options.project.srcDir);
+  const distDir: string = joinPath(options.project.root, options.project.distDir, targetName);
 
-  const baseDir: string = resolvePath(srcDir, target.baseDir);
-  const sources: string[] = [...target.declarations, ...target.scripts];
+  const baseDir: string = joinPath(srcDir, options.target.baseDir);
 
   const buildTypescriptOptions: buildTypescript.Options = {
-    tsOptions: tsOptions,
-    sources: sources,
+    tsOptions: options.tsOptions,
+    typeRoots: options.target.typeRoots,
+    scripts: options.target.scripts,
     buildDir: buildDir,
     srcDir: srcDir
   };
 
+  const generateTsconfigOptions: generateTsconfig.Options = Object.assign({}, buildTypescriptOptions, {
+    tsconfigPath: joinPath(baseDir, "tsconfig.json")
+  });
+
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
+  generateTsconfig.registerTask(gulp, targetName, generateTsconfigOptions);
 
   gulp.task(`watch:${targetName}`, function () {
-    const {patterns, baseDir} = buildTypescript.getSources(buildTypescriptOptions);
-    gulp.watch(patterns, {cwd: baseDir}, [`build:${targetName}`]);
+    const sources = buildTypescript.getSources(buildTypescriptOptions);
+    gulp.watch(sources.scripts, {cwd: baseDir}, [`build:${targetName}`]);
   });
 
   gulp.task(`build:${targetName}`, [`build:${targetName}:scripts`]);
 
-  gulp.task(`clean:${targetName}`, function() {
+  gulp.task(`clean:${targetName}`, function () {
     return del(buildDir);
   });
 
@@ -47,7 +53,7 @@ export function generateTarget (gulp: Gulp, targetName: string, {project, target
     return del(distDir)
       .then((deleted: string[]) => {
         return gulp
-          .src([resolvePath(buildDir, "**/*")], {base: resolvePath(buildDir)})
+          .src([joinPath(buildDir, "**/*")], {base: joinPath(buildDir)})
           .pipe(gulp.dest(distDir));
       });
   });

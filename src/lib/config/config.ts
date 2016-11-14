@@ -14,7 +14,7 @@ export interface Target {
 
   /**
    * Base directory for the target, relative to `project.srcDir`.
-   * This is only used wheb generating some target specific configuration files.
+   * This is only used when generating some target specific configuration files.
    */
   baseDir: string;
 
@@ -24,9 +24,9 @@ export interface Target {
   scripts: string[];
 
   /**
-   * List of minimatch glob patterns matching the Typescript declarations, relative to `project.srcDir`.
+   * List of directories where Typescript should search for declarations, relative to `project.srcDir`.
    */
-  declarations: string[];
+  typeRoots: string[];
 
   /**
    * The name of tha main module (name of the file without the extension), relative to `project.srcDir`.
@@ -63,7 +63,7 @@ export const LIB_TARGET: NodeTarget = {
   type: "node",
   baseDir: "lib",
   scripts: ["lib/**/*.ts", "!**/*.spec.ts"],
-  declarations: ["../typings/**/*.d.ts"],
+  typeRoots: ["../typings/globals", "../typings/modules", "../node_modules/@types"],
   mainModule: "index"
 };
 
@@ -71,7 +71,7 @@ export const LIB_TEST_TARGET: TestTarget = {
   type: "test",
   baseDir: "test",
   scripts: ["test/**/*.ts", "lib/**/*.ts"],
-  declarations: ["../typings/**/*.d.ts"],
+  typeRoots: ["../typings/globals", "../typings/modules", "../node_modules/@types"],
   mainModule: "index"
 };
 
