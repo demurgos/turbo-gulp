@@ -11,6 +11,7 @@ const buildTools = (useDist
 
 const projectOptions = buildTools.config.DEFAULT_PROJECT_OPTIONS;
 const libTarget = buildTools.config.LIB_TARGET;
+const libTestTarget = buildTools.config.LIB_TEST_TARGET;
 
 buildTools.projectTasks.registerAll(gulp, {project: projectOptions, tslintOptions: {}, install: {}});
 
@@ -20,6 +21,18 @@ buildTools.targetGenerators.node.generateTarget(
   {
     project: projectOptions,
     target: libTarget,
+    tsOptions: {
+      typescript: typescript
+    }
+  }
+);
+
+buildTools.targetGenerators.test.generateTarget(
+  gulp,
+  "lib-test",
+  {
+    project: projectOptions,
+    target: libTestTarget,
     tsOptions: {
       typescript: typescript
     }
