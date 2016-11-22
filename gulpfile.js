@@ -3,7 +3,7 @@
 const gulp = require("gulp");
 const typescript = require("typescript");
 
-const useDist = true;
+const useDist = false;
 
 const buildTools = (useDist
   ? require("./dist/lib/lib/index")
@@ -27,14 +27,16 @@ buildTools.targetGenerators.node.generateTarget(
   }
 );
 
-buildTools.targetGenerators.test.generateTarget(
-  gulp,
-  "lib-test",
-  {
-    project: projectOptions,
-    target: libTestTarget,
-    tsOptions: {
-      typescript: typescript
+if (buildTools.targetGenerators.test) {
+  buildTools.targetGenerators.test.generateTarget(
+    gulp,
+    "lib-test",
+    {
+      project: projectOptions,
+      target: libTestTarget,
+      tsOptions: {
+        typescript: typescript
+      }
     }
-  }
-);
+  );
+}
