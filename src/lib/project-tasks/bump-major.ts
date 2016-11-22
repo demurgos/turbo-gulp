@@ -2,7 +2,7 @@ import {bumpVersion} from "../utils/project";
 import {ProjectOptions} from "../config/config";
 import {Gulp} from "gulp";
 
-export const taskName = "project:bump-major";
+export const taskName = ":bump-major";
 
 export interface Options {
   project: ProjectOptions;

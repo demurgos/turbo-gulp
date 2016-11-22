@@ -38,7 +38,7 @@ export interface Options {
 }
 
 export function getTaskName(targetName: string): string {
-  return `build:${targetName}:webpack`;
+  return `${targetName}:build:webpack`;
 }
 
 export function generateTask(gulp: Gulp, targetName: string, options: Options): Function {

@@ -7,7 +7,7 @@ import {default as gulpTslint} from "gulp-tslint";
 import defaultTslintConfig from "../config/tslint";
 import {ProjectOptions} from "../config/config";
 
-export const taskName = "project:lint";
+export const taskName = ":lint";
 
 export interface Options {
   project: ProjectOptions;

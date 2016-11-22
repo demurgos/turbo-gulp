@@ -2,7 +2,7 @@ import * as typings from "typings-core";
 import {ProjectOptions} from "../config/config";
 import {Gulp} from "gulp";
 
-export const taskName = "install:typings";
+export const taskName = ":install:typings";
 
 export interface Options {
   project: ProjectOptions;

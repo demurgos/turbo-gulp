@@ -85,7 +85,7 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
 }
 
 export function getTaskName(targetName: string): string {
-  return `generate:${targetName}:tsconfig`;
+  return `${targetName}:tsconfig`;
 }
 
 export function registerTask(gulp: Gulp, targetName: string, options: Options): Function {

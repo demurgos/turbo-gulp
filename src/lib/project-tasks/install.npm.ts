@@ -3,7 +3,7 @@ import {Gulp} from "gulp";
 
 import {ProjectOptions} from "../config/config";
 
-export const taskName = "install:npm";
+export const taskName = ":install:npm";
 
 export interface Options {
   project: ProjectOptions;

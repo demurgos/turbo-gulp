@@ -43,18 +43,18 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
   generateTsconfig.registerTask(gulp, targetName, generateTsconfigOptions);
 
-  gulp.task(`watch:${targetName}`, function () {
+  gulp.task(`${targetName}:watch`, function () {
     const sources = buildTypescript.getSources(buildTypescriptOptions);
     gulp.watch(sources.scripts, {cwd: baseDir}, [`build:${targetName}`]);
   });
 
-  gulp.task(`build:${targetName}`, [`build:${targetName}:scripts`]);
+  gulp.task(`${targetName}:build`, [`${targetName}:build:scripts`]);
 
-  gulp.task(`clean:${targetName}`, function () {
+  gulp.task(`${targetName}:clean`, function () {
     return del(buildDir);
   });
 
-  gulp.task(`dist:${targetName}`, [`clean:${targetName}`, `build:${targetName}`], function () {
+  gulp.task(`${targetName}:dist`, [`${targetName}:clean`, `${targetName}:build`], function () {
     return del(distDir)
       .then((deleted: string[]) => {
         return gulp
