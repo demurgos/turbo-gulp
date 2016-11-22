@@ -1,5 +1,5 @@
 import Bluebird = require("bluebird");
-import {join as joinPath} from "path";
+import {posix as path} from "path";
 import del = require("del");
 import {Gulp} from "gulp";
 
@@ -16,23 +16,28 @@ export interface Options {
   };
 }
 
-export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
-  const buildDir: string = joinPath(options.project.root, options.project.buildDir, targetName);
-  const srcDir: string = joinPath(options.project.root, options.project.srcDir);
-  const distDir: string = joinPath(options.project.root, options.project.distDir, targetName);
+function toUnix(p: string): string {
+  return p.replace(/\\/g, "/");
+}
 
-  const baseDir: string = joinPath(srcDir, options.target.baseDir);
+export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
+  const rootDir = toUnix(options.project.root);
+  const buildDir: string = path.join(rootDir, toUnix(options.project.buildDir), targetName);
+  const srcDir: string = path.join(rootDir, toUnix(options.project.srcDir));
+  const distDir: string = path.join(rootDir, toUnix(options.project.distDir), targetName);
+
+  const baseDir: string = path.join(srcDir, toUnix(options.target.baseDir));
 
   const buildTypescriptOptions: buildTypescript.Options = {
     tsOptions: options.tsOptions,
-    typeRoots: options.target.typeRoots,
+    typeRoots: options.target.typeRoots.map(toUnix),
     scripts: options.target.scripts,
     buildDir: buildDir,
     srcDir: srcDir
   };
 
   const generateTsconfigOptions: generateTsconfig.Options = Object.assign({}, buildTypescriptOptions, {
-    tsconfigPath: joinPath(baseDir, "tsconfig.json")
+    tsconfigPath: path.join(baseDir, "tsconfig.json")
   });
 
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
@@ -53,7 +58,7 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
     return del(distDir)
       .then((deleted: string[]) => {
         return gulp
-          .src([joinPath(buildDir, "**/*")], {base: joinPath(buildDir)})
+          .src([path.join(buildDir, "**/*")], {base: buildDir})
           .pipe(gulp.dest(distDir));
       });
   });

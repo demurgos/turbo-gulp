@@ -1,4 +1,4 @@
-import * as path from "path";
+import {posix as path} from "path";
 import {assign} from "lodash";
 import gulpTypescript = require("gulp-typescript");
 import merge = require("merge2");
@@ -42,7 +42,7 @@ export function getTsconfigPaths (options: Options): TsconfigPaths {
 
   for (const typeRoot of options.typeRoots) {
     const absPath = path.join(options.srcDir, typeRoot);
-    const relPath = path.posix.relative(tsconfigDir, absPath);
+    const relPath = path.relative(tsconfigDir, absPath);
     // TODO: absPath inside projectRoot ? rel : abs
     result.typeRoots.push(relPath);
   }
