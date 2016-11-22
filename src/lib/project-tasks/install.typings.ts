@@ -8,7 +8,7 @@ export interface Options {
   project: ProjectOptions;
 }
 
-export function registerTask (gulp: Gulp, {project}: Options) {
+export function registerTask(gulp: Gulp, {project}: Options) {
   gulp.task(taskName, function () {
     const options = {
       production: false,

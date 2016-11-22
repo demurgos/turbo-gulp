@@ -1,8 +1,6 @@
 import * as fs from "fs";
-
-import * as Bluebird from "bluebird";
+import Bluebird = require("bluebird");
 import * as semver from "semver";
-
 import * as git from "./git";
 import {ProjectOptions} from "../config/config";
 

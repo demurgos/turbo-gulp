@@ -1,14 +1,13 @@
 import {posix as path} from "path";
 import {assign} from "lodash";
-import gulpTypescript = require("gulp-typescript");
-import merge = require("merge2");
-import gulpSourceMaps = require("gulp-sourcemaps");
 import {Gulp} from "gulp";
 import {Minimatch} from "minimatch";
-
 import {DEV_TSC_OPTIONS} from "../config/tsc";
 import {writeJsonFile} from "../utils/project";
 import * as matcher from "../utils/matcher";
+import gulpTypescript = require("gulp-typescript");
+import merge = require("merge2");
+import gulpSourceMaps = require("gulp-sourcemaps");
 
 export interface Options {
   tsOptions: any;
@@ -28,7 +27,7 @@ export interface TsconfigPaths {
   include: string[];
 }
 
-export function getTsconfigPaths (options: Options): TsconfigPaths {
+export function getTsconfigPaths(options: Options): TsconfigPaths {
   const tsconfigDir: string = path.dirname(options.tsconfigPath);
 
   const result: TsconfigPaths = {

@@ -1,8 +1,7 @@
-import * as path from "path";
-import gulpMocha = require("gulp-mocha");
 import {Gulp} from "gulp";
 import {Minimatch} from "minimatch";
 import * as matcher from "../utils/matcher";
+import gulpMocha = require("gulp-mocha");
 
 export interface Options {
   testDir: string;
@@ -13,7 +12,7 @@ export interface Sources {
   specs: string[];
 }
 
-export function getSources (options: Options): Sources {
+export function getSources(options: Options): Sources {
   const baseDir = options.testDir;
   const specs = matcher.asString(matcher.join(baseDir, new Minimatch("**/*.spec.js")));
 

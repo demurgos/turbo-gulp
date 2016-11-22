@@ -1,13 +1,12 @@
 import * as path from "path";
 import {assign} from "lodash";
+import {Gulp} from "gulp";
+import {Minimatch} from "minimatch";
+import {DEV_TSC_OPTIONS} from "../config/tsc";
+import * as matcher from "../utils/matcher";
 import gulpTypescript = require("gulp-typescript");
 import merge = require("merge2");
 import gulpSourceMaps = require("gulp-sourcemaps");
-import {Gulp} from "gulp";
-import {Minimatch} from "minimatch";
-
-import {DEV_TSC_OPTIONS} from "../config/tsc";
-import * as matcher from "../utils/matcher";
 
 export interface Options {
   tsOptions: any;
@@ -24,7 +23,7 @@ export interface Sources {
   sources: string[];
 }
 
-export function getSources (options: Options): Sources {
+export function getSources(options: Options): Sources {
   const result: Sources = {
     baseDir: options.srcDir,
     typeRoots: [],
@@ -51,7 +50,7 @@ export function getSources (options: Options): Sources {
   return result;
 }
 
-export function registerTask (gulp: Gulp, targetName: string, options: Options) {
+export function registerTask(gulp: Gulp, targetName: string, options: Options) {
   const sources = getSources(options);
   const tsOptions: any = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
 

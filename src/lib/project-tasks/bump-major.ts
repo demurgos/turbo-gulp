@@ -8,8 +8,8 @@ export interface Options {
   project: ProjectOptions;
 }
 
-export function registerTask (gulp: Gulp, {project}: Options): void {
-  gulp.task(taskName, function(){
+export function registerTask(gulp: Gulp, {project}: Options): void {
+  gulp.task(taskName, function () {
     bumpVersion("major", project);
   });
 }

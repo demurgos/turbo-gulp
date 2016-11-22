@@ -7,14 +7,14 @@ import * as installTypings from "./install.typings";
 import * as lint from "./lint";
 import {Gulp} from "gulp";
 
-export interface Options extends
-  bumpMajor.Options,
+export interface Options extends bumpMajor.Options,
   bumpMinor.Options,
   bumpPatch.Options,
   install.Options,
-  lint.Options {}
+  lint.Options {
+}
 
-export function registerAll (gulp: Gulp, options: Options) {
+export function registerAll(gulp: Gulp, options: Options) {
   bumpMajor.registerTask(gulp, options);
   bumpMinor.registerTask(gulp, options);
   bumpPatch.registerTask(gulp, options);
@@ -22,4 +22,12 @@ export function registerAll (gulp: Gulp, options: Options) {
   lint.registerTask(gulp, options);
 }
 
-export {bumpMajor, bumpMinor, bumpPatch, install, installNpm, installTypings, lint};
+export {
+  bumpMajor,
+  bumpMinor,
+  bumpPatch,
+  install,
+  installNpm,
+  installTypings,
+  lint
+};

@@ -1,13 +1,11 @@
 import Bluebird = require("bluebird");
 import {posix as path} from "path";
-import del = require("del");
 import {Gulp} from "gulp";
-
 import {ProjectOptions, NodeTarget} from "../config/config";
-
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as generateTsconfig from "../task-generators/generate-tsconfig";
 import {toUnix} from "../utils/locations";
+import del = require("del");
 
 export interface Options {
   project: ProjectOptions;

@@ -10,7 +10,7 @@ export interface Target {
   /**
    * Type of the target.
    */
-  type: "node" | "test" | "angular";
+    type: "node" | "test" | "angular";
 
   /**
    * Base directory for the target, relative to `project.srcDir`.
@@ -19,17 +19,20 @@ export interface Target {
   baseDir: string;
 
   /**
-   * List of minimatch glob patterns matching the Typescript scripts, relative to `project.srcDir`.
+   * List of minimatch glob patterns matching the Typescript scripts, relative
+   * to `project.srcDir`.
    */
   scripts: string[];
 
   /**
-   * List of directories where Typescript should search for declarations, relative to `project.srcDir`.
+   * List of directories where Typescript should search for declarations,
+   * relative to `project.srcDir`.
    */
   typeRoots: string[];
 
   /**
-   * The name of tha main module (name of the file without the extension), relative to `project.srcDir`.
+   * The name of tha main module (name of the file without the extension),
+   * relative to `project.srcDir`.
    */
   mainModule?: string;
 }
@@ -47,12 +50,14 @@ export interface AngularTarget extends Target {
   type: "angular";
 
   /**
-   * Directory to store intermediate files during the build, relative to `project.buildDir`.
+   * Directory to store intermediate files during the build, relative to
+   * `project.buildDir`.
    */
   tmpDir: string;
 
   /**
-   * Directory containing static assets, .pug and .scss will be compiled, relative to `project.srcDir`.
+   * Directory containing static assets, .pug and .scss will be compiled,
+   * relative to `project.srcDir`.
    */
   assetsDir: string;
 
