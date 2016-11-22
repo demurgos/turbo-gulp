@@ -1,17 +1,15 @@
 import Bluebird = require("bluebird");
-import {join as joinPath} from "path";
-import del = require("del");
+import {posix as path} from "path";
 import {Gulp} from "gulp";
 import {Webpack, Configuration as WebpackConfiguration} from "webpack";
+import {ProjectOptions, AngularTarget} from "../config/config";
+import * as buildTypescript from "../task-generators/build-typescript";
+import * as buildWebpack from "../task-generators/build-webpack";
+import del = require("del");
 import typescript = require("typescript");
 import gulpPug = require("gulp-pug");
 import gulpSourceMaps = require("gulp-sourcemaps");
 import gulpSass = require("gulp-sass");
-
-import {ProjectOptions, AngularTarget} from "../config/config";
-
-import * as buildTypescript from "../task-generators/build-typescript";
-import * as buildWebpack from "../task-generators/build-webpack";
 
 export interface Options {
   project: ProjectOptions;
@@ -23,19 +21,23 @@ export interface Options {
   webpackConfig: WebpackConfiguration;
 }
 
-export function generateTarget (gulp: Gulp, targetName: string, options: Options) {
-  const root: string = joinPath(options.project.root);
-  const buildDir: string = joinPath(root, options.project.buildDir, targetName);
-  const tmpDir: string = joinPath(root, options.project.buildDir, options.target.tmpDir);
-  const srcDir: string = joinPath(root, options.project.srcDir);
-  const distDir: string = joinPath(root, options.project.distDir, targetName);
+function toUnix(p: string): string {
+  return p.replace(/\\/g, "/");
+}
 
-  const baseDir: string = joinPath(srcDir, options.target.baseDir);
-  const assetsDir: string = joinPath(srcDir, options.target.assetsDir);
+export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
+  const rootDir = toUnix(options.project.root);
+  const buildDir: string = path.join(rootDir, toUnix(options.project.buildDir), targetName);
+  const tmpDir: string = path.join(rootDir, toUnix(options.project.buildDir), options.target.tmpDir);
+  const srcDir: string = path.join(rootDir, toUnix(options.project.srcDir));
+  const distDir: string = path.join(rootDir, toUnix(options.project.distDir), targetName);
+
+  const baseDir: string = path.join(srcDir, toUnix(options.target.baseDir));
+  const assetsDir: string = path.join(srcDir, toUnix(options.target.assetsDir));
 
   const buildTypescriptOptions: buildTypescript.Options = {
     tsOptions: options.tsOptions,
-    typeRoots: options.target.typeRoots,
+    typeRoots: options.target.typeRoots.map(toUnix),
     scripts: options.target.scripts,
     buildDir: tmpDir,
     srcDir: srcDir
@@ -44,7 +46,7 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
 
   const buildWebpackOptions: buildWebpack.Options = {
-    projectRoot: root,
+    projectRoot: rootDir,
     srcDir: tmpDir,
     buildDir: buildDir,
     webpack: options.webpack,
@@ -54,31 +56,31 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
 
   const webpackTask = buildWebpack.generateTask(gulp, targetName, buildWebpackOptions);
 
-  gulp.task(buildWebpack.getTaskName(targetName), [`build:${targetName}:scripts`], webpackTask);
+  gulp.task(buildWebpack.getTaskName(targetName), [`${targetName}:build:scripts`], webpackTask);
 
-  gulp.task(`build:${targetName}:assets:pug`, function () {
+  gulp.task(`${targetName}:build:assets:pug`, function () {
     return gulp
-      .src([joinPath(assetsDir, "./**/*.pug")], {base: assetsDir})
+      .src([path.join(assetsDir, "./**/*.pug")], {base: assetsDir})
       .pipe(gulpPug({locals: {}}))
       .pipe(gulp.dest(buildDir));
   });
 
-  gulp.task(`build:${targetName}:assets:sass`, function () {
+  gulp.task(`${targetName}:build:assets:sass`, function () {
     return gulp
-      .src([joinPath(assetsDir, "./**/*.scss")], {base: assetsDir})
+      .src([path.join(assetsDir, "./**/*.scss")], {base: assetsDir})
       .pipe(gulpSourceMaps.init())
       .pipe(<NodeJS.ReadWriteStream> gulpSass().on("error", (<any> gulpSass).logError))
       .pipe(gulpSourceMaps.write())
       .pipe(gulp.dest(buildDir));
   });
 
-  gulp.task(`build:${targetName}:assets:static`, function () {
+  gulp.task(`${targetName}:build:assets:static`, function () {
     return gulp
       .src(
         [
-          joinPath(assetsDir, "./**/*"),
-          "!" + joinPath(assetsDir, "./**/*.pug"),
-          "!" + joinPath(assetsDir, "./**/*.scss"),
+          path.join(assetsDir, "./**/*"),
+          "!" + path.join(assetsDir, "./**/*.pug"),
+          "!" + path.join(assetsDir, "./**/*.scss"),
         ],
         {
           base: assetsDir
@@ -87,23 +89,23 @@ export function generateTarget (gulp: Gulp, targetName: string, options: Options
       .pipe(gulp.dest(buildDir));
   });
 
-  gulp.task(`build:${targetName}:assets`, [
-    `build:${targetName}:assets:pug`,
-    `build:${targetName}:assets:sass`,
-    `build:${targetName}:assets:static`
+  gulp.task(`${targetName}:build:assets`, [
+    `${targetName}:build:assets:pug`,
+    `${targetName}:build:assets:sass`,
+    `${targetName}:build:assets:static`
   ]);
 
-  gulp.task(`build:${targetName}`, [`build:${targetName}:webpack`, `build:${targetName}:assets`]);
+  gulp.task(`${targetName}:build`, [`${targetName}:build:webpack`, `${targetName}:build:assets`]);
 
-  gulp.task(`clean:${targetName}`, function() {
+  gulp.task(`${targetName}:clean`, function () {
     return del([buildDir, tmpDir]);
   });
 
-  gulp.task(`dist:${targetName}`, [`clean:${targetName}`, `build:${targetName}`], function () {
+  gulp.task(`${targetName}:dist`, [`${targetName}:clean`, `${targetName}:build`], function () {
     return del([distDir])
       .then((deleted: string[]) => {
         return gulp
-          .src([joinPath(buildDir, "**/*")], {base: joinPath(buildDir)})
+          .src([path.join(buildDir, "**/*")], {base: path.join(buildDir)})
           .pipe(gulp.dest(distDir));
       });
   });

@@ -72,7 +72,7 @@ export function registerTask (gulp: Gulp, targetName: string, options: Options) 
     ]);
   };
 
-  gulp.task(`build:${targetName}:scripts`, task);
+  gulp.task(`${targetName}:build:scripts`, task);
 
   return task;
 }
