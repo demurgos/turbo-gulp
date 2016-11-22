@@ -27,21 +27,14 @@ buildTools.targetGenerators.node.generateTarget(
   }
 );
 
-if (buildTools.targetGenerators.test) {
-  buildTools.targetGenerators.test.generateTarget(
-    gulp,
-    "lib-test",
-    {
-      project: projectOptions,
-      target: libTestTarget,
-      tsOptions: {
-        typescript: typescript
-      }
+buildTools.targetGenerators.test.generateTarget(
+  gulp,
+  "lib-test",
+  {
+    project: projectOptions,
+    target: libTestTarget,
+    tsOptions: {
+      typescript: typescript
     }
-  );
-} else {
-  gulp.task("lib-test", []);
-  gulp.task("lib-test:clean", []);
-  gulp.task("lib:dist", ["dist:lib"]);
-  gulp.task(":lint", ["project:lint"]);
-}
+  }
+);
