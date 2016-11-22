@@ -42,5 +42,6 @@ if (buildTools.targetGenerators.test) {
 } else {
   gulp.task("lib-test", []);
   gulp.task("lib-test:clean", []);
+  gulp.task("lib:dist", ["dist:lib"]);
   gulp.task(":lint", ["project:lint"]);
 }
