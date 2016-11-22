@@ -1,9 +1,13 @@
-import {Webpack, Configuration as WebpackConfiguration, compiler as webpackCompiler} from "webpack";
-import webpackStream = require("webpack-stream");
-import webpackMerge = require("webpack-merge");
+import {
+  Webpack,
+  Configuration as WebpackConfiguration,
+  compiler as webpackCompiler
+} from "webpack";
 import {join as joinPath} from "path";
 import {PluginError, log as gulpLog} from "gulp-util";
 import {Gulp} from "gulp";
+import webpackStream = require("webpack-stream");
+import webpackMerge = require("webpack-merge");
 
 export interface Options {
   /**

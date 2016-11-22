@@ -13,7 +13,7 @@ export interface Options {
   };
 }
 
-export function registerTask (gulp: Gulp, options: Options) {
+export function registerTask(gulp: Gulp, options: Options) {
   const installTasks: string[] = [];
 
   if (!(options.install && options.install.npm === false)) {

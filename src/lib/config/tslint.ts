@@ -29,7 +29,8 @@ export const tslintConfig = {
     "no-arg": true,
     // allow bitwise operators
     "no-bitwise": false,
-    // disallow assignments in conditionals, this applies to `do-while`, `for`, `if`, and `while` statements
+    // disallow assignments in conditionals, this applies to `do-while`, `for`,
+    // `if`, and `while` statements
     "no-conditional-assignment": true,
     // disallow having more than one blank line in a row in a file.
     "no-consecutive-blank-lines": true,
@@ -50,7 +51,8 @@ export const tslintConfig = {
     "no-switch-case-fall-through": true,
     // disallow trailing whitespace at the end of a line
     "no-trailing-whitespace": true,
-    // disallow unreachable code after `break`, `catch`, `throw`, and `return` statements
+    // disallow unreachable code after `break`, `catch`, `throw`, and `return`
+    // statements
     "no-unreachable": true,
     // disallow usage of variables before their declaration
     "no-use-before-declare": true,
@@ -63,7 +65,8 @@ export const tslintConfig = {
       "check-catch",
       // check that `else` is on the same line as the closing brace for `if`
       "check-else",
-      // check that an open brace falls on the same line as its preceding expression
+      // check that an open brace falls on the same line as its preceding
+      // expression
       "check-open-brace"
       // "check-whitespace"
     ],
