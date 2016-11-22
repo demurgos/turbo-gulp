@@ -1,3 +1,13 @@
+# 0.12.0
+
+- **[Breaking]**: Change naming convention for tasks. The names primary part is
+  the target, then the action (`lib:build` instead of `build:lib`) to group
+  the tasks per target.
+- **[Breaking]**: Use `typeRoots` instead of `definitions` in configuration to
+  specify Typescript definition files.
+- Generate `tsconfig.json` file (mainly for editors)
+- Implement the `test` target to run unit-tests with `mocha`.
+
 # 0.11.2
 
 - Target `angular`: Add `build:<target>:assets:sass` for `.scss` files (Sassy CSS)
