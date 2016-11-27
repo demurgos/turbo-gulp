@@ -40,7 +40,7 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
 
   gulp.task(`${targetName}:watch`, function () {
     const sources = buildTypescript.getSources(buildTypescriptOptions);
-    gulp.watch(sources.scripts, {cwd: baseDir}, [`build:${targetName}`]);
+    gulp.watch(sources.scripts, {cwd: baseDir}, [`${targetName}:build`]);
   });
 
   gulp.task(`${targetName}:build`, [`${targetName}:build:scripts`]);
