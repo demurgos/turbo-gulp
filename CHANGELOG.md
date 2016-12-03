@@ -1,3 +1,11 @@
+# 0.12.2
+
+- Add `<target>:build:copy` task. It copies user-defined files.
+
+# 0.12.1
+
+- Fix `<target>:watch` task.
+
 # 0.12.0
 
 - **[Breaking]**: Change naming convention for tasks. The names primary part is
