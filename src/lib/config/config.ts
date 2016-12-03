@@ -37,6 +37,36 @@ export interface ProjectOptions {
 }
 
 /**
+ * CopyOptions describes a copy operation required to build a target.
+ */
+export interface CopyOptions {
+  /**
+   * Base directory of the files to copy. Relative to srcDir
+   * Default: srcDir
+   */
+  from?: string;
+
+  /**
+   * A list of minimatch patterns
+   */
+  files: string[];
+
+  /**
+   * Target directory of the copy, relative to the target output directory.
+   * Default: target output directory
+   */
+  to?: string;
+
+  /**
+   * Name of the copy operation.
+   * It will be used for the name of the task: `<targetName>:build:copy:<copyName>`.
+   * If youd do not define it, it will be "anonymous" and will only
+   * be called by `<targetName>:build:copy`
+   */
+  name?: string;
+}
+
+/**
  * A target represents a group of tasks to produce a specific build.
  */
 export interface Target {
@@ -71,6 +101,11 @@ export interface Target {
    * relative to `project.srcDir`.
    */
   mainModule?: string;
+
+  /**
+   * A list of copy operations to perform during the build process.
+   */
+  copy?: CopyOptions[];
 }
 
 /**

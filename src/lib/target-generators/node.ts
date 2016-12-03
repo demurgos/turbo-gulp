@@ -1,4 +1,3 @@
-import Bluebird = require("bluebird");
 import {posix as path} from "path";
 import {Gulp} from "gulp";
 import {ProjectOptions, NodeTarget} from "../config/config";
@@ -6,6 +5,7 @@ import * as buildTypescript from "../task-generators/build-typescript";
 import * as generateTsconfig from "../task-generators/generate-tsconfig";
 import {toUnix} from "../utils/locations";
 import del = require("del");
+import {generateCopyTasks} from "./base";
 
 export interface Options {
   project: ProjectOptions;
@@ -37,13 +37,14 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
 
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
   generateTsconfig.registerTask(gulp, targetName, generateTsconfigOptions);
+  generateCopyTasks(gulp, targetName, srcDir, buildDir, options.target);
+
+  gulp.task(`${targetName}:build`, [`${targetName}:build:scripts`, `${targetName}:build:copy`]);
 
   gulp.task(`${targetName}:watch`, function () {
     const sources = buildTypescript.getSources(buildTypescriptOptions);
     gulp.watch(sources.scripts, {cwd: baseDir}, [`${targetName}:build`]);
   });
-
-  gulp.task(`${targetName}:build`, [`${targetName}:build:scripts`]);
 
   gulp.task(`${targetName}:clean`, function () {
     return del(buildDir);

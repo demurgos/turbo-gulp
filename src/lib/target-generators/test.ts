@@ -7,6 +7,7 @@ import * as generateTsconfig from "../task-generators/generate-tsconfig";
 import * as testNode from "../task-generators/test-node";
 import {toUnix} from "../utils/locations";
 import del = require("del");
+import {generateCopyTasks} from "./base";
 
 export interface Options {
   project: ProjectOptions;
@@ -34,13 +35,14 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
 
   buildTypescript.registerTask(gulp, targetName, typescriptOptions);
   generateTsconfig.registerTask(gulp, targetName, typescriptOptions);
+  generateCopyTasks(gulp, targetName, srcDir, buildDir, options.target);
 
   // gulp.task(`${targetName}:watch`, function () {
   //   const sources = buildTypescript.getSources(typescriptOptions);
   //   gulp.watch(sources.scripts, {cwd: baseDir}, [`build:${targetName}`]);
   // });
 
-  gulp.task(`${targetName}:build`, [`${targetName}:build:scripts`]);
+  gulp.task(`${targetName}:build`, [`${targetName}:build:scripts`, `${targetName}:build:copy`]);
 
   gulp.task(`${targetName}:clean`, function () {
     return del(buildDir);

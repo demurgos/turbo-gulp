@@ -13,7 +13,20 @@ const projectOptions = buildTools.config.DEFAULT_PROJECT_OPTIONS;
 const libTarget = buildTools.config.LIB_TARGET;
 const libTestTarget = buildTools.config.LIB_TEST_TARGET;
 
-buildTools.projectTasks.registerAll(gulp, {project: projectOptions, tslintOptions: {}, install: {}});
+buildTools.projectTasks.registerAll(gulp, {
+  project: projectOptions,
+  tslintOptions: {},
+  install: {}
+});
+
+libTestTarget.copy = [
+  {
+    name: "examples",
+    from: "test/examples",
+    files: ["**/*"],
+    to: "test/examples"
+  }
+];
 
 buildTools.targetGenerators.node.generateTarget(
   gulp,
