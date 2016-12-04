@@ -149,6 +149,10 @@ Compile the Typescript files to `buildDir/<targetName>`.
 
 Delete the build files in `buildDir` and `distDir` for this target.
 
+#### `<targetName>:copy`
+
+Perform required file copies at the end of the build.
+
 #### `<targetName>:dist`
 
 Clean the files, build the target and then copy it to `distDir` (ready for
