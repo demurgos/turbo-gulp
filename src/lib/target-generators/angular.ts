@@ -58,34 +58,27 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
 
   const webpackTask = buildWebpack.generateTask(gulp, targetName, buildWebpackOptions);
 
-  gulp.task(buildWebpack.getTaskName(targetName), [`${targetName}:build:scripts`], webpackTask);
+  gulp.task(buildWebpack.getTaskName(targetName), [`${targetName}:build:scripts`, `${targetName}:build:assets`], webpackTask);
 
-  gulp.task(`${targetName}:build:assets:pug`, function () {
+  gulp.task(`${targetName}:build:pug`, function () {
     return gulp
       .src([path.join(assetsDir, "./**/*.pug")], {base: assetsDir})
       .pipe(gulpPug({locals: {}}))
-      .pipe(gulp.dest(buildDir));
+      .pipe(gulp.dest(path.join(tmpDir, options.target.assetsDir)));
   });
 
-  gulp.task(`${targetName}:build:assets:sass`, function () {
+  gulp.task(`${targetName}:build:sass`, function () {
     return gulp
       .src([path.join(assetsDir, "./**/*.scss")], {base: assetsDir})
       .pipe(gulpSourceMaps.init())
       .pipe(<NodeJS.ReadWriteStream> gulpSass().on("error", (<any> gulpSass).logError))
       .pipe(gulpSourceMaps.write())
-      .pipe(gulp.dest(buildDir));
+      .pipe(gulp.dest(path.join(tmpDir, options.target.assetsDir)));
   });
 
-  gulp.task(`${targetName}:build:assets:static`, copy.generateTask(gulp, targetName, {
-    from: assetsDir,
-    files: ["**/*", "!**/*.pug", "!**/*.scss"],
-    to: buildDir
-  }));
-
   gulp.task(`${targetName}:build:assets`, [
-    `${targetName}:build:assets:pug`,
-    `${targetName}:build:assets:sass`,
-    `${targetName}:build:assets:static`
+    `${targetName}:build:pug`,
+    `${targetName}:build:sass`
   ]);
 
   generateCopyTasks(gulp, targetName, srcDir, buildDir, options.target);

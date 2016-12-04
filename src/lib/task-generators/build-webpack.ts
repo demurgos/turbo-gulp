@@ -57,8 +57,9 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
     },
     module: {
       loaders: [
-        {test: /\.ts$/, loaders: ["angular2-template-loader"]},
-        {test: /\.json$/, loader: "json-loader"}
+        {test: /\.js$/, loaders: ["angular2-template-loader"]},
+        {test: /\.json$/, loader: "json-loader"},
+        {test: /\.(html|css)$/, loader: 'raw-loader'}
       ]
     },
     plugins: [
