@@ -1,8 +1,8 @@
-import * as install from "gulp-install";
 import {Gulp} from "gulp";
+import * as install from "gulp-install";
 import {ProjectOptions} from "../config/config";
 
-export const taskName = ":install:npm";
+export const taskName: string = ":install:npm";
 
 export interface Options {
   project: ProjectOptions;

@@ -9,6 +9,7 @@ export function streamToPromise(stream: NodeJS.ReadableStream): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     stream.on("end", resolve);
     stream.on("error", reject);
-    // TODO: See if `stream.resume();` is required: https://github.com/petkaantonov/bluebird/issues/332#issuecomment-229833058
+    // TODO: See if `stream.resume();` is required:
+    // https://github.com/petkaantonov/bluebird/issues/332#issuecomment-229833058
   });
 }

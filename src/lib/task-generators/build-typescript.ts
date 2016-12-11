@@ -1,12 +1,13 @@
-import * as path from "path";
-import {assign} from "lodash";
 import {Gulp, TaskFunction} from "gulp";
+import gulpSourceMaps = require("gulp-sourcemaps");
+import gulpTypescript = require("gulp-typescript");
+import {assign} from "lodash";
+import merge = require("merge2");
 import {Minimatch} from "minimatch";
+import * as path from "path";
+
 import {DEV_TSC_OPTIONS} from "../config/tsc";
 import * as matcher from "../utils/matcher";
-import gulpTypescript = require("gulp-typescript");
-import merge = require("merge2");
-import gulpSourceMaps = require("gulp-sourcemaps");
 
 export interface Options {
   /**
@@ -60,7 +61,7 @@ export function getSources(options: Options): Sources {
   };
 
   for (const typeRoot of options.typeRoots) {
-    const absPath = path.join(options.srcDir, typeRoot);
+    const absPath: string = path.join(options.srcDir, typeRoot);
     result.typeRoots.push(absPath);
     // const relative = path.posix.relative(options.srcDir, absPath);
     if (!/node_modules/.test(typeRoot)) {
@@ -70,7 +71,7 @@ export function getSources(options: Options): Sources {
 
   for (const script of options.scripts) {
     const pattern: Minimatch = new Minimatch(script);
-    const glob = matcher.asString(matcher.join(options.srcDir, pattern));
+    const glob: string = matcher.asString(matcher.join(options.srcDir, pattern));
     result.scripts.push(glob);
     result.sources.push(glob);
   }
@@ -79,10 +80,11 @@ export function getSources(options: Options): Sources {
 }
 
 export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
-  const sources = getSources(options);
+  const sources: Sources = getSources(options);
   const tsOptions: any = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
 
-  const task = function () {
+  const task: TaskFunction = function () {
+    // tslint:disable-next-line:typedef
     const tsResult = gulp
       .src(sources.sources, {base: sources.baseDir})
       .pipe(gulpSourceMaps.init())

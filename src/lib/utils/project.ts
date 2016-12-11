@@ -1,10 +1,11 @@
-import * as fs from "fs";
 import Bluebird = require("bluebird");
+import * as fs from "fs";
 import * as semver from "semver";
-import * as git from "./git";
-import {ProjectOptions} from "../config/config";
 
-const readFile: (filename: string, encoding: string) => Bluebird<string> = <any> Bluebird.promisify(fs.readFile);
+import {ProjectOptions} from "../config/config";
+import * as git from "./git";
+
+const readFile: (filename: string, encoding: string) => Bluebird<string> = Bluebird.promisify(fs.readFile) as any;
 const writeFile: (filename: string, data: any) => Bluebird<any> = Bluebird.promisify(fs.writeFile);
 
 export function ensureUnusedTag(tag: string) {
@@ -25,8 +26,8 @@ export function getVersionMessage(version: string): string {
 }
 
 export function commitVersion(version: string, projectRoot?: string) {
-  let tag = getVersionTag(version);
-  let message = getVersionMessage(version);
+  let tag: string = getVersionTag(version);
+  let message: string = getVersionMessage(version);
   return git.exec("add", ["."])
     .then(() => {
       return git.exec("commit", ["-m", message]);

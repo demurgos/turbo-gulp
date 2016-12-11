@@ -1,3 +1,4 @@
+// tslint:disable-next-line:typedef
 export const PROD_TSC_OPTIONS = {
   allowJs: false,
   allowSyntheticDefaultImports: false,
@@ -39,9 +40,10 @@ export const PROD_TSC_OPTIONS = {
   stripInternal: true,
   suppressExcessPropertyErrors: false,
   suppressImplicitAnyIndexErrors: false,
-  target: "es6",
+  target: "es6"
 };
 
+// tslint:disable-next-line:typedef
 export const DEV_TSC_OPTIONS = Object.assign({}, PROD_TSC_OPTIONS, {
   noUnusedLocals: false,
   preserveConstEnums: true,

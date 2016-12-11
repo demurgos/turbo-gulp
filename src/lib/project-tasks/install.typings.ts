@@ -1,8 +1,9 @@
-import * as typings from "typings-core";
-import {ProjectOptions} from "../config/config";
 import {Gulp} from "gulp";
+import * as typings from "typings-core";
 
-export const taskName = ":install:typings";
+import {ProjectOptions} from "../config/config";
+
+export const taskName: string = ":install:typings";
 
 export interface Options {
   project: ProjectOptions;
@@ -10,7 +11,7 @@ export interface Options {
 
 export function registerTask(gulp: Gulp, {project}: Options) {
   gulp.task(taskName, function () {
-    const options = {
+    const options: any = {
       production: false,
       cwd: project.root
     };

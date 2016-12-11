@@ -48,6 +48,6 @@
     "@types/webpack-stream": "^3.2.4",
     "chai": "^3.5.0",
     "demurgos-web-build-tools": "latest",
-    "gulp": "github:gulpjs/gulp#4.0"
+    "gulp": "^3.9.1"
   }
 }

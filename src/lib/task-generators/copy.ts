@@ -1,8 +1,9 @@
-import {asString, join} from "../utils/matcher";
 import {Gulp, TaskFunction} from "gulp";
-import webpackStream = require("webpack-stream");
-import webpackMerge = require("webpack-merge");
 import {Minimatch} from "minimatch";
+import webpackMerge = require("webpack-merge");
+import webpackStream = require("webpack-stream");
+
+import {asString, join} from "../utils/matcher";
 
 export interface Options {
   /**
@@ -38,7 +39,7 @@ export function copy(gulp: Gulp, options: Options): NodeJS.ReadableStream {
  * Generate a task to copy files from one directory to an other.
  */
 export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
-  return function () {
+  return function (): NodeJS.ReadableStream {
     return copy(gulp, options);
   };
 }

@@ -13,8 +13,8 @@ export interface Sources {
 }
 
 export function getSources(options: Options): Sources {
-  const baseDir = options.testDir;
-  const specs = matcher.asString(matcher.join(baseDir, new Minimatch("**/*.spec.js")));
+  const baseDir: string = options.testDir;
+  const specs: string = matcher.asString(matcher.join(baseDir, new Minimatch("**/*.spec.js")));
 
   return {
     baseDir: baseDir,
@@ -23,7 +23,7 @@ export function getSources(options: Options): Sources {
 }
 
 export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
-  const sources = getSources(options);
+  const sources: Sources = getSources(options);
 
   return function () {
     return gulp
@@ -40,7 +40,7 @@ export function getTaskName(targetName: string): string {
 
 export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const taskName: string = getTaskName(targetName);
-  const task = generateTask(gulp, taskName, options);
+  const task: TaskFunction = generateTask(gulp, taskName, options);
   gulp.task(taskName, task);
   return task;
 }

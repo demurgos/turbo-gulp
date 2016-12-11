@@ -1,8 +1,8 @@
 import Bluebird = require("bluebird");
-import {posix as path} from "path";
 import {Gulp, TaskFunction} from "gulp";
-import {Webpack, Configuration as WebpackConfiguration} from "webpack";
-import {ProjectOptions, AngularTarget} from "../config/config";
+import {posix as path} from "path";
+import {Configuration as WebpackConfiguration, Webpack} from "webpack";
+import {AngularTarget, ProjectOptions} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as buildWebpack from "../task-generators/build-webpack";
 import * as copy from "../task-generators/copy";
@@ -28,7 +28,7 @@ function toUnix(p: string): string {
 }
 
 export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
-  const rootDir = toUnix(options.project.root);
+  const rootDir: string = toUnix(options.project.root);
   const buildDir: string = path.join(rootDir, toUnix(options.project.buildDir), targetName);
   const tmpDir: string = path.join(rootDir, toUnix(options.project.buildDir), options.target.tmpDir);
   const srcDir: string = path.join(rootDir, toUnix(options.project.srcDir));
@@ -80,7 +80,7 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
     return gulp
       .src([path.join(assetsDir, "./**/*.scss")], {base: assetsDir})
       .pipe(gulpSourceMaps.init())
-      .pipe(<NodeJS.ReadWriteStream> gulpSass().on("error", (<any> gulpSass).logError))
+      .pipe(gulpSass().on("error", (gulpSass).logError))
       .pipe(gulpSourceMaps.write())
       .pipe(gulp.dest(path.join(tmpDir, options.target.assetsDir)));
   });

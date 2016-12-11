@@ -1,8 +1,8 @@
-import {bumpVersion} from "../utils/project";
-import {ProjectOptions} from "../config/config";
 import {Gulp} from "gulp";
+import {ProjectOptions} from "../config/config";
+import {bumpVersion} from "../utils/project";
 
-export const taskName = ":bump-patch";
+export const taskName: string = ":bump-patch";
 
 export interface Options {
   project: ProjectOptions;

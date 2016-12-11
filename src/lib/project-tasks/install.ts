@@ -1,9 +1,9 @@
+import {Gulp} from "gulp";
+import {ProjectOptions} from "../config/config";
 import * as installNpm from "./install.npm";
 import * as installTypings from "./install.typings";
-import {ProjectOptions} from "../config/config";
-import {Gulp} from "gulp";
 
-export const taskName = ":install";
+export const taskName: string = ":install";
 
 export interface Options {
   project: ProjectOptions;

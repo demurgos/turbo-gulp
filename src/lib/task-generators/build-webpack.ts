@@ -1,13 +1,9 @@
-import {
-  Webpack,
-  Configuration as WebpackConfiguration,
-  compiler as webpackCompiler
-} from "webpack";
-import {join as joinPath} from "path";
-import {PluginError, log as gulpLog} from "gulp-util";
 import {Gulp, TaskFunction} from "gulp";
-import webpackStream = require("webpack-stream");
+import {log as gulpLog, PluginError} from "gulp-util";
+import {join as joinPath} from "path";
+import {compiler as webpackCompiler, Configuration as WebpackConfiguration, Webpack} from "webpack";
 import webpackMerge = require("webpack-merge");
+import webpackStream = require("webpack-stream");
 
 export interface Options {
   /**
@@ -53,7 +49,7 @@ export function getTaskName(targetName: string): string {
 
 export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const taskName: string = getTaskName(targetName);
-  const entryFile = options.entry + ".js";
+  const entryFile: string = options.entry + ".js";
 
   const angularWebpackConfig: WebpackConfiguration = {
     context: options.projectRoot,
@@ -91,11 +87,11 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
       Buffer: true
     },
     output: {
-      filename: "[name].js",
-    },
+      filename: "[name].js"
+    }
   };
 
-  const task = function () {
+  return function () {
     return gulp
       .src([joinPath(options.srcDir, entryFile)], {base: options.srcDir})
       .pipe(webpackStream(
@@ -110,13 +106,11 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
       )
       .pipe(gulp.dest(options.buildDir));
   };
-
-  return task;
 }
 
 export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const taskName: string = getTaskName(targetName);
-  const task = generateTask(gulp, taskName, options);
+  const task: TaskFunction = generateTask(gulp, taskName, options);
   gulp.task(taskName, task);
   return task;
 }

@@ -1,7 +1,8 @@
 import * as childProcess from "child_process";
 import Bluebird = require("bluebird");
 
-let execFileAsync: (file: string, args?: string[], options?: any)=>Bluebird<any> = Bluebird.promisify(childProcess.execFile);
+type ExecFileAsync = (file: string, args?: string[], options?: any) => Bluebird<any>;
+const execFileAsync: ExecFileAsync = Bluebird.promisify(childProcess.execFile);
 
 export function exec(cmd: string, args: string[] = [], options?: any): Bluebird<Buffer> {
   args.unshift(cmd);

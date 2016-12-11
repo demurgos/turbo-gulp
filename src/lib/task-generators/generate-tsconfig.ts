@@ -1,13 +1,14 @@
-import {posix as path} from "path";
-import {assign} from "lodash";
 import {Gulp, TaskFunction} from "gulp";
-import {Minimatch} from "minimatch";
-import {DEV_TSC_OPTIONS} from "../config/tsc";
-import {writeJsonFile} from "../utils/project";
-import * as matcher from "../utils/matcher";
 import gulpTypescript = require("gulp-typescript");
-import merge = require("merge2");
 import gulpSourceMaps = require("gulp-sourcemaps");
+import {assign} from "lodash";
+import merge = require("merge2");
+import {Minimatch} from "minimatch";
+import {posix as path} from "path";
+
+import {DEV_TSC_OPTIONS} from "../config/tsc";
+import * as matcher from "../utils/matcher";
+import {writeJsonFile} from "../utils/project";
 
 export interface Options {
   tsOptions: any;
@@ -40,16 +41,16 @@ export function getTsconfigPaths(options: Options): TsconfigPaths {
   };
 
   for (const typeRoot of options.typeRoots) {
-    const absPath = path.join(options.srcDir, typeRoot);
-    const relPath = path.relative(tsconfigDir, absPath);
+    const absPath: string = path.join(options.srcDir, typeRoot);
+    const relPath: string = path.relative(tsconfigDir, absPath);
     // TODO: absPath inside projectRoot ? rel : abs
     result.typeRoots.push(relPath);
   }
 
   for (const script of options.scripts) {
     const pattern: Minimatch = new Minimatch(script);
-    const absGlob = matcher.join(options.srcDir, pattern);
-    const relGlob = matcher.relative(tsconfigDir, absGlob);
+    const absGlob: Minimatch = matcher.join(options.srcDir, pattern);
+    const relGlob: Minimatch = matcher.relative(tsconfigDir, absGlob);
     if (relGlob.negate) {
       result.exclude.push(matcher.asString(relGlob));
     } else {
@@ -70,13 +71,13 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
   tsOptions.outDir = paths.outdDir;
   tsOptions.typeRoots = paths.typeRoots;
 
-  const tsconfigData = {
+  const tsconfigData: Object = {
     compilerOptions: tsOptions,
     include: paths.include,
     exclude: paths.exclude
   };
 
-  const tsconfigPath = path.join(options.tsconfigPath);
+  const tsconfigPath: string = path.join(options.tsconfigPath);
 
   return function () {
     return writeJsonFile(tsconfigPath, tsconfigData);
@@ -89,7 +90,7 @@ export function getTaskName(targetName: string): string {
 
 export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const taskName: string = getTaskName(targetName);
-  const task = generateTask(gulp, taskName, options);
+  const task: TaskFunction = generateTask(gulp, taskName, options);
   gulp.task(taskName, task);
   return task;
 }

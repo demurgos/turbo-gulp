@@ -1,12 +1,13 @@
 import Bluebird = require("bluebird");
-import {posix as path} from "path";
+import del = require("del");
 import {Gulp} from "gulp";
+import {posix as path} from "path";
+
 import {ProjectOptions, TestTarget} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as generateTsconfig from "../task-generators/generate-tsconfig";
 import * as testNode from "../task-generators/test-node";
 import {toUnix} from "../utils/locations";
-import del = require("del");
 import {generateCopyTasks} from "./base";
 
 export interface Options {
@@ -29,7 +30,7 @@ export interface Options {
  * @param options The target options, see Options
  */
 export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
-  const rootDir = toUnix(options.project.root);
+  const rootDir: string = toUnix(options.project.root);
   const buildDir: string = path.join(rootDir, toUnix(options.project.buildDir), targetName);
   const srcDir: string = path.join(rootDir, toUnix(options.project.srcDir));
 

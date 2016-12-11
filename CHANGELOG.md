@@ -1,3 +1,18 @@
+# 0.13.0
+
+- **[Breaking]** Update to `gulp@4` (from `gulp@3`)
+- **[Breaking]** Update to `tslint@7` (from `tslint@6`), add strciter default rules
+- Add `:tslint.json` project task to generate configuration for `tslint`
+
+## TODO:
+
+- Review the organization of the build targets
+- Use `displayName` on task functions, instead of separate `generateTaskName` functions.
+
+# 0.12.3
+
+- Support `templateUrl` and `styleUrls` in angular modules.
+
 # 0.12.2
 
 - Add `<target>:build:copy` task. It copies user-defined files.

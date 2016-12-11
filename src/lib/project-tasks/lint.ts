@@ -1,12 +1,12 @@
-import {join as joinPath} from "path";
 import {Gulp} from "gulp";
-import {default as gulpTslint} from "gulp-tslint";
-import defaultTslintConfig from "../config/tslint";
-import {ProjectOptions} from "../config/config";
-
+import {default as gulpTslint, PluginOptions as GulpTslintOptions} from "gulp-tslint";
+import {join as joinPath} from "path";
 import tslint = require("tslint");
 
-export const taskName = ":lint";
+import {ProjectOptions} from "../config/config";
+import defaultTslintConfig from "../config/tslint";
+
+export const taskName: string = ":lint";
 
 export interface Options {
   project: ProjectOptions;
@@ -14,15 +14,15 @@ export interface Options {
 }
 
 export function registerTask(gulp: Gulp, {project, tslintOptions}: Options) {
-  const options = Object.assign({}, {
+  const options: GulpTslintOptions = Object.assign({}, {
     configuration: defaultTslintConfig,
     formatter: "verbose",
     tslint: tslint
   }, tslintOptions);
 
   gulp.task(taskName, function () {
-    const srcDir = joinPath(project.root, project.srcDir);
-    const sources = joinPath(srcDir, "**/*.ts");
+    const srcDir: string = joinPath(project.root, project.srcDir);
+    const sources: string = joinPath(srcDir, "**/*.ts");
     return gulp.src([sources], {base: srcDir})
       .pipe(gulpTslint(options))
       .pipe(gulpTslint.report());

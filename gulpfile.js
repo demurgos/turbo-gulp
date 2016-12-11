@@ -3,7 +3,7 @@
 const gulp = require("gulp");
 const typescript = require("typescript");
 
-const useDist = true;
+const useDist = false;
 
 const buildTools = (useDist
   ? require("./dist/lib/lib/index")

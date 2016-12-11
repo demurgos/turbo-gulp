@@ -1,6 +1,6 @@
-import {posix as path} from "path";
 import {Gulp} from "gulp";
-import {ProjectOptions, NodeTarget} from "../config/config";
+import {posix as path} from "path";
+import {NodeTarget, ProjectOptions} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as generateTsconfig from "../task-generators/generate-tsconfig";
 import {toUnix} from "../utils/locations";
@@ -16,7 +16,7 @@ export interface Options {
 }
 
 export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
-  const rootDir = toUnix(options.project.root);
+  const rootDir: string = toUnix(options.project.root);
   const buildDir: string = path.join(rootDir, toUnix(options.project.buildDir), targetName);
   const srcDir: string = path.join(rootDir, toUnix(options.project.srcDir));
   const distDir: string = path.join(rootDir, toUnix(options.project.distDir), targetName);
@@ -42,7 +42,7 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
   gulp.task(`${targetName}:build`, gulp.parallel(`${targetName}:build:scripts`, `${targetName}:build:copy`));
 
   gulp.task(`${targetName}:watch`, function () {
-    const sources = buildTypescript.getSources(buildTypescriptOptions);
+    const sources: buildTypescript.Sources = buildTypescript.getSources(buildTypescriptOptions);
     gulp.watch(sources.scripts, {cwd: baseDir}, gulp.parallel(`${targetName}:build`));
   });
 

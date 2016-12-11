@@ -14,7 +14,7 @@ describe("matcher.asString", function () {
 
   for (const pattern of data) {
     it(`should preserve the pattern ${JSON.stringify(pattern)}`, function () {
-      const actual = matcher.asString(new Minimatch(pattern));
+      const actual: string = matcher.asString(new Minimatch(pattern));
       assert.equal(actual, pattern);
     });
   }
