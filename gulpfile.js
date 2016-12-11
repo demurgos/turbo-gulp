@@ -3,7 +3,7 @@
 const gulp = require("gulp");
 const typescript = require("typescript");
 
-const useDist = false;
+const useDist = true;
 
 const buildTools = (useDist
   ? require("./dist/lib/lib/index")
@@ -35,7 +35,8 @@ buildTools.targetGenerators.node.generateTarget(
     project: projectOptions,
     target: libTarget,
     tsOptions: {
-      typescript: typescript
+      typescript: typescript,
+      skipLibCheck: true
     }
   }
 );
@@ -47,7 +48,8 @@ buildTools.targetGenerators.test.generateTarget(
     project: projectOptions,
     target: libTestTarget,
     tsOptions: {
-      typescript: typescript
+      typescript: typescript,
+      skipLibCheck: true
     }
   }
 );

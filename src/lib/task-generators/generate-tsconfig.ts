@@ -1,6 +1,6 @@
 import {posix as path} from "path";
 import {assign} from "lodash";
-import {Gulp} from "gulp";
+import {Gulp, TaskFunction} from "gulp";
 import {Minimatch} from "minimatch";
 import {DEV_TSC_OPTIONS} from "../config/tsc";
 import {writeJsonFile} from "../utils/project";
@@ -60,7 +60,7 @@ export function getTsconfigPaths(options: Options): TsconfigPaths {
   return result;
 }
 
-export function generateTask(gulp: Gulp, targetName: string, options: Options): Function {
+export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const tsOptions: any = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
 
   const paths: TsconfigPaths = getTsconfigPaths(options);
@@ -87,7 +87,7 @@ export function getTaskName(targetName: string): string {
   return `${targetName}:tsconfig`;
 }
 
-export function registerTask(gulp: Gulp, targetName: string, options: Options): Function {
+export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const taskName: string = getTaskName(targetName);
   const task = generateTask(gulp, taskName, options);
   gulp.task(taskName, task);

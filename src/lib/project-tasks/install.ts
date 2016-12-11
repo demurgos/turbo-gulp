@@ -26,7 +26,7 @@ export function registerTask(gulp: Gulp, options: Options) {
     installTypings.registerTask(gulp, options);
   }
 
-  gulp.task(taskName, installTasks);
+  gulp.task(taskName, gulp.parallel(...installTasks));
 }
 
 export default registerTask;

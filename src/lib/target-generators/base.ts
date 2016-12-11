@@ -11,7 +11,9 @@ import {streamToPromise} from "../utils/utils";
  */
 export function generateCopyTasks(gulp: Gulp, targetName: string, srcDir: string, buildDir: string, targetOptions: Target): void {
   if (targetOptions.copy === undefined) {
-    gulp.task(`${targetName}:build:copy`, function () {});
+    gulp.task(`${targetName}:build:copy`, function (done: () => void) {
+      done();
+    });
     return;
   }
 
@@ -36,10 +38,10 @@ export function generateCopyTasks(gulp: Gulp, targetName: string, srcDir: string
     }
   }
 
-  gulp.task(`${targetName}:build:copy`, namedCopies, function () {
+  gulp.task(`${targetName}:build:copy`, gulp.parallel(...namedCopies, function _copyDefault () {
     const promises = anonymousCopies
       .map(copyOptions => streamToPromise(copy.copy(gulp, copyOptions)));
 
     return Bluebird.all(promises);
-  });
+  }));
 }

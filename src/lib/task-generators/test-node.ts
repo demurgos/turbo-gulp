@@ -1,4 +1,4 @@
-import {Gulp} from "gulp";
+import {Gulp, TaskFunction} from "gulp";
 import {Minimatch} from "minimatch";
 import * as matcher from "../utils/matcher";
 import gulpMocha = require("gulp-mocha");
@@ -22,7 +22,7 @@ export function getSources(options: Options): Sources {
   };
 }
 
-export function generateTask(gulp: Gulp, targetName: string, options: Options): Function {
+export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const sources = getSources(options);
 
   return function () {
@@ -38,7 +38,7 @@ export function getTaskName(targetName: string): string {
   return `${targetName}`;
 }
 
-export function registerTask(gulp: Gulp, targetName: string, options: Options): Function {
+export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const taskName: string = getTaskName(targetName);
   const task = generateTask(gulp, taskName, options);
   gulp.task(taskName, task);

@@ -1,6 +1,6 @@
 import * as path from "path";
 import {assign} from "lodash";
-import {Gulp} from "gulp";
+import {Gulp, TaskFunction} from "gulp";
 import {Minimatch} from "minimatch";
 import {DEV_TSC_OPTIONS} from "../config/tsc";
 import * as matcher from "../utils/matcher";
@@ -9,6 +9,16 @@ import merge = require("merge2");
 import gulpSourceMaps = require("gulp-sourcemaps");
 
 export interface Options {
+  /**
+   * Exit with an error code when an issue happens during the compilation.
+   * Default: true
+   */
+  strict?: boolean;
+
+  /**
+   * Options to pass to gulp-typescript.
+   * These are also used when generating tsconfig.json files
+   */
   tsOptions: any;
   srcDir: string;
   typeRoots: string[];
@@ -16,10 +26,28 @@ export interface Options {
   buildDir: string;
 }
 
+/**
+ * Sources to use when compiling TS code
+ */
 export interface Sources {
+  /**
+   * Base directory to use when expanding glob stars.
+   */
   baseDir: string;
+
+  /**
+   * List of absolute type roots
+   */
   typeRoots: string[];
+
+  /**
+   * List of absolute patterns for the script files
+   */
   scripts: string[];
+
+  /**
+   * List of absolute patterns for the sources (script or type definition) files
+   */
   sources: string[];
 }
 
@@ -50,11 +78,9 @@ export function getSources(options: Options): Sources {
   return result;
 }
 
-export function registerTask(gulp: Gulp, targetName: string, options: Options) {
+export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const sources = getSources(options);
   const tsOptions: any = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
-
-  // console.log(sources);
 
   const task = function () {
     const tsResult = gulp
@@ -75,4 +101,5 @@ export function registerTask(gulp: Gulp, targetName: string, options: Options) {
 
   return task;
 }
+
 export default registerTask;

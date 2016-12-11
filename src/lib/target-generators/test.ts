@@ -12,11 +12,22 @@ import {generateCopyTasks} from "./base";
 export interface Options {
   project: ProjectOptions;
   target: TestTarget;
+  /**
+   * Exit with an error code when an issue happens during the compilation.
+   */
+  strict?: boolean;
   tsOptions: {
     typescript: any
   };
 }
 
+/**
+ * Generate a Mocha test target.
+ *
+ * @param gulp The gulp instance to use to register the tasks
+ * @param targetName The name of the target, used to prefix the related tasks
+ * @param options The target options, see Options
+ */
 export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
   const rootDir = toUnix(options.project.root);
   const buildDir: string = path.join(rootDir, toUnix(options.project.buildDir), targetName);
@@ -25,6 +36,7 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
   const baseDir: string = path.join(srcDir, toUnix(options.target.baseDir));
 
   const typescriptOptions: buildTypescript.Options & generateTsconfig.Options = {
+    strict: options.strict || true,
     tsOptions: options.tsOptions,
     typeRoots: options.target.typeRoots.map(toUnix),
     scripts: options.target.scripts,
@@ -37,22 +49,13 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
   generateTsconfig.registerTask(gulp, targetName, typescriptOptions);
   generateCopyTasks(gulp, targetName, srcDir, buildDir, options.target);
 
-  // gulp.task(`${targetName}:watch`, function () {
-  //   const sources = buildTypescript.getSources(typescriptOptions);
-  //   gulp.watch(sources.scripts, {cwd: baseDir}, [`build:${targetName}`]);
-  // });
-
-  gulp.task(`${targetName}:build`, [`${targetName}:build:scripts`, `${targetName}:build:copy`]);
+  gulp.task(`${targetName}:build`, gulp.parallel(`${targetName}:build:scripts`, `${targetName}:build:copy`));
 
   gulp.task(`${targetName}:clean`, function () {
     return del(buildDir);
   });
 
-  gulp.task(
-    `${targetName}`,
-    [
-      `${targetName}:build`
-    ],
-    testNode.generateTask(gulp, targetName, {testDir: buildDir})
-  );
+  gulp.task(`${targetName}:run`, testNode.generateTask(gulp, targetName, {testDir: buildDir}));
+
+  gulp.task(`${targetName}`, gulp.series(`${targetName}:build`, `${targetName}:run`));
 }

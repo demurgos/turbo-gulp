@@ -5,7 +5,7 @@ import {
 } from "webpack";
 import {join as joinPath} from "path";
 import {PluginError, log as gulpLog} from "gulp-util";
-import {Gulp} from "gulp";
+import {Gulp, TaskFunction} from "gulp";
 import webpackStream = require("webpack-stream");
 import webpackMerge = require("webpack-merge");
 
@@ -41,11 +41,17 @@ export interface Options {
   webpackConfig: WebpackConfiguration;
 }
 
+/**
+ * Return the canonical name of the build-webpack task according to the target name.
+ *
+ * @param targetName Current target name
+ * @returns {string} The canonical of the build-webpack task for the provided target
+ */
 export function getTaskName(targetName: string): string {
   return `${targetName}:build:webpack`;
 }
 
-export function generateTask(gulp: Gulp, targetName: string, options: Options): Function {
+export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const taskName: string = getTaskName(targetName);
   const entryFile = options.entry + ".js";
 
@@ -108,7 +114,7 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
   return task;
 }
 
-export function registerTask(gulp: Gulp, targetName: string, options: Options): Function {
+export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const taskName: string = getTaskName(targetName);
   const task = generateTask(gulp, taskName, options);
   gulp.task(taskName, task);

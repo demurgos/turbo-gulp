@@ -39,23 +39,23 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
   generateTsconfig.registerTask(gulp, targetName, generateTsconfigOptions);
   generateCopyTasks(gulp, targetName, srcDir, buildDir, options.target);
 
-  gulp.task(`${targetName}:build`, [`${targetName}:build:scripts`, `${targetName}:build:copy`]);
+  gulp.task(`${targetName}:build`, gulp.parallel(`${targetName}:build:scripts`, `${targetName}:build:copy`));
 
   gulp.task(`${targetName}:watch`, function () {
     const sources = buildTypescript.getSources(buildTypescriptOptions);
-    gulp.watch(sources.scripts, {cwd: baseDir}, [`${targetName}:build`]);
+    gulp.watch(sources.scripts, {cwd: baseDir}, gulp.parallel(`${targetName}:build`));
   });
 
   gulp.task(`${targetName}:clean`, function () {
     return del(buildDir);
   });
 
-  gulp.task(`${targetName}:dist`, [`${targetName}:clean`, `${targetName}:build`], function () {
+  gulp.task(`${targetName}:dist`, gulp.series(`${targetName}:clean`, `${targetName}:build`, function _buildToDist () {
     return del(distDir)
       .then((deleted: string[]) => {
         return gulp
           .src([path.join(buildDir, "**/*")], {base: buildDir})
           .pipe(gulp.dest(distDir));
       });
-  });
+  }));
 }

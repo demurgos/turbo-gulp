@@ -1,6 +1,6 @@
 import Bluebird = require("bluebird");
 import {posix as path} from "path";
-import {Gulp} from "gulp";
+import {Gulp, TaskFunction} from "gulp";
 import {Webpack, Configuration as WebpackConfiguration} from "webpack";
 import {ProjectOptions, AngularTarget} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
@@ -56,9 +56,18 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
     entry: options.target.mainModule
   };
 
-  const webpackTask = buildWebpack.generateTask(gulp, targetName, buildWebpackOptions);
+  const webpackTask: TaskFunction = buildWebpack.generateTask(gulp, targetName, buildWebpackOptions);
 
-  gulp.task(buildWebpack.getTaskName(targetName), [`${targetName}:build:scripts`, `${targetName}:build:assets`], webpackTask);
+  gulp.task(
+    buildWebpack.getTaskName(targetName),
+    gulp.series(
+      gulp.parallel(
+        `${targetName}:build:scripts`,
+        `${targetName}:build:assets`
+      ),
+      webpackTask
+    )
+  );
 
   gulp.task(`${targetName}:build:pug`, function () {
     return gulp
@@ -76,25 +85,36 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
       .pipe(gulp.dest(path.join(tmpDir, options.target.assetsDir)));
   });
 
-  gulp.task(`${targetName}:build:assets`, [
-    `${targetName}:build:pug`,
-    `${targetName}:build:sass`
-  ]);
+  gulp.task(
+    `${targetName}:build:assets`,
+    gulp.parallel(
+      `${targetName}:build:pug`,
+      `${targetName}:build:sass`
+    )
+  );
 
   generateCopyTasks(gulp, targetName, srcDir, buildDir, options.target);
 
-  gulp.task(`${targetName}:build`, [`${targetName}:build:webpack`, `${targetName}:build:assets`, `${targetName}:build:copy`]);
+  gulp.task(`${targetName}:build`, gulp.series(buildWebpack.getTaskName(targetName), `${targetName}:build:copy`));
 
   gulp.task(`${targetName}:clean`, function () {
     return del([buildDir, tmpDir]);
   });
 
-  gulp.task(`${targetName}:dist`, [`${targetName}:clean`, `${targetName}:build`], function () {
-    return del([distDir])
-      .then((deleted: string[]) => {
-        return gulp
-          .src([path.join(buildDir, "**/*")], {base: path.join(buildDir)})
-          .pipe(gulp.dest(distDir));
-      });
-  });
+  // dist = clean + build + copy
+  gulp.task(
+    `${targetName}:dist`,
+    gulp.series(
+      `${targetName}:clean`,
+      `${targetName}:build`,
+      function _buildToDist () {
+        return del([distDir])
+          .then((deleted: string[]) => {
+            return gulp
+              .src([path.join(buildDir, "**/*")], {base: path.join(buildDir)})
+              .pipe(gulp.dest(distDir));
+          });
+      }
+    )
+  );
 }

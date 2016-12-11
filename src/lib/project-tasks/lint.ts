@@ -23,7 +23,7 @@ export function registerTask(gulp: Gulp, {project, tslintOptions}: Options) {
   gulp.task(taskName, function () {
     const srcDir = joinPath(project.root, project.srcDir);
     const sources = joinPath(srcDir, "**/*.ts");
-    gulp.src([sources], {base: srcDir})
+    return gulp.src([sources], {base: srcDir})
       .pipe(gulpTslint(options))
       .pipe(gulpTslint.report());
   });
