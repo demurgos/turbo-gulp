@@ -4,17 +4,12 @@ import * as semver from "semver";
 
 import {ProjectOptions} from "../config/config";
 import * as git from "./git";
+import {readText, writeText} from "./node-async";
 
-const readFile: (filename: string, encoding: string) => Bluebird<string> = Bluebird.promisify(fs.readFile) as any;
-const writeFile: (filename: string, data: any) => Bluebird<any> = Bluebird.promisify(fs.writeFile);
-
-export function ensureUnusedTag(tag: string) {
-  return git.checkTag(tag)
-    .then((exists: boolean) => {
-      if (exists) {
-        throw new Error("Tag " + tag + " already exists");
-      }
-    });
+export async function assertUnusedTag(tag: string): Promise<void> {
+  if (await git.tagExists(tag)) {
+    throw new Error("Tag " + tag + " already exists");
+  }
 }
 
 export function getVersionTag(version: string): string {
@@ -25,72 +20,56 @@ export function getVersionMessage(version: string): string {
   return "Release v" + version;
 }
 
-export function commitVersion(version: string, projectRoot?: string) {
+export async function commitVersion(version: string, projectRoot?: string): Promise<void> {
   let tag: string = getVersionTag(version);
   let message: string = getVersionMessage(version);
-  return git.exec("add", ["."])
-    .then(() => {
-      return git.exec("commit", ["-m", message]);
-    })
-    .then(() => {
-      return git.exec("tag", ["-a", tag, "-m", message]);
-    });
+  await git.exec("add", ["."]);
+  await git.exec("commit", ["-m", message]);
+  await git.exec("tag", ["-a", tag, "-m", message]);
 }
 
-export function release(version: string, locations: ProjectOptions) {
-  return Bluebird.all([
-    ensureUnusedTag(getVersionTag(version)),
-    git.ensureCleanMaster()
-  ])
-    .then(() => {
-      return setPackageVersion(version, locations);
-    })
-    .then(() => {
-      return commitVersion(version, locations.root);
-    });
+export async function release(version: string, locations: ProjectOptions): Promise<void> {
+  await Promise.all([
+    assertUnusedTag(getVersionTag(version)),
+    git.assertCleanMaster()
+  ]);
+  await setPackageVersion(version, locations);
+  await commitVersion(version, locations.root);
 }
 
-export interface IPackageJson {
+export interface PackageJson {
   version: string;
 }
 
-export function readJsonFile<T>(filePath: string): Bluebird<T> {
-  return readFile(filePath, "utf8")
-    .then((content: string) => {
-      return JSON.parse(content);
-    });
+export async function readJsonFile<T>(filePath: string): Promise<T> {
+  return JSON.parse(await readText(filePath));
 }
 
-export function writeJsonFile<T>(filePath: string, data: T): Bluebird<any> {
-  return writeFile(filePath, JSON.stringify(data, null, 2) + "\n");
+export function writeJsonFile<T>(filePath: string, data: T): Promise<void> {
+  return writeText(filePath, JSON.stringify(data, null, 2) + "\n");
 }
 
-export function readPackage(locations: ProjectOptions): Bluebird<IPackageJson> {
-  return readJsonFile<IPackageJson>(locations.package);
+export function readPackage(locations: ProjectOptions): Promise<PackageJson> {
+  return readJsonFile<PackageJson>(locations.package);
 }
 
-export function writePackage(pkg: IPackageJson, locations: ProjectOptions): Bluebird<any> {
+export function writePackage(pkg: PackageJson, locations: ProjectOptions): Promise<void> {
   return writeJsonFile(locations.package, pkg);
 }
 
-export function setPackageVersion(version: string, locations: ProjectOptions): Bluebird<any> {
-  return readPackage(locations)
-    .then((pkg: IPackageJson) => {
-      pkg.version = version;
-      return writePackage(pkg, locations);
-    });
+export async function setPackageVersion(version: string, locations: ProjectOptions): Promise<void> {
+  const packageData: PackageJson = await readPackage(locations);
+  packageData.version = version;
+  return writePackage(packageData, locations);
 }
 
-export function getNextVersion(bumpKind: "major" | "minor" | "patch", locations: ProjectOptions): Bluebird<string> {
-  return readPackage(locations)
-    .then((pkg: IPackageJson) => {
-      return semver.inc(pkg.version, bumpKind);
-    });
+export async function getNextVersion(bumpKind: "major" | "minor" | "patch",
+                                     locations: ProjectOptions): Promise<string> {
+  const packageData: PackageJson = await readPackage(locations);
+  return semver.inc(packageData.version, bumpKind);
 }
 
-export function bumpVersion(bumpKind: "major" | "minor" | "patch", locations: ProjectOptions): Bluebird<any> {
-  return getNextVersion(bumpKind, locations)
-    .then((nextVersion: string) => {
-      return release(nextVersion, locations);
-    });
+export async function bumpVersion(bumpKind: "major" | "minor" | "patch", locations: ProjectOptions): Promise<void> {
+  const nextVersion: string = await getNextVersion(bumpKind, locations);
+  await release(nextVersion, locations);
 }

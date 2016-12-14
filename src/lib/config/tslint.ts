@@ -58,7 +58,7 @@ export const tslintConfig = {
     // Requires parentheses when invoking a constructor via the `new` keyword
     "new-parens": false,
     // Requires the use of `as Type` for type assertions instead of `<Type>`
-    "no-angle-bracket-type-assertion": true,
+    "no-angle-bracket-type-assertion": false,
     // Diallows usages of any as a type declaration
     "no-any": false,
     // Disallows access to arguments.callee
@@ -91,7 +91,7 @@ export const tslintConfig = {
     // Disallows internal `module`
     "no-internal-module": true,
     // Disallows using the `this` keyword outside of classes
-    "no-invalid-this": true,
+    "no-invalid-this": false,
     // Disallows mergeable namespaces in the same file
     "no-mergeable-namespace": true,
     // Disallows use of internal `module`s and `namespace`s
@@ -105,7 +105,7 @@ export const tslintConfig = {
     // Disallows invocation of `require()`
     "no-require-imports": false,
     // Disallows shadowing variable declarations
-    "no-shadowed-variable": true,
+    "no-shadowed-variable": false,
     // Disallows object access via string literals
     "no-string-literal": true,
     // Disallows falling through case statements

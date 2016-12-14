@@ -15,7 +15,7 @@ export interface ProjectOptions {
   /**
    * Path to the `package.json` file, relative to `root`.
    */
-    package: string;
+  package: string;
 
   /**
    * Path to the build directory relative to `root`. This is the directory where all of the builds
@@ -64,6 +64,38 @@ export interface CopyOptions {
    * be called by `<targetName>:build:copy`
    */
   name?: string;
+}
+
+/**
+ * CopyOptions describes a pug operation required to build a target.
+ */
+export interface PugOptions {
+  /**
+   * Base directory of the files to copy. Relative to srcDir
+   * Default: srcDir
+   */
+  from?: string;
+
+  /**
+   * A list of minimatch patterns
+   */
+  files?: string[];
+
+  /**
+   * Target directory of the copy, relative to the target output directory.
+   * Default: target output directory
+   */
+  to?: string;
+
+  /**
+   * Name of the pug operation.
+   */
+  name?: string;
+
+  /**
+   * GulpPug options
+   */
+  options?: {locals: any};
 }
 
 /**

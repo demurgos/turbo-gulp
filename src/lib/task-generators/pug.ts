@@ -1,5 +1,8 @@
+import Bluebird = require("bluebird");
 import {Gulp, TaskFunction} from "gulp";
 import {Minimatch} from "minimatch";
+import {posix as path} from "path";
+import gulpPug = require("gulp-pug");
 
 import {asString, join} from "../utils/matcher";
 
@@ -18,6 +21,13 @@ export interface Options {
    * Target directory
    */
   to: string;
+
+  /**
+   * gulp-pug options
+   */
+  pugOptions?: {
+    locals?: {};
+  };
 }
 
 /**
@@ -27,17 +37,18 @@ export function getSources({files, from}: Options): string[] {
   return files.map((val: string): string => asString(join(from, new Minimatch(val))));
 }
 
-export function copy(gulp: Gulp, options: Options): NodeJS.ReadableStream {
+export function buildPug(gulp: Gulp, options: Options): NodeJS.ReadableStream {
   return gulp
     .src(getSources(options), {base: options.from})
+    .pipe(gulpPug(options.pugOptions))
     .pipe(gulp.dest(options.to));
 }
 
 /**
- * Generate a task to copy files from one directory to an other.
+ * Generate a task to build pug files
  */
-export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
+export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   return function (): NodeJS.ReadableStream {
-    return copy(gulp, options);
+    return buildPug(gulp, options);
   };
 }
