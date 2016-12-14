@@ -2,18 +2,17 @@
   "name": "demurgos-web-build-tools",
   "dependencies": {
     "bluebird": "registry:npm/bluebird#3.4.1+20160909132857",
+    "chai-as-promised": "registry:npm/chai-as-promised#5.1.0+20160310030142",
     "del": "registry:npm/del#2.2.0+20160416211512",
     "gulp": "registry:npm/gulp#4.0.0-alpha.2+20160817105618",
     "gulp-sourcemaps": "registry:npm/gulp-sourcemaps#2.0.0-alpha+20160823215745",
+    "incident": "npm:incident",
     "lodash": "registry:npm/lodash#4.0.0+20161015015725",
     "minimatch": "registry:npm/minimatch#3.0.0+20160723033700",
     "semver": "registry:npm/semver#5.0.0+20160723033700"
   },
   "devDependencies": {
     "chai": "registry:npm/chai#3.5.0+20160723033700"
-  },
-  "globalDependencies": {
-    "mocha": "registry:env/mocha#2.2.5+20160926180742"
   },
   "globalDevDependencies": {
     "mocha": "registry:env/mocha#2.2.5+20160926180742"

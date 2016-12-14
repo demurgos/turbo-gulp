@@ -1,0 +1,16 @@
+{
+  "name": "demurgos-web-build-tools.node-lib",
+  "version": "1.0.0",
+  "description": "Sample node library",
+  "private": true,
+  "main": "dist/lib/lib/index.js",
+  "scripts": {
+    "test": "gulp :lint && gulp lib-test:clean && gulp lib-test",
+    "prepublishOnly": "npm test && gulp lib:dist"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "github:gulpjs/gulp#4.0"
+  }
+}

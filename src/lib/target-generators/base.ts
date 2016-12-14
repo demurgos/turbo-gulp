@@ -1,9 +1,45 @@
+import asyncDone = require("async-done");
 import Bluebird = require("bluebird");
-import {Gulp} from "gulp";
+import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
-import {Target} from "../config/config";
+import {ProjectOptions, PugOptions, Target} from "../config/config";
 import * as copy from "../task-generators/copy";
+import * as pug from "../task-generators/pug";
 import {streamToPromise} from "../utils/utils";
+
+function asyncDoneAsync(fn: asyncDone.AsyncTask): Bluebird<any> {
+  return Bluebird.fromCallback((cb) => {
+    asyncDone(fn, cb);
+  });
+}
+
+export interface Options {
+  project: ProjectOptions;
+  target: Target;
+  tsOptions: {
+    typescript: any
+  };
+  pug?: PugOptions[];
+  sassOptions?: any[];
+}
+
+/**
+ * Groups the item according to the `name` property. Missing `name` is treated as `"default"`.
+ *
+ * @param items
+ * @returns {{[p: string]: T[]}} A map of name to the list of its options
+ */
+function groupByName<T extends {name?: string}>(items: T[]): {[name: string]: T[]} {
+  const result: {[name: string]: T[]} = {};
+  for (const item of items) {
+    const name: string = item.name === undefined ? "default" : item.name;
+    if (!(name in result)) {
+      result[name] = [];
+    }
+    result[name].push(item);
+  }
+  return result;
+}
 
 /**
  * Generate tasks such as:
@@ -45,4 +81,41 @@ export function generateCopyTasks(gulp: Gulp, targetName: string, srcDir: string
 
     return Bluebird.all(promises);
   }));
+}
+
+function mergePug(gulp: Gulp, srcDir: string, buildDir: string, pugOptions: PugOptions[]): TaskFunction {
+  const tasks: TaskFunction[] = [];
+  for (const options of pugOptions) {
+    const from: string = options.from === undefined ? srcDir : path.join(srcDir, options.from);
+    const to: string = options.to === undefined ? buildDir : path.join(buildDir, options.to);
+    const completeOptions: pug.Options = {
+      from: from,
+      files: options.files === undefined ? ["**/*.pug"] : options.files,
+      to: to
+    };
+    if (options.options !== undefined) {
+      completeOptions.pugOptions = options.options;
+    }
+    tasks.push(pug.generateTask(gulp, completeOptions));
+  }
+  return async function(): Promise<any> {
+    await Promise.all(tasks.map(asyncDoneAsync));
+    return;
+  };
+}
+
+export function generatePugTasks(gulp: Gulp, srcDir: string, buildDir: string, pugOptions: PugOptions[]): TaskFunction {
+  const pugTasks: TaskFunction[] = [];
+  const groups: {[name: string]: PugOptions[]} = groupByName(pugOptions);
+
+  for (const name in groups) {
+    const subTask: TaskFunction = mergePug(gulp, srcDir, buildDir, groups[name]);
+    subTask.displayName = `_pug:${name}`;
+    pugTasks.push(subTask);
+  }
+
+  const mainTask: TaskFunction = gulp.parallel(...pugTasks);
+  mainTask.displayName = `_pug`;
+
+  return mainTask;
 }

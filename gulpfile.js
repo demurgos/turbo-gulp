@@ -10,6 +10,7 @@ const buildTools = (useDist
   : require("demurgos-web-build-tools")); // Going meta
 
 const projectOptions = buildTools.config.DEFAULT_PROJECT_OPTIONS;
+projectOptions.root = __dirname;
 const libTarget = buildTools.config.LIB_TARGET;
 const libTestTarget = buildTools.config.LIB_TEST_TARGET;
 
@@ -19,12 +20,15 @@ buildTools.projectTasks.registerAll(gulp, {
   install: {}
 });
 
+libTestTarget.scripts = ["test/**/*.ts", "lib/**/*.ts", "e2e/*/*.ts"];
+
 libTestTarget.copy = [
   {
-    name: "examples",
-    from: "test/examples",
-    files: ["**/*"],
-    to: "test/examples"
+    name: "projects",
+    from: "e2e",
+    // <project-name>/(project|expected)/<any>
+    files: ["*/project/**/*", "*/expected/**/*"],
+    to: "e2e"
   }
 ];
 

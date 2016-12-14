@@ -1,5 +1,9 @@
+import Bluebird = require("bluebird");
 import {Gulp, TaskFunction} from "gulp";
 import {Minimatch} from "minimatch";
+import {posix as path} from "path";
+import gulpSass = require("gulp-sass");
+import gulpSourceMaps = require("gulp-sourcemaps");
 
 import {asString, join} from "../utils/matcher";
 
@@ -12,12 +16,19 @@ export interface Options {
   /**
    * Base-directory for copy
    */
-  from: string;
+    from: string;
 
   /**
    * Target directory
    */
   to: string;
+
+  /**
+   * gulp-sass options
+   */
+  sassOptions: {
+    locals: {};
+  };
 }
 
 /**
@@ -27,17 +38,20 @@ export function getSources({files, from}: Options): string[] {
   return files.map((val: string): string => asString(join(from, new Minimatch(val))));
 }
 
-export function copy(gulp: Gulp, options: Options): NodeJS.ReadableStream {
+export function buildSass(gulp: Gulp, options: Options): NodeJS.ReadableStream {
   return gulp
     .src(getSources(options), {base: options.from})
+    .pipe(gulpSourceMaps.init())
+    .pipe(gulpSass().on("error", (gulpSass).logError))
+    .pipe(gulpSourceMaps.write())
     .pipe(gulp.dest(options.to));
 }
 
 /**
- * Generate a task to copy files from one directory to an other.
+ * Generate a task to build pug files
  */
-export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
+export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   return function (): NodeJS.ReadableStream {
-    return copy(gulp, options);
+    return buildSass(gulp, options);
   };
 }

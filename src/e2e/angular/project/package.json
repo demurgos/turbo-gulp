@@ -1,0 +1,17 @@
+{
+  "name": "demurgos-web-build-tools.angular",
+  "version": "1.0.0",
+  "description": "Sample angular project",
+  "private": true,
+  "main": "dist/server/server/main.js",
+  "scripts": {
+    "test": "gulp :lint && gulp lib-test:clean && gulp lib-test",
+    "prepublishOnly": "npm test && gulp lib:dist"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "github:gulpjs/gulp#4.0",
+    "typescript": "^2.1.4"
+  }
+}

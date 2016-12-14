@@ -5,8 +5,8 @@ import {posix as path} from "path";
 
 import {ProjectOptions, TestTarget} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
-import * as generateTsconfig from "../task-generators/generate-tsconfig";
 import * as testNode from "../task-generators/test-node";
+import * as tsconfigJson from "../task-generators/tsconfig-json";
 import {toUnix} from "../utils/locations";
 import {generateCopyTasks} from "./base";
 
@@ -36,7 +36,7 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
 
   const baseDir: string = path.join(srcDir, toUnix(options.target.baseDir));
 
-  const typescriptOptions: buildTypescript.Options & generateTsconfig.Options = {
+  const typescriptOptions: buildTypescript.Options & tsconfigJson.Options = {
     strict: options.strict || true,
     tsOptions: options.tsOptions,
     typeRoots: options.target.typeRoots.map(toUnix),
@@ -47,7 +47,7 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
   };
 
   buildTypescript.registerTask(gulp, targetName, typescriptOptions);
-  generateTsconfig.registerTask(gulp, targetName, typescriptOptions);
+  tsconfigJson.registerTask(gulp, targetName, typescriptOptions);
   generateCopyTasks(gulp, targetName, srcDir, buildDir, options.target);
 
   gulp.task(`${targetName}:build`, gulp.parallel(`${targetName}:build:scripts`, `${targetName}:build:copy`));
