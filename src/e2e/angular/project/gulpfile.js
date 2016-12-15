@@ -41,6 +41,14 @@ buildTools.targetGenerators.node.generateTarget(
         // gulp-pug options
         options: {locals: {locale: "en_US"}}
       }
+    ],
+    sass: [
+      {
+        // Name of the gulp sub-task
+        name: "app",
+        // Files to process
+        files: ["app/**/*.scss"]
+      }
     ]
   }
 );

@@ -6,7 +6,7 @@ import * as tsconfigJson from "../task-generators/tsconfig-json";
 import {toUnix} from "../utils/locations";
 import del = require("del");
 import {TaskFunction} from "gulp";
-import {generateCopyTasks, generatePugTasks, Options as BaseOptions} from "./base";
+import {generateCopyTasks, generatePugTasks, Options as BaseOptions, generateSassTasks} from "./base";
 
 export interface Options extends BaseOptions {
   target: NodeTarget;
@@ -67,11 +67,19 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
   tsconfigJson.registerTask(gulp, targetName, generateTsconfigOptions);
 
   generateCopyTasks(gulp, targetName, locations.srcDir, locations.buildDir, options.target);
+
   if (options.pug !== undefined) {
     const mainPugTask: TaskFunction = generatePugTasks(gulp, locations.srcDir, locations.buildDir, options.pug);
     mainPugTask.displayName = taskNames.buildPug;
-    gulp.task(taskNames.buildPug, mainPugTask);
-    buildTasks.push(taskNames.buildPug);
+    gulp.task(mainPugTask.displayName, mainPugTask);
+    buildTasks.push(mainPugTask.displayName);
+  }
+
+  if (options.sass !== undefined) {
+    const mainSassTask: TaskFunction = generateSassTasks(gulp, locations.srcDir, locations.buildDir, options.sass);
+    mainSassTask.displayName = taskNames.buildSass;
+    gulp.task(mainSassTask.displayName, mainSassTask);
+    buildTasks.push(mainSassTask.displayName);
   }
 
   gulp.task(

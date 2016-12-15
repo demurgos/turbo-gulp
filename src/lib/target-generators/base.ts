@@ -2,9 +2,10 @@ import asyncDone = require("async-done");
 import Bluebird = require("bluebird");
 import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
-import {ProjectOptions, PugOptions, Target} from "../config/config";
+import {ProjectOptions, PugOptions, Target, SassOptions} from "../config/config";
 import * as copy from "../task-generators/copy";
 import * as pug from "../task-generators/pug";
+import * as sass from "../task-generators/sass";
 import {streamToPromise} from "../utils/utils";
 
 function asyncDoneAsync(fn: asyncDone.AsyncTask): Bluebird<any> {
@@ -20,7 +21,7 @@ export interface Options {
     typescript: any
   };
   pug?: PugOptions[];
-  sassOptions?: any[];
+  sass?: any[];
 }
 
 /**
@@ -87,12 +88,10 @@ function mergePug(gulp: Gulp, srcDir: string, buildDir: string, pugOptions: PugO
   const tasks: TaskFunction[] = [];
   for (const options of pugOptions) {
     const from: string = options.from === undefined ? srcDir : path.join(srcDir, options.from);
+    const files: string[] = options.files === undefined ? ["**/*.pug"] : options.files;
     const to: string = options.to === undefined ? buildDir : path.join(buildDir, options.to);
-    const completeOptions: pug.Options = {
-      from: from,
-      files: options.files === undefined ? ["**/*.pug"] : options.files,
-      to: to
-    };
+
+    const completeOptions: pug.Options = {from, files, to};
     if (options.options !== undefined) {
       completeOptions.pugOptions = options.options;
     }
@@ -116,6 +115,41 @@ export function generatePugTasks(gulp: Gulp, srcDir: string, buildDir: string, p
 
   const mainTask: TaskFunction = gulp.parallel(...pugTasks);
   mainTask.displayName = `_pug`;
+
+  return mainTask;
+}
+
+function mergeSass(gulp: Gulp, srcDir: string, buildDir: string, sassOptions: SassOptions[]): TaskFunction {
+  const tasks: TaskFunction[] = [];
+  for (const options of sassOptions) {
+    const from: string = options.from === undefined ? srcDir : path.join(srcDir, options.from);
+    const files: string[] = options.files === undefined ? ["**/*.sass"] : options.files;
+    const to: string = options.to === undefined ? buildDir : path.join(buildDir, options.to);
+
+    const completeOptions: sass.Options = {from, files, to};
+    if (options.options !== undefined) {
+      completeOptions.sassOptions = options.options;
+    }
+    tasks.push(sass.generateTask(gulp, completeOptions));
+  }
+  return async function(): Promise<any> {
+    await Promise.all(tasks.map(asyncDoneAsync));
+    return;
+  };
+}
+
+export function generateSassTasks(gulp: Gulp, srcDir: string, buildDir: string, sassOptions: SassOptions[]): TaskFunction {
+  const subTasks: TaskFunction[] = [];
+  const groups: {[name: string]: SassOptions[]} = groupByName(sassOptions);
+
+  for (const name in groups) {
+    const subTask: TaskFunction = mergeSass(gulp, srcDir, buildDir, groups[name]);
+    subTask.displayName = `_sass:${name}`;
+    subTasks.push(subTask);
+  }
+
+  const mainTask: TaskFunction = gulp.parallel(...subTasks);
+  mainTask.displayName = `_sass`;
 
   return mainTask;
 }

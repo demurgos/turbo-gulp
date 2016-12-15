@@ -3,7 +3,7 @@
 - **[Breaking]** Update to `gulp@4` (from `gulp@3`)
 - **[Breaking]** Update to `tslint@7` (from `tslint@6`), add strciter default rules
 - Add `:tslint.json` project task to generate configuration for `tslint`
-- Add first class support for processing of `pug` files, similar to `copy`
+- Add first class support for processing of `pug` and `sass` files, similar to `copy`
 - Implement end-to-end tests
 
 ## TODO:

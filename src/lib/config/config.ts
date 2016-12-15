@@ -67,7 +67,7 @@ export interface CopyOptions {
 }
 
 /**
- * CopyOptions describes a pug operation required to build a target.
+ * PugOptions describes a pug operation required to build a target.
  */
 export interface PugOptions {
   /**
@@ -96,6 +96,40 @@ export interface PugOptions {
    * GulpPug options
    */
   options?: {locals: any};
+}
+
+/**
+ * Describes a sass operation required to build a target.
+ */
+export interface SassOptions {
+  /**
+   * Base directory of the files to copy. Relative to srcDir
+   * Default: srcDir
+   */
+    from?: string;
+
+  /**
+   * A list of minimatch patterns
+   */
+  files?: string[];
+
+  /**
+   * Target directory of the copy, relative to the target output directory.
+   * Default: target output directory
+   */
+  to?: string;
+
+  /**
+   * Name of the sass operation.
+   */
+  name?: string;
+
+  /**
+   * GulpSass options
+   */
+  options?: {
+    outputStyle?: "compressed" | string;
+  };
 }
 
 /**
