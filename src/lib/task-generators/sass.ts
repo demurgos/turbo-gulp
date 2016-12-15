@@ -26,8 +26,8 @@ export interface Options {
   /**
    * gulp-sass options
    */
-  sassOptions: {
-    locals: {};
+  sassOptions?: {
+      outputStyle?: "compressed" | string;
   };
 }
 
@@ -42,7 +42,7 @@ export function buildSass(gulp: Gulp, options: Options): NodeJS.ReadableStream {
   return gulp
     .src(getSources(options), {base: options.from})
     .pipe(gulpSourceMaps.init())
-    .pipe(gulpSass().on("error", (gulpSass).logError))
+    .pipe(gulpSass().on("error", gulpSass.logError))
     .pipe(gulpSourceMaps.write())
     .pipe(gulp.dest(options.to));
 }
