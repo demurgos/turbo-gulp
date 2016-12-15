@@ -9,6 +9,7 @@
     "url": "git://github.com/demurgos/web-build-tools.git"
   },
   "scripts": {
+    "prepare": "typings install",
     "test": "gulp :lint && gulp lib-test:clean && gulp lib-test",
     "prepublishOnly": "npm test && gulp lib:dist"
   },
