@@ -4,6 +4,7 @@
   "description": "Gulp tasks generator for standard web projects.",
   "private": false,
   "main": "dist/lib/lib/index.js",
+  "types": "dist/lib/lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/demurgos/web-build-tools.git"
