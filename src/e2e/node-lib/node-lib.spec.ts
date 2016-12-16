@@ -1,5 +1,3 @@
-/* tslint:disable:no-angle-bracket-type-assertion no-shadowed-variable no-invalid-this */
-
 import chai = require("chai");
 import chaiAsPromised = require("chai-as-promised");
 import {posix as path} from "path";

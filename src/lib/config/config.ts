@@ -15,7 +15,7 @@ export interface ProjectOptions {
   /**
    * Path to the `package.json` file, relative to `root`.
    */
-  package: string;
+  packageJson: string;
 
   /**
    * Path to the build directory relative to `root`. This is the directory where all of the builds
@@ -34,6 +34,19 @@ export interface ProjectOptions {
    * This is the directory where all of the source files and assets are located.
    */
   srcDir: string;
+
+  /**
+   * Path to the tslint.json file, relative to `root`
+   */
+  tslintJson?: string;
+
+  tslintOptions?: {
+    configuration?: {
+      rules?: {}
+    },
+    formatter?: "verbose" | string;
+    tslint?: any;
+  };
 }
 
 /**
@@ -41,10 +54,10 @@ export interface ProjectOptions {
  */
 export interface CopyOptions {
   /**
-   * Base directory of the files to copy. Relative to srcDir
-   * Default: srcDir
+   * Base directory of the files to copy. Relative to target.srcDir
+   * Default: target.srcDir
    */
-  from?: string;
+  src?: string;
 
   /**
    * A list of minimatch patterns
@@ -55,7 +68,7 @@ export interface CopyOptions {
    * Target directory of the copy, relative to the target output directory.
    * Default: target output directory
    */
-  to?: string;
+  dest?: string;
 
   /**
    * Name of the copy operation.
@@ -74,7 +87,7 @@ export interface PugOptions {
    * Base directory of the files to copy. Relative to srcDir
    * Default: srcDir
    */
-  from?: string;
+  src?: string;
 
   /**
    * A list of minimatch patterns
@@ -83,9 +96,9 @@ export interface PugOptions {
 
   /**
    * Target directory of the copy, relative to the target output directory.
-   * Default: target output directory
+   * Default: target.buildDir/targetName output directory
    */
-  to?: string;
+  dest?: string;
 
   /**
    * Name of the pug operation.
@@ -95,7 +108,7 @@ export interface PugOptions {
   /**
    * GulpPug options
    */
-  options?: {locals: any};
+  options?: {locals?: {}};
 }
 
 /**
@@ -106,7 +119,7 @@ export interface SassOptions {
    * Base directory of the files to copy. Relative to srcDir
    * Default: srcDir
    */
-    from?: string;
+  src?: string;
 
   /**
    * A list of minimatch patterns
@@ -117,7 +130,7 @@ export interface SassOptions {
    * Target directory of the copy, relative to the target output directory.
    * Default: target output directory
    */
-  to?: string;
+  dest?: string;
 
   /**
    * Name of the sass operation.
@@ -137,12 +150,9 @@ export interface SassOptions {
  */
 export interface Target {
   /**
-   * Type of the target.
-   *
-   * "node" represents a node library or server.
-   * "angular" represents a client build for angular.
+   * Name of the target, used to prefix related tasks
    */
-    type: "node" | "test" | "angular";
+  name: string;
 
   /**
    * Base directory for the target, relative to `project.srcDir`.
@@ -162,39 +172,35 @@ export interface Target {
    */
   typeRoots: string[];
 
-  /**
-   * The name of tha main module (name of the file without the extension),
-   * relative to `project.srcDir`.
-   */
-  mainModule?: string;
+  typescriptOptions?: {
+    typescript?: any
+  };
 
   /**
    * A list of copy operations to perform during the build process.
    */
   copy?: CopyOptions[];
+
+  pug?: PugOptions[];
+
+  sass?: SassOptions[];
 }
 
 /**
  * Represents a build to run tests with Mocha.
  */
 export interface NodeTarget extends Target {
-  type: "node";
-
   /**
-   * The main module to call when starting the script.
-   *
-   * TODO: null if there is no main module.
+   * The name of tha main module (name of the file without the extension),
+   * relative to `project.srcDir`.
    */
-  mainModule: string;
+  mainModule?: string | null;
 }
 
 export interface TestTarget extends Target {
-  type: "test";
 }
 
 export interface AngularTarget extends Target {
-  type: "angular";
-
   /**
    * Directory to store intermediate files during the build, relative to
    * `project.buildDir`.
@@ -208,7 +214,8 @@ export interface AngularTarget extends Target {
   assetsDir: string;
 
   /**
-   * Entry point of the application.
+   * The name of tha main module (name of the file without the extension),
+   * relative to `project.srcDir`. It is the entry point of the application.
    */
   mainModule: string;
 }
@@ -218,11 +225,11 @@ export interface AngularTarget extends Target {
  * It uses Typescript and Typings.
  */
 export const LIB_TARGET: NodeTarget = {
-  type: "node",
+  name: "lib",
   baseDir: "lib",
   scripts: ["lib/**/*.ts", "!**/*.spec.ts"],
   typeRoots: ["../typings/globals", "../typings/modules", "../node_modules/@types"],
-  mainModule: "index"
+  mainModule: "lib/index"
 };
 
 /**
@@ -230,11 +237,24 @@ export const LIB_TARGET: NodeTarget = {
  * It uses Typescript, Typings and Mocha.
  */
 export const LIB_TEST_TARGET: TestTarget = {
-  type: "test",
+  name: "lib-test",
   baseDir: "test",
   scripts: ["test/**/*.ts", "lib/**/*.ts"],
+  typeRoots: ["../typings/globals", "../typings/modules", "../node_modules/@types"]
+};
+
+/**
+ * Preconfigured "node" configuration for an Angular Universal server.
+ */
+export const ANGULAR_SERVER_TARGET: NodeTarget = {
+  name: "server",
+  baseDir: "server",
+  scripts: ["server/**/*.ts", "!**/*.spec.ts"],
   typeRoots: ["../typings/globals", "../typings/modules", "../node_modules/@types"],
-  mainModule: "index"
+  mainModule: "server/main",
+  pug: [{src: "app", dest: "app"}],
+  sass: [{src: "app", dest: "app"}],
+  copy: [{src: "static", files: ["**/*"], dest: "static"}]
 };
 
 /**
@@ -243,7 +263,7 @@ export const LIB_TEST_TARGET: TestTarget = {
  */
 export const DEFAULT_PROJECT_OPTIONS: ProjectOptions = {
   root: process.cwd(),
-  package: "package.json",
+  packageJson: "package.json",
   buildDir: "build",
   distDir: "dist",
   srcDir: "src"

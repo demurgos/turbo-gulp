@@ -2,7 +2,7 @@ import asyncDone = require("async-done");
 import Bluebird = require("bluebird");
 import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
-import {ProjectOptions, PugOptions, Target, SassOptions} from "../config/config";
+import {ProjectOptions, PugOptions, SassOptions, Target} from "../config/config";
 import * as copy from "../task-generators/copy";
 import * as pug from "../task-generators/pug";
 import * as sass from "../task-generators/sass";
@@ -17,9 +17,6 @@ function asyncDoneAsync(fn: asyncDone.AsyncTask): Bluebird<any> {
 export interface Options {
   project: ProjectOptions;
   target: Target;
-  tsOptions: {
-    typescript: any
-  };
   pug?: PugOptions[];
   sass?: any[];
 }
@@ -59,8 +56,8 @@ export function generateCopyTasks(gulp: Gulp, targetName: string, srcDir: string
   const anonymousCopies: copy.Options[] = [];
 
   for (const copyConfig of targetOptions.copy) {
-    const from: string = copyConfig.from === undefined ? srcDir : path.join(srcDir, copyConfig.from);
-    const to: string = copyConfig.to === undefined ? buildDir : path.join(buildDir, copyConfig.to);
+    const from: string = copyConfig.src === undefined ? srcDir : path.join(srcDir, copyConfig.src);
+    const to: string = copyConfig.dest === undefined ? buildDir : path.join(buildDir, copyConfig.dest);
     const config: copy.Options = {
       from: from,
       files: copyConfig.files,
@@ -87,9 +84,9 @@ export function generateCopyTasks(gulp: Gulp, targetName: string, srcDir: string
 function mergePug(gulp: Gulp, srcDir: string, buildDir: string, pugOptions: PugOptions[]): TaskFunction {
   const tasks: TaskFunction[] = [];
   for (const options of pugOptions) {
-    const from: string = options.from === undefined ? srcDir : path.join(srcDir, options.from);
+    const from: string = options.src === undefined ? srcDir : path.join(srcDir, options.src);
     const files: string[] = options.files === undefined ? ["**/*.pug"] : options.files;
-    const to: string = options.to === undefined ? buildDir : path.join(buildDir, options.to);
+    const to: string = options.dest === undefined ? buildDir : path.join(buildDir, options.dest);
 
     const completeOptions: pug.Options = {from, files, to};
     if (options.options !== undefined) {
@@ -122,9 +119,9 @@ export function generatePugTasks(gulp: Gulp, srcDir: string, buildDir: string, p
 function mergeSass(gulp: Gulp, srcDir: string, buildDir: string, sassOptions: SassOptions[]): TaskFunction {
   const tasks: TaskFunction[] = [];
   for (const options of sassOptions) {
-    const from: string = options.from === undefined ? srcDir : path.join(srcDir, options.from);
-    const files: string[] = options.files === undefined ? ["**/*.sass"] : options.files;
-    const to: string = options.to === undefined ? buildDir : path.join(buildDir, options.to);
+    const from: string = options.src === undefined ? srcDir : path.join(srcDir, options.src);
+    const files: string[] = options.files === undefined ? ["**/*.scss"] : options.files;
+    const to: string = options.dest === undefined ? buildDir : path.join(buildDir, options.dest);
 
     const completeOptions: sass.Options = {from, files, to};
     if (options.options !== undefined) {
@@ -138,7 +135,8 @@ function mergeSass(gulp: Gulp, srcDir: string, buildDir: string, sassOptions: Sa
   };
 }
 
-export function generateSassTasks(gulp: Gulp, srcDir: string, buildDir: string, sassOptions: SassOptions[]): TaskFunction {
+export function generateSassTasks(gulp: Gulp, srcDir: string,
+                                  buildDir: string, sassOptions: SassOptions[]): TaskFunction {
   const subTasks: TaskFunction[] = [];
   const groups: {[name: string]: SassOptions[]} = groupByName(sassOptions);
 

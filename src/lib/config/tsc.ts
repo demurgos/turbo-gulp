@@ -9,7 +9,7 @@ export const PROD_TSC_OPTIONS = {
   diagnostics: false,
   disableSizeLimit: false,
   emitBOM: false,
-  emitDecoratorMetadata: false,
+  emitDecoratorMetadata: true,
   experimentalDecorators: true,
   forceConsistentCasingInFileNames: true,
   inlineSourceMap: false,

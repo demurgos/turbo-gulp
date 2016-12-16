@@ -2,9 +2,14 @@
 
 - **[Breaking]** Update to `gulp@4` (from `gulp@3`)
 - **[Breaking]** Update to `tslint@7` (from `tslint@6`), add strciter default rules
+- **[Breaking]** Update signature of targetGenerators and project tasks: it only uses
+  `ProjectOptions` and `Target` now, the additional options are embedded in those two objects.
+- **[Breaking]** Remove `:install`, `:instal:npm` and `:install:typings`. Use the `prepare` script in
+  your `package.json` file instead.
 - Add `:tslint.json` project task to generate configuration for `tslint`
 - Add first class support for processing of `pug` and `sass` files, similar to `copy`
 - Implement end-to-end tests
+- Enable `emitDecoratorMetadata` in default typescript options.
 
 ## TODO:
 

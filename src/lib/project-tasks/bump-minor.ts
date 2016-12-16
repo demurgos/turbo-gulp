@@ -4,11 +4,7 @@ import {bumpVersion} from "../utils/project";
 
 export const taskName: string = ":bump-minor";
 
-export interface Options {
-  project: ProjectOptions;
-}
-
-export function registerTask(gulp: Gulp, {project}: Options): void {
+export function registerTask(gulp: Gulp, project: ProjectOptions): void {
   gulp.task(taskName, function () {
     bumpVersion("minor", project);
   });
