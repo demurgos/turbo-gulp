@@ -50,11 +50,11 @@ export function writeJsonFile<T>(filePath: string, data: T): Promise<void> {
 }
 
 export function readPackage(locations: ProjectOptions): Promise<PackageJson> {
-  return readJsonFile<PackageJson>(locations.package);
+  return readJsonFile<PackageJson>(locations.packageJson);
 }
 
 export function writePackage(pkg: PackageJson, locations: ProjectOptions): Promise<void> {
-  return writeJsonFile(locations.package, pkg);
+  return writeJsonFile(locations.packageJson, pkg);
 }
 
 export async function setPackageVersion(version: string, locations: ProjectOptions): Promise<void> {

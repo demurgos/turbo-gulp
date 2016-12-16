@@ -8,17 +8,12 @@ import defaultTslintConfig from "../config/tslint";
 
 export const taskName: string = ":lint";
 
-export interface Options {
-  project: ProjectOptions;
-  tslintOptions: {};
-}
-
-export function registerTask(gulp: Gulp, {project, tslintOptions}: Options) {
+export function registerTask(gulp: Gulp, project: ProjectOptions) {
   const options: GulpTslintOptions = Object.assign({}, {
     configuration: defaultTslintConfig,
     formatter: "verbose",
     tslint: tslint
-  }, tslintOptions);
+  }, project.tslintOptions);
 
   gulp.task(taskName, function () {
     const srcDir: string = joinPath(project.root, project.srcDir);

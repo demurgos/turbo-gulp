@@ -6,7 +6,7 @@ import * as tsconfigJson from "../task-generators/tsconfig-json";
 import {toUnix} from "../utils/locations";
 import del = require("del");
 import {TaskFunction} from "gulp";
-import {generateCopyTasks, generatePugTasks, Options as BaseOptions, generateSassTasks} from "./base";
+import {generateCopyTasks, generatePugTasks, generateSassTasks, Options as BaseOptions} from "./base";
 
 export interface Options extends BaseOptions {
   target: NodeTarget;
@@ -23,22 +23,23 @@ interface Locations {
 /**
  * Resolve absolute POSIX paths (even on Windows) for the main locations
  *
- * @param targetName
- * @param options
+ * @param project
+ * @param target
  * @returns {Locations} The absolute locations
  */
-function resolveLocations(targetName: string, options: Options): Locations {
-  const rootDir: string = toUnix(options.project.root);
-  const buildDir: string = path.join(rootDir, toUnix(options.project.buildDir), targetName);
-  const srcDir: string = path.join(rootDir, toUnix(options.project.srcDir));
-  const distDir: string = path.join(rootDir, toUnix(options.project.distDir), targetName);
+function resolveLocations(project: ProjectOptions, target: NodeTarget): Locations {
+  const rootDir: string = toUnix(project.root);
+  const buildDir: string = path.join(rootDir, toUnix(project.buildDir), target.name);
+  const srcDir: string = path.join(rootDir, toUnix(project.srcDir));
+  const distDir: string = path.join(rootDir, toUnix(project.distDir), target.name);
 
-  const baseDir: string = path.join(srcDir, toUnix(options.target.baseDir));
+  const baseDir: string = path.join(srcDir, toUnix(target.baseDir));
   return {rootDir, buildDir, srcDir, distDir, baseDir};
 }
 
-export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
-  const locations: Locations = resolveLocations(targetName, options);
+export function generateTarget(gulp: Gulp, project: ProjectOptions, target: NodeTarget) {
+  const targetName: string = target.name;
+  const locations: Locations = resolveLocations(project, target);
   // tslint:disable-next-line:typedef
   const taskNames = {
     build: `${targetName}:build`,
@@ -49,39 +50,44 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
   };
 
   const buildTypescriptOptions: buildTypescript.Options = {
-    tsOptions: options.tsOptions,
-    typeRoots: options.target.typeRoots.map(toUnix),
-    scripts: options.target.scripts,
+    tsOptions: target.typescriptOptions,
+    typeRoots: target.typeRoots.map(toUnix),
+    scripts: target.scripts,
     buildDir: locations.buildDir,
     srcDir: locations.srcDir
   };
 
-  const generateTsconfigOptions: tsconfigJson.Options = Object.assign({}, buildTypescriptOptions, {
+  const generateTsconfigJsonOptions: tsconfigJson.Options = Object.assign({}, buildTypescriptOptions, {
     tsconfigPath: path.join(locations.baseDir, "tsconfig.json")
   });
+  tsconfigJson.registerTask(gulp, targetName, generateTsconfigJsonOptions);
 
   const buildTasks: string[] = [];
 
+  // target:build:scripts
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
   buildTasks.push(taskNames.buildScripts);
-  tsconfigJson.registerTask(gulp, targetName, generateTsconfigOptions);
 
-  generateCopyTasks(gulp, targetName, locations.srcDir, locations.buildDir, options.target);
-
-  if (options.pug !== undefined) {
-    const mainPugTask: TaskFunction = generatePugTasks(gulp, locations.srcDir, locations.buildDir, options.pug);
+  // target:build:pug
+  if (target.pug !== undefined) {
+    const mainPugTask: TaskFunction = generatePugTasks(gulp, locations.srcDir, locations.buildDir, target.pug);
     mainPugTask.displayName = taskNames.buildPug;
     gulp.task(mainPugTask.displayName, mainPugTask);
     buildTasks.push(mainPugTask.displayName);
   }
 
-  if (options.sass !== undefined) {
-    const mainSassTask: TaskFunction = generateSassTasks(gulp, locations.srcDir, locations.buildDir, options.sass);
+  // target:build:sass
+  if (target.sass !== undefined) {
+    const mainSassTask: TaskFunction = generateSassTasks(gulp, locations.srcDir, locations.buildDir, target.sass);
     mainSassTask.displayName = taskNames.buildSass;
     gulp.task(mainSassTask.displayName, mainSassTask);
     buildTasks.push(mainSassTask.displayName);
   }
 
+  // target:build:copy
+  generateCopyTasks(gulp, targetName, locations.srcDir, locations.buildDir, target);
+
+  // target:build
   gulp.task(
     taskNames.build,
     gulp.series(
@@ -90,6 +96,7 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
     )
   );
 
+  // target:watch
   gulp.task(`${targetName}:watch`, function () {
     const sources: buildTypescript.Sources = buildTypescript.getSources(buildTypescriptOptions);
     gulp.watch(sources.scripts, {cwd: locations.baseDir}, gulp.parallel(`${targetName}:build`));
