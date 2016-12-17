@@ -36,7 +36,7 @@ export interface Options {
      * Customize the default webpack configuration
      */
     configuration?: webpack.Configuration;
-  }
+  };
 }
 
 /**
@@ -108,7 +108,7 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
       process: true,
       Buffer: true
     },
-    devtool: 'inline-source-map',
+    devtool: "inline-source-map",
     output: {
       filename: "[name].js"
     }

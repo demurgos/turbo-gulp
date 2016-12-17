@@ -1,5 +1,8 @@
+/* tslint:disable */
+
 // Fix Material Support
 import {__platform_browser_private__} from '@angular/platform-browser';
+
 function universalMaterialSupports(this: any, eventName: string): boolean {
   return Boolean(this.isCustomEvent(eventName));
 }

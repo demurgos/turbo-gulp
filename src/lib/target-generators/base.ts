@@ -2,11 +2,10 @@ import asyncDone = require("async-done");
 import Bluebird = require("bluebird");
 import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
-import {ProjectOptions, PugOptions, SassOptions, Target, CopyOptions} from "../config/config";
+import {CopyOptions, PugOptions, SassOptions} from "../config/config";
 import * as copy from "../task-generators/copy";
 import * as pug from "../task-generators/pug";
 import * as sass from "../task-generators/sass";
-import {streamToPromise} from "../utils/utils";
 
 function asyncDoneAsync(fn: asyncDone.AsyncTask): Bluebird<any> {
   return Bluebird.fromCallback((cb) => {
@@ -32,7 +31,8 @@ function groupByName<T extends {name?: string}>(items: T[]): {[name: string]: T[
   return result;
 }
 
-function mergeCopy(gulp: Gulp, srcDir: string, buildDir: string, copyOptions: CopyOptions[]): TaskFunction {
+function mergeCopy(gulp: Gulp, srcDir: string,
+                   buildDir: string, copyOptions: CopyOptions[]): TaskFunction {
   const tasks: TaskFunction[] = [];
   for (const options of copyOptions) {
     const from: string = options.src === undefined ? srcDir : path.join(srcDir, options.src);
@@ -48,7 +48,8 @@ function mergeCopy(gulp: Gulp, srcDir: string, buildDir: string, copyOptions: Co
   };
 }
 
-export function generateCopyTasks(gulp: Gulp, srcDir: string, buildDir: string, copyOptions: CopyOptions[]): TaskFunction {
+export function generateCopyTasks(gulp: Gulp, srcDir: string,
+                                  buildDir: string, copyOptions: CopyOptions[]): TaskFunction {
   const copyTasks: TaskFunction[] = [];
   const groups: {[name: string]: CopyOptions[]} = groupByName(copyOptions);
 
@@ -64,7 +65,8 @@ export function generateCopyTasks(gulp: Gulp, srcDir: string, buildDir: string, 
   return mainTask;
 }
 
-function mergePug(gulp: Gulp, srcDir: string, buildDir: string, pugOptions: PugOptions[]): TaskFunction {
+function mergePug(gulp: Gulp, srcDir: string,
+                  buildDir: string, pugOptions: PugOptions[]): TaskFunction {
   const tasks: TaskFunction[] = [];
   for (const options of pugOptions) {
     const from: string = options.src === undefined ? srcDir : path.join(srcDir, options.src);
@@ -83,7 +85,8 @@ function mergePug(gulp: Gulp, srcDir: string, buildDir: string, pugOptions: PugO
   };
 }
 
-export function generatePugTasks(gulp: Gulp, srcDir: string, buildDir: string, pugOptions: PugOptions[]): TaskFunction {
+export function generatePugTasks(gulp: Gulp, srcDir: string,
+                                 buildDir: string, pugOptions: PugOptions[]): TaskFunction {
   const pugTasks: TaskFunction[] = [];
   const groups: {[name: string]: PugOptions[]} = groupByName(pugOptions);
 
@@ -99,7 +102,8 @@ export function generatePugTasks(gulp: Gulp, srcDir: string, buildDir: string, p
   return mainTask;
 }
 
-function mergeSass(gulp: Gulp, srcDir: string, buildDir: string, sassOptions: SassOptions[]): TaskFunction {
+function mergeSass(gulp: Gulp, srcDir: string,
+                   buildDir: string, sassOptions: SassOptions[]): TaskFunction {
   const tasks: TaskFunction[] = [];
   for (const options of sassOptions) {
     const from: string = options.src === undefined ? srcDir : path.join(srcDir, options.src);

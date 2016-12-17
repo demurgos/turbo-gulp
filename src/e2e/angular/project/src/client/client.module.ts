@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {UniversalModule, isBrowser, isNode} from 'angular2-universal/browser'; // for AoT we need to manually split universal packages

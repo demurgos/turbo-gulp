@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import * as path from "path";
 
 export const root: string = path.join(path.resolve(__dirname, '..'));

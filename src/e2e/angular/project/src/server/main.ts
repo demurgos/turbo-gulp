@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import 'angular2-universal-polyfills';
 
 import * as path from 'path';

@@ -1,15 +1,13 @@
 import Bluebird = require("bluebird");
 import del = require("del");
-import {Gulp} from "gulp";
+import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
-
 import {ProjectOptions, TestTarget} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as testNode from "../task-generators/test-node";
 import * as tsconfigJson from "../task-generators/tsconfig-json";
 import {toUnix} from "../utils/locations";
 import {generateCopyTasks} from "./base";
-import {TaskFunction} from "gulp";
 
 export interface Options {
   project: ProjectOptions;

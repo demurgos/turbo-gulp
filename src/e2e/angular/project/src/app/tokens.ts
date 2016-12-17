@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import {OpaqueToken} from '@angular/core';
 
 export const isBrowser = new OpaqueToken("isBrowser");

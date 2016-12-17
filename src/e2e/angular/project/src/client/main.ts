@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 // the polyfills must be the first thing imported
 import 'angular2-universal-polyfills';
 
