@@ -2,7 +2,7 @@ import asyncDone = require("async-done");
 import Bluebird = require("bluebird");
 import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
-import {ProjectOptions, PugOptions, SassOptions, Target} from "../config/config";
+import {ProjectOptions, PugOptions, SassOptions, Target, CopyOptions} from "../config/config";
 import * as copy from "../task-generators/copy";
 import * as pug from "../task-generators/pug";
 import * as sass from "../task-generators/sass";
@@ -14,18 +14,11 @@ function asyncDoneAsync(fn: asyncDone.AsyncTask): Bluebird<any> {
   });
 }
 
-export interface Options {
-  project: ProjectOptions;
-  target: Target;
-  pug?: PugOptions[];
-  sass?: any[];
-}
-
 /**
  * Groups the item according to the `name` property. Missing `name` is treated as `"default"`.
  *
  * @param items
- * @returns {{[p: string]: T[]}} A map of name to the list of its options
+ * @returns A map of name to the list of its options
  */
 function groupByName<T extends {name?: string}>(items: T[]): {[name: string]: T[]} {
   const result: {[name: string]: T[]} = {};
@@ -39,46 +32,36 @@ function groupByName<T extends {name?: string}>(items: T[]): {[name: string]: T[
   return result;
 }
 
-/**
- * Generate tasks such as:
- * `${targetName}:build:copy` and each `${targetName}:build:copy:${copyName}`
- */
-export function generateCopyTasks(gulp: Gulp, targetName: string, srcDir: string,
-                                  buildDir: string, targetOptions: Target): void {
-  if (targetOptions.copy === undefined) {
-    gulp.task(`${targetName}:build:copy`, function (done: () => void) {
-      done();
-    });
+function mergeCopy(gulp: Gulp, srcDir: string, buildDir: string, copyOptions: CopyOptions[]): TaskFunction {
+  const tasks: TaskFunction[] = [];
+  for (const options of copyOptions) {
+    const from: string = options.src === undefined ? srcDir : path.join(srcDir, options.src);
+    const files: string[] = options.files === undefined ? ["**/*"] : options.files;
+    const to: string = options.dest === undefined ? buildDir : path.join(buildDir, options.dest);
+
+    const completeOptions: copy.Options = {from, files, to};
+    tasks.push(copy.generateTask(gulp, completeOptions));
+  }
+  return async function(): Promise<void> {
+    await Promise.all(tasks.map(asyncDoneAsync));
     return;
+  };
+}
+
+export function generateCopyTasks(gulp: Gulp, srcDir: string, buildDir: string, copyOptions: CopyOptions[]): TaskFunction {
+  const copyTasks: TaskFunction[] = [];
+  const groups: {[name: string]: CopyOptions[]} = groupByName(copyOptions);
+
+  for (const name in groups) {
+    const subTask: TaskFunction = mergeCopy(gulp, srcDir, buildDir, groups[name]);
+    subTask.displayName = `_copy:${name}`;
+    copyTasks.push(subTask);
   }
 
-  const namedCopies: string[] = [];
-  const anonymousCopies: copy.Options[] = [];
+  const mainTask: TaskFunction = gulp.parallel(...copyTasks);
+  mainTask.displayName = `_copy`;
 
-  for (const copyConfig of targetOptions.copy) {
-    const from: string = copyConfig.src === undefined ? srcDir : path.join(srcDir, copyConfig.src);
-    const to: string = copyConfig.dest === undefined ? buildDir : path.join(buildDir, copyConfig.dest);
-    const config: copy.Options = {
-      from: from,
-      files: copyConfig.files,
-      to: to
-    };
-
-    if (copyConfig.name === undefined) {
-      anonymousCopies.push(config);
-    } else {
-      const taskName: string = `${targetName}:build:copy:${copyConfig.name}`;
-      gulp.task(taskName, copy.generateTask(gulp, targetName, config));
-      namedCopies.push(taskName);
-    }
-  }
-
-  gulp.task(`${targetName}:build:copy`, gulp.parallel(...namedCopies, function _copyDefault () {
-    const promises: Promise<void>[] = anonymousCopies
-      .map((copyOptions) => streamToPromise(copy.copy(gulp, copyOptions))); // TODO: use `async-done`
-
-    return Bluebird.all(promises);
-  }));
+  return mainTask;
 }
 
 function mergePug(gulp: Gulp, srcDir: string, buildDir: string, pugOptions: PugOptions[]): TaskFunction {

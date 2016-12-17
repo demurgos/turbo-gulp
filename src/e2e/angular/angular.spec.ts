@@ -28,18 +28,11 @@ describe("Project angular", function (this: Mocha.ISuite) {
       await execFile("gulp", ["server:build"], {cwd: PROJECT_ROOT});
     });
 
-    it("should compile typescript files", async function (this: Mocha.ITest): Promise<void> {
-      const result: ExecFileResult = await execFile("node", ["build/server/server/main.js"], {cwd: PROJECT_ROOT});
-
-      const actualOutput: string = result.stdout.toString("utf8");
-      const expectedOutput: string = "Hello, World!\n";
-
-      assert.equal(actualOutput, expectedOutput);
-    });
+    it("should compile typescript files");
 
     it("should render pug files", async function (this: Mocha.ITest): Promise<void> {
       const [actualIndex, expectedIndex]: [string, string] = <[string, string]> await Promise.all([
-        readText(path.join(PROJECT_ROOT, "build/server/app/index.html")),
+        readText(path.join(PROJECT_ROOT, "build/server/static/index.html")),
         readText(path.join(EXPECTED_ROOT, "index.html"))
       ]);
       assert.equal(actualIndex, expectedIndex);
@@ -47,10 +40,14 @@ describe("Project angular", function (this: Mocha.ISuite) {
 
     it("should render sass files", async function (this: Mocha.ITest): Promise<void> {
       const [actualIndex, expectedIndex]: [string, string] = <[string, string]> await Promise.all([
-        readText(path.join(PROJECT_ROOT, "build/server/app/main.css")),
+        readText(path.join(PROJECT_ROOT, "build/server/static/main.css")),
         readText(path.join(EXPECTED_ROOT, "main.css"))
       ]);
       assert.equal(actualIndex, expectedIndex);
     });
+  });
+
+  describe("server:run", async function (this: Mocha.ISuite): Promise<void> {
+    it("should run and serve pages");
   });
 });

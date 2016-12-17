@@ -61,7 +61,7 @@ import * as buildTools from "demurgos-web-build-tools";
  
 buildTools.projectTasks.registerAll(gulp, {
   project: projectOptions,
-  // ... other-options
+  webpackOptions
 });
 ```
  

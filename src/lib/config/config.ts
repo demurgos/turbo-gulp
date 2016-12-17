@@ -1,5 +1,7 @@
+import {Configuration as WebpackConfiguration, Webpack} from "webpack";
+
 /**
- * Project-wide options.
+ * Project-wide webpackOptions.
  * These affect all the targets.
  * It defines the main structure of the project.
  */
@@ -45,6 +47,10 @@ export interface ProjectOptions {
       rules?: {}
     },
     formatter?: "verbose" | string;
+    /**
+     * The files to lint, relative to `root`
+     */
+    files?: string[];
     tslint?: any;
   };
 }
@@ -106,7 +112,7 @@ export interface PugOptions {
   name?: string;
 
   /**
-   * GulpPug options
+   * GulpPug webpackOptions
    */
   options?: {locals?: {}};
 }
@@ -138,7 +144,7 @@ export interface SassOptions {
   name?: string;
 
   /**
-   * GulpSass options
+   * GulpSass webpackOptions
    */
   options?: {
     outputStyle?: "compressed" | string;
@@ -202,22 +208,30 @@ export interface TestTarget extends Target {
 
 export interface AngularTarget extends Target {
   /**
-   * Directory to store intermediate files during the build, relative to
+   * Directory to store webpack files during the build, relative to
    * `project.buildDir`.
    */
-  tmpDir: string;
-
-  /**
-   * Directory containing static assets, .pug and .scss will be compiled,
-   * relative to `project.srcDir`.
-   */
-  assetsDir: string;
+  webpackDir: string;
 
   /**
    * The name of tha main module (name of the file without the extension),
    * relative to `project.srcDir`. It is the entry point of the application.
    */
   mainModule: string;
+
+  webpackOptions?: {
+    webpack?: Webpack;
+    configuration?: WebpackConfiguration;
+  };
+
+  /**
+   * A list of copy operations to perform during the build process.
+   */
+  webpackCopy?: CopyOptions[];
+
+  webpackPug?: PugOptions[];
+
+  webpackSass?: SassOptions[];
 }
 
 /**
@@ -228,7 +242,7 @@ export const LIB_TARGET: NodeTarget = {
   name: "lib",
   baseDir: "lib",
   scripts: ["lib/**/*.ts", "!**/*.spec.ts"],
-  typeRoots: ["../typings/globals", "../typings/modules", "../node_modules/@types"],
+  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
   mainModule: "lib/index"
 };
 
@@ -240,7 +254,7 @@ export const LIB_TEST_TARGET: TestTarget = {
   name: "lib-test",
   baseDir: "test",
   scripts: ["test/**/*.ts", "lib/**/*.ts"],
-  typeRoots: ["../typings/globals", "../typings/modules", "../node_modules/@types"]
+  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"]
 };
 
 /**
@@ -249,12 +263,29 @@ export const LIB_TEST_TARGET: TestTarget = {
 export const ANGULAR_SERVER_TARGET: NodeTarget = {
   name: "server",
   baseDir: "server",
-  scripts: ["server/**/*.ts", "!**/*.spec.ts"],
-  typeRoots: ["../typings/globals", "../typings/modules", "../node_modules/@types"],
+  scripts: ["server/**/*.ts", "app/**/*.ts", "lib/**/*.ts", "!**/*.spec.ts"],
+  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
   mainModule: "server/main",
-  pug: [{src: "app", dest: "app"}],
-  sass: [{src: "app", dest: "app"}],
-  copy: [{src: "static", files: ["**/*"], dest: "static"}]
+  pug: [{name: "app", src: "app", dest: "app"}, {name: "static", src: "static", dest: "static"}],
+  sass: [{name: "app", src: "app", dest: "app"}, {name: "static", src: "static", dest: "static"}],
+  copy: [{name: "static", src: "static", files: ["**/*", "!**/*.(pug|scss)"], dest: "static"}]
+};
+
+/**
+ * Preconfigured "webpack" configuration for an Angular Universal client.
+ */
+export const ANGULAR_CLIENT_TARGET: AngularTarget = {
+  name: "client",
+  baseDir: "client",
+  webpackDir: "client.webpack",
+  scripts: ["client/**/*.ts", "app/**/*.ts", "lib/**/*.ts", "!**/*.spec.ts"],
+  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
+  mainModule: "client/main",
+  webpackPug: [{name: "app", src: "app", dest: "app"}],
+  webpackSass: [{name: "app", src: "app", dest: "app"}],
+  pug: [{name: "static", src: "static", dest: "."}],
+  sass: [{name: "static", src: "static", dest: "."}],
+  copy: [{name: "static", src: "static", files: ["**/*", "!**/*.(pug|scss)"], dest: "."}]
 };
 
 /**
