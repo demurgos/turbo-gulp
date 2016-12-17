@@ -9,6 +9,7 @@ import * as testNode from "../task-generators/test-node";
 import * as tsconfigJson from "../task-generators/tsconfig-json";
 import {toUnix} from "../utils/locations";
 import {generateCopyTasks} from "./base";
+import {TaskFunction} from "gulp";
 
 export interface Options {
   project: ProjectOptions;
@@ -27,7 +28,7 @@ export interface Options {
  *
  * @param gulp The gulp instance to use to register the tasks
  * @param targetName The name of the target, used to prefix the related tasks
- * @param options The target options, see Options
+ * @param options The target webpackOptions, see Options
  */
 export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
   const rootDir: string = toUnix(options.project.root);
@@ -48,7 +49,13 @@ export function generateTarget(gulp: Gulp, targetName: string, options: Options)
 
   buildTypescript.registerTask(gulp, targetName, typescriptOptions);
   tsconfigJson.registerTask(gulp, targetName, typescriptOptions);
-  generateCopyTasks(gulp, targetName, srcDir, buildDir, options.target);
+  if (options.target.copy !== undefined) {
+    const mainCopyTask: TaskFunction = generateCopyTasks(gulp, srcDir, buildDir, options.target.copy);
+    mainCopyTask.displayName = `${targetName}:build:copy`;
+    gulp.task(mainCopyTask.displayName, mainCopyTask);
+  } else {
+    gulp.task(`${targetName}:build:copy`, async function() {});
+  }
 
   gulp.task(`${targetName}:build`, gulp.parallel(`${targetName}:build:scripts`, `${targetName}:build:copy`));
 

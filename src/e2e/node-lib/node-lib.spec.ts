@@ -36,4 +36,20 @@ describe("Project node-lib", function (this: Mocha.ISuite) {
       await execFile("gulp", [":lint"], {cwd: PROJECT_ROOT});
     });
   });
+
+  describe("lib:build", async function (this: Mocha.ISuite): Promise<void> {
+    before("Run `gulp lib:build`", async function(this: Mocha.IContextDefinition) {
+      this.timeout(60 * 1000);
+      await execFile("gulp", ["lib:build"], {cwd: PROJECT_ROOT});
+    });
+
+    it("should output runnable typescript files", async function (this: Mocha.ITest): Promise<void> {
+      const result: ExecFileResult = await execFile("node", ["build/lib/lib/index.js"], {cwd: PROJECT_ROOT});
+
+      const actualOutput: string = result.stdout.toString("utf8");
+      const expectedOutput: string = "Hello, World!\n";
+
+      assert.equal(actualOutput, expectedOutput);
+    });
+  });
 });

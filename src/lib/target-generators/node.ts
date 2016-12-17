@@ -6,11 +6,7 @@ import * as tsconfigJson from "../task-generators/tsconfig-json";
 import {toUnix} from "../utils/locations";
 import del = require("del");
 import {TaskFunction} from "gulp";
-import {generateCopyTasks, generatePugTasks, generateSassTasks, Options as BaseOptions} from "./base";
-
-export interface Options extends BaseOptions {
-  target: NodeTarget;
-}
+import {generateCopyTasks, generatePugTasks, generateSassTasks} from "./base";
 
 interface Locations {
   rootDir: string;
@@ -40,14 +36,17 @@ function resolveLocations(project: ProjectOptions, target: NodeTarget): Location
 export function generateTarget(gulp: Gulp, project: ProjectOptions, target: NodeTarget) {
   const targetName: string = target.name;
   const locations: Locations = resolveLocations(project, target);
+
   // tslint:disable-next-line:typedef
   const taskNames = {
     build: `${targetName}:build`,
-    buildScripts: `${targetName}:build:scripts`,
+    buildWebpackScripts: `${targetName}:build:scripts`,
     buildPug: `${targetName}:build:pug`,
     buildSass: `${targetName}:build:sass`,
     buildCopy: `${targetName}:build:copy`
   };
+
+  const buildTasks: string[] = [];
 
   const buildTypescriptOptions: buildTypescript.Options = {
     tsOptions: target.typescriptOptions,
@@ -57,16 +56,9 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
     srcDir: locations.srcDir
   };
 
-  const generateTsconfigJsonOptions: tsconfigJson.Options = Object.assign({}, buildTypescriptOptions, {
-    tsconfigPath: path.join(locations.baseDir, "tsconfig.json")
-  });
-  tsconfigJson.registerTask(gulp, targetName, generateTsconfigJsonOptions);
-
-  const buildTasks: string[] = [];
-
   // target:build:scripts
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
-  buildTasks.push(taskNames.buildScripts);
+  buildTasks.push(taskNames.buildWebpackScripts);
 
   // target:build:pug
   if (target.pug !== undefined) {
@@ -85,15 +77,17 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
   }
 
   // target:build:copy
-  generateCopyTasks(gulp, targetName, locations.srcDir, locations.buildDir, target);
+  if (target.copy !== undefined) {
+    const mainCopyTask: TaskFunction = generateCopyTasks(gulp, locations.srcDir, locations.buildDir, target.copy);
+    mainCopyTask.displayName = taskNames.buildCopy;
+    gulp.task(mainCopyTask.displayName, mainCopyTask);
+    buildTasks.push(mainCopyTask.displayName);
+  }
 
   // target:build
   gulp.task(
     taskNames.build,
-    gulp.series(
-      gulp.parallel(...buildTasks),
-      taskNames.buildCopy
-    )
+    gulp.parallel(...buildTasks)
   );
 
   // target:watch
@@ -114,4 +108,9 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
           .pipe(gulp.dest(locations.distDir));
       });
   }));
+
+  const generateTsconfigJsonOptions: tsconfigJson.Options = Object.assign({}, buildTypescriptOptions, {
+    tsconfigPath: path.join(locations.baseDir, "tsconfig.json")
+  });
+  tsconfigJson.registerTask(gulp, targetName, generateTsconfigJsonOptions);
 }

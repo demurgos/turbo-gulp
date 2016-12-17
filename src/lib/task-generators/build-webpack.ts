@@ -1,7 +1,7 @@
 import {Gulp, TaskFunction} from "gulp";
 import {log as gulpLog, PluginError} from "gulp-util";
-import {join as joinPath} from "path";
-import {compiler as webpackCompiler, Configuration as WebpackConfiguration, Webpack} from "webpack";
+import {posix as path} from "path";
+import webpack = require("webpack");
 import webpackMerge = require("webpack-merge");
 import webpackStream = require("webpack-stream");
 
@@ -26,15 +26,17 @@ export interface Options {
    */
   entry: string;
 
-  /**
-   * Webpack object to use
-   */
-  webpack: Webpack;
+  webpackOptions?: {
+    /**
+     * Webpack object to use
+     */
+    webpack?: webpack.Webpack;
 
-  /**
-   * Customize the default webpack configuration
-   */
-  webpackConfig: WebpackConfiguration;
+    /**
+     * Customize the default webpack configuration
+     */
+    configuration?: webpack.Configuration;
+  }
 }
 
 /**
@@ -50,8 +52,18 @@ export function getTaskName(targetName: string): string {
 export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const taskName: string = getTaskName(targetName);
   const entryFile: string = options.entry + ".js";
+  let curWebpack: webpack.Webpack = webpack;
+  let userConfiguration: webpack.Configuration = {};
+  if (options.webpackOptions !== undefined) {
+    if (options.webpackOptions.webpack !== undefined) {
+      curWebpack = options.webpackOptions.webpack;
+    }
+    if (options.webpackOptions.configuration !== undefined) {
+      userConfiguration = options.webpackOptions.configuration;
+    }
+  }
 
-  const angularWebpackConfig: WebpackConfiguration = {
+  const angularWebpackConfig: webpack.Configuration = {
     context: options.projectRoot,
     target: "web",
     resolve: {
@@ -59,13 +71,23 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
     },
     module: {
       loaders: [
-        {test: /\.js$/, loaders: ["angular2-template-loader"]},
-        {test: /\.json$/, loader: "json-loader"},
-        {test: /\.(html|css)$/, loader: "raw-loader"}
+        {
+          test: /\.component\.js$/,
+          loaders: ["angular2-template-loader"],
+          include: [options.srcDir]
+        },
+        {
+          test: /\.json$/,
+          loaders: ["json-loader"]
+        },
+        {
+          test: /\.(html|css)$/,
+          loaders: ["raw-loader"]
+        }
       ]
     },
     plugins: [
-      new options.webpack.ContextReplacementPlugin(
+      new curWebpack.ContextReplacementPlugin(
         // The (\\|\/) piece accounts for path separators in posix and Windows
         /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
         options.srcDir,
@@ -86,6 +108,7 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
       process: true,
       Buffer: true
     },
+    devtool: 'inline-source-map',
     output: {
       filename: "[name].js"
     }
@@ -93,11 +116,11 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
 
   return function () {
     return gulp
-      .src([joinPath(options.srcDir, entryFile)], {base: options.srcDir})
+      .src([path.join(options.srcDir, entryFile)], {base: options.srcDir})
       .pipe(webpackStream(
-        webpackMerge(angularWebpackConfig, options.webpackConfig),
-        options.webpack,
-        (err: Error, stats: webpackCompiler.Stats): void => {
+        webpackMerge(angularWebpackConfig, userConfiguration),
+        curWebpack,
+        (err: Error, stats: webpack.compiler.Stats): void => {
           if (err) {
             throw new PluginError(taskName, err);
           }

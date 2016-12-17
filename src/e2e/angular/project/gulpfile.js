@@ -4,7 +4,7 @@ const gulp = require("gulp");
 const typescript = require("typescript");
 const buildTools = require("./local-web-build-tools");
 
-// Project-wide options
+// Project-wide webpackOptions
 const projectOptions = Object.assign(
   {},
   buildTools.config.DEFAULT_PROJECT_OPTIONS,
@@ -32,5 +32,23 @@ const serverTarget = Object.assign(
   }
 );
 
+// Angular universal client target
+const clientTarget = Object.assign(
+  {},
+  buildTools.config.ANGULAR_CLIENT_TARGET,
+  {
+    typescriptOptions: {
+      skipLibCheck: true,
+      typescript: typescript,
+      lib: ["es6", "dom"]
+    },
+    pug: buildTools.config.ANGULAR_SERVER_TARGET.pug
+      .map(config => Object.assign({}, config, {
+        options: {locals: {locale: "en_US"}}
+      }))
+  }
+);
+
 buildTools.projectTasks.registerAll(gulp, projectOptions);
 buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, serverTarget);
+buildTools.targetGenerators.angular.generateTarget(gulp, projectOptions, clientTarget);

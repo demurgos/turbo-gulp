@@ -41,7 +41,7 @@
     "typings-core": "^2.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "webpack": "^2.1.0-beta.27",
+    "webpack": "2.1.0-beta.27",
     "webpack-merge": "^0.16.0",
     "webpack-stream": "^3.2.0"
   },

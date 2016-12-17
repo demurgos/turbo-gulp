@@ -36,7 +36,7 @@ export function copy(gulp: Gulp, options: Options): NodeJS.ReadableStream {
 /**
  * Generate a task to copy files from one directory to an other.
  */
-export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
+export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   return function (): NodeJS.ReadableStream {
     return copy(gulp, options);
   };
