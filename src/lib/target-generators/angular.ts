@@ -7,8 +7,8 @@ import * as buildWebpack from "../task-generators/build-webpack";
 import * as copy from "../task-generators/copy";
 import del = require("del");
 import gulpSourceMaps = require("gulp-sourcemaps");
-import {generateCopyTasks, generatePugTasks, generateSassTasks} from "./base";
 import {toUnix} from "../utils/locations";
+import {generateCopyTasks, generatePugTasks, generateSassTasks} from "./base";
 
 interface Locations {
   rootDir: string;
@@ -36,7 +36,6 @@ function resolveLocations(project: ProjectOptions, target: AngularTarget): Locat
   const baseDir: string = path.join(srcDir, toUnix(target.baseDir));
   return {rootDir, buildDir, webpackDir, srcDir, distDir, baseDir};
 }
-
 
 export function generateTarget(gulp: Gulp, project: ProjectOptions, target: AngularTarget) {
   const targetName: string = target.name;
@@ -74,7 +73,12 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
 
   // target:build:webpack:pug
   if (target.webpackPug !== undefined) {
-    const mainPugTask: TaskFunction = generatePugTasks(gulp, locations.srcDir, locations.webpackDir, target.webpackPug);
+    const mainPugTask: TaskFunction = generatePugTasks(
+      gulp,
+      locations.srcDir,
+      locations.webpackDir,
+      target.webpackPug
+    );
     mainPugTask.displayName = taskNames.buildWebpackPug;
     gulp.task(mainPugTask.displayName, mainPugTask);
     buildWebpackTasks.push(mainPugTask.displayName);
@@ -82,7 +86,12 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
 
   // target:build:webpack:sass
   if (target.webpackSass !== undefined) {
-    const mainSassTask: TaskFunction = generateSassTasks(gulp, locations.srcDir, locations.webpackDir, target.webpackSass);
+    const mainSassTask: TaskFunction = generateSassTasks(
+      gulp,
+      locations.srcDir,
+      locations.webpackDir,
+      target.webpackSass
+    );
     mainSassTask.displayName = taskNames.buildWebpackSass;
     gulp.task(mainSassTask.displayName, mainSassTask);
     buildWebpackTasks.push(mainSassTask.displayName);
@@ -90,7 +99,12 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
 
   // target:build:webpack:copy
   if (target.webpackCopy !== undefined) {
-    const mainCopyTask: TaskFunction = generateCopyTasks(gulp, locations.srcDir, locations.webpackDir, target.webpackCopy);
+    const mainCopyTask: TaskFunction = generateCopyTasks(
+      gulp,
+      locations.srcDir,
+      locations.webpackDir,
+      target.webpackCopy
+    );
     mainCopyTask.displayName = taskNames.buildWebpackCopy;
     gulp.task(mainCopyTask.displayName, mainCopyTask);
     buildWebpackTasks.push(mainCopyTask.displayName);
@@ -109,7 +123,12 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
 
   // target:build:pug
   if (target.pug !== undefined) {
-    const mainPugTask: TaskFunction = generatePugTasks(gulp, locations.srcDir, locations.buildDir, target.pug);
+    const mainPugTask: TaskFunction = generatePugTasks(
+      gulp,
+      locations.srcDir,
+      locations.webpackDir,
+      target.pug
+    );
     mainPugTask.displayName = taskNames.buildPug;
     gulp.task(mainPugTask.displayName, mainPugTask);
     buildTasks.push(mainPugTask.displayName);
@@ -117,7 +136,12 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
 
   // target:build:sass
   if (target.sass !== undefined) {
-    const mainSassTask: TaskFunction = generateSassTasks(gulp, locations.srcDir, locations.buildDir, target.sass);
+    const mainSassTask: TaskFunction = generateSassTasks(
+      gulp,
+      locations.srcDir,
+      locations.webpackDir,
+      target.sass
+    );
     mainSassTask.displayName = taskNames.buildSass;
     gulp.task(mainSassTask.displayName, mainSassTask);
     buildTasks.push(mainSassTask.displayName);
@@ -125,7 +149,12 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
 
   // target:build:copy
   if (target.copy !== undefined) {
-    const mainCopyTask: TaskFunction = generateCopyTasks(gulp, locations.srcDir, locations.buildDir, target.copy);
+    const mainCopyTask: TaskFunction = generateCopyTasks(
+      gulp,
+      locations.srcDir,
+      locations.webpackDir,
+      target.copy
+    );
     mainCopyTask.displayName = taskNames.buildCopy;
     gulp.task(mainCopyTask.displayName, mainCopyTask);
     buildTasks.push(mainCopyTask.displayName);
@@ -151,7 +180,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
     gulp.series(
       taskNames.clean,
       taskNames.build,
-      async function _buildToDist () {
+      async function _buildToDist() {
         await del([locations.distDir]);
         return gulp
           .src([path.join(locations.buildDir, "**/*")], {base: path.join(locations.buildDir)})

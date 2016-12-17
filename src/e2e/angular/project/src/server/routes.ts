@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import * as express from "express";
 import {posix as path} from "path";
 import {root, serverUrl} from "./config";

@@ -7,7 +7,6 @@ import {ProjectOptions} from "../config/config";
 import defaultTslintConfig from "../config/tslint";
 import * as matcher from "../utils/matcher";
 
-
 export const taskName: string = ":lint";
 
 /**

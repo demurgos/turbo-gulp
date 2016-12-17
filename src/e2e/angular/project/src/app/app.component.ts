@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import {Component} from '@angular/core';
 import {moduleId} from "./config";
 

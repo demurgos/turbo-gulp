@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import * as path from "path";
 
 export const appRoot = __dirname;

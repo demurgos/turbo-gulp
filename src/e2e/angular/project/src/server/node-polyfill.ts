@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 // Fix for server-side resource loading.
 // Remove once this PR is on npm:
 // https://github.com/angular/universal/pull/596
