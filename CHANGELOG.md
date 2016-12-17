@@ -1,5 +1,6 @@
 # 0.13.0
 
+- **[Breaking]** Major overhaul of the angular target. The server build no longer depends on the client.
 - **[Breaking]** Update to `gulp@4` (from `gulp@3`)
 - **[Breaking]** Update to `tslint@7` (from `tslint@6`), add strciter default rules
 - **[Breaking]** Update signature of targetGenerators and project tasks: it only uses
@@ -10,6 +11,7 @@
 - Add first class support for processing of `pug` and `sass` files, similar to `copy`
 - Implement end-to-end tests
 - Enable `emitDecoratorMetadata` in default typescript options.
+- Allow configuration of `:lint` with the `tslintOptions` property of the project configuration.
 
 ## TODO:
 
