@@ -5,8 +5,8 @@ import {bumpVersion} from "../utils/project";
 export const taskName: string = ":bump-major";
 
 export function registerTask(gulp: Gulp, project: ProjectOptions): void {
-  gulp.task(taskName, function () {
-    bumpVersion("major", project);
+  gulp.task(taskName, function (): Promise<void> {
+    return bumpVersion("major", project);
   });
 }
 
