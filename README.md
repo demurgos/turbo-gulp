@@ -58,12 +58,11 @@ To generate general tasks (`:lint`, `:bump-minor`, etc.), use:
  
 ```typescript
 import * as buildTools from "demurgos-web-build-tools";
- 
- 
-buildTools.projectTasks.registerAll(gulp, {
-  project: projectOptions,
-  webpackOptions
-});
+import gulp = require("gulp");
+
+const projectOptions = buildTools.config.DEFAULT_PROJECT_OPTIONS;
+
+buildTools.projectTasks.registerAll(gulp, projectOptions);
 ```
  
 To generate a target, use:
