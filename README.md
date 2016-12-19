@@ -2,6 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/demurgos-web-build-tools.svg?maxAge=2592000)](https://www.npmjs.com/package/demurgos-web-build-tools)
 [![Build status](https://img.shields.io/travis/demurgos/web-build-tools/master.svg?maxAge=2592000)](https://travis-ci.org/demurgos/web-build-tools)
+[![GitHub repository](https://img.shields.io/badge/Github-demurgos%2Fweb--build--tools-blue.svg)](https://github.com/demurgos/web-build-tools)
 
 Gulp tasks generator for standard web projects.
 
