@@ -17,9 +17,30 @@ const libTarget = Object.assign(
   {},
   buildTools.config.LIB_TARGET,
   {
-    typescriptOptions: {
-      skipLibCheck: true,
-      typescript: typescript
+    typescript: {
+      compilerOptions: {
+        skipLibCheck: true,
+        target: "es2015"
+      },
+      typescript: typescript,
+      strict: true
+    }
+  }
+);
+
+// Browser version
+const libES5Target = Object.assign(
+  {},
+  buildTools.config.LIB_TARGET,
+  {
+    name: "lib-es5",
+    typescript: {
+      compilerOptions: {
+        skipLibCheck: true,
+        target: "es5"
+      },
+      typescript: typescript,
+      strict: true
     }
   }
 );

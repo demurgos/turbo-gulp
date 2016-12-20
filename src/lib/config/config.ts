@@ -1,4 +1,6 @@
+import * as ts from "typescript";
 import {Configuration as WebpackConfiguration, Webpack} from "webpack";
+import {CompilerJsonOptions} from "./typescript";
 
 /**
  * Project-wide webpackOptions.
@@ -151,6 +153,28 @@ export interface SassOptions {
   };
 }
 
+export interface TypescriptOptions {
+  /**
+   * Typescript instance to use for compilation.
+   */
+  typescript?: typeof ts;
+
+  /**
+   * Exit with non-null return code on any error
+   */
+  strict?: boolean;
+
+  /**
+   * Override default options
+   */
+  compilerOptions?: CompilerJsonOptions;
+  /**
+   * A list of paths where you should generate a `tsconfig.json` file.
+   * Relative to `project.src`.
+   */
+  tsconfigJson: string[];
+}
+
 /**
  * A target represents a group of tasks to produce a specific build.
  */
@@ -161,10 +185,10 @@ export interface Target {
   name: string;
 
   /**
-   * Base directory for the target, relative to `project.srcDir`.
-   * This is only used when generating some target specific configuration files.
+   * Name of the target directory, relative to `project.buildDir`.
+   * Default: `target.name`.
    */
-  baseDir: string;
+  targetDir?: string;
 
   /**
    * List of minimatch glob patterns matching the Typescript scripts, relative
@@ -178,9 +202,10 @@ export interface Target {
    */
   typeRoots: string[];
 
-  typescriptOptions?: {
-    typescript?: any
-  };
+  /**
+   * Advanced typescript configuration
+   */
+  typescript?: TypescriptOptions;
 
   /**
    * A list of copy operations to perform during the build process.
@@ -203,7 +228,13 @@ export interface NodeTarget extends Target {
   mainModule?: string | null;
 }
 
-export interface TestTarget extends Target {
+export interface TestTarget extends NodeTarget {
+  mocha?: {
+    /**
+     * List of files to test, relative to targetDir
+     */
+    files?: string[];
+  };
 }
 
 export interface AngularTarget extends Target {
@@ -235,60 +266,6 @@ export interface AngularTarget extends Target {
 }
 
 /**
- * Preconfigured "node" configuration to develop a node library.
- * It uses Typescript and Typings.
- */
-export const LIB_TARGET: NodeTarget = {
-  name: "lib",
-  baseDir: "lib",
-  scripts: ["lib/**/*.ts", "!**/*.spec.ts"],
-  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
-  mainModule: "lib/index"
-};
-
-/**
- * Preconfigured "test" configuration to test a node library.
- * It uses Typescript, Typings and Mocha.
- */
-export const LIB_TEST_TARGET: TestTarget = {
-  name: "lib-test",
-  baseDir: "test",
-  scripts: ["test/**/*.ts", "lib/**/*.ts"],
-  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"]
-};
-
-/**
- * Preconfigured "node" configuration for an Angular Universal server.
- */
-export const ANGULAR_SERVER_TARGET: NodeTarget = {
-  name: "server",
-  baseDir: "server",
-  scripts: ["server/**/*.ts", "app/**/*.ts", "lib/**/*.ts", "!**/*.spec.ts"],
-  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
-  mainModule: "server/main",
-  pug: [{name: "app", src: "app", dest: "app"}, {name: "static", src: "static", dest: "static"}],
-  sass: [{name: "app", src: "app", dest: "app"}, {name: "static", src: "static", dest: "static"}],
-  copy: [{name: "static", src: "static", files: ["**/*", "!**/*.(pug|scss)"], dest: "static"}]
-};
-
-/**
- * Preconfigured "webpack" configuration for an Angular Universal client.
- */
-export const ANGULAR_CLIENT_TARGET: AngularTarget = {
-  name: "client",
-  baseDir: "client",
-  webpackDir: "client.webpack",
-  scripts: ["client/**/*.ts", "app/**/*.ts", "lib/**/*.ts", "!**/*.spec.ts"],
-  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
-  mainModule: "client/main",
-  webpackPug: [{name: "app", src: "app", dest: "app"}],
-  webpackSass: [{name: "app", src: "app", dest: "app"}],
-  pug: [{name: "static", src: "static", dest: "."}],
-  sass: [{name: "static", src: "static", dest: "."}],
-  copy: [{name: "static", src: "static", files: ["**/*", "!**/*.(pug|scss)"], dest: "."}]
-};
-
-/**
  * Preconfigured project configuration.
  * It uses process.cwd() as the root and assumes a standard project structure.
  */
@@ -298,4 +275,68 @@ export const DEFAULT_PROJECT_OPTIONS: ProjectOptions = {
   buildDir: "build",
   distDir: "dist",
   srcDir: "src"
+};
+
+/**
+ * Preconfigured "node" configuration to develop a node library.
+ * It uses Typescript and Typings.
+ */
+export const LIB_TARGET: NodeTarget = {
+  name: "lib",
+  scripts: ["lib/**/*.ts", "!**/*.spec.ts"],
+  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
+  mainModule: "lib/index",
+  typescript: {
+    tsconfigJson: ["lib/tsconfig.json"]
+  }
+};
+
+/**
+ * Preconfigured "test" configuration to test a node library.
+ * It uses Typescript, Typings and Mocha.
+ */
+export const LIB_TEST_TARGET: TestTarget = {
+  name: "lib-test",
+  scripts: ["test/**/*.ts", "lib/**/*.ts"],
+  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
+  typescript: {
+    tsconfigJson: ["test/tsconfig.json"],
+    strict: true
+  }
+};
+
+/**
+ * Preconfigured "node" configuration for an Angular Universal server.
+ */
+export const ANGULAR_SERVER_TARGET: NodeTarget = {
+  name: "server",
+  scripts: ["server/**/*.ts", "app/**/*.ts", "lib/**/*.ts", "!**/*.spec.ts"],
+  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
+  mainModule: "server/main",
+  pug: [{name: "app", src: "app", dest: "app"}, {name: "static", src: "static", dest: "static"}],
+  sass: [{name: "app", src: "app", dest: "app"}, {name: "static", src: "static", dest: "static"}],
+  copy: [{name: "static", src: "static", files: ["**/*", "!**/*.(pug|scss)"], dest: "static"}],
+  typescript: {
+    tsconfigJson: ["server/tsconfig.json"]
+  }
+};
+
+/**
+ * Preconfigured "webpack" configuration for an Angular Universal client.
+ */
+export const ANGULAR_CLIENT_TARGET: AngularTarget = {
+  name: "client",
+  targetDir: "server/static",
+  webpackDir: "client.webpack",
+  scripts: ["client/**/*.ts", "app/**/*.ts", "lib/**/*.ts", "!**/*.spec.ts"],
+  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
+  mainModule: "client/main",
+  webpackPug: [{name: "app", src: "app", dest: "app"}],
+  webpackSass: [{name: "app", src: "app", dest: "app"}],
+  pug: [{name: "static", src: "static", dest: "."}],
+  sass: [{name: "static", src: "static", dest: "."}],
+  copy: [{name: "static", src: "static", files: ["**/*", "!**/*.(pug|scss)"], dest: "."}],
+  typescript: {
+    tsconfigJson: ["client/tsconfig.json"]
+  }
 };

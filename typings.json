@@ -5,6 +5,7 @@
     "del": "registry:npm/del#2.2.0+20160416211512",
     "gulp": "registry:npm/gulp#4.0.0-alpha.2+20160817105618",
     "gulp-sourcemaps": "registry:npm/gulp-sourcemaps#2.0.0-alpha+20160823215745",
+    "gulp-util": "github:demurgos/typed-gulp-util#2f2c434fe5bff69a4bd6dafd7e700534d68d20bf",
     "lodash": "registry:npm/lodash#4.0.0+20161015015725",
     "minimatch": "registry:npm/minimatch#3.0.0+20160723033700",
     "semver": "registry:npm/semver#5.0.0+20160723033700"

@@ -16,7 +16,6 @@ interface Locations {
   webpackDir: string;
   srcDir: string;
   distDir: string;
-  baseDir: string;
 }
 
 /**
@@ -27,14 +26,15 @@ interface Locations {
  * @returns {Locations} The absolute locations
  */
 function resolveLocations(project: ProjectOptions, target: AngularTarget): Locations {
-  const rootDir: string = toUnix(project.root);
-  const buildDir: string = path.join(rootDir, toUnix(project.buildDir), target.name);
-  const webpackDir: string = path.join(rootDir, toUnix(project.buildDir), target.webpackDir);
-  const srcDir: string = path.join(rootDir, toUnix(project.srcDir));
-  const distDir: string = path.join(rootDir, toUnix(project.distDir), target.name);
+  const targetDir: string = target.targetDir === undefined ? target.name : target.targetDir;
 
-  const baseDir: string = path.join(srcDir, toUnix(target.baseDir));
-  return {rootDir, buildDir, webpackDir, srcDir, distDir, baseDir};
+  const rootDir: string = toUnix(project.root);
+  const srcDir: string = path.join(rootDir, toUnix(project.srcDir));
+  const webpackDir: string = path.join(rootDir, toUnix(project.buildDir), target.webpackDir);
+  const buildDir: string = path.join(rootDir, toUnix(project.buildDir), targetDir);
+  const distDir: string = path.join(rootDir, toUnix(project.distDir), targetDir);
+
+  return {rootDir, srcDir, webpackDir, buildDir, distDir};
 }
 
 export function generateTarget(gulp: Gulp, project: ProjectOptions, target: AngularTarget) {
@@ -60,7 +60,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
   const buildWebpackTasks: string[] = [];
 
   const buildTypescriptOptions: buildTypescript.Options = {
-    tsOptions: target.typescriptOptions,
+    compilerOptions: target.typescript !== undefined ? target.typescript.compilerOptions : undefined,
     typeRoots: target.typeRoots.map(toUnix),
     scripts: target.scripts,
     srcDir: locations.srcDir,

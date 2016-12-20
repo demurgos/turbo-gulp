@@ -22,27 +22,23 @@ export function getSources(options: Options): Sources {
   };
 }
 
-export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
+export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const sources: Sources = getSources(options);
 
-  return function () {
+  const task: TaskFunction = function () {
     return gulp
       .src(sources.specs, {base: sources.baseDir})
       .pipe(gulpMocha({
         reporter: "spec"
       }));
   };
-}
+  task.displayName = getTaskName();
 
-export function getTaskName(targetName: string): string {
-  return `${targetName}`;
-}
-
-export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
-  const taskName: string = getTaskName(targetName);
-  const task: TaskFunction = generateTask(gulp, taskName, options);
-  gulp.task(taskName, task);
   return task;
 }
 
-export default registerTask;
+export function getTaskName(): string {
+  return "_mocha:run";
+}
+
+export default generateTask;
