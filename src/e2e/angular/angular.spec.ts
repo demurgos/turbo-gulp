@@ -8,7 +8,7 @@ chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 
 const PROJECT_ROOT: string = path.join(toUnix(__dirname), "project");
-const EXPECTED_ROOT: string = path.join(toUnix(__dirname), "expected");
+const RESOURCES_ROOT: string = path.join(toUnix(__dirname), "test-resources");
 
 describe("Project angular", function (this: Mocha.ISuite) {
   before("Install npm dependencies", async function(this: Mocha.IContextDefinition) {
@@ -33,7 +33,7 @@ describe("Project angular", function (this: Mocha.ISuite) {
     it("should render pug files", async function (this: Mocha.ITest): Promise<void> {
       const [actualIndex, expectedIndex]: [string, string] = <[string, string]> await Promise.all([
         readText(path.join(PROJECT_ROOT, "build/server/static/index.html")),
-        readText(path.join(EXPECTED_ROOT, "index.html"))
+        readText(path.join(RESOURCES_ROOT, "index.html"))
       ]);
       assert.equal(actualIndex, expectedIndex);
     });
@@ -41,7 +41,7 @@ describe("Project angular", function (this: Mocha.ISuite) {
     it("should render sass files", async function (this: Mocha.ITest): Promise<void> {
       const [actualIndex, expectedIndex]: [string, string] = <[string, string]> await Promise.all([
         readText(path.join(PROJECT_ROOT, "build/server/static/main.css")),
-        readText(path.join(EXPECTED_ROOT, "main.css"))
+        readText(path.join(RESOURCES_ROOT, "main.css"))
       ]);
       assert.equal(actualIndex, expectedIndex);
     });

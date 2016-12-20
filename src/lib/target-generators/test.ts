@@ -1,67 +1,20 @@
 import Bluebird = require("bluebird");
 import del = require("del");
-import {Gulp, TaskFunction} from "gulp";
-import {posix as path} from "path";
+import {Gulp} from "gulp";
 import {ProjectOptions, TestTarget} from "../config/config";
-import * as buildTypescript from "../task-generators/build-typescript";
 import * as testNode from "../task-generators/test-node";
-import * as tsconfigJson from "../task-generators/tsconfig-json";
-import {toUnix} from "../utils/locations";
-import {generateCopyTasks} from "./base";
+import {generateTarget as generateNodeTarget} from "./node";
 
-export interface Options {
-  project: ProjectOptions;
-  target: TestTarget;
-  /**
-   * Exit with an error code when an issue happens during the compilation.
-   */
-  strict?: boolean;
-  tsOptions: {
-    typescript: any
-  };
-}
+export function generateTarget(gulp: Gulp, project: ProjectOptions, target: TestTarget) {
+  const targetName: string = target.name;
+  generateNodeTarget(gulp, project, target);
 
-/**
- * Generate a Mocha test target.
- *
- * @param gulp The gulp instance to use to register the tasks
- * @param targetName The name of the target, used to prefix the related tasks
- * @param options The target webpackOptions, see Options
- */
-export function generateTarget(gulp: Gulp, targetName: string, options: Options) {
-  const rootDir: string = toUnix(options.project.root);
-  const buildDir: string = path.join(rootDir, toUnix(options.project.buildDir), targetName);
-  const srcDir: string = path.join(rootDir, toUnix(options.project.srcDir));
-
-  const baseDir: string = path.join(srcDir, toUnix(options.target.baseDir));
-
-  const typescriptOptions: buildTypescript.Options & tsconfigJson.Options = {
-    strict: options.strict || true,
-    tsOptions: options.tsOptions,
-    typeRoots: options.target.typeRoots.map(toUnix),
-    scripts: options.target.scripts,
-    buildDir: buildDir,
-    srcDir: srcDir,
-    tsconfigPath: path.join(baseDir, "tsconfig.json")
+  // tslint:disable-next-line:typedef
+  const taskNames = {
+    build: `${targetName}:build`,
+    run: `${targetName}:run`
   };
 
-  buildTypescript.registerTask(gulp, targetName, typescriptOptions);
-  tsconfigJson.registerTask(gulp, targetName, typescriptOptions);
-  if (options.target.copy !== undefined) {
-    const mainCopyTask: TaskFunction = generateCopyTasks(gulp, srcDir, buildDir, options.target.copy);
-    mainCopyTask.displayName = `${targetName}:build:copy`;
-    gulp.task(mainCopyTask.displayName, mainCopyTask);
-  } else {
-    gulp.task(`${targetName}:build:copy`, async function() {});
-  }
-
-  gulp.task(`${targetName}:build`, gulp.parallel(`${targetName}:build:scripts`, `${targetName}:build:copy`));
-
-  gulp.task(`${targetName}:clean`, function () {
-    return del(buildDir);
-  });
-
-  gulp.task(`${targetName}:run`, testNode.generateTask(gulp, targetName, {testDir: buildDir}));
-
-  gulp.task(`${targetName}`, gulp.series(`${targetName}:build`, `${targetName}:run`));
+  gulp.task(taskNames.run, testNode.generateTask(gulp, {testDir: project.buildDir}));
+  gulp.task(targetName, gulp.series(taskNames.build, taskNames.run));
 }

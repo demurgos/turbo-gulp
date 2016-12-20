@@ -1,15 +1,36 @@
 import {Gulp, TaskFunction} from "gulp";
 import gulpSourceMaps = require("gulp-sourcemaps");
 import gulpTypescript = require("gulp-typescript");
+import * as gulpUtil from "gulp-util";
 import {assign} from "lodash";
 import merge = require("merge2");
 import {Minimatch} from "minimatch";
 import * as path from "path";
-
-import {DEV_TSC_OPTIONS} from "../config/tsc";
+import * as ts from "typescript";
+import {CompilerJsonOptions, DEV_TSC_OPTIONS} from "../config/typescript";
 import * as matcher from "../utils/matcher";
 
 export interface Options {
+  /**
+   * Base directory when resolving scripts
+   */
+  srcDir: string;
+
+  /**
+   * Directories where to search for type definitions
+   */
+  typeRoots: string[];
+
+  /**
+   * List of patterns (relative to srcDir) to match the typescript files
+   */
+  scripts: string[];
+
+  /**
+   * Output directory
+   */
+  buildDir: string;
+
   /**
    * Exit with an error code when an issue happens during the compilation.
    * Default: true
@@ -20,11 +41,12 @@ export interface Options {
    * Options to pass to gulp-typescript.
    * These are also used when generating tsconfig.json files
    */
-  tsOptions: any;
-  srcDir: string;
-  typeRoots: string[];
-  scripts: string[];
-  buildDir: string;
+  compilerOptions?: CompilerJsonOptions;
+
+  /**
+   * Typescript compiler instance to use
+   */
+  typescript?: any;
 }
 
 /**
@@ -79,16 +101,57 @@ export function getSources(options: Options): Sources {
   return result;
 }
 
+function hasError(compilerResult: gulpTypescript.reporter.CompilationResult): boolean {
+  return compilerResult.emitSkipped
+    || compilerResult.transpileErrors > 0
+    || compilerResult.optionsErrors > 0
+    || compilerResult.syntaxErrors > 0
+    || compilerResult.globalErrors > 0
+    || compilerResult.semanticErrors > 0
+    || compilerResult.declarationErrors > 0
+    || compilerResult.emitErrors > 0;
+}
+
+interface CompleteReporter extends gulpTypescript.reporter.Reporter {
+  error: (error: gulpTypescript.reporter.TypeScriptError, typescript: typeof ts) => void;
+  finish: (results: gulpTypescript.reporter.CompilationResult) => void;
+}
+
+function getReporter(strict: boolean = true): CompleteReporter {
+  let reporter: CompleteReporter;
+  const defaultReporter: CompleteReporter = <CompleteReporter> gulpTypescript.reporter.defaultReporter();
+
+  if (!strict) {
+    reporter = defaultReporter;
+  } else {
+    reporter = {
+      error: defaultReporter.error,
+      finish: (compilerResult: gulpTypescript.reporter.CompilationResult) => {
+        defaultReporter.finish(compilerResult);
+        if (hasError(compilerResult)) {
+          throw new gulpUtil.PluginError(
+            "gulp-typescript",
+            Error("Typescript: Compilation with `strict` option emitted some errors. See report for details")
+          );
+        }
+      }
+    };
+  }
+
+  return reporter;
+}
+
 export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
   const sources: Sources = getSources(options);
-  const tsOptions: any = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
+  const compilerOptions: CompilerJsonOptions = assign({}, DEV_TSC_OPTIONS, options.compilerOptions);
+  const reporter: CompleteReporter = getReporter(options.strict);
 
   const task: TaskFunction = function () {
     // tslint:disable-next-line:typedef
     const tsResult = gulp
       .src(sources.sources, {base: sources.baseDir})
       .pipe(gulpSourceMaps.init())
-      .pipe(gulpTypescript(tsOptions));
+      .pipe(gulpTypescript(compilerOptions, reporter));
 
     return merge([
       tsResult.dts

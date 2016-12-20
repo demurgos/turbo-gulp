@@ -46,6 +46,7 @@ export function getSources(project: ProjectOptions): Sources {
 
 export function registerTask(gulp: Gulp, project: ProjectOptions) {
   const options: GulpTslintOptions = Object.assign({}, {
+    emitError: true,
     configuration: defaultTslintConfig,
     formatter: "verbose",
     tslint: tslint

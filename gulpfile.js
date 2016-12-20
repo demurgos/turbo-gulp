@@ -9,7 +9,10 @@ const projectOptions = Object.assign(
   {},
   buildTools.config.DEFAULT_PROJECT_OPTIONS,
   {
-    root: __dirname
+    root: __dirname,
+    tslintOptions: {
+      files: ["src/**/*.ts", "!src/e2e/*/*/**/*.ts"]
+    }
   }
 );
 
@@ -18,12 +21,16 @@ const libTarget = Object.assign(
   {},
   buildTools.config.LIB_TARGET,
   {
+    typescript: {
+      compilerOptions: {
+        skipLibCheck: true
+      },
+      typescript: typescript,
+      tsconfigJson: ["lib/tsconfig.json"]
+    },
     typescriptOptions: {
       skipLibCheck: true,
       typescript: typescript
-    },
-    tslintOptions: {
-      files: ["src/**/*.ts", "!src/e2e/*/*/**/*.ts"]
     }
   }
 );
@@ -56,10 +63,10 @@ const es5Target = Object.assign(
 //     copy: [
 //       {
 //         name: "e2e",
-//         from: "e2e",
-//         // <project-name>/(project|expected)/<any>
-//         files: ["*/project/**/*", "*/expected/**/*"],
-//         to: "e2e"
+//         src: "e2e",
+//         // <project-name>/(project|test-resources)/<any>
+//         files: ["*/project/**/*", "*/test-resources/**/*"],
+//         dest: "e2e"
 //       }
 //     ]
 //   }
@@ -71,8 +78,8 @@ libTestTarget.copy = [
   {
     name: "projects",
     src: "e2e",
-    // <project-name>/(project|expected)/<any>
-    files: ["*/project/**/*", "*/expected/**/*"],
+    // <project-name>/(project|test-resources)/<any>
+    files: ["*/project/**/*", "*/test-resources/**/*"],
     dest: "e2e"
   }
 ];

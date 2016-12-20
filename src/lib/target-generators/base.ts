@@ -3,9 +3,11 @@ import Bluebird = require("bluebird");
 import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
 import {CopyOptions, PugOptions, SassOptions} from "../config/config";
+import * as buildTypescript from "../task-generators/build-typescript";
 import * as copy from "../task-generators/copy";
 import * as pug from "../task-generators/pug";
 import * as sass from "../task-generators/sass";
+import * as tsconfigJson from "../task-generators/tsconfig-json";
 
 function asyncDoneAsync(fn: asyncDone.AsyncTask): Bluebird<any> {
   return Bluebird.fromCallback((cb) => {
@@ -42,7 +44,7 @@ function mergeCopy(gulp: Gulp, srcDir: string,
     const completeOptions: copy.Options = {from, files, to};
     tasks.push(copy.generateTask(gulp, completeOptions));
   }
-  return async function(): Promise<void> {
+  return async function (): Promise<void> {
     await Promise.all(tasks.map(asyncDoneAsync));
     return;
   };
@@ -79,7 +81,7 @@ function mergePug(gulp: Gulp, srcDir: string,
     }
     tasks.push(pug.generateTask(gulp, completeOptions));
   }
-  return async function(): Promise<any> {
+  return async function (): Promise<any> {
     await Promise.all(tasks.map(asyncDoneAsync));
     return;
   };
@@ -116,7 +118,7 @@ function mergeSass(gulp: Gulp, srcDir: string,
     }
     tasks.push(sass.generateTask(gulp, completeOptions));
   }
-  return async function(): Promise<any> {
+  return async function (): Promise<any> {
     await Promise.all(tasks.map(asyncDoneAsync));
     return;
   };
@@ -135,6 +137,26 @@ export function generateSassTasks(gulp: Gulp, srcDir: string,
 
   const mainTask: TaskFunction = gulp.parallel(...subTasks);
   mainTask.displayName = `_sass`;
+  return mainTask;
+}
 
+export function generateTsconfigJsonTasks(gulp: Gulp, srcDir: string,
+                                          tsOptions: buildTypescript.Options, tsconfigPaths: string[]): TaskFunction {
+  const subTasks: TaskFunction[] = [];
+
+  for (const tsconfigPath in tsconfigPaths) {
+    const completeOptions: tsconfigJson.Options = Object.assign(
+      {},
+      tsOptions,
+      {
+        tsconfigPath: path.join(srcDir, tsconfigPath)
+      }
+    );
+    const task: TaskFunction = tsconfigJson.generateTask(gulp, completeOptions);
+    task.displayName = `_tsconfig.json:${tsconfigPath}`;
+  }
+
+  const mainTask: TaskFunction = gulp.parallel(...subTasks);
+  mainTask.displayName = `_sass`;
   return mainTask;
 }

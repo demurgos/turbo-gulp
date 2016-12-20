@@ -6,14 +6,13 @@ import * as tsconfigJson from "../task-generators/tsconfig-json";
 import {toUnix} from "../utils/locations";
 import del = require("del");
 import {TaskFunction} from "gulp";
-import {generateCopyTasks, generatePugTasks, generateSassTasks} from "./base";
+import {generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks} from "./base";
 
 interface Locations {
   rootDir: string;
-  buildDir: string;
   srcDir: string;
+  buildDir: string;
   distDir: string;
-  baseDir: string;
 }
 
 /**
@@ -24,13 +23,14 @@ interface Locations {
  * @returns {Locations} The absolute locations
  */
 function resolveLocations(project: ProjectOptions, target: NodeTarget): Locations {
-  const rootDir: string = toUnix(project.root);
-  const buildDir: string = path.join(rootDir, toUnix(project.buildDir), target.name);
-  const srcDir: string = path.join(rootDir, toUnix(project.srcDir));
-  const distDir: string = path.join(rootDir, toUnix(project.distDir), target.name);
+  const targetDir: string = target.targetDir === undefined ? target.name : target.targetDir;
 
-  const baseDir: string = path.join(srcDir, toUnix(target.baseDir));
-  return {rootDir, buildDir, srcDir, distDir, baseDir};
+  const rootDir: string = toUnix(project.root);
+  const srcDir: string = path.join(rootDir, toUnix(project.srcDir));
+  const buildDir: string = path.join(rootDir, toUnix(project.buildDir), targetDir);
+  const distDir: string = path.join(rootDir, toUnix(project.distDir), targetDir);
+
+  return {rootDir, srcDir, buildDir, distDir};
 }
 
 export function generateTarget(gulp: Gulp, project: ProjectOptions, target: NodeTarget) {
@@ -43,14 +43,17 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
     buildWebpackScripts: `${targetName}:build:scripts`,
     buildPug: `${targetName}:build:pug`,
     buildSass: `${targetName}:build:sass`,
-    buildCopy: `${targetName}:build:copy`
+    buildCopy: `${targetName}:build:copy`,
+    tsconfigJson: `${targetName}:tsconfig.json`
   };
 
   const buildTasks: string[] = [];
 
   const buildTypescriptOptions: buildTypescript.Options = {
-    tsOptions: target.typescriptOptions,
-    typeRoots: target.typeRoots.map(toUnix),
+    compilerOptions: target.typescript !== undefined ? target.typescript.compilerOptions : undefined,
+    strict: target.typescript !== undefined ? target.typescript.strict : undefined,
+    typescript: target.typescript !== undefined ? target.typescript.typescript : undefined,
+    typeRoots: target.typeRoots,
     scripts: target.scripts,
     buildDir: locations.buildDir,
     srcDir: locations.srcDir
@@ -90,11 +93,11 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
     gulp.parallel(...buildTasks)
   );
 
-  // target:watch
-  gulp.task(`${targetName}:watch`, function () {
-    const sources: buildTypescript.Sources = buildTypescript.getSources(buildTypescriptOptions);
-    gulp.watch(sources.scripts, {cwd: locations.baseDir}, gulp.parallel(`${targetName}:build`));
-  });
+  // // target:watch
+  // gulp.task(`${targetName}:watch`, function () {
+  //   const sources: buildTypescript.Sources = buildTypescript.getSources(buildTypescriptOptions);
+  //   gulp.watch(sources.scripts, {cwd: locations.baseDir}, gulp.parallel(`${targetName}:build`));
+  // });
 
   gulp.task(`${targetName}:clean`, function () {
     return del(locations.buildDir);
@@ -109,8 +112,16 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
       });
   }));
 
-  const generateTsconfigJsonOptions: tsconfigJson.Options = Object.assign({}, buildTypescriptOptions, {
-    tsconfigPath: path.join(locations.baseDir, "tsconfig.json")
-  });
-  tsconfigJson.registerTask(gulp, targetName, generateTsconfigJsonOptions);
+  // target:tsconfig.json
+  if (target.typescript !== undefined && target.typescript.tsconfigJson !== undefined) {
+    const mainCopyTask: TaskFunction = generateTsconfigJsonTasks(
+      gulp,
+      locations.srcDir,
+      buildTypescriptOptions,
+      target.typescript.tsconfigJson
+    );
+    mainCopyTask.displayName = taskNames.tsconfigJson;
+    gulp.task(mainCopyTask.displayName, mainCopyTask);
+    buildTasks.push(mainCopyTask.displayName);
+  }
 }

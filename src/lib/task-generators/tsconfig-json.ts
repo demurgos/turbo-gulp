@@ -5,17 +5,12 @@ import {assign} from "lodash";
 import merge = require("merge2");
 import {Minimatch} from "minimatch";
 import {posix as path} from "path";
-
-import {DEV_TSC_OPTIONS} from "../config/tsc";
+import {CompilerJsonOptions, DEV_TSC_OPTIONS} from "../config/typescript";
+import * as buildTypescript from "../task-generators/build-typescript";
 import * as matcher from "../utils/matcher";
 import {writeJsonFile} from "../utils/project";
 
-export interface Options {
-  tsOptions: any;
-  srcDir: string;
-  typeRoots: string[];
-  scripts: string[];
-  buildDir: string;
+export interface Options extends buildTypescript.Options {
   tsconfigPath: string;
 }
 
@@ -61,38 +56,33 @@ export function getTsconfigPaths(options: Options): TsconfigPaths {
   return result;
 }
 
-export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
-  const tsOptions: any = assign({}, DEV_TSC_OPTIONS, options.tsOptions);
+export function generateTask(gulp: Gulp, options: Options): TaskFunction {
+  const compilerOptions: CompilerJsonOptions = assign({}, DEV_TSC_OPTIONS, options.compilerOptions);
 
   const paths: TsconfigPaths = getTsconfigPaths(options);
 
-  delete tsOptions.typescript;
-  tsOptions.rootDir = paths.rootDir;
-  tsOptions.outDir = paths.outdDir;
-  tsOptions.typeRoots = paths.typeRoots;
+  compilerOptions.rootDir = paths.rootDir;
+  compilerOptions.outDir = paths.outdDir;
+  compilerOptions.typeRoots = paths.typeRoots;
 
   const tsconfigData: Object = {
-    compilerOptions: tsOptions,
+    compilerOptions: compilerOptions,
     include: paths.include,
     exclude: paths.exclude
   };
 
   const tsconfigPath: string = path.join(options.tsconfigPath);
 
-  return function () {
+  const task: TaskFunction =  function () {
     return writeJsonFile(tsconfigPath, tsconfigData);
   };
-}
 
-export function getTaskName(targetName: string): string {
-  return `${targetName}:tsconfig.json`;
-}
-
-export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
-  const taskName: string = getTaskName(targetName);
-  const task: TaskFunction = generateTask(gulp, taskName, options);
-  gulp.task(taskName, task);
+  task.displayName = getTaskName();
   return task;
 }
 
-export default registerTask;
+export function getTaskName(): string {
+  return "_tsconfig.json";
+}
+
+export default generateTask;

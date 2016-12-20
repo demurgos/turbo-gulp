@@ -20,10 +20,12 @@ const serverTarget = Object.assign(
   {},
   buildTools.config.ANGULAR_SERVER_TARGET,
   {
-    typescriptOptions: {
-      skipLibCheck: true,
-      typescript: typescript,
-      lib: ["es6", "dom"]
+    typescript: {
+      compilerOptions: {
+        skipLibCheck: true,
+        lib: ["es6", "dom"]
+      },
+      typescript: typescript
     },
     pug: buildTools.config.ANGULAR_SERVER_TARGET.pug
       .map(config => Object.assign({}, config, {
@@ -37,10 +39,12 @@ const clientTarget = Object.assign(
   {},
   buildTools.config.ANGULAR_CLIENT_TARGET,
   {
-    typescriptOptions: {
-      skipLibCheck: true,
-      typescript: typescript,
-      lib: ["es6", "dom"]
+    typescript: {
+      compilerOptions: {
+        skipLibCheck: true,
+        lib: ["es6", "dom"]
+      },
+      typescript: typescript
     },
     pug: buildTools.config.ANGULAR_SERVER_TARGET.pug
       .map(config => Object.assign({}, config, {
