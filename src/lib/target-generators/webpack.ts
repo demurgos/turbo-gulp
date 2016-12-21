@@ -1,7 +1,7 @@
 import Bluebird = require("bluebird");
 import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
-import {AngularTarget, ProjectOptions} from "../config/config";
+import {ProjectOptions, WebpackTarget} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as buildWebpack from "../task-generators/build-webpack";
 import * as copy from "../task-generators/copy";
@@ -25,7 +25,7 @@ interface Locations {
  * @param target
  * @returns {Locations} The absolute locations
  */
-function resolveLocations(project: ProjectOptions, target: AngularTarget): Locations {
+function resolveLocations(project: ProjectOptions, target: WebpackTarget): Locations {
   const targetDir: string = target.targetDir === undefined ? target.name : target.targetDir;
 
   const rootDir: string = toUnix(project.root);
@@ -37,27 +37,23 @@ function resolveLocations(project: ProjectOptions, target: AngularTarget): Locat
   return {rootDir, srcDir, webpackDir, buildDir, distDir};
 }
 
-export function generateTarget(gulp: Gulp, project: ProjectOptions, target: AngularTarget) {
+export function generateTarget(gulp: Gulp, project: ProjectOptions, target: WebpackTarget) {
   const targetName: string = target.name;
   const locations: Locations = resolveLocations(project, target);
 
   // tslint:disable-next-line:typedef
   const taskNames = {
-    buildWebpackScripts: `${targetName}:build:scripts`,
-    buildWebpackPug: `${targetName}:build:webpack:pug`,
-    buildWebpackSass: `${targetName}:build:webpack:sass`,
-    buildWebpackCopy: `${targetName}:build:webpack:copy`,
-    buildWebpack: `${targetName}:build:webpack`,
+    buildScripts: `${targetName}:build:scripts`,
     buildPug: `${targetName}:build:pug`,
     buildSass: `${targetName}:build:sass`,
     buildCopy: `${targetName}:build:copy`,
+    buildWebpack: `${targetName}:build:webpack`,
     build: `${targetName}:build`,
     clean: `${targetName}:clean`,
     dist: `${targetName}:dist`
   };
 
   const buildTasks: string[] = [];
-  const buildWebpackTasks: string[] = [];
 
   const buildTypescriptOptions: buildTypescript.Options = {
     compilerOptions: target.typescript !== undefined ? target.typescript.compilerOptions : undefined,
@@ -67,59 +63,9 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
     buildDir: locations.webpackDir
   };
 
-  // target:build:webpack:scripts
+  // target:build:scripts
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
-  buildWebpackTasks.push(taskNames.buildWebpackScripts);
-
-  // target:build:webpack:pug
-  if (target.webpackPug !== undefined) {
-    const mainPugTask: TaskFunction = generatePugTasks(
-      gulp,
-      locations.srcDir,
-      locations.webpackDir,
-      target.webpackPug
-    );
-    mainPugTask.displayName = taskNames.buildWebpackPug;
-    gulp.task(mainPugTask.displayName, mainPugTask);
-    buildWebpackTasks.push(mainPugTask.displayName);
-  }
-
-  // target:build:webpack:sass
-  if (target.webpackSass !== undefined) {
-    const mainSassTask: TaskFunction = generateSassTasks(
-      gulp,
-      locations.srcDir,
-      locations.webpackDir,
-      target.webpackSass
-    );
-    mainSassTask.displayName = taskNames.buildWebpackSass;
-    gulp.task(mainSassTask.displayName, mainSassTask);
-    buildWebpackTasks.push(mainSassTask.displayName);
-  }
-
-  // target:build:webpack:copy
-  if (target.webpackCopy !== undefined) {
-    const mainCopyTask: TaskFunction = generateCopyTasks(
-      gulp,
-      locations.srcDir,
-      locations.webpackDir,
-      target.webpackCopy
-    );
-    mainCopyTask.displayName = taskNames.buildWebpackCopy;
-    gulp.task(mainCopyTask.displayName, mainCopyTask);
-    buildWebpackTasks.push(mainCopyTask.displayName);
-  }
-
-  // target:build:webpack
-  const buildWebpackOptions: buildWebpack.Options = {
-    projectRoot: locations.rootDir,
-    srcDir: locations.webpackDir,
-    buildDir: locations.buildDir,
-    webpackOptions: target.webpackOptions,
-    entry: target.mainModule
-  };
-  const webpackTask: TaskFunction = buildWebpack.generateTask(gulp, targetName, buildWebpackOptions);
-  gulp.task(taskNames.buildWebpack, webpackTask);
+  buildTasks.push(taskNames.buildScripts);
 
   // target:build:pug
   if (target.pug !== undefined) {
@@ -160,13 +106,21 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Angu
     buildTasks.push(mainCopyTask.displayName);
   }
 
+  // target:build:webpack
+  const buildWebpackOptions: buildWebpack.Options = {
+    projectRoot: locations.rootDir,
+    srcDir: locations.webpackDir,
+    buildDir: locations.buildDir,
+    webpackOptions: target.webpackOptions,
+    entry: target.mainModule
+  };
+  const webpackTask: TaskFunction = buildWebpack.generateTask(gulp, targetName, buildWebpackOptions);
+  gulp.task(taskNames.buildWebpack, webpackTask);
+
   // target:build
   gulp.task(
     taskNames.build,
-    gulp.parallel(
-      gulp.series(gulp.parallel(...buildWebpackTasks), taskNames.buildWebpack),
-      ...buildTasks
-    )
+    gulp.series(gulp.parallel(...buildTasks), taskNames.buildWebpack)
   );
 
   // target:clean

@@ -237,7 +237,7 @@ export interface TestTarget extends NodeTarget {
   };
 }
 
-export interface AngularTarget extends Target {
+export interface WebpackTarget extends Target {
   /**
    * Directory to store webpack files during the build, relative to
    * `project.buildDir`.
@@ -254,15 +254,6 @@ export interface AngularTarget extends Target {
     webpack?: Webpack;
     configuration?: WebpackConfiguration;
   };
-
-  /**
-   * A list of copy operations to perform during the build process.
-   */
-  webpackCopy?: CopyOptions[];
-
-  webpackPug?: PugOptions[];
-
-  webpackSass?: SassOptions[];
 }
 
 /**
@@ -324,18 +315,15 @@ export const ANGULAR_SERVER_TARGET: NodeTarget = {
 /**
  * Preconfigured "webpack" configuration for an Angular Universal client.
  */
-export const ANGULAR_CLIENT_TARGET: AngularTarget = {
+export const ANGULAR_CLIENT_TARGET: WebpackTarget = {
   name: "client",
   targetDir: "server/static",
   webpackDir: "client.webpack",
   scripts: ["client/**/*.ts", "app/**/*.ts", "lib/**/*.ts", "!**/*.spec.ts"],
   typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
   mainModule: "client/main",
-  webpackPug: [{name: "app", src: "app", dest: "app"}],
-  webpackSass: [{name: "app", src: "app", dest: "app"}],
-  pug: [{name: "static", src: "static", dest: "."}],
-  sass: [{name: "static", src: "static", dest: "."}],
-  copy: [{name: "static", src: "static", files: ["**/*", "!**/*.(pug|scss)"], dest: "."}],
+  pug: [{name: "app", src: "app", dest: "app"}],
+  sass: [{name: "app", src: "app", dest: "app"}],
   typescript: {
     tsconfigJson: ["client/tsconfig.json"]
   }

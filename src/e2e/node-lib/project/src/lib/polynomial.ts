@@ -1,14 +1,14 @@
-export class Polynomial<T extends number> {
-  coefficients: T[];
+export class Polynomial {
+  coefficients: number[];
 
-  constructor(coefficients: T[] = []) {
+  constructor(coefficients: number[] = []) {
     this.coefficients = coefficients;
     this.normalize();
   }
 
-  addAssign(rhs: Polynomial<T>): this {
-    const nextCoefficients = new Array(Math.max(this.coefficients.length, rhs.coefficients.length));
-    for (let i = 0; i < nextCoefficients.length; i++) {
+  addAssign(rhs: Polynomial): this {
+    const nextCoefficients: number[] = new Array(Math.max(this.coefficients.length, rhs.coefficients.length));
+    for (let i: number = 0; i < nextCoefficients.length; i++) {
       nextCoefficients[i] = 0;
       if (i < this.coefficients.length) {
         nextCoefficients[i] += this.coefficients[i];
@@ -22,7 +22,7 @@ export class Polynomial<T extends number> {
   }
 
   private normalize(): this {
-    let i = this.coefficients.length;
+    let i: number = this.coefficients.length;
     while (i > 0 && this.coefficients[i - 1] === 0) {
       i--;
     }
@@ -32,7 +32,7 @@ export class Polynomial<T extends number> {
 
   toString(): string {
     const expr: string = this.coefficients
-      .map((value: T, index: number): string => `(${value})x^${index}`)
+      .map((value: number, index: number): string => `(${value})x^${index}`)
       .reverse()
       .join(" + ");
     return `P[${expr}]`;
