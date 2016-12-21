@@ -55,4 +55,4 @@ const clientTarget = Object.assign(
 
 buildTools.projectTasks.registerAll(gulp, projectOptions);
 buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, serverTarget);
-buildTools.targetGenerators.angular.generateTarget(gulp, projectOptions, clientTarget);
+buildTools.targetGenerators.webpack.generateTarget(gulp, projectOptions, clientTarget);

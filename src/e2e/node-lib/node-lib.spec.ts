@@ -52,4 +52,11 @@ describe("Project node-lib", function (this: Mocha.ISuite) {
       assert.equal(actualOutput, expectedOutput);
     });
   });
+
+  describe("lib:test", async function (this: Mocha.ISuite): Promise<void> {
+    it("should not report any error", async function (this: Mocha.ITestDefinition) {
+      this.timeout(60 * 1000);
+      await execFile("gulp", ["lib-test"], {cwd: PROJECT_ROOT});
+    });
+  });
 });

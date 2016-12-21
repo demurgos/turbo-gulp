@@ -1,5 +1,5 @@
-import * as angular from "./angular";
 import * as node from "./node";
 import * as test from "./test";
+import * as webpack from "./webpack";
 
-export {angular, node, test};
+export {node, test, webpack};

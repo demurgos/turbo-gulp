@@ -40,7 +40,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
   // tslint:disable-next-line:typedef
   const taskNames = {
     build: `${targetName}:build`,
-    buildWebpackScripts: `${targetName}:build:scripts`,
+    buildScripts: `${targetName}:build:scripts`,
     buildPug: `${targetName}:build:pug`,
     buildSass: `${targetName}:build:sass`,
     buildCopy: `${targetName}:build:copy`,
@@ -61,7 +61,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
 
   // target:build:scripts
   buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
-  buildTasks.push(taskNames.buildWebpackScripts);
+  buildTasks.push(taskNames.buildScripts);
 
   // target:build:pug
   if (target.pug !== undefined) {
