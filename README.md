@@ -60,7 +60,14 @@ To generate general tasks (`:lint`, `:bump-minor`, etc.), use:
 import * as buildTools from "demurgos-web-build-tools";
 import gulp = require("gulp");
 
-const projectOptions = buildTools.config.DEFAULT_PROJECT_OPTIONS;
+// Project-wide options
+const projectOptions = Object.assign(
+  {},
+  buildTools.config.DEFAULT_PROJECT_OPTIONS,
+  {
+    root: __dirname
+  }
+);
 
 buildTools.projectTasks.registerAll(gulp, projectOptions);
 ```
@@ -69,96 +76,195 @@ To generate a target, use:
 
 ```typescript
 import * as buildTools from "demurgos-web-build-tools";
-
-// buildTools.targetGenerators.<kind>.generateTarget(gulp, targetName, options);
-
-buildTools.targetGenerators.node.generateTarget(gulp, "server",  {
-    project: projectOptions,
-    target: nodeTargetOptions,
-    // other options...
-  }
-);
-
-buildTools.targetGenerators.test.generateTarget(gulp, "test",  {
-    project: projectOptions,
-    target: testTargetOptions,
-    // other options...
-  }
-);
-
-buildTools.targetGenerators.angular.generateTarget(gulp, "angular",  {
-    project: projectOptions,
-    target: angularTargetOptions,
-    // other options...
-  }
-);
-
-```
-
-## Project configuration
-
-See `src/lib/config/config.ts`.
-
-## Tasks
-
-### Project
-
-```typescript
 import gulp = require("gulp");
-import * as buildTools from "demurgos-web-build-tools";
 
-buildTools.projectTasks.registerAll(
-  gulp,
-  {
-    project: projectOptions,
-    tslintOptions: {},
-    install: {}
-  }
-);
+// Project-wide options
+const projectOptions = buildTools.config.DEFAULT_PROJECT_OPTIONS;
+
+// Preconfigured targets
+// Node library
+const libTarget = buildTools.config.LIB_TARGET;
+// Mocha tests
+const libTestTarget = buildTools.config.LIB_TEST_TARGET;
+// Webpack build for angular config
+const angularClientTarget = buildTools.config.ANGULAR_CLIENT_TARGET;
+
+// buildTools.targetGenerators.<kind>.generateTarget(gulp, project, target);
+buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, libTarget);
+buildTools.targetGenerators.test.generateTarget(gulp, projectOptions, libTestTarget);
+buildTools.targetGenerators.webpack.generateTarget(gulp, projectOptions, angularClientTarget);
 ```
 
-#### `:bump:major`
+## Project
 
-Increments the major version of the project and creates a git commit.
+### Project Options
 
-#### `:bump:major`
+#### `root`
 
-Increments the minor version of the project and creates a git commit.
+- Type: `string`
 
-#### `:bump:major`
+Path to the root of your project.
+**This is the only path allowed to be absolute**.
 
-Increments the patch version of the project and creates a git commit.
+### `packageJson`
+
+- Type: `string`
+
+Relative path from `project.root` to your **package.json** file.
+
+### `packageJson`
+
+- Type: `string`
+
+Relative path from `project.root` to your **package.json** file.
+
+### `srcDir`
+
+- Type: `string`
+
+Relative path from `project.root` to the directory containing the sources of your project.
+
+### `buildDir`
+
+- Type: `string`
+
+Relative path from `project.root` to the directory where the output of the builds should be placed.
+
+This directory is usually ignored by your version control system.
+
+### `distDir`
+
+- Type: `string`
+
+Relative path from `project.root` to the directory containing the builds you wish to publish
+or export (distribute).
+
+### `tslint`
+
+**TODO**: The configuration of tslint will be updated. It currently uses `tslintJson` and `tslintOptions`.
+
+### Project Tasks
+
+#### `:bump-major`
+
+1. Increments the major version of the project
+2. Creates a _git_ commit `Release <version>`. (example: `Release 2.2.1`)
+3. Creates a _git_ tag `v<version>` with the message `Release <version>`.
+   (Example: name: `v2.2.1`, message: `Release 2.2.1`)
+
+#### `:bump-minor`
+
+Same as `:bump-major` but increments the minor version.
+
+#### `:bump-patch`
+
+Same as `:bump-major` but increments the patch version.
 
 #### `:lint`
 
-Check the Typescript files.
+Check the Typescript files with [TSLint][github-tslint].
+See `src/lib/config/tslint.ts` for the default configuration.
 
-### Target `node`
+## _node_ target
 
-Options: see `src/lib/config/config.ts`
+### Options for a _node_ target
+
+#### `name`
+
+- Type: `string`
+
+Name of the target. This is used as the prefix for each task.
+For example, `"name": "foo"` leads to `gulp foo:build`.
+
+#### `targetDir`
+
+- Type: `string`
+- Default: `target.name`
+
+Relative path from `project.buildDir` to the directory containing the output of this target.
+This is usually a subdirectory of `project.buildDir`.
+
+#### `scripts`
+
+- Type: `string[]`
+
+Relative patterns from `project.srcDir` to match the `*.ts` files to compile for this target.
+
+#### `typeRoots`
+
+- Type: `string[]`
+
+Relative paths from `project.srcDir` to the directories containing ths `*.d.ts` type definition files
+of third-party libraries.
+
+#### `typescript`
+
+- Type: `TypescriptOptions`
+- Optional
+
+Advanced Typescript options. See `src/lib/config/config.ts`.
+
+#### `copy`
+
+- Type: `CopyOptions[]`
+- Optional
+
+Copy some files during the build process.
+
+#### `pug`
+
+- Type: `PugOptions[]`
+- Optional
+
+Render some HTML files from Pug templates during the build process.
+
+#### `sass`
+
+- Type: `SassOptions[]`
+- Optional
+
+Render some CSS files from `*.scss` files during the build process.
+
+### `mainModule`
+
+- Type: `string`
+
+Relative module id (path without the extension) from `target.srcDir` of the main module.
+
+This is usually the file to start when running the project or the entry point of the library.
+
+### Tasks for a _node_ target
 
 #### `<targetName>:build`
 
-Build the target to `buildDir/<targetName>`.
+Build the complete target and output its result to `target.targetDir`.
 
 #### `<targetName>:build:scripts`
 
-Compile the Typescript files to `buildDir/<targetName>`.
+Compile the Typescript files.
+
+#### `<targetName>:build:copy`
+
+Perform simple copies.
+
+#### `<targetName>:build:pug`
+
+Compile Pug templates.
+
+#### `<targetName>:build:sass`
+
+Compile `*.scss` files.
 
 #### `<targetName>:clean`
 
-Delete the build files in `buildDir` and `distDir` for this target.
-
-#### `<targetName>:copy`
-
-Perform required file copies at the end of the build.
+Delete the files of this target in `project.buildDir` and `project.distDir`.
 
 #### `<targetName>:dist`
 
 Clean the files, build the target and then copy it to `distDir` (ready for
 publication).
 
-#### `<targetName>:tsconfig`
+#### `<targetName>:tsconfig.json`
 
 Generate as `tsconfig.json` file in the base directory for this target so
 you can compile it without `gulp` and just `tsc`:
@@ -166,7 +272,7 @@ you can compile it without `gulp` and just `tsc`:
 Example for the target `api-server` with the baseDirectory `server`:
 
 ```
-gulp api-server:tsconfig
+gulp api-server:tsconfig.json
 cd src/server
 tsc
 # The target `api-server` is now built
@@ -176,7 +282,7 @@ tsc
 
 Recompile when the files change.
 
-### Target `angular`
+### Target `webpack`
 
 Options: see `src/lib/config/config.ts`
 
@@ -187,3 +293,6 @@ Options: see `src/lib/config/config.ts`
 Options: see `src/lib/config/config.ts`
 
 **TODO**
+
+
+[github-tslint]: https://github.com/palantir/tslint
