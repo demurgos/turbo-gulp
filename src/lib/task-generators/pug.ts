@@ -3,7 +3,6 @@ import {Gulp, TaskFunction} from "gulp";
 import {Minimatch} from "minimatch";
 import {posix as path} from "path";
 import gulpPug = require("gulp-pug");
-
 import {asString, join} from "../utils/matcher";
 
 export interface Options {

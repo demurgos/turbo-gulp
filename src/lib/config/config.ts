@@ -175,6 +175,18 @@ export interface TypescriptOptions {
   tsconfigJson: string[];
 }
 
+export interface CleanOptions {
+  /**
+   * List of relative paths from `project.root` to directories to delete.
+   */
+  dirs?: string[];
+
+  /**
+   * List of relative minimatch patterns from `project.root` to files to delete.
+   */
+  files?: string[];
+}
+
 /**
  * A target represents a group of tasks to produce a specific build.
  */
@@ -215,6 +227,19 @@ export interface Target {
   pug?: PugOptions[];
 
   sass?: SassOptions[];
+
+  /**
+   * Description of the files to clean, **relative to `project.root`**.
+   *
+   * Default:
+   * {
+   *   dirs: [
+   *     path.join(project.buildDir, target.targetDir),
+   *     path.join(project.distDir, target.targetDir)
+   *   ]
+   * }
+   */
+  clean?: CleanOptions;
 }
 
 /**
