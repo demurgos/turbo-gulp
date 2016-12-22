@@ -2,13 +2,13 @@ import chai = require("chai");
 import chaiAsPromised = require("chai-as-promised");
 import {posix as path} from "path";
 import {toUnix} from "../../lib/utils/locations";
-import {execFile, ExecFileError, ExecFileResult, writeText} from "../../lib/utils/node-async";
+import {execFile, ExecFileError, ExecFileResult, readText, writeText} from "../../lib/utils/node-async";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 
 const PROJECT_ROOT: string = path.join(toUnix(__dirname), "project");
-const EXPECTED_ROOT: string = path.join(toUnix(__dirname), "expected");
+const RESOURCES_ROOT: string = path.join(toUnix(__dirname), "test-resources");
 
 describe("Project node-lib", function (this: Mocha.ISuite) {
   before("Install npm dependencies", async function(this: Mocha.IContextDefinition) {
@@ -44,12 +44,43 @@ describe("Project node-lib", function (this: Mocha.ISuite) {
     });
 
     it("should output runnable typescript files", async function (this: Mocha.ITest): Promise<void> {
-      const result: ExecFileResult = await execFile("node", ["build/lib/lib/index.js"], {cwd: PROJECT_ROOT});
+      const result: ExecFileResult = await execFile("node", ["build/lib/lib/hello-world.js"], {cwd: PROJECT_ROOT});
 
       const actualOutput: string = result.stdout.toString("utf8");
       const expectedOutput: string = "Hello, World!\n";
 
       assert.equal(actualOutput, expectedOutput);
+    });
+  });
+
+  describe("lib:dist", async function (this: Mocha.ISuite): Promise<void> {
+    before("Run `gulp lib:dist`", async function(this: Mocha.IContextDefinition) {
+      this.timeout(60 * 1000);
+      await execFile("gulp", ["lib:dist"], {cwd: PROJECT_ROOT});
+    });
+
+    it("should output runnable typescript files", async function (this: Mocha.ITest): Promise<void> {
+      const result: ExecFileResult = await execFile("node", ["dist/lib/lib/hello-world.js"], {cwd: PROJECT_ROOT});
+
+      const actualOutput: string = result.stdout.toString("utf8");
+      const expectedOutput: string = "Hello, World!\n";
+
+      assert.equal(actualOutput, expectedOutput);
+    });
+  });
+
+  describe("lib:tsconfig.json", async function (this: Mocha.ISuite): Promise<void> {
+    before("Run `gulp lib:tsconfig.json`", async function(this: Mocha.IContextDefinition) {
+      this.timeout(60 * 1000);
+      await execFile("gulp", ["lib:tsconfig.json"], {cwd: PROJECT_ROOT});
+    });
+
+    it("should output a tsconfig.json file in src/lib", async function (this: Mocha.ITest): Promise<void> {
+      const [actual, expected]: [string, string] = <[string, string]> await Promise.all([
+        readText(path.join(PROJECT_ROOT, "src/lib/tsconfig.json")),
+        readText(path.join(RESOURCES_ROOT, "lib._tsconfig.json"))
+      ]);
+      assert.equal(actual, expected);
     });
   });
 

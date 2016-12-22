@@ -23,7 +23,8 @@ const libTarget = Object.assign(
         target: "es2015"
       },
       typescript: typescript,
-      strict: true
+      strict: true,
+      tsconfigJson: ["lib/tsconfig.json"]
     }
   }
 );
@@ -40,7 +41,8 @@ const libES5Target = Object.assign(
         target: "es5"
       },
       typescript: typescript,
-      strict: true
+      strict: true,
+      tsconfigJson: ["lib/es5.tsconfig.json"]
     }
   }
 );
@@ -54,7 +56,8 @@ const testTarget = Object.assign(
       compilerOptions: {
         skipLibCheck: true
       },
-      typescript: typescript
+      typescript: typescript,
+      tsconfigJson: ["test/tsconfig.json"]
     }
   }
 );
