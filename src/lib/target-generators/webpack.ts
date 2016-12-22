@@ -4,7 +4,7 @@ import {posix as path} from "path";
 import {ProjectOptions, WebpackTarget} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as buildWebpack from "../task-generators/build-webpack";
-import * as copy from "../task-generators/copy";
+import * as clean from "../task-generators/clean";
 import del = require("del");
 import gulpSourceMaps = require("gulp-sourcemaps");
 import {toUnix} from "../utils/locations";
@@ -123,16 +123,33 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
     gulp.series(gulp.parallel(...buildTasks), taskNames.buildWebpack)
   );
 
-  // target:clean
-  gulp.task(taskNames.clean, function () {
-    return del([locations.buildDir, locations.webpackDir]);
-  });
+  // <targetName>:clean
+  let cleanOptions: clean.Options;
+  if (target.clean !== undefined) {
+    cleanOptions =   {
+      base: locations.rootDir,
+      dirs: target.clean.dirs,
+      files: target.clean.files
+    };
+  } else {
+    cleanOptions =   {
+      base: locations.rootDir,
+      dirs: [
+        path.relative(locations.rootDir, locations.buildDir),
+        path.relative(locations.rootDir, locations.webpackDir),
+        path.relative(locations.rootDir, locations.distDir)
+      ]
+    };
+  }
+  const cleanTask: TaskFunction = clean.generateTask(gulp, cleanOptions);
+  cleanTask.displayName = taskNames.clean;
+  gulp.task(cleanTask.displayName, cleanTask);
 
   // target:dist
   gulp.task(
     taskNames.dist,
     gulp.series(
-      taskNames.clean,
+      cleanTask.displayName,
       taskNames.build,
       async function _buildToDist() {
         await del([locations.distDir]);

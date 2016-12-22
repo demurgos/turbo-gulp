@@ -1,11 +1,9 @@
-import {Gulp} from "gulp";
+import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
 import {NodeTarget, ProjectOptions} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
-import * as tsconfigJson from "../task-generators/tsconfig-json";
+import * as clean from "../task-generators/clean";
 import {toUnix} from "../utils/locations";
-import del = require("del");
-import {TaskFunction} from "gulp";
 import {generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks} from "./base";
 
 interface Locations {
@@ -44,6 +42,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
     buildPug: `${targetName}:build:pug`,
     buildSass: `${targetName}:build:sass`,
     buildCopy: `${targetName}:build:copy`,
+    dist: `${targetName}:dist`,
     tsconfigJson: `${targetName}:tsconfig.json`
   };
 
@@ -99,17 +98,31 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
   //   gulp.watch(sources.scripts, {cwd: locations.baseDir}, gulp.parallel(`${targetName}:build`));
   // });
 
-  gulp.task(`${targetName}:clean`, function () {
-    return del(locations.buildDir);
-  });
+  // <targetName>:clean
+  let cleanOptions: clean.Options;
+  if (target.clean !== undefined) {
+    cleanOptions =   {
+      base: locations.rootDir,
+      dirs: target.clean.dirs,
+      files: target.clean.files
+    };
+  } else {
+    cleanOptions =   {
+      base: locations.rootDir,
+      dirs: [
+        path.relative(locations.rootDir, locations.buildDir),
+        path.relative(locations.rootDir, locations.distDir)
+      ]
+    };
+  }
+  const cleanTask: TaskFunction = clean.generateTask(gulp, cleanOptions);
+  cleanTask.displayName = `${targetName}:clean`;
+  gulp.task(cleanTask.displayName, cleanTask);
 
-  gulp.task(`${targetName}:dist`, gulp.series(`${targetName}:clean`, `${targetName}:build`, function _buildToDist () {
-    return del(locations.distDir)
-      .then((deleted: string[]) => {
-        return gulp
-          .src([path.join(locations.buildDir, "**/*")], {base: locations.buildDir})
-          .pipe(gulp.dest(locations.distDir));
-      });
+  gulp.task(taskNames.dist, gulp.series(cleanTask.displayName, `${targetName}:build`, function _buildToDist () {
+    return gulp
+      .src([path.join(locations.buildDir, "**/*")], {base: locations.buildDir})
+      .pipe(gulp.dest(locations.distDir));
   }));
 
   // target:tsconfig.json
