@@ -144,7 +144,7 @@ export function generateTsconfigJsonTasks(gulp: Gulp, srcDir: string,
                                           tsOptions: buildTypescript.Options, tsconfigPaths: string[]): TaskFunction {
   const subTasks: TaskFunction[] = [];
 
-  for (const tsconfigPath in tsconfigPaths) {
+  for (const tsconfigPath of tsconfigPaths) {
     const completeOptions: tsconfigJson.Options = Object.assign(
       {},
       tsOptions,
@@ -154,9 +154,10 @@ export function generateTsconfigJsonTasks(gulp: Gulp, srcDir: string,
     );
     const task: TaskFunction = tsconfigJson.generateTask(gulp, completeOptions);
     task.displayName = `_tsconfig.json:${tsconfigPath}`;
+    subTasks.push(task);
   }
 
   const mainTask: TaskFunction = gulp.parallel(...subTasks);
-  mainTask.displayName = `_sass`;
+  mainTask.displayName = `_tsconfig`;
   return mainTask;
 }
