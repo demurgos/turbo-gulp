@@ -23,14 +23,11 @@ const libTarget = Object.assign(
   {
     typescript: {
       compilerOptions: {
-        skipLibCheck: true
+        skipLibCheck: true,
+        target: "es2015"
       },
       typescript: typescript,
       tsconfigJson: ["lib/tsconfig.json"]
-    },
-    typescriptOptions: {
-      skipLibCheck: true,
-      typescript: typescript
     }
   }
 );
@@ -41,62 +38,45 @@ const es5Target = Object.assign(
   buildTools.config.LIB_TARGET,
   {
     name: "lib-es5",
-    typescriptOptions: {
-      skipLibCheck: true,
+    typescript: {
+      compilerOptions: {
+        skipLibCheck: true,
+        target: "es5"
+      },
       typescript: typescript,
-      target: "es5"
+      tsconfigJson: ["lib/es5.tsconfig.json"]
     }
   }
 );
 
-// // `lib-test` target
-// const libTestTarget = Object.assign(
-//   {},
-//   buildTools.config.LIB_TEST_TARGET,
-//   {
-//     name: "lib-es5",
-//     scripts: ["test/**/*.ts", "lib/**/*.ts", "e2e/*/*.ts"],
-//     typescriptOptions: {
-//       skipLibCheck: true,
-//       typescript: typescript
-//     },
-//     copy: [
-//       {
-//         name: "e2e",
-//         src: "e2e",
-//         // <project-name>/(project|test-resources)/<any>
-//         files: ["*/project/**/*", "*/test-resources/**/*"],
-//         dest: "e2e"
-//       }
-//     ]
-//   }
-// );
-
-const libTestTarget = buildTools.config.LIB_TEST_TARGET;
-libTestTarget.scripts = ["test/**/*.ts", "lib/**/*.ts", "e2e/*/*.ts"];
-libTestTarget.copy = [
+// `lib-test` target
+const libTestTarget = Object.assign(
+  {},
+  buildTools.config.LIB_TEST_TARGET,
   {
-    name: "projects",
-    src: "e2e",
-    // <project-name>/(project|test-resources)/<any>
-    files: ["*/project/**/*", "*/test-resources/**/*"],
-    dest: "e2e"
+    name: "lib-test",
+    scripts: ["test/**/*.ts", "lib/**/*.ts", "e2e/*/*.ts"],
+    typescript: {
+      compilerOptions: {
+        skipLibCheck: true,
+        target: "es2015"
+      },
+      typescript: typescript,
+      tsconfigJson: ["test/tsconfig.json"]
+    },
+    copy: [
+      {
+        name: "e2e",
+        src: "e2e",
+        // <project-name>/(project|test-resources)/<any>
+        files: ["*/project/**/*", "*/test-resources/**/*"],
+        dest: "e2e"
+      }
+    ]
   }
-];
+);
 
 buildTools.projectTasks.registerAll(gulp, projectOptions);
 buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, libTarget);
 buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, es5Target);
-// buildTools.targetGenerators.test.generateTarget(gulp, projectOptions, libTestTarget);
-buildTools.targetGenerators.test.generateTarget(
-  gulp,
-  "lib-test",
-  {
-    project: projectOptions,
-    target: libTestTarget,
-    tsOptions: {
-      typescript: typescript,
-      skipLibCheck: true
-    }
-  }
-);
+buildTools.targetGenerators.test.generateTarget(gulp, projectOptions, libTestTarget);
