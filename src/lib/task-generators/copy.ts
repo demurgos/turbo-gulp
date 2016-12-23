@@ -1,6 +1,6 @@
+import {FSWatcher} from "fs";
 import {Gulp, TaskFunction} from "gulp";
 import {Minimatch} from "minimatch";
-
 import {asString, join} from "../utils/matcher";
 
 export interface Options {
@@ -12,7 +12,7 @@ export interface Options {
   /**
    * Base-directory for copy
    */
-  from: string;
+    from: string;
 
   /**
    * Target directory
@@ -37,7 +37,15 @@ export function copy(gulp: Gulp, options: Options): NodeJS.ReadableStream {
  * Generate a task to copy files from one directory to an other.
  */
 export function generateTask(gulp: Gulp, options: Options): TaskFunction {
-  return function (): NodeJS.ReadableStream {
+  const task: TaskFunction = function (): NodeJS.ReadableStream {
     return copy(gulp, options);
   };
+  task.displayName = `_build:copy`;
+  return task;
+}
+
+export function watch(gulp: Gulp, options: Options): FSWatcher {
+  const buildTask: TaskFunction = generateTask(gulp, options);
+  const sources: string[] = getSources(options);
+  return gulp.watch(sources, {cwd: options.from}, buildTask);
 }

@@ -2,7 +2,7 @@
 
 - **[Breaking]** Major overhaul of the angular target. The server build no longer depends on the client.
 - **[Breaking]** Update to `gulp@4` (from `gulp@3`)
-- **[Breaking]** Update to `tslint@7` (from `tslint@6`), add strciter default rules
+- **[Breaking]** Update to `tslint@7` (from `tslint@6`), add stricter default rules
 - **[Breaking]** Update signature of targetGenerators and project tasks: it only uses
   `ProjectOptions` and `Target` now, the additional options are embedded in those two objects.
 - **[Breaking]** Remove `:install`, `:instal:npm` and `:install:typings`. Use the `prepare` script in
@@ -12,6 +12,7 @@
 - Implement end-to-end tests
 - Enable `emitDecoratorMetadata` in default typescript options.
 - Allow configuration of `:lint` with the `tslintOptions` property of the project configuration.
+- Add `<target>:watch` tasks for incremental builds.
 
 ## TODO:
 

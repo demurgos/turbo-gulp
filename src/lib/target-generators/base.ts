@@ -1,5 +1,6 @@
 import asyncDone = require("async-done");
 import Bluebird = require("bluebird");
+import {FSWatcher} from "fs";
 import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
 import {CopyOptions, PugOptions, SassOptions} from "../config/config";
@@ -33,9 +34,13 @@ function groupByName<T extends {name?: string}>(items: T[]): {[name: string]: T[
   return result;
 }
 
+export type WatchFunction = () => FSWatcher;
+export type ManyWatchFunction = () => FSWatcher[];
+
 function mergeCopy(gulp: Gulp, srcDir: string,
-                   buildDir: string, copyOptions: CopyOptions[]): TaskFunction {
+                   buildDir: string, copyOptions: CopyOptions[]): [TaskFunction, ManyWatchFunction] {
   const tasks: TaskFunction[] = [];
+  const watchFunctions: WatchFunction[] = [];
   for (const options of copyOptions) {
     const from: string = options.src === undefined ? srcDir : path.join(srcDir, options.src);
     const files: string[] = options.files === undefined ? ["**/*"] : options.files;
@@ -43,33 +48,51 @@ function mergeCopy(gulp: Gulp, srcDir: string,
 
     const completeOptions: copy.Options = {from, files, to};
     tasks.push(copy.generateTask(gulp, completeOptions));
+    watchFunctions.push(() => copy.watch(gulp, completeOptions));
   }
-  return async function (): Promise<void> {
+
+  const task: TaskFunction = async function (): Promise<void> {
     await Promise.all(tasks.map(asyncDoneAsync));
     return;
   };
+  const watch: ManyWatchFunction = function (): FSWatcher[] {
+    return watchFunctions.map((fn) => fn());
+  };
+  return [task, watch];
 }
 
 export function generateCopyTasks(gulp: Gulp, srcDir: string,
-                                  buildDir: string, copyOptions: CopyOptions[]): TaskFunction {
-  const copyTasks: TaskFunction[] = [];
+                                  buildDir: string, copyOptions: CopyOptions[]): [TaskFunction, ManyWatchFunction] {
+  const subTasks: TaskFunction[] = [];
+  const subWatchs: ManyWatchFunction[] = [];
   const groups: {[name: string]: CopyOptions[]} = groupByName(copyOptions);
 
   for (const name in groups) {
-    const subTask: TaskFunction = mergeCopy(gulp, srcDir, buildDir, groups[name]);
+    const [subTask, subWatch]: [TaskFunction, ManyWatchFunction] = mergeCopy(gulp, srcDir, buildDir, groups[name]);
     subTask.displayName = `_copy:${name}`;
-    copyTasks.push(subTask);
+    subTasks.push(subTask);
+    subWatchs.push(subWatch);
   }
 
-  const mainTask: TaskFunction = gulp.parallel(...copyTasks);
+  const mainTask: TaskFunction = gulp.parallel(...subTasks);
   mainTask.displayName = `_copy`;
-
-  return mainTask;
+  const mainWatch: ManyWatchFunction = function (): FSWatcher[] {
+    const watchers: FSWatcher[] = [];
+    for (const fn of subWatchs) {
+      const subWatchers: FSWatcher[] = fn();
+      for (const watcher of subWatchers) {
+        watchers.push(watcher);
+      }
+    }
+    return watchers;
+  };
+  return [mainTask, mainWatch];
 }
 
 function mergePug(gulp: Gulp, srcDir: string,
-                  buildDir: string, pugOptions: PugOptions[]): TaskFunction {
+                  buildDir: string, pugOptions: PugOptions[]): [TaskFunction, ManyWatchFunction] {
   const tasks: TaskFunction[] = [];
+  const watchFunctions: WatchFunction[] = [];
   for (const options of pugOptions) {
     const from: string = options.src === undefined ? srcDir : path.join(srcDir, options.src);
     const files: string[] = options.files === undefined ? ["**/*.pug"] : options.files;
@@ -80,33 +103,51 @@ function mergePug(gulp: Gulp, srcDir: string,
       completeOptions.pugOptions = options.options;
     }
     tasks.push(pug.generateTask(gulp, completeOptions));
+    watchFunctions.push(() => pug.watch(gulp, completeOptions));
   }
-  return async function (): Promise<any> {
+
+  const task: TaskFunction = async function (): Promise<void> {
     await Promise.all(tasks.map(asyncDoneAsync));
     return;
   };
+  const watch: ManyWatchFunction = function (): FSWatcher[] {
+    return watchFunctions.map((fn) => fn());
+  };
+  return [task, watch];
 }
 
 export function generatePugTasks(gulp: Gulp, srcDir: string,
-                                 buildDir: string, pugOptions: PugOptions[]): TaskFunction {
-  const pugTasks: TaskFunction[] = [];
+                                 buildDir: string, pugOptions: PugOptions[]): [TaskFunction, ManyWatchFunction] {
+  const subTasks: TaskFunction[] = [];
+  const subWatchs: ManyWatchFunction[] = [];
   const groups: {[name: string]: PugOptions[]} = groupByName(pugOptions);
 
   for (const name in groups) {
-    const subTask: TaskFunction = mergePug(gulp, srcDir, buildDir, groups[name]);
+    const [subTask, subWatch]: [TaskFunction, ManyWatchFunction] = mergePug(gulp, srcDir, buildDir, groups[name]);
     subTask.displayName = `_pug:${name}`;
-    pugTasks.push(subTask);
+    subTasks.push(subTask);
+    subWatchs.push(subWatch);
   }
 
-  const mainTask: TaskFunction = gulp.parallel(...pugTasks);
+  const mainTask: TaskFunction = gulp.parallel(...subTasks);
   mainTask.displayName = `_pug`;
-
-  return mainTask;
+  const mainWatch: ManyWatchFunction = function (): FSWatcher[] {
+    const watchers: FSWatcher[] = [];
+    for (const fn of subWatchs) {
+      const subWatchers: FSWatcher[] = fn();
+      for (const watcher of subWatchers) {
+        watchers.push(watcher);
+      }
+    }
+    return watchers;
+  };
+  return [mainTask, mainWatch];
 }
 
 function mergeSass(gulp: Gulp, srcDir: string,
-                   buildDir: string, sassOptions: SassOptions[]): TaskFunction {
+                   buildDir: string, sassOptions: SassOptions[]): [TaskFunction, ManyWatchFunction] {
   const tasks: TaskFunction[] = [];
+  const watchFunctions: WatchFunction[] = [];
   for (const options of sassOptions) {
     const from: string = options.src === undefined ? srcDir : path.join(srcDir, options.src);
     const files: string[] = options.files === undefined ? ["**/*.scss"] : options.files;
@@ -117,27 +158,45 @@ function mergeSass(gulp: Gulp, srcDir: string,
       completeOptions.sassOptions = options.options;
     }
     tasks.push(sass.generateTask(gulp, completeOptions));
+    watchFunctions.push(() => sass.watch(gulp, completeOptions));
   }
-  return async function (): Promise<any> {
+
+  const task: TaskFunction = async function (): Promise<void> {
     await Promise.all(tasks.map(asyncDoneAsync));
     return;
   };
+  const watch: ManyWatchFunction = function (): FSWatcher[] {
+    return watchFunctions.map((fn) => fn());
+  };
+  return [task, watch];
 }
 
 export function generateSassTasks(gulp: Gulp, srcDir: string,
-                                  buildDir: string, sassOptions: SassOptions[]): TaskFunction {
+                                  buildDir: string, sassOptions: SassOptions[]): [TaskFunction, ManyWatchFunction] {
   const subTasks: TaskFunction[] = [];
+  const subWatchs: ManyWatchFunction[] = [];
   const groups: {[name: string]: SassOptions[]} = groupByName(sassOptions);
 
   for (const name in groups) {
-    const subTask: TaskFunction = mergeSass(gulp, srcDir, buildDir, groups[name]);
+    const [subTask, subWatch]: [TaskFunction, ManyWatchFunction] = mergeSass(gulp, srcDir, buildDir, groups[name]);
     subTask.displayName = `_sass:${name}`;
     subTasks.push(subTask);
+    subWatchs.push(subWatch);
   }
 
   const mainTask: TaskFunction = gulp.parallel(...subTasks);
   mainTask.displayName = `_sass`;
-  return mainTask;
+  const mainWatch: ManyWatchFunction = function (): FSWatcher[] {
+    const watchers: FSWatcher[] = [];
+    for (const fn of subWatchs) {
+      const subWatchers: FSWatcher[] = fn();
+      for (const watcher of subWatchers) {
+        watchers.push(watcher);
+      }
+    }
+    return watchers;
+  };
+  return [mainTask, mainWatch];
 }
 
 export function generateTsconfigJsonTasks(gulp: Gulp, srcDir: string,

@@ -1,10 +1,14 @@
+import {FSWatcher} from "fs";
 import {Gulp, TaskFunction} from "gulp";
 import {posix as path} from "path";
-import {NodeTarget, ProjectOptions} from "../config/config";
+import {NodeTarget, ProjectOptions, PugOptions} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as clean from "../task-generators/clean";
 import {toUnix} from "../utils/locations";
-import {generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks} from "./base";
+import {
+  generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks,
+  ManyWatchFunction
+} from "./base";
 
 interface Locations {
   rootDir: string;
@@ -43,10 +47,12 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
     buildSass: `${targetName}:build:sass`,
     buildCopy: `${targetName}:build:copy`,
     dist: `${targetName}:dist`,
-    tsconfigJson: `${targetName}:tsconfig.json`
+    tsconfigJson: `${targetName}:tsconfig.json`,
+    watch: `${targetName}:watch`
   };
 
   const buildTasks: string[] = [];
+  const watchFunctions: ManyWatchFunction[] = [];
 
   const buildTypescriptOptions: buildTypescript.Options = {
     compilerOptions: target.typescript !== undefined ? target.typescript.compilerOptions : undefined,
@@ -59,31 +65,52 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
   };
 
   // target:build:scripts
-  buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
-  buildTasks.push(taskNames.buildScripts);
+  const buildScriptsTask: TaskFunction = buildTypescript.generateTask(gulp, buildTypescriptOptions);
+  buildScriptsTask.displayName = taskNames.buildScripts;
+  gulp.task(buildScriptsTask.displayName, buildScriptsTask);
+  buildTasks.push(buildScriptsTask.displayName);
+  watchFunctions.push(() => [buildTypescript.watch(gulp, buildTypescriptOptions)]);
 
   // target:build:pug
   if (target.pug !== undefined) {
-    const mainPugTask: TaskFunction = generatePugTasks(gulp, locations.srcDir, locations.buildDir, target.pug);
-    mainPugTask.displayName = taskNames.buildPug;
-    gulp.task(mainPugTask.displayName, mainPugTask);
-    buildTasks.push(mainPugTask.displayName);
+    const [mainTask, mainWatch]: [TaskFunction, ManyWatchFunction] = generatePugTasks(
+      gulp,
+      locations.srcDir,
+      locations.buildDir,
+      target.pug
+    );
+    mainTask.displayName = taskNames.buildPug;
+    gulp.task(mainTask.displayName, mainTask);
+    buildTasks.push(mainTask.displayName);
+    watchFunctions.push(mainWatch);
   }
 
   // target:build:sass
   if (target.sass !== undefined) {
-    const mainSassTask: TaskFunction = generateSassTasks(gulp, locations.srcDir, locations.buildDir, target.sass);
-    mainSassTask.displayName = taskNames.buildSass;
-    gulp.task(mainSassTask.displayName, mainSassTask);
-    buildTasks.push(mainSassTask.displayName);
+    const [mainTask, mainWatch]: [TaskFunction, ManyWatchFunction] = generateSassTasks(
+      gulp,
+      locations.srcDir,
+      locations.buildDir,
+      target.sass
+    );
+    mainTask.displayName = taskNames.buildSass;
+    gulp.task(mainTask.displayName, mainTask);
+    buildTasks.push(mainTask.displayName);
+    watchFunctions.push(mainWatch);
   }
 
   // target:build:copy
   if (target.copy !== undefined) {
-    const mainCopyTask: TaskFunction = generateCopyTasks(gulp, locations.srcDir, locations.buildDir, target.copy);
-    mainCopyTask.displayName = taskNames.buildCopy;
-    gulp.task(mainCopyTask.displayName, mainCopyTask);
-    buildTasks.push(mainCopyTask.displayName);
+    const [mainTask, mainWatch]: [TaskFunction, ManyWatchFunction] = generateCopyTasks(
+      gulp,
+      locations.srcDir,
+      locations.buildDir,
+      target.copy
+    );
+    mainTask.displayName = taskNames.buildCopy;
+    gulp.task(mainTask.displayName, mainTask);
+    buildTasks.push(mainTask.displayName);
+    watchFunctions.push(mainWatch);
   }
 
   // target:build
@@ -92,22 +119,28 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
     gulp.parallel(...buildTasks)
   );
 
-  // // target:watch
-  // gulp.task(`${targetName}:watch`, function () {
-  //   const sources: buildTypescript.Sources = buildTypescript.getSources(buildTypescriptOptions);
-  //   gulp.watch(sources.scripts, {cwd: locations.baseDir}, gulp.parallel(`${targetName}:build`));
-  // });
+  // target:watch
+  gulp.task(taskNames.watch, async function (): Promise<FSWatcher[]> {
+    const watchers: FSWatcher[] = [];
+    for (const fn of watchFunctions) {
+      const subWatchers: FSWatcher[] = fn();
+      for (const sub of subWatchers) {
+        watchers.push(sub);
+      }
+    }
+    return Promise.all(watchers);
+  });
 
   // <targetName>:clean
   let cleanOptions: clean.Options;
   if (target.clean !== undefined) {
-    cleanOptions =   {
+    cleanOptions = {
       base: locations.rootDir,
       dirs: target.clean.dirs,
       files: target.clean.files
     };
   } else {
-    cleanOptions =   {
+    cleanOptions = {
       base: locations.rootDir,
       dirs: [
         path.relative(locations.rootDir, locations.buildDir),
@@ -119,7 +152,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
   cleanTask.displayName = `${targetName}:clean`;
   gulp.task(cleanTask.displayName, cleanTask);
 
-  gulp.task(taskNames.dist, gulp.series(cleanTask.displayName, `${targetName}:build`, function _buildToDist () {
+  gulp.task(taskNames.dist, gulp.series(cleanTask.displayName, `${targetName}:build`, function _buildToDist() {
     return gulp
       .src([path.join(locations.buildDir, "**/*")], {base: locations.buildDir})
       .pipe(gulp.dest(locations.distDir));

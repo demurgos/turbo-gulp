@@ -6,9 +6,13 @@ import * as buildTypescript from "../task-generators/build-typescript";
 import * as buildWebpack from "../task-generators/build-webpack";
 import * as clean from "../task-generators/clean";
 import del = require("del");
+import {FSWatcher} from "fs";
 import gulpSourceMaps = require("gulp-sourcemaps");
 import {toUnix} from "../utils/locations";
-import {generateCopyTasks, generatePugTasks, generateSassTasks} from "./base";
+import {
+  generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks,
+  ManyWatchFunction
+} from "./base";
 
 interface Locations {
   rootDir: string;
@@ -50,10 +54,13 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
     buildWebpack: `${targetName}:build:webpack`,
     build: `${targetName}:build`,
     clean: `${targetName}:clean`,
-    dist: `${targetName}:dist`
+    dist: `${targetName}:dist`,
+    tsconfigJson: `${targetName}:tsconfig.json`,
+    watch: `${targetName}:watch`
   };
 
   const buildTasks: string[] = [];
+  const watchFunctions: ManyWatchFunction[] = [];
 
   const buildTypescriptOptions: buildTypescript.Options = {
     compilerOptions: target.typescript !== undefined ? target.typescript.compilerOptions : undefined,
@@ -64,46 +71,52 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
   };
 
   // target:build:scripts
-  buildTypescript.registerTask(gulp, targetName, buildTypescriptOptions);
-  buildTasks.push(taskNames.buildScripts);
+  const buildScriptsTask: TaskFunction = buildTypescript.generateTask(gulp, buildTypescriptOptions);
+  buildScriptsTask.displayName = taskNames.buildScripts;
+  gulp.task(buildScriptsTask.displayName, buildScriptsTask);
+  buildTasks.push(buildScriptsTask.displayName);
+  watchFunctions.push(() => [buildTypescript.watch(gulp, buildTypescriptOptions)]);
 
   // target:build:pug
   if (target.pug !== undefined) {
-    const mainPugTask: TaskFunction = generatePugTasks(
+    const [mainTask, mainWatch]: [TaskFunction, ManyWatchFunction] = generatePugTasks(
       gulp,
       locations.srcDir,
       locations.webpackDir,
       target.pug
     );
-    mainPugTask.displayName = taskNames.buildPug;
-    gulp.task(mainPugTask.displayName, mainPugTask);
-    buildTasks.push(mainPugTask.displayName);
+    mainTask.displayName = taskNames.buildPug;
+    gulp.task(mainTask.displayName, mainTask);
+    buildTasks.push(mainTask.displayName);
+    watchFunctions.push(mainWatch);
   }
 
   // target:build:sass
   if (target.sass !== undefined) {
-    const mainSassTask: TaskFunction = generateSassTasks(
+    const [mainTask, mainWatch]: [TaskFunction, ManyWatchFunction] = generateSassTasks(
       gulp,
       locations.srcDir,
       locations.webpackDir,
       target.sass
     );
-    mainSassTask.displayName = taskNames.buildSass;
-    gulp.task(mainSassTask.displayName, mainSassTask);
-    buildTasks.push(mainSassTask.displayName);
+    mainTask.displayName = taskNames.buildSass;
+    gulp.task(mainTask.displayName, mainTask);
+    buildTasks.push(mainTask.displayName);
+    watchFunctions.push(mainWatch);
   }
 
   // target:build:copy
   if (target.copy !== undefined) {
-    const mainCopyTask: TaskFunction = generateCopyTasks(
+    const [mainTask, mainWatch]: [TaskFunction, ManyWatchFunction] = generateCopyTasks(
       gulp,
       locations.srcDir,
       locations.webpackDir,
       target.copy
     );
-    mainCopyTask.displayName = taskNames.buildCopy;
-    gulp.task(mainCopyTask.displayName, mainCopyTask);
-    buildTasks.push(mainCopyTask.displayName);
+    mainTask.displayName = taskNames.buildCopy;
+    gulp.task(mainTask.displayName, mainTask);
+    buildTasks.push(mainTask.displayName);
+    watchFunctions.push(mainWatch);
   }
 
   // target:build:webpack
@@ -114,8 +127,10 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
     webpackOptions: target.webpackOptions,
     entry: target.mainModule
   };
-  const webpackTask: TaskFunction = buildWebpack.generateTask(gulp, targetName, buildWebpackOptions);
-  gulp.task(taskNames.buildWebpack, webpackTask);
+  const webpackTask: TaskFunction = buildWebpack.generateTask(gulp, buildWebpackOptions);
+  webpackTask.displayName = taskNames.buildWebpack;
+  gulp.task(webpackTask.displayName, buildScriptsTask);
+  watchFunctions.push(() => [buildWebpack.watch(gulp, buildWebpackOptions)]);
 
   // target:build
   gulp.task(
@@ -123,16 +138,28 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
     gulp.series(gulp.parallel(...buildTasks), taskNames.buildWebpack)
   );
 
+  // target:watch
+  gulp.task(taskNames.watch, async function (): Promise<FSWatcher[]> {
+    const watchers: FSWatcher[] = [];
+    for (const fn of watchFunctions) {
+      const subWatchers: FSWatcher[] = fn();
+      for (const sub of subWatchers) {
+        watchers.push(sub);
+      }
+    }
+    return Promise.all(watchers);
+  });
+
   // <targetName>:clean
   let cleanOptions: clean.Options;
   if (target.clean !== undefined) {
-    cleanOptions =   {
+    cleanOptions = {
       base: locations.rootDir,
       dirs: target.clean.dirs,
       files: target.clean.files
     };
   } else {
-    cleanOptions =   {
+    cleanOptions = {
       base: locations.rootDir,
       dirs: [
         path.relative(locations.rootDir, locations.buildDir),
@@ -159,4 +186,17 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
       }
     )
   );
+
+  // target:tsconfig.json
+  if (target.typescript !== undefined && target.typescript.tsconfigJson !== undefined) {
+    const mainCopyTask: TaskFunction = generateTsconfigJsonTasks(
+      gulp,
+      locations.srcDir,
+      buildTypescriptOptions,
+      target.typescript.tsconfigJson
+    );
+    mainCopyTask.displayName = taskNames.tsconfigJson;
+    gulp.task(mainCopyTask.displayName, mainCopyTask);
+    buildTasks.push(mainCopyTask.displayName);
+  }
 }
