@@ -73,7 +73,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
 
   const tsconfigPath: string = path.join(options.tsconfigPath);
 
-  const task: TaskFunction =  function () {
+  const task: TaskFunction = function () {
     return writeJsonFile(tsconfigPath, tsconfigData);
   };
 

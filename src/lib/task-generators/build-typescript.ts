@@ -1,3 +1,4 @@
+import {FSWatcher} from "fs";
 import {Gulp, TaskFunction} from "gulp";
 import gulpSourceMaps = require("gulp-sourcemaps");
 import gulpTypescript = require("gulp-typescript");
@@ -141,7 +142,7 @@ function getReporter(strict: boolean = true): CompleteReporter {
   return reporter;
 }
 
-export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
+export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const sources: Sources = getSources(options);
   const compilerOptions: CompilerJsonOptions = assign({}, DEV_TSC_OPTIONS, options.compilerOptions);
   const reporter: CompleteReporter = getReporter(options.strict);
@@ -161,10 +162,14 @@ export function registerTask(gulp: Gulp, targetName: string, options: Options): 
         .pipe(gulp.dest(options.buildDir))
     ]);
   };
-
-  gulp.task(`${targetName}:build:scripts`, task);
-
+  task.displayName = `_build:scripts`;
   return task;
 }
 
-export default registerTask;
+export function watch(gulp: Gulp, options: Options): FSWatcher {
+  const buildTask: TaskFunction = generateTask(gulp, options);
+  const sources: Sources = getSources(options);
+  return gulp.watch(sources.sources, {cwd: sources.baseDir}, buildTask);
+}
+
+export default generateTask;

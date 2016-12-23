@@ -1,7 +1,7 @@
 import Bluebird = require("bluebird");
+import {FSWatcher} from "fs";
 import {Gulp, TaskFunction} from "gulp";
 import {Minimatch} from "minimatch";
-import {posix as path} from "path";
 import gulpPug = require("gulp-pug");
 import {asString, join} from "../utils/matcher";
 
@@ -14,7 +14,7 @@ export interface Options {
   /**
    * Base-directory for copy
    */
-  from: string;
+    from: string;
 
   /**
    * Target directory
@@ -47,7 +47,15 @@ export function buildPug(gulp: Gulp, options: Options): NodeJS.ReadableStream {
  * Generate a task to build pug files
  */
 export function generateTask(gulp: Gulp, options: Options): TaskFunction {
-  return function (): NodeJS.ReadableStream {
+  const task: TaskFunction = function (): NodeJS.ReadableStream {
     return buildPug(gulp, options);
   };
+  task.displayName = `_build:pug`;
+  return task;
+}
+
+export function watch(gulp: Gulp, options: Options): FSWatcher {
+  const buildTask: TaskFunction = generateTask(gulp, options);
+  const sources: string[] = getSources(options);
+  return gulp.watch(sources, {cwd: options.from}, buildTask);
 }

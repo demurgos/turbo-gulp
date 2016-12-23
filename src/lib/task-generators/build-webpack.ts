@@ -1,9 +1,12 @@
+import {FSWatcher} from "fs";
 import {Gulp, TaskFunction} from "gulp";
 import {log as gulpLog, PluginError} from "gulp-util";
+import {Minimatch} from "minimatch";
 import {posix as path} from "path";
 import webpack = require("webpack");
 import webpackMerge = require("webpack-merge");
 import webpackStream = require("webpack-stream");
+import * as matcher from "../utils/matcher";
 
 export interface Options {
   /**
@@ -49,8 +52,7 @@ export function getTaskName(targetName: string): string {
   return `${targetName}:build:webpack`;
 }
 
-export function generateTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
-  const taskName: string = getTaskName(targetName);
+export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const entryFile: string = options.entry + ".js";
   let curWebpack: webpack.Webpack = webpack;
   let userConfiguration: webpack.Configuration = {};
@@ -114,7 +116,7 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
     }
   };
 
-  return function () {
+  const task: TaskFunction = function () {
     return gulp
       .src([path.join(options.srcDir, entryFile)], {base: options.srcDir})
       .pipe(webpackStream(
@@ -122,20 +124,21 @@ export function generateTask(gulp: Gulp, targetName: string, options: Options): 
         curWebpack,
         (err: Error, stats: webpack.compiler.Stats): void => {
           if (err) {
-            throw new PluginError(taskName, err);
+            throw new PluginError("_build:webpack", err);
           }
-          gulpLog(`[${taskName}]`, stats.toString({colors: true}));
+          gulpLog(`[_build:webpack]`, stats.toString({colors: true}));
         })
       )
       .pipe(gulp.dest(options.buildDir));
   };
-}
-
-export function registerTask(gulp: Gulp, targetName: string, options: Options): TaskFunction {
-  const taskName: string = getTaskName(targetName);
-  const task: TaskFunction = generateTask(gulp, taskName, options);
-  gulp.task(taskName, task);
+  task.displayName = "_build:webpack";
   return task;
 }
 
-export default registerTask;
+export function watch(gulp: Gulp, options: Options): FSWatcher {
+  const buildTask: TaskFunction = generateTask(gulp, options);
+  const sources: string = matcher.asString(matcher.join(options.srcDir, new Minimatch("**/*")));
+  return gulp.watch(sources, {cwd: options.srcDir}, buildTask);
+}
+
+export default generateTask;
