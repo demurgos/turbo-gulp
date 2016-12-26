@@ -29,8 +29,8 @@ export function getSources(project: ProjectOptions): Sources {
   const sources: string[] = [];
   let patterns: string[];
 
-  if (project.tslintOptions !== undefined && project.tslintOptions.files !== undefined) {
-    patterns = project.tslintOptions.files;
+  if (project.tslint !== undefined && project.tslint.files !== undefined) {
+    patterns = project.tslint.files;
   } else {
     patterns = [path.join(project.srcDir, "**/*.ts")];
   }
@@ -50,7 +50,7 @@ export function registerTask(gulp: Gulp, project: ProjectOptions) {
     configuration: defaultTslintConfig,
     formatter: "verbose",
     tslint: tslint
-  }, project.tslintOptions);
+  }, project.tslint);
 
   const sources: Sources = getSources(project);
 

@@ -9,7 +9,12 @@ import defaultTslintConfig from "../config/tslint";
 import {writeJsonFile} from "../utils/project";
 
 export function generateTask(gulp: Gulp, project: ProjectOptions): TaskFunction {
-  const relativePath: string = project.tslintJson === undefined ? "tslint.json" : project.tslintJson;
+  let relativePath: string;
+  if (project.tslint !== undefined && project.tslint.tslintJson !== undefined) {
+    relativePath = project.tslint.tslintJson;
+  } else {
+    relativePath = "tslint.json";
+  }
   const absolutePath: string = path.join(project.root, relativePath);
 
   return function () {
