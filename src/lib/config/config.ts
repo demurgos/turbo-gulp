@@ -40,19 +40,31 @@ export interface ProjectOptions {
   srcDir: string;
 
   /**
-   * Path to the tslint.json file, relative to `root`
+   * Tslint configuration
    */
-  tslintJson?: string;
+  tslint?: {
+    /**
+     * Path to the tslint.json file, relative to `root`
+     */
+    tslintJson?: string;
 
-  tslintOptions?: {
+    /**
+     * Override default configuration
+     */
     configuration?: {
       rules?: {}
     },
+
     formatter?: "verbose" | string;
+
     /**
      * The files to lint, relative to `root`
      */
     files?: string[];
+
+    /**
+     * Instance of tslint to use
+     */
     tslint?: any;
   };
 }
@@ -290,7 +302,10 @@ export const DEFAULT_PROJECT_OPTIONS: ProjectOptions = {
   packageJson: "package.json",
   buildDir: "build",
   distDir: "dist",
-  srcDir: "src"
+  srcDir: "src",
+  tslint: {
+    tslintJson: "tslint.json"
+  }
 };
 
 /**
