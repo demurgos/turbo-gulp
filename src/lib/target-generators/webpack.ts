@@ -129,7 +129,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
   };
   const webpackTask: TaskFunction = buildWebpack.generateTask(gulp, buildWebpackOptions);
   webpackTask.displayName = taskNames.buildWebpack;
-  gulp.task(webpackTask.displayName, buildScriptsTask);
+  gulp.task(webpackTask.displayName, webpackTask);
   watchFunctions.push(() => [buildWebpack.watch(gulp, buildWebpackOptions)]);
 
   // target:build
