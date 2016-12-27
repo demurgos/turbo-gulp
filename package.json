@@ -1,6 +1,6 @@
 {
   "name": "demurgos-web-build-tools",
-  "version": "0.13.0-beta.1",
+  "version": "0.13.0-beta.2",
   "description": "Gulp tasks generator for standard web projects.",
   "private": false,
   "main": "dist/lib/lib/index.js",
