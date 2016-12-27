@@ -1,7 +1,8 @@
 declare module "gulp-pug" {
+  // tslint:disable-next-line:callable-types
   interface StaticGulpPug {
     (...args: any[]): any;
   }
-  let staticGulpPug: StaticGulpPug;
+  const staticGulpPug: StaticGulpPug;
   export = staticGulpPug;
 }

@@ -4,7 +4,7 @@ export const tslintConfig = {
     // Enforces function overloads to be consecutive
     "adjacent-overload-signatures": true,
     // Enforces vertical alignment
-    "align": true,
+    "align": false,
     // Requires using either ‘T[]’ or ‘Array' for arrays
     "array-type": [true, "array"],
     // Requires parentheses around the parameters of arrow function definitions
@@ -13,6 +13,8 @@ export const tslintConfig = {
     "ban": [
       true
     ],
+    // An interface or literal type with just a call signature can be written as a function type.
+    "callable-types": true,
     // Enforces PascalCased class and interface names
     "class-name": true,
     // Enforces formatting rules for single-line comments
@@ -22,7 +24,7 @@ export const tslintConfig = {
       "check-space"
     ],
     // Enforces documentation for important items be filled out
-    // "completed-docs": [true, ["classes", "functions"]],
+    "completed-docs": [true, ["classes", "functions"]],
     // Enforces a threshold of cyclomatic complexity
     "cyclomatic-complexity": [true, 40],
     // Enforces braces for `if`/`for`/`do`/`while` statements
@@ -33,10 +35,14 @@ export const tslintConfig = {
     "file-header": [false],
     // Requires a `for ... in` statement to be filtered with an `if` statement
     "forin": false,
+    // Disallows importing the specified modules directly via `import` and `require`.
+    "import-blacklist": false,
     // Enforces indentation with tabs or spaces
     "indent": [true, "spaces"],
     // Requires interface names to begin with a capital ‘I’
     "interface-name": false,
+    // Prefer an interface declaration over a type literal (`type T = { ... }`)
+    "interface-over-type-literal": true,
     // Enforces basic format rules for JSDoc comments
     "jsdoc-format": true,
     // Only allows labels in sensible locations
@@ -77,14 +83,16 @@ export const tslintConfig = {
     "no-default-export": false,
     // Disallows duplicate variable declarations in the same block scope
     "no-duplicate-variable": true,
-    // disallow duplicate keys in object literals
-    // "no-duplicate-key": true,
     // Disallows empty blocks
     "no-empty": false,
+    // Forbids empty interfaces.
+    "no-empty-interface": false,
     // Disallows `eval` function invocations
     "no-eval": true,
-    // Disallows iterating over an array with a for-in loop
-    // "no-for-in-array": true,
+    // Disallows iterating over an array with a for-in loop.
+    "no-for-in-array": true,
+    // Disallow type inference of `{}` (empty object type) at function and constructor call sites.
+    "no-inferred-empty-object-type": false,
     // Disallows explicit type declarations for variables or parameters initialized to a number,
     // string, or boolean
     "no-inferrable-types": false,
@@ -92,6 +100,8 @@ export const tslintConfig = {
     "no-internal-module": true,
     // Disallows using the `this` keyword outside of classes
     "no-invalid-this": false,
+    // Disallows the use constant number values outside of variable assignments.
+    "no-magic-numbers": false,
     // Disallows mergeable namespaces in the same file
     "no-mergeable-namespace": true,
     // Disallows use of internal `module`s and `namespace`s
@@ -107,7 +117,9 @@ export const tslintConfig = {
     // Disallows shadowing variable declarations
     "no-shadowed-variable": false,
     // Disallows object access via string literals
-    "no-string-literal": true,
+    "no-string-literal": false,
+    // Flags throwing plain strings or concatenations of strings.
+    "no-string-throw": true,
     // Disallows falling through case statements
     "no-switch-case-fall-through": true,
     // Disallows trailing whitespace at the end of a line
@@ -125,6 +137,8 @@ export const tslintConfig = {
     "no-var-keyword": true,
     // Disallows the use of require statements except in import statements
     "no-var-requires": true,
+    // Requires expressions of type void to appear in statement position.
+    "no-void-expression": true,
     // Enforces consistent object literal property quote style
     "object-literal-key-quotes": [true, "consistent-as-needed"],
     // Enforces use of ES6 object literal shorthand when possible
@@ -151,9 +165,13 @@ export const tslintConfig = {
     "only-arrow-functions": false,
     // Requires that import statements be alphabetized
     "ordered-imports": true,
+    // Requires that variable declarations use const instead of let if possible.
+    "prefer-const": true,
     // Recommends a ‘for-of’ loop over a standard ‘for’ loop if the index is only used to access
     // the array being iterated
     "prefer-for-of": true,
+    // Requires any function or method that returns a promise to be marked async.
+    "promise-function-async": true,
     // Requires single or double quotes for string literals
     "quotemark": [
       true,
@@ -165,9 +183,12 @@ export const tslintConfig = {
     // Requires the radix parameter to be specified when calling `parseInt`
     "radix": true,
     // When adding two variables, operands must both be of type number or of type string
-    // "restrict-plus-operands": true,
+    "restrict-plus-operands": true,
     // Enforces consistent semicolon usage at the end of every statement
     "semicolon": [true, "always"],
+    // Usage of && or || operators should be with boolean operands and expressions in If, Do, While and For statements
+    // should be of type boolean.
+    "strict-boolean-expressions": true,
     // Requires a `default` case in all `switch` statements
     "switch-default": false,
     // Requires or disallows trailing commas in array and object literals, destructuring
@@ -238,5 +259,14 @@ export const tslintConfig = {
     ]
   }
 };
+
+// TODO: Support type checking
+// Delete the keys requiring type checking until it is available
+delete tslintConfig.rules["completed-docs"];
+delete tslintConfig.rules["no-for-in-array"];
+delete tslintConfig.rules["no-void-expression"];
+delete tslintConfig.rules["promise-function-async"];
+delete tslintConfig.rules["restrict-plus-operands"];
+delete tslintConfig.rules["strict-boolean-expressions"];
 
 export default tslintConfig;

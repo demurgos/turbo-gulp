@@ -1,7 +1,8 @@
 declare module "gulp-mocha" {
+  // tslint:disable-next-line:callable-types
   interface StaticGulpMocha {
     (options?: any): any;
   }
-  let staticGulpMocha: StaticGulpMocha;
+  const staticGulpMocha: StaticGulpMocha;
   export = staticGulpMocha;
 }

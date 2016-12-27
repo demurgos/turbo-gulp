@@ -21,8 +21,8 @@ export function getVersionMessage(version: string): string {
 }
 
 export async function commitVersion(version: string, projectRoot?: string): Promise<void> {
-  let tag: string = getVersionTag(version);
-  let message: string = getVersionMessage(version);
+  const tag: string = getVersionTag(version);
+  const message: string = getVersionMessage(version);
   await git.exec("add", ["."]);
   await git.exec("commit", ["-m", message]);
   await git.exec("tag", ["-a", tag, "-m", message]);

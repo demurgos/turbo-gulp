@@ -1,7 +1,8 @@
 declare module "gulp-install" {
+  // tslint:disable-next-line:callable-types
   interface StaticGulpInstall {
     (): any;
   }
-  let staticGulpInstall: StaticGulpInstall;
+  const staticGulpInstall: StaticGulpInstall;
   export = staticGulpInstall;
 }

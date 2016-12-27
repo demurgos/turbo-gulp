@@ -1,7 +1,8 @@
 declare module "merge2" {
+  // tslint:disable-next-line:callable-types
   interface StaticMerge2 {
     (streams: any[]): any;
   }
-  let staticMerge2: StaticMerge2;
+  const staticMerge2: StaticMerge2;
   export = staticMerge2;
 }
