@@ -366,5 +366,14 @@ export const ANGULAR_CLIENT_TARGET: WebpackTarget = {
   sass: [{name: "app", src: "app", dest: "app"}],
   typescript: {
     tsconfigJson: ["client/tsconfig.json"]
+  },
+  clean: {
+    dirs: [
+      "build/client.webpack"
+    ],
+    files: [
+      "build/server/static/main.js",
+      "dist/server/static/main.js"
+    ]
   }
 };
