@@ -47,9 +47,9 @@ export function getTsconfigPaths(options: Options): TsconfigPaths {
     const absGlob: Minimatch = matcher.join(options.srcDir, pattern);
     const relGlob: Minimatch = matcher.relative(tsconfigDir, absGlob);
     if (relGlob.negate) {
-      result.exclude.push(matcher.asString(relGlob));
+      result.exclude.push(relGlob.pattern);
     } else {
-      result.include.push(matcher.asString(relGlob));
+      result.include.push(relGlob.pattern);
     }
   }
 
