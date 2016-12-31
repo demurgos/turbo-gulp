@@ -167,7 +167,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
 }
 
 export function watch(gulp: Gulp, options: Options): FSWatcher {
-  const buildTask: TaskFunction = generateTask(gulp, options);
+  const buildTask: TaskFunction = generateTask(gulp, Object.assign({}, options, {strict: false}));
   const sources: Sources = getSources(options);
   return gulp.watch(sources.sources, {cwd: sources.baseDir}, buildTask);
 }
