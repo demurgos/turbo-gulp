@@ -2,7 +2,7 @@ import {FSWatcher} from "fs";
 import {Gulp, TaskFunction} from "gulp";
 import {log as gulpLog, PluginError} from "gulp-util";
 import {Minimatch} from "minimatch";
-import {posix as path} from "path";
+import {posix as path, resolve as sysResolvePath} from "path";
 import webpack = require("webpack");
 import webpackMerge = require("webpack-merge");
 import webpackStream = require("webpack-stream");
@@ -66,7 +66,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   }
 
   const angularWebpackConfig: webpack.Configuration = {
-    context: options.projectRoot,
+    context: sysResolvePath(options.projectRoot),
     target: "web",
     resolve: {
       extensions: [".js", ".json"]
@@ -76,7 +76,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
         {
           test: /\.component\.js$/,
           loaders: ["angular2-template-loader"],
-          include: [options.srcDir]
+          include: [sysResolvePath(options.srcDir)]
         },
         {
           test: /\.json$/,
@@ -92,7 +92,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
       new curWebpack.ContextReplacementPlugin(
         // The (\\|\/) piece accounts for path separators in posix and Windows
         /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
-        options.srcDir,
+        sysResolvePath(options.srcDir),
         {}
       )
       // new webpack.DefinePlugin({
