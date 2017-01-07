@@ -4,19 +4,22 @@
   "description": "Gulp tasks generator for standard web projects.",
   "private": false,
   "main": "dist/lib/lib/index.js",
+  "browser": "dist/lib-es5/lib/index.js",
   "types": "dist/lib/lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/demurgos/web-build-tools.git"
   },
   "scripts": {
-    "prepare": "typings install",
-    "test": "gulp :lint && gulp lib-test:clean && gulp lib-test",
-    "prepublishOnly": "gulp lib:dist && npm test",
+    "prepare": "typings install && gulp all:tsconfig.json && gulp :tslint.json && gulp all:dist",
+    "test": "gulp :lint && gulp lib-test",
+    "prepublishOnly": "npm test",
     ":lint": "gulp :lint"
   },
   "pre-commit": {
-    "run": [":lint"]
+    "run": [
+      ":lint"
+    ]
   },
   "license": "MIT",
   "dependencies": {

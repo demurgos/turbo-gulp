@@ -80,3 +80,6 @@ buildTools.projectTasks.registerAll(gulp, projectOptions);
 buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, libTarget);
 buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, es5Target);
 buildTools.targetGenerators.test.generateTarget(gulp, projectOptions, libTestTarget);
+
+gulp.task("all:tsconfig.json", gulp.parallel("lib:tsconfig.json", "lib-test:tsconfig.json"));
+gulp.task("all:dist", gulp.parallel("lib:dist", "lib-es5:dist"));
