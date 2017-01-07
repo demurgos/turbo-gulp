@@ -12,7 +12,7 @@
   "scripts": {
     "prepare": "typings install",
     "test": "gulp :lint && gulp lib-test:clean && gulp lib-test",
-    "prepublishOnly": "npm test && gulp lib:dist"
+    "prepublishOnly": "gulp lib:dist && npm test "
   },
   "license": "MIT",
   "dependencies": {

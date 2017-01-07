@@ -10,7 +10,7 @@ import {
   ManyWatchFunction
 } from "./base";
 
-interface Locations {
+export interface Locations {
   rootDir: string;
   srcDir: string;
   buildDir: string;
@@ -24,7 +24,7 @@ interface Locations {
  * @param target
  * @returns {Locations} The absolute locations
  */
-function resolveLocations(project: ProjectOptions, target: NodeTarget): Locations {
+export function resolveLocations(project: ProjectOptions, target: NodeTarget): Locations {
   const targetDir: string = target.targetDir === undefined ? target.name : target.targetDir;
 
   const rootDir: string = toUnix(project.root);
