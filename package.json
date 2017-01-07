@@ -12,7 +12,11 @@
   "scripts": {
     "prepare": "typings install",
     "test": "gulp :lint && gulp lib-test:clean && gulp lib-test",
-    "prepublishOnly": "gulp lib:dist && npm test "
+    "prepublishOnly": "gulp lib:dist && npm test",
+    ":lint": "gulp :lint"
+  },
+  "pre-commit": {
+    "run": [":lint"]
   },
   "license": "MIT",
   "dependencies": {
@@ -53,6 +57,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "demurgos-web-build-tools": "latest",
-    "gulp": "github:gulpjs/gulp#4.0"
+    "gulp": "github:gulpjs/gulp#4.0",
+    "pre-commit": "^1.2.2"
   }
 }
