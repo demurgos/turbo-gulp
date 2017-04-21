@@ -45,7 +45,7 @@ function asBuffer(val: string | Buffer): Buffer {
   return val instanceof Buffer ? val : new Buffer(val, "utf8");
 }
 
-export class ExecFileError extends Incident<ExecFileErrorData> {
+export class ExecFileError extends Incident<"ExecFileError", ExecFileErrorData, Error> {
   constructor(nativeError: Error, stdout: Buffer | string, stderr: Buffer | string) {
     const data: ExecFileErrorData = {
       cmd: (<Error & {cmd: string}> nativeError).cmd,

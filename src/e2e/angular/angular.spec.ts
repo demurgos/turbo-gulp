@@ -39,11 +39,11 @@ describe("Project angular", function (this: Mocha.ISuite) {
     });
 
     it("should render sass files", async function (this: Mocha.ITest): Promise<void> {
-      const [actualIndex, expectedIndex]: [string, string] = <[string, string]> await Promise.all([
+      const [actualCss, expectedCss]: [string, string] = <[string, string]> await Promise.all([
         readText(path.join(PROJECT_ROOT, "build/server/static/main.css")),
         readText(path.join(RESOURCES_ROOT, "main.css"))
       ]);
-      assert.equal(actualIndex, expectedIndex);
+      assert.equal(actualCss, expectedCss);
     });
   });
 

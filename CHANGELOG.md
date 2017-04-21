@@ -1,3 +1,8 @@
+## Planned
+
+- Review the organization of the build targets
+- Use `displayName` on task functions, instead of separate `generateTaskName` functions.
+
 # 0.13.0
 
 - **[Breaking]** Major overhaul of the angular target. The server build no longer depends on the client.
@@ -13,11 +18,6 @@
 - Enable `emitDecoratorMetadata` in default typescript options.
 - Allow configuration of `:lint` with the `tslintOptions` property of the project configuration.
 - Add `<target>:watch` tasks for incremental builds.
-
-## TODO:
-
-- Review the organization of the build targets
-- Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
 # 0.12.3
 

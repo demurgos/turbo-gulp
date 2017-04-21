@@ -1,5 +1,5 @@
 import * as ts from "typescript";
-import {Configuration as WebpackConfiguration, Webpack} from "webpack";
+import webpack = require("webpack");
 import {CompilerJsonOptions} from "./typescript";
 
 /**
@@ -288,8 +288,8 @@ export interface WebpackTarget extends Target {
   mainModule: string;
 
   webpackOptions?: {
-    webpack?: Webpack;
-    configuration?: WebpackConfiguration;
+    webpack?: typeof webpack;
+    configuration?: webpack.Configuration;
   };
 }
 

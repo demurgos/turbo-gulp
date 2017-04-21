@@ -1,8 +1,8 @@
 import {Gulp} from "gulp";
 import {default as gulpTslint, PluginOptions as GulpTslintOptions} from "gulp-tslint";
+import {Minimatch} from "minimatch";
 import {posix as path} from "path";
 import tslint = require("tslint");
-import {Minimatch} from "minimatch";
 import {ProjectOptions} from "../config/config";
 import defaultTslintConfig from "../config/tslint";
 import * as matcher from "../utils/matcher";

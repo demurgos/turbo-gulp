@@ -33,7 +33,7 @@ export interface Options {
     /**
      * Webpack object to use
      */
-    webpack?: webpack.Webpack;
+    webpack?: typeof webpack;
 
     /**
      * Customize the default webpack configuration
@@ -54,7 +54,7 @@ export function getTaskName(targetName: string): string {
 
 export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const entryFile: string = options.entry + ".js";
-  let curWebpack: webpack.Webpack = webpack;
+  let curWebpack: typeof webpack = webpack;
   let userConfiguration: webpack.Configuration = {};
   if (options.webpackOptions !== undefined) {
     if (options.webpackOptions.webpack !== undefined) {
