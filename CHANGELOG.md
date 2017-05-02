@@ -3,6 +3,10 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
+# 0.13.1
+
+- **[Patch]** Allow namespaces in the default TS-Lint config
+
 # 0.13.0
 
 - **[Breaking]** Major overhaul of the angular target. The server build no longer depends on the client.

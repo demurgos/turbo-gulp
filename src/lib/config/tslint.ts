@@ -105,7 +105,7 @@ export const tslintConfig = {
     // Disallows mergeable namespaces in the same file
     "no-mergeable-namespace": true,
     // Disallows use of internal `module`s and `namespace`s
-    "no-namespace": true,
+    "no-namespace": false,
     // Disallows use of the `null` keyword literal
     "no-null-keyword": false,
     // Disallows parameter properties in class constructors
