@@ -8,11 +8,17 @@ export function exec(cmd: string, args: string[] = [], options?: any): Bluebird<
   return execFileAsync("git", [cmd, ...args], options);
 }
 
-export async function assertCleanMaster(options?: any): Promise<void> {
+export async function assertCleanBranch(allowedBranches: string[]): Promise<void> {
   let stdout: Buffer;
   stdout = await exec("symbolic-ref", ["HEAD"]);
-  if (stdout.toString("utf8").trim() !== "refs/heads/master") {
-    throw new Error("Not on master branch");
+  let onAllowedBranch: boolean = false;
+  for (const branch of allowedBranches) {
+    if (stdout.toString("utf8").trim() === `refs/heads/${branch}`) {
+      onAllowedBranch = true;
+    }
+  }
+  if (!onAllowedBranch) {
+    throw new Error(`HEAD must be on one of the branches: ${JSON.stringify(allowedBranches)}`);
   }
   stdout = await exec("status", ["--porcelain"]);
   if (stdout.toString("utf8").trim().length) {

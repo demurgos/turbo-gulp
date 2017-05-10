@@ -6,6 +6,7 @@
 ## Next
 
 - **[Breaking]** Enforce trailing commas by default for multiline objects
+- **[Feature]** Allow bump from either `master` or a branch with the same name as the tag (exampel: `v1.2.3`)
 - **[Feature]** Support TSLint 8, allow to extend the default rules
 - **[Patch]** Allow mergeable namespaces
 
