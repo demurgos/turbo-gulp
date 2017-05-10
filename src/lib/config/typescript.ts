@@ -108,7 +108,7 @@ export const PROD_TSC_OPTIONS: CompilerJsonOptions = {
   stripInternal: true,
   suppressExcessPropertyErrors: false,
   suppressImplicitAnyIndexErrors: false,
-  target: "es5"
+  target: "es5",
 };
 
 export const DEV_TSC_OPTIONS: CompilerJsonOptions = Object.assign({}, PROD_TSC_OPTIONS, {
@@ -116,7 +116,7 @@ export const DEV_TSC_OPTIONS: CompilerJsonOptions = Object.assign({}, PROD_TSC_O
   preserveConstEnums: true,
   removeComments: false,
   sourceMap: true,
-  stripInternal: false
+  stripInternal: false,
 });
 
 export default DEV_TSC_OPTIONS;

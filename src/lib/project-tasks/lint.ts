@@ -71,7 +71,7 @@ export function registerTask(gulp: Gulp, project: ProjectOptions) {
     formatter: "msbuild",
     tslint: tslint,
     ...project.tslint,
-    configuration: configuration
+    configuration: configuration,
   };
 
   const sources: Sources = getSources(project);
@@ -80,7 +80,7 @@ export function registerTask(gulp: Gulp, project: ProjectOptions) {
     return gulp.src(sources.sources, {base: sources.baseDir})
       .pipe(gulpTslint(options))
       .pipe(gulpTslint.report({
-        summarizeFailureOutput: true
+        summarizeFailureOutput: true,
       }));
   });
 }

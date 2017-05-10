@@ -305,8 +305,8 @@ export const DEFAULT_PROJECT_OPTIONS: ProjectOptions = {
   distDir: "dist",
   srcDir: "src",
   tslint: {
-    tslintJson: "tslint.json"
-  }
+    tslintJson: "tslint.json",
+  },
 };
 
 /**
@@ -319,8 +319,8 @@ export const LIB_TARGET: NodeTarget = {
   typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
   mainModule: "lib/index",
   typescript: {
-    tsconfigJson: ["lib/tsconfig.json"]
-  }
+    tsconfigJson: ["lib/tsconfig.json"],
+  },
 };
 
 /**
@@ -333,8 +333,8 @@ export const LIB_TEST_TARGET: TestTarget = {
   typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
   typescript: {
     tsconfigJson: ["test/tsconfig.json"],
-    strict: true
-  }
+    strict: true,
+  },
 };
 
 /**
@@ -349,8 +349,8 @@ export const ANGULAR_SERVER_TARGET: NodeTarget = {
   sass: [{name: "app", src: "app", dest: "app"}, {name: "static", src: "static", dest: "static"}],
   copy: [{name: "static", src: "static", files: ["**/*", "!**/*.(pug|scss)"], dest: "static"}],
   typescript: {
-    tsconfigJson: ["server/tsconfig.json"]
-  }
+    tsconfigJson: ["server/tsconfig.json"],
+  },
 };
 
 /**
@@ -366,15 +366,15 @@ export const ANGULAR_CLIENT_TARGET: WebpackTarget = {
   pug: [{name: "app", src: "app", dest: "app"}],
   sass: [{name: "app", src: "app", dest: "app"}],
   typescript: {
-    tsconfigJson: ["client/tsconfig.json"]
+    tsconfigJson: ["client/tsconfig.json"],
   },
   clean: {
     dirs: [
-      "build/client.webpack"
+      "build/client.webpack",
     ],
     files: [
       "build/server/static/main.js",
-      "dist/server/static/main.js"
-    ]
-  }
+      "dist/server/static/main.js",
+    ],
+  },
 };

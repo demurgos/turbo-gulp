@@ -7,7 +7,7 @@ import * as clean from "../task-generators/clean";
 import {toUnix} from "../utils/locations";
 import {
   generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks,
-  ManyWatchFunction
+  ManyWatchFunction,
 } from "./base";
 
 export interface Locations {
@@ -48,7 +48,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
     buildCopy: `${targetName}:build:copy`,
     dist: `${targetName}:dist`,
     tsconfigJson: `${targetName}:tsconfig.json`,
-    watch: `${targetName}:watch`
+    watch: `${targetName}:watch`,
   };
 
   const buildTasks: string[] = [];
@@ -61,7 +61,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
     typeRoots: target.typeRoots,
     scripts: target.scripts,
     buildDir: locations.buildDir,
-    srcDir: locations.srcDir
+    srcDir: locations.srcDir,
   };
 
   // target:build:scripts
@@ -77,7 +77,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
       gulp,
       locations.srcDir,
       locations.buildDir,
-      target.pug
+      target.pug,
     );
     mainTask.displayName = taskNames.buildPug;
     gulp.task(mainTask.displayName, mainTask);
@@ -91,7 +91,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
       gulp,
       locations.srcDir,
       locations.buildDir,
-      target.sass
+      target.sass,
     );
     mainTask.displayName = taskNames.buildSass;
     gulp.task(mainTask.displayName, mainTask);
@@ -105,7 +105,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
       gulp,
       locations.srcDir,
       locations.buildDir,
-      target.copy
+      target.copy,
     );
     mainTask.displayName = taskNames.buildCopy;
     gulp.task(mainTask.displayName, mainTask);
@@ -116,7 +116,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
   // target:build
   gulp.task(
     taskNames.build,
-    gulp.parallel(...buildTasks)
+    gulp.parallel(...buildTasks),
   );
 
   // target:watch
@@ -137,15 +137,15 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
     cleanOptions = {
       base: locations.rootDir,
       dirs: target.clean.dirs,
-      files: target.clean.files
+      files: target.clean.files,
     };
   } else {
     cleanOptions = {
       base: locations.rootDir,
       dirs: [
         path.relative(locations.rootDir, locations.buildDir),
-        path.relative(locations.rootDir, locations.distDir)
-      ]
+        path.relative(locations.rootDir, locations.distDir),
+      ],
     };
   }
   const cleanTask: TaskFunction = clean.generateTask(gulp, cleanOptions);
@@ -164,7 +164,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
       gulp,
       locations.srcDir,
       buildTypescriptOptions,
-      target.typescript.tsconfigJson
+      target.typescript.tsconfigJson,
     );
     mainCopyTask.displayName = taskNames.tsconfigJson;
     gulp.task(mainCopyTask.displayName, mainCopyTask);

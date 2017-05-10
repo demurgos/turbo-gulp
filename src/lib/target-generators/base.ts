@@ -208,8 +208,8 @@ export function generateTsconfigJsonTasks(gulp: Gulp, srcDir: string,
       {},
       tsOptions,
       {
-        tsconfigPath: path.join(srcDir, tsconfigPath)
-      }
+        tsconfigPath: path.join(srcDir, tsconfigPath),
+      },
     );
     const task: TaskFunction = tsconfigJson.generateTask(gulp, completeOptions);
     task.displayName = `_tsconfig.json:${tsconfigPath}`;

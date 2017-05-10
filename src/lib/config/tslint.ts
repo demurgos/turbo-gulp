@@ -12,7 +12,7 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
     "arrow-parens": true,
     // Bans the use of specific functions or global methods
     "ban": [
-      true
+      true,
     ],
     // An interface or literal type with just a call signature can be written as a function type.
     "callable-types": true,
@@ -22,7 +22,7 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
     "comment-format": [
       true,
       // Requires that all single-line comments must begin with a space, as in `// comment`
-      "check-space"
+      "check-space",
     ],
     // Enforces documentation for important items be filled out
     "completed-docs": [true, ["classes", "functions"]],
@@ -62,8 +62,8 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
     "member-ordering": [
       true,
       {
-        order: "fields-first"
-      }
+        order: "fields-first",
+      },
     ],
     // Requires parentheses when invoking a constructor via the `new` keyword
     "new-parens": false,
@@ -159,7 +159,7 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
       // Checks that an open brace falls on the same line as its preceding expression
       "check-open-brace",
       // Checks preceding whitespace for the specified tokens
-      "check-whitespace"
+      "check-whitespace",
     ],
     // Disallows multiple variable definitions in the same declaration statement
     "one-variable-per-declaration": [true, "ignore-for-loop"],
@@ -180,7 +180,7 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
       // Enforces double quotes
       "double",
       // Allows you to use the “other” quotemark in cases where escaping would normally be required
-      "avoid-escape"
+      "avoid-escape",
     ],
     // Requires the radix parameter to be specified when calling `parseInt`
     "radix": true,
@@ -201,8 +201,8 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
         // Checks multi-line object literals
         multiline: "always",
         // Checks single-line object literals
-        singleline: "never"
-      }
+        singleline: "never",
+      },
     ],
     // Requires `===` and `!==` in place of `==` and `!=`
     "triple-equals": true,
@@ -214,7 +214,7 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
       // Check variable declarations
       "variable-declaration",
       // Check member variable declarations
-      "member-variable-declaration"
+      "member-variable-declaration",
     ],
     // Requires or disallows whitespace for type definitions
     "typedef-whitespace": [
@@ -225,7 +225,7 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
         "index-signature": "nospace",
         "parameter": "nospace",
         "property-declaration": "nospace",
-        "variable-declaration": "nospace"
+        "variable-declaration": "nospace",
       },
       // Specifies how much space should be to the _right_ of a typedef colon
       {
@@ -233,8 +233,8 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
         "index-signature": "onespace",
         "parameter": "onespace",
         "property-declaration": "onespace",
-        "variable-declaration": "onespace"
-      }
+        "variable-declaration": "onespace",
+      },
     ],
     // Enforces use of the `isNaN()` function to check for NaN references instead of a comparison
     // to the `NaN` constant
@@ -257,9 +257,9 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
       // Checks for whitespace before a variable type specification
       "check-type",
       // Checks for whitespace between a typecast and its target
-      "check-typecast"
-    ]
-  }
+      "check-typecast",
+    ],
+  },
 };
 
 // TODO: Support type checking

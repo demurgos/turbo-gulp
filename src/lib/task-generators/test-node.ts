@@ -18,7 +18,7 @@ export function getSources(options: Options): Sources {
 
   return {
     baseDir: baseDir,
-    specs: [specs]
+    specs: [specs],
   };
 }
 
@@ -29,7 +29,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
     return gulp
       .src(sources.specs, {base: sources.baseDir})
       .pipe(gulpMocha({
-        reporter: "spec"
+        reporter: "spec",
       }));
   };
   task.displayName = getTaskName();

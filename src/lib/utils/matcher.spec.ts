@@ -9,7 +9,7 @@ describe("matcher.asString", function () {
     "a/b",
     "*",
     "**",
-    "**/*"
+    "**/*",
   ];
 
   for (const pattern of data) {

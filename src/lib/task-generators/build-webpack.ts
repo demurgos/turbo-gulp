@@ -69,32 +69,32 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
     context: sysResolvePath(options.projectRoot),
     target: "web",
     resolve: {
-      extensions: [".js", ".json"]
+      extensions: [".js", ".json"],
     },
     module: {
       loaders: [
         {
           test: /\.component\.js$/,
           loaders: ["angular2-template-loader"],
-          include: [sysResolvePath(options.srcDir)]
+          include: [sysResolvePath(options.srcDir)],
         },
         {
           test: /\.json$/,
-          loaders: ["json-loader"]
+          loaders: ["json-loader"],
         },
         {
           test: /\.(html|css)$/,
-          loaders: ["raw-loader"]
-        }
-      ]
+          loaders: ["raw-loader"],
+        },
+      ],
     },
     plugins: [
       new curWebpack.ContextReplacementPlugin(
         // The (\\|\/) piece accounts for path separators in posix and Windows
         /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
         sysResolvePath(options.srcDir),
-        {}
-      )
+        {},
+      ),
       // new webpack.DefinePlugin({
       //   "process.env": {
       //     "NODE_ENV": JSON.stringify("production")
@@ -108,12 +108,12 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
       __dirname: true,
       __filename: true,
       process: true,
-      Buffer: true
+      Buffer: true,
     },
     devtool: "inline-source-map",
     output: {
-      filename: "[name].js"
-    }
+      filename: "[name].js",
+    },
   };
 
   const task: TaskFunction = function () {
@@ -127,7 +127,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
             throw new PluginError("_build:webpack", err);
           }
           gulpLog(`[_build:webpack]`, stats.toString({colors: true}));
-        })
+        }),
       )
       .pipe(gulp.dest(options.buildDir));
   };

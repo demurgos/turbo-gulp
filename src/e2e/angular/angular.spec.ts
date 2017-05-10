@@ -16,7 +16,7 @@ describe("Project angular", function (this: Mocha.ISuite) {
     const buildToolsPath: string = "../../../lib/index";
     await writeText(
       path.join(PROJECT_ROOT, "local-web-build-tools.js"),
-      `module.exports = require(${JSON.stringify(buildToolsPath)});\n`
+      `module.exports = require(${JSON.stringify(buildToolsPath)});\n`,
     );
     await execFile("npm", ["prune"], {cwd: PROJECT_ROOT});
     await execFile("npm", ["install"], {cwd: PROJECT_ROOT});
@@ -33,7 +33,7 @@ describe("Project angular", function (this: Mocha.ISuite) {
     it("should render pug files", async function (this: Mocha.ITest): Promise<void> {
       const [actualIndex, expectedIndex]: [string, string] = <[string, string]> await Promise.all([
         readText(path.join(PROJECT_ROOT, "build/server/static/index.html")),
-        readText(path.join(RESOURCES_ROOT, "index.html"))
+        readText(path.join(RESOURCES_ROOT, "index.html")),
       ]);
       assert.equal(actualIndex, expectedIndex);
     });
@@ -41,7 +41,7 @@ describe("Project angular", function (this: Mocha.ISuite) {
     it("should render sass files", async function (this: Mocha.ITest): Promise<void> {
       const [actualCss, expectedCss]: [string, string] = <[string, string]> await Promise.all([
         readText(path.join(PROJECT_ROOT, "build/server/static/main.css")),
-        readText(path.join(RESOURCES_ROOT, "main.css"))
+        readText(path.join(RESOURCES_ROOT, "main.css")),
       ]);
       assert.equal(actualCss, expectedCss);
     });

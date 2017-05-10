@@ -16,7 +16,7 @@ describe("Project node-lib", function (this: Mocha.ISuite) {
     const buildToolsPath: string = "../../../lib/index";
     await writeText(
       path.join(PROJECT_ROOT, "local-web-build-tools.js"),
-      `module.exports = require(${JSON.stringify(buildToolsPath)});\n`
+      `module.exports = require(${JSON.stringify(buildToolsPath)});\n`,
     );
     await execFile("npm", ["prune"], {cwd: PROJECT_ROOT});
     await execFile("npm", ["install"], {cwd: PROJECT_ROOT});
@@ -78,7 +78,7 @@ describe("Project node-lib", function (this: Mocha.ISuite) {
     it("should output a tsconfig.json file in src/lib", async function (this: Mocha.ITest): Promise<void> {
       const [actual, expected]: [string, string] = <[string, string]> await Promise.all([
         readText(path.join(PROJECT_ROOT, "src/lib/tsconfig.json")),
-        readText(path.join(RESOURCES_ROOT, "lib._tsconfig.json"))
+        readText(path.join(RESOURCES_ROOT, "lib._tsconfig.json")),
       ]);
       assert.equal(actual, expected);
     });

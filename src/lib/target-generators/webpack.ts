@@ -11,7 +11,7 @@ import gulpSourceMaps = require("gulp-sourcemaps");
 import {toUnix} from "../utils/locations";
 import {
   generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks,
-  ManyWatchFunction
+  ManyWatchFunction,
 } from "./base";
 
 interface Locations {
@@ -56,7 +56,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
     clean: `${targetName}:clean`,
     dist: `${targetName}:dist`,
     tsconfigJson: `${targetName}:tsconfig.json`,
-    watch: `${targetName}:watch`
+    watch: `${targetName}:watch`,
   };
 
   const buildTasks: string[] = [];
@@ -67,7 +67,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
     typeRoots: target.typeRoots.map(toUnix),
     scripts: target.scripts,
     srcDir: locations.srcDir,
-    buildDir: locations.webpackDir
+    buildDir: locations.webpackDir,
   };
 
   // target:build:scripts
@@ -83,7 +83,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
       gulp,
       locations.srcDir,
       locations.webpackDir,
-      target.pug
+      target.pug,
     );
     mainTask.displayName = taskNames.buildPug;
     gulp.task(mainTask.displayName, mainTask);
@@ -97,7 +97,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
       gulp,
       locations.srcDir,
       locations.webpackDir,
-      target.sass
+      target.sass,
     );
     mainTask.displayName = taskNames.buildSass;
     gulp.task(mainTask.displayName, mainTask);
@@ -111,7 +111,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
       gulp,
       locations.srcDir,
       locations.webpackDir,
-      target.copy
+      target.copy,
     );
     mainTask.displayName = taskNames.buildCopy;
     gulp.task(mainTask.displayName, mainTask);
@@ -125,7 +125,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
     srcDir: locations.webpackDir,
     buildDir: locations.buildDir,
     webpackOptions: target.webpackOptions,
-    entry: target.mainModule
+    entry: target.mainModule,
   };
   const webpackTask: TaskFunction = buildWebpack.generateTask(gulp, buildWebpackOptions);
   webpackTask.displayName = taskNames.buildWebpack;
@@ -135,7 +135,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
   // target:build
   gulp.task(
     taskNames.build,
-    gulp.series(gulp.parallel(...buildTasks), taskNames.buildWebpack)
+    gulp.series(gulp.parallel(...buildTasks), taskNames.buildWebpack),
   );
 
   // target:watch
@@ -156,7 +156,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
     cleanOptions = {
       base: locations.rootDir,
       dirs: target.clean.dirs,
-      files: target.clean.files
+      files: target.clean.files,
     };
   } else {
     cleanOptions = {
@@ -164,8 +164,8 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
       dirs: [
         path.relative(locations.rootDir, locations.buildDir),
         path.relative(locations.rootDir, locations.webpackDir),
-        path.relative(locations.rootDir, locations.distDir)
-      ]
+        path.relative(locations.rootDir, locations.distDir),
+      ],
     };
   }
   const cleanTask: TaskFunction = clean.generateTask(gulp, cleanOptions);
@@ -183,8 +183,8 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
         return gulp
           .src([path.join(locations.buildDir, "**/*")], {base: path.join(locations.buildDir)})
           .pipe(gulp.dest(locations.distDir));
-      }
-    )
+      },
+    ),
   );
 
   // target:tsconfig.json
@@ -193,7 +193,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
       gulp,
       locations.srcDir,
       buildTypescriptOptions,
-      target.typescript.tsconfigJson
+      target.typescript.tsconfigJson,
     );
     mainCopyTask.displayName = taskNames.tsconfigJson;
     gulp.task(mainCopyTask.displayName, mainCopyTask);

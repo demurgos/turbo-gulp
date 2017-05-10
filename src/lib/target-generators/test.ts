@@ -14,7 +14,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Test
   // tslint:disable-next-line:typedef
   const taskNames = {
     build: `${targetName}:build`,
-    run: `${targetName}:run`
+    run: `${targetName}:run`,
   };
 
   gulp.task(taskNames.run, testNode.generateTask(gulp, {testDir: locations.buildDir}));
