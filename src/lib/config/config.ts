@@ -1,3 +1,4 @@
+import {Configuration as TslintConfiguration} from "tslint";
 import * as ts from "typescript";
 import webpack = require("webpack");
 import {CompilerJsonOptions} from "./typescript";
@@ -44,16 +45,16 @@ export interface ProjectOptions {
    */
   tslint?: {
     /**
-     * Path to the tslint.json file, relative to `root`
+     * Path to the output tslint.json file, relative to `root`
      */
     tslintJson?: string;
 
     /**
-     * Override default configuration
+     * Extend the default configuration
+     * This can either be path relative to `root` or a raw config object.
+     * If you pass a raw config object, its configFileDir will be `root`.
      */
-    configuration?: {
-      rules?: {}
-    },
+    configuration?: TslintConfiguration.RawConfigFile | string,
 
     formatter?: "verbose" | string;
 

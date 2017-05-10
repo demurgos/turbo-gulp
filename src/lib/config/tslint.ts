@@ -1,5 +1,6 @@
-// tslint:disable-next-line:typedef
-export const tslintConfig = {
+import {Configuration as TslintConfiguration} from "tslint";
+
+export const tslintConfig: TslintConfiguration.RawConfigFile = {
   rules: {
     // Enforces function overloads to be consecutive
     "adjacent-overload-signatures": true,
@@ -58,9 +59,12 @@ export const tslintConfig = {
     // Requires explicit visibility declarations for class members
     "member-access": false,
     // Enforces member ordering
-    "member-ordering": {
-      order: "fields-first"
-    },
+    "member-ordering": [
+      true,
+      {
+        order: "fields-first"
+      }
+    ],
     // Requires parentheses when invoking a constructor via the `new` keyword
     "new-parens": false,
     // Requires the use of `as Type` for type assertions instead of `<Type>`
@@ -129,8 +133,6 @@ export const tslintConfig = {
     "no-unsafe-finally": true,
     // Disallows unused expression statements
     "no-unused-expression": true,
-    // Disallows unused ‘new’ expression statements
-    "no-unused-new": true,
     // Disallows usage of variables before their declaration
     "no-use-before-declare": true,
     // Disallows usage of the `var` keyword
@@ -262,11 +264,12 @@ export const tslintConfig = {
 
 // TODO: Support type checking
 // Delete the keys requiring type checking until it is available
-delete tslintConfig.rules["completed-docs"];
-delete tslintConfig.rules["no-for-in-array"];
-delete tslintConfig.rules["no-void-expression"];
-delete tslintConfig.rules["promise-function-async"];
-delete tslintConfig.rules["restrict-plus-operands"];
-delete tslintConfig.rules["strict-boolean-expressions"];
+delete tslintConfig.rules!["completed-docs"];
+delete tslintConfig.rules!["no-for-in-array"];
+delete tslintConfig.rules!["no-use-before-declare"];
+delete tslintConfig.rules!["no-void-expression"];
+delete tslintConfig.rules!["promise-function-async"];
+delete tslintConfig.rules!["restrict-plus-operands"];
+delete tslintConfig.rules!["strict-boolean-expressions"];
 
 export default tslintConfig;

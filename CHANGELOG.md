@@ -6,6 +6,7 @@
 ## Next
 
 - **[Breaking]** Enforce trailing commas by default for multiline objects
+- **[Feature]** Support TSLint 8, allow to extend the default rules
 - **[Patch]** Allow mergeable namespaces
 
 # 0.13.1

@@ -1,6 +1,7 @@
 "use strict";
 
 const buildTools = require("demurgos-web-build-tools"); // Going meta
+// const buildTools = require("./build/lib/lib/index");
 const gulp = require("gulp");
 const typescript = require("typescript");
 
@@ -10,7 +11,7 @@ const projectOptions = Object.assign(
   buildTools.config.DEFAULT_PROJECT_OPTIONS,
   {
     root: __dirname,
-    tslintOptions: {
+    tslint: {
       files: ["src/**/*.ts", "!src/e2e/*/*/**/*.ts"]
     }
   }

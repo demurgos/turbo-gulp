@@ -45,19 +45,43 @@ export function getSources(project: ProjectOptions): Sources {
 }
 
 export function registerTask(gulp: Gulp, project: ProjectOptions) {
-  const options: GulpTslintOptions = Object.assign({}, {
+  type TslintRawConfig = tslint.Configuration.RawConfigFile;
+  type TslintConfig = tslint.Configuration.IConfigurationFile;
+
+  let configuration: TslintConfig;
+
+  const baseConfig: TslintConfig = tslint.Configuration.parseConfigFile(defaultTslintConfig, project.root);
+
+  if (project.tslint !== undefined && project.tslint.configuration !== undefined) {
+    const userRawConfig: TslintRawConfig | string = project.tslint.configuration;
+    let userConfig: TslintConfig;
+    if (typeof userRawConfig === "string") {
+      const configPath: string = path.join(project.root, userRawConfig);
+      userConfig = tslint.Configuration.loadConfigurationFromPath(configPath);
+    } else {
+      userConfig = tslint.Configuration.parseConfigFile(userRawConfig, project.root);
+    }
+    configuration = tslint.Configuration.extendConfigurationFile(baseConfig, userConfig);
+  } else {
+    configuration = baseConfig;
+  }
+
+  const options: GulpTslintOptions = {
     emitError: true,
-    configuration: defaultTslintConfig,
-    formatter: "verbose",
-    tslint: tslint
-  }, project.tslint);
+    formatter: "msbuild",
+    tslint: tslint,
+    ...project.tslint,
+    configuration: configuration
+  };
 
   const sources: Sources = getSources(project);
 
   gulp.task(taskName, function () {
     return gulp.src(sources.sources, {base: sources.baseDir})
       .pipe(gulpTslint(options))
-      .pipe(gulpTslint.report());
+      .pipe(gulpTslint.report({
+        summarizeFailureOutput: true
+      }));
   });
 }
 
