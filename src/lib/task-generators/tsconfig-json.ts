@@ -32,7 +32,7 @@ export function getTsconfigPaths(options: Options): TsconfigPaths {
     rootDir: path.relative(tsconfigDir, options.srcDir),
     typeRoots: [],
     exclude: [],
-    include: []
+    include: [],
   };
 
   for (const typeRoot of options.typeRoots) {
@@ -68,7 +68,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const tsconfigData: Object = {
     compilerOptions: compilerOptions,
     include: paths.include,
-    exclude: paths.exclude
+    exclude: paths.exclude,
   };
 
   const tsconfigPath: string = path.join(options.tsconfigPath);

@@ -20,5 +20,5 @@ export {
   bumpMinor,
   bumpPatch,
   lint,
-  tslintJson
+  tslintJson,
 };

@@ -53,7 +53,7 @@ export class ExecFileError extends Incident<"ExecFileError", ExecFileErrorData, 
       code: (<Error & {code: number}> nativeError).code,
       signal: (<Error & {signal: null | any}> nativeError).signal,
       stdout: asBuffer(stdout),
-      stderr: asBuffer(stderr)
+      stderr: asBuffer(stderr),
     };
     const message: string = `An error occured during the execution of: ${data.cmd}\n${nativeError.stack}`;
     super(nativeError, "ExecFileError", data, message);
@@ -97,10 +97,10 @@ export function execFile(file: string, args: string[], options?: ExecFileOptions
         }
         const result: ExecFileResult = {
           stdout: asBuffer(stdout),
-          stderr: asBuffer(stderr)
+          stderr: asBuffer(stderr),
         };
         resolve(result);
-      }
+      },
     );
   });
 }

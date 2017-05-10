@@ -80,7 +80,7 @@ export function getSources(options: Options): Sources {
     baseDir: options.srcDir,
     typeRoots: [],
     scripts: [],
-    sources: []
+    sources: [],
   };
 
   for (const typeRoot of options.typeRoots) {
@@ -132,10 +132,10 @@ function getReporter(strict: boolean = true): CompleteReporter {
         if (hasError(compilerResult)) {
           throw new gulpUtil.PluginError(
             "gulp-typescript",
-            Error("Typescript: Compilation with `strict` option emitted some errors. See report for details")
+            Error("Typescript: Compilation with `strict` option emitted some errors. See report for details"),
           );
         }
-      }
+      },
     };
   }
 
@@ -159,7 +159,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
         .pipe(gulp.dest(options.buildDir)),
       tsResult.js
         .pipe(gulpSourceMaps.write())
-        .pipe(gulp.dest(options.buildDir))
+        .pipe(gulp.dest(options.buildDir)),
     ]);
   };
   task.displayName = `_build:scripts`;

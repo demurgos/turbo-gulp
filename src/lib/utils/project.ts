@@ -31,7 +31,7 @@ export async function commitVersion(version: string, projectRoot?: string): Prom
 export async function release(version: string, locations: ProjectOptions): Promise<void> {
   await Promise.all([
     assertUnusedTag(getVersionTag(version)),
-    git.assertCleanBranch(["master", getVersionTag(version)])
+    git.assertCleanBranch(["master", getVersionTag(version)]),
   ]);
   await setPackageVersion(version, locations);
   await commitVersion(version, locations.root);
@@ -65,7 +65,7 @@ export async function setPackageVersion(version: string, locations: ProjectOptio
 
 export async function getNextVersion(
   bumpKind: "major" | "minor" | "patch",
-  locations: ProjectOptions
+  locations: ProjectOptions,
 ): Promise<string> {
   const packageData: PackageJson = await readPackage(locations);
   return semver.inc(packageData.version, bumpKind);
