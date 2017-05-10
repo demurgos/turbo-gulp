@@ -3,6 +3,11 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
+## Next
+
+- **[Breaking]** Enforce trailing commas by default for multiline objects
+- **[Patch]** Allow mergeable namespaces
+
 # 0.13.1
 
 - **[Patch]** Allow namespaces in the default TS-Lint config

@@ -103,7 +103,7 @@ export const tslintConfig = {
     // Disallows the use constant number values outside of variable assignments.
     "no-magic-numbers": false,
     // Disallows mergeable namespaces in the same file
-    "no-mergeable-namespace": true,
+    "no-mergeable-namespace": false,
     // Disallows use of internal `module`s and `namespace`s
     "no-namespace": false,
     // Disallows use of the `null` keyword literal
@@ -197,7 +197,7 @@ export const tslintConfig = {
       true,
       {
         // Checks multi-line object literals
-        multiline: "never",
+        multiline: "always",
         // Checks single-line object literals
         singleline: "never"
       }
