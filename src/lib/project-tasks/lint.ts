@@ -1,6 +1,6 @@
 import {Gulp} from "gulp";
 import {default as gulpTslint, PluginOptions as GulpTslintOptions} from "gulp-tslint";
-import {Minimatch} from "minimatch";
+import {IMinimatch, Minimatch} from "minimatch";
 import {posix as path} from "path";
 import tslint = require("tslint");
 import {ProjectOptions} from "../config/config";
@@ -36,7 +36,7 @@ export function getSources(project: ProjectOptions): Sources {
   }
 
   for (const pattern of patterns) {
-    const minimatchPattern: Minimatch = new Minimatch(pattern);
+    const minimatchPattern: IMinimatch = new Minimatch(pattern);
     const glob: string = matcher.asString(matcher.join(baseDir, minimatchPattern));
     sources.push(glob);
   }

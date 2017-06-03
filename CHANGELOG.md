@@ -3,6 +3,10 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
+# Next
+
+- **[Internal]** Drop dependency on _typings_.
+
 ## 0.14.0 (2017-05-10)
 
 - **[Breaking]** Enforce trailing commas by default for multiline objects

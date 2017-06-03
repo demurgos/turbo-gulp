@@ -1,11 +1,11 @@
-import {Gulp, TaskFunction} from "gulp";
+import {Gulp} from "gulp";
 import gulpTypescript = require("gulp-typescript");
 import gulpSourceMaps = require("gulp-sourcemaps");
 import merge = require("merge2");
 import {posix as path} from "path";
-
 import {ProjectOptions} from "../config/config";
 import defaultTslintConfig from "../config/tslint";
+import {TaskFunction} from "../utils/gulp-task-function";
 import {writeJsonFile} from "../utils/project";
 
 export function generateTask(gulp: Gulp, project: ProjectOptions): TaskFunction {

@@ -1,7 +1,7 @@
 import asyncDone = require("async-done");
 import Bluebird = require("bluebird");
 import {FSWatcher} from "fs";
-import {Gulp, TaskFunction} from "gulp";
+import {Gulp} from "gulp";
 import {posix as path} from "path";
 import {CopyOptions, PugOptions, SassOptions} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
@@ -9,6 +9,7 @@ import * as copy from "../task-generators/copy";
 import * as pug from "../task-generators/pug";
 import * as sass from "../task-generators/sass";
 import * as tsconfigJson from "../task-generators/tsconfig-json";
+import {TaskFunction} from "../utils/gulp-task-function";
 
 function asyncDoneAsync(fn: asyncDone.AsyncTask): Bluebird<any> {
   return Bluebird.fromCallback((cb) => {

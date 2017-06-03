@@ -11,8 +11,7 @@ needs. By using the same tools with a standard structure, I am able to update my
 single place (here) and benefit from this in all my main projects.
 
 Here is the list of tools:
-- Typescript 2.1
-- Typings: Manage type declarations
+- Typescript
 - Webpack: Bundle resource for the browser
 - Mocha: Tests
 - Pug: Generate HTML pages from templates
