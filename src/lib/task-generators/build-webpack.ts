@@ -1,11 +1,12 @@
 import {FSWatcher} from "fs";
-import {Gulp, TaskFunction} from "gulp";
+import {Gulp} from "gulp";
 import {log as gulpLog, PluginError} from "gulp-util";
 import {Minimatch} from "minimatch";
 import {posix as path, resolve as sysResolvePath} from "path";
 import webpack = require("webpack");
 import webpackMerge = require("webpack-merge");
 import webpackStream = require("webpack-stream");
+import {TaskFunction} from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
 export interface Options {
@@ -138,7 +139,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
 export function watch(gulp: Gulp, options: Options): FSWatcher {
   const buildTask: TaskFunction = generateTask(gulp, options);
   const sources: string = matcher.asString(matcher.join(options.srcDir, new Minimatch("**/*")));
-  return gulp.watch(sources, {cwd: options.srcDir}, buildTask);
+  return gulp.watch(sources, {cwd: options.srcDir}, buildTask) as FSWatcher;
 }
 
 export default generateTask;

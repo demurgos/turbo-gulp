@@ -1,6 +1,7 @@
 import Bluebird = require("bluebird");
 import del = require("del");
 import {Gulp} from "gulp";
+import {TaskFunc} from "orchestrator";
 import {ProjectOptions, TestTarget} from "../config/config";
 import * as testNode from "../task-generators/test-node";
 import {generateTarget as generateNodeTarget, Locations, resolveLocations} from "./node";
@@ -18,5 +19,5 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Test
   };
 
   gulp.task(taskNames.run, testNode.generateTask(gulp, {testDir: locations.buildDir}));
-  gulp.task(targetName, gulp.series(taskNames.build, taskNames.run));
+  gulp.task(targetName, <any> gulp.series(taskNames.build, taskNames.run) as TaskFunc);
 }

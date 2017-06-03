@@ -1,9 +1,11 @@
 import {FSWatcher} from "fs";
-import {Gulp, TaskFunction} from "gulp";
+import {Gulp} from "gulp";
+import {TaskFunc} from "orchestrator";
 import {posix as path} from "path";
-import {NodeTarget, ProjectOptions, PugOptions} from "../config/config";
+import {NodeTarget, ProjectOptions} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as clean from "../task-generators/clean";
+import {TaskFunction} from "../utils/gulp-task-function";
 import {toUnix} from "../utils/locations";
 import {
   generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks,
@@ -116,7 +118,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
   // target:build
   gulp.task(
     taskNames.build,
-    gulp.parallel(...buildTasks),
+    <any> gulp.parallel(...buildTasks) as TaskFunc,
   );
 
   // target:watch
@@ -152,11 +154,18 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Node
   cleanTask.displayName = `${targetName}:clean`;
   gulp.task(cleanTask.displayName, cleanTask);
 
-  gulp.task(taskNames.dist, gulp.series(cleanTask.displayName, `${targetName}:build`, function _buildToDist() {
-    return gulp
-      .src([path.join(locations.buildDir, "**/*")], {base: locations.buildDir})
-      .pipe(gulp.dest(locations.distDir));
-  }));
+  gulp.task(
+    taskNames.dist,
+    <TaskFunc> gulp.series(
+      cleanTask.displayName,
+      `${targetName}:build`,
+      function _buildToDist() {
+        return gulp
+          .src([path.join(locations.buildDir, "**/*")], {base: locations.buildDir})
+          .pipe(gulp.dest(locations.distDir));
+      },
+    ),
+  );
 
   // target:tsconfig.json
   if (target.typescript !== undefined && target.typescript.tsconfigJson !== undefined) {

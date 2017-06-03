@@ -5,13 +5,14 @@
   "private": true,
   "main": "dist/lib/lib/index.js",
   "scripts": {
-    "prepare": "typings install",
     "test": "gulp :lint && gulp lib-test:clean && gulp lib-test",
     "prepublishOnly": "npm test && gulp lib:dist"
   },
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@types/chai": "^4.0.0",
+    "@types/mocha": "^2.2.41",
     "chai": "^3.5.0",
     "gulp": "github:gulpjs/gulp#4.0"
   }

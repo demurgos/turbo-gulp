@@ -1,12 +1,13 @@
-import {Gulp, TaskFunction} from "gulp";
+import {Gulp} from "gulp";
 import gulpTypescript = require("gulp-typescript");
 import gulpSourceMaps = require("gulp-sourcemaps");
 import {assign} from "lodash";
 import merge = require("merge2");
-import {Minimatch} from "minimatch";
+import {IMinimatch, Minimatch} from "minimatch";
 import {posix as path} from "path";
 import {CompilerJsonOptions, DEV_TSC_OPTIONS} from "../config/typescript";
 import * as buildTypescript from "../task-generators/build-typescript";
+import {TaskFunction} from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 import {writeJsonFile} from "../utils/project";
 
@@ -43,9 +44,9 @@ export function getTsconfigPaths(options: Options): TsconfigPaths {
   }
 
   for (const script of options.scripts) {
-    const pattern: Minimatch = new Minimatch(script);
-    const absGlob: Minimatch = matcher.join(options.srcDir, pattern);
-    const relGlob: Minimatch = matcher.relative(tsconfigDir, absGlob);
+    const pattern: IMinimatch = new Minimatch(script);
+    const absGlob: IMinimatch = matcher.join(options.srcDir, pattern);
+    const relGlob: IMinimatch = matcher.relative(tsconfigDir, absGlob);
     if (relGlob.negate) {
       result.exclude.push(relGlob.pattern);
     } else {

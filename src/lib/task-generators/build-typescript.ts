@@ -1,14 +1,14 @@
 import {FSWatcher} from "fs";
-import {Gulp, TaskFunction} from "gulp";
+import {Gulp} from "gulp";
 import gulpSourceMaps = require("gulp-sourcemaps");
 import gulpTypescript = require("gulp-typescript");
 import * as gulpUtil from "gulp-util";
-import {assign} from "lodash";
 import merge = require("merge2");
-import {Minimatch} from "minimatch";
+import {IMinimatch, Minimatch} from "minimatch";
 import * as path from "path";
 import * as ts from "typescript";
 import {CompilerJsonOptions, DEV_TSC_OPTIONS} from "../config/typescript";
+import {TaskFunction} from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
 export interface Options {
@@ -93,7 +93,7 @@ export function getSources(options: Options): Sources {
   }
 
   for (const script of options.scripts) {
-    const pattern: Minimatch = new Minimatch(script);
+    const pattern: IMinimatch = new Minimatch(script);
     const glob: string = matcher.asString(matcher.join(options.srcDir, pattern));
     result.scripts.push(glob);
     result.sources.push(glob);
@@ -144,7 +144,7 @@ function getReporter(strict: boolean = true): CompleteReporter {
 
 export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const sources: Sources = getSources(options);
-  const compilerOptions: CompilerJsonOptions = assign({}, DEV_TSC_OPTIONS, options.compilerOptions);
+  const compilerOptions: CompilerJsonOptions = {...DEV_TSC_OPTIONS, ...options.compilerOptions};
   const reporter: CompleteReporter = getReporter(options.strict);
 
   const task: TaskFunction = function () {
@@ -169,7 +169,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
 export function watch(gulp: Gulp, options: Options): FSWatcher {
   const buildTask: TaskFunction = generateTask(gulp, Object.assign({}, options, {strict: false}));
   const sources: Sources = getSources(options);
-  return gulp.watch(sources.sources, {cwd: sources.baseDir}, buildTask);
+  return gulp.watch(sources.sources, {cwd: sources.baseDir}, buildTask) as FSWatcher;
 }
 
 export default generateTask;

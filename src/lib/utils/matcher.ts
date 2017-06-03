@@ -1,8 +1,8 @@
-import {Minimatch} from "minimatch";
+import {IMinimatch, Minimatch} from "minimatch";
 import {posix as path} from "path";
 
-export function join(prefix: string, matcher: Minimatch): Minimatch {
-  let result: Minimatch;
+export function join(prefix: string, matcher: IMinimatch): IMinimatch {
+  let result: IMinimatch;
 
   if (matcher.comment || path.isAbsolute(matcher.pattern)) {
     result = new Minimatch(matcher.pattern);
@@ -15,8 +15,8 @@ export function join(prefix: string, matcher: Minimatch): Minimatch {
   return result;
 }
 
-export function relative(from: string, matcher: Minimatch): Minimatch {
-  let result: Minimatch;
+export function relative(from: string, matcher: IMinimatch): IMinimatch {
+  let result: IMinimatch;
 
   if (matcher.comment) {
     result = new Minimatch(matcher.pattern);
@@ -29,6 +29,6 @@ export function relative(from: string, matcher: Minimatch): Minimatch {
   return result;
 }
 
-export function asString(matcher: Minimatch): string {
+export function asString(matcher: IMinimatch): string {
   return (matcher.negate ? "!" : "") + matcher.pattern;
 }

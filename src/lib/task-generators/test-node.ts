@@ -1,7 +1,8 @@
-import {Gulp, TaskFunction} from "gulp";
-import {Minimatch} from "minimatch";
-import * as matcher from "../utils/matcher";
+import {Gulp} from "gulp";
 import gulpMocha = require("gulp-mocha");
+import {Minimatch} from "minimatch";
+import {TaskFunction} from "../utils/gulp-task-function";
+import * as matcher from "../utils/matcher";
 
 export interface Options {
   testDir: string;

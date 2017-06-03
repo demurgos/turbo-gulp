@@ -1,5 +1,5 @@
 import Bluebird = require("bluebird");
-import {Gulp, TaskFunction} from "gulp";
+import {Gulp} from "gulp";
 import {posix as path} from "path";
 import {ProjectOptions, WebpackTarget} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
@@ -8,6 +8,8 @@ import * as clean from "../task-generators/clean";
 import del = require("del");
 import {FSWatcher} from "fs";
 import gulpSourceMaps = require("gulp-sourcemaps");
+import {TaskFunc} from "orchestrator";
+import {TaskFunction} from "../utils/gulp-task-function";
 import {toUnix} from "../utils/locations";
 import {
   generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks,
@@ -135,7 +137,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
   // target:build
   gulp.task(
     taskNames.build,
-    gulp.series(gulp.parallel(...buildTasks), taskNames.buildWebpack),
+    <any> gulp.series(<any> gulp.parallel(...buildTasks), taskNames.buildWebpack) as TaskFunc,
   );
 
   // target:watch
@@ -175,7 +177,7 @@ export function generateTarget(gulp: Gulp, project: ProjectOptions, target: Webp
   // target:dist
   gulp.task(
     taskNames.dist,
-    gulp.series(
+    <TaskFunc> gulp.series(
       cleanTask.displayName,
       taskNames.build,
       async function _buildToDist() {
