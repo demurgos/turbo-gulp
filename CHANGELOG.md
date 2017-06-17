@@ -3,8 +3,10 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
-# Next
+## 0.14.1 (2017-06-17)
 
+- **[Internal]** Update dependencies.
+- **[Internal]** Drop dependency on _Bluebird_.
 - **[Internal]** Drop dependency on _typings_.
 
 ## 0.14.0 (2017-05-10)
