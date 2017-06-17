@@ -1,5 +1,3 @@
-import Bluebird = require("bluebird");
-import * as fs from "fs";
 import * as semver from "semver";
 
 import {ProjectOptions} from "../config/config";

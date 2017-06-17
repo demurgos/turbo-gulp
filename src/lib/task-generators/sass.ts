@@ -1,4 +1,3 @@
-import Bluebird = require("bluebird");
 import {FSWatcher} from "fs";
 import {Gulp} from "gulp";
 import {Minimatch} from "minimatch";

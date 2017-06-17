@@ -1,10 +1,10 @@
 import * as childProcess from "child_process";
-import Bluebird = require("bluebird");
+import {promisify} from "util";
 
-type ExecFileAsync = (file: string, args?: string[], options?: any) => Bluebird<any>;
-const execFileAsync: ExecFileAsync = Bluebird.promisify(childProcess.execFile);
+type ExecFileAsync = (file: string, args?: string[], options?: any) => Promise<any>;
+const execFileAsync: ExecFileAsync = <any> promisify(childProcess.execFile);
 
-export function exec(cmd: string, args: string[] = [], options?: any): Bluebird<Buffer> {
+export function exec(cmd: string, args: string[] = [], options?: any): Promise<Buffer> {
   return execFileAsync("git", [cmd, ...args], options);
 }
 
