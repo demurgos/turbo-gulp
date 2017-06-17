@@ -1,4 +1,3 @@
-import Bluebird = require("bluebird");
 import del = require("del");
 import {Gulp} from "gulp";
 import {TaskFunc} from "orchestrator";

@@ -1,4 +1,3 @@
-import Bluebird = require("bluebird");
 import {Gulp} from "gulp";
 import {posix as path} from "path";
 import {ProjectOptions, WebpackTarget} from "../config/config";

@@ -3,7 +3,7 @@
 import * as childProcess from "child_process";
 import * as fs from "fs";
 import {Incident} from "incident";
-import Bluebird = require("bluebird");
+import {promisify} from "util";
 
 export interface ExecFileOptions {
   cwd?: string;
@@ -67,8 +67,8 @@ export interface NodeAsync {
   execFile(file: string, args: string[], options?: ExecFileOptions): Promise<ExecFileResult>;
 }
 
-const _readFile: (filename: string, encoding: string) => Bluebird<string> = <any> Bluebird.promisify(fs.readFile);
-const _writeFile: (filename: string, data: any) => Bluebird<any> = Bluebird.promisify(fs.writeFile);
+const _readFile: (filename: string, encoding: string) => Promise<string> = <any> promisify(fs.readFile);
+const _writeFile: (filename: string, data: any) => Promise<any> = <any> promisify(fs.writeFile);
 
 export async function readText(file: string): Promise<string> {
   return await _readFile(file, "utf8");

@@ -23,7 +23,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/bluebird": "^3.5.5",
     "@types/del": "^2.2.32",
     "@types/gulp": "^4.0.3",
     "@types/gulp-sourcemaps": "0.0.30",
@@ -34,7 +33,6 @@
     "@types/semver": "^5.3.31",
     "angular2-template-loader": "^0.6.2",
     "async-done": "^1.2.2",
-    "bluebird": "^3.5.0",
     "del": "^2.2.2",
     "gulp-mocha": "^4.3.0",
     "gulp-pug": "^3.3.0",

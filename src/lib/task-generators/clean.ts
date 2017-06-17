@@ -1,4 +1,3 @@
-import Bluebird = require("bluebird");
 import {Gulp} from "gulp";
 import {Minimatch} from "minimatch";
 import {posix as path} from "path";

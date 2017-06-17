@@ -1,5 +1,4 @@
 import asyncDone = require("async-done");
-import Bluebird = require("bluebird");
 import {FSWatcher} from "fs";
 import {Gulp} from "gulp";
 import {posix as path} from "path";
@@ -11,9 +10,15 @@ import * as sass from "../task-generators/sass";
 import * as tsconfigJson from "../task-generators/tsconfig-json";
 import {TaskFunction} from "../utils/gulp-task-function";
 
-function asyncDoneAsync(fn: asyncDone.AsyncTask): Bluebird<any> {
-  return Bluebird.fromCallback((cb) => {
-    asyncDone(fn, cb);
+function asyncDoneAsync(fn: asyncDone.AsyncTask): Promise<any> {
+  return new Promise((resolve, reject) => {
+    asyncDone(fn, (err: Error | null | undefined, result: any) => {
+      if (err === undefined || err === null) {
+        resolve(result);
+      } else {
+        reject(err);
+      }
+    });
   });
 }
 
