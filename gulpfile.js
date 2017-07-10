@@ -12,7 +12,21 @@ const projectOptions = Object.assign(
   {
     root: __dirname,
     tslint: {
-      files: ["src/**/*.ts", "!src/e2e/*/*/**/*.ts"]
+      files: ["src/**/*.ts", "!src/e2e/*/*/**/*.ts"],
+      configuration: {
+        rules: {
+          "whitespace": [
+            true,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-separator",
+            "check-type",
+            "check-typecast",
+            "check-preblock"
+          ]
+        }
+      }
     }
   }
 );
