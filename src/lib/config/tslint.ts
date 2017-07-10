@@ -251,13 +251,15 @@ export const tslintConfig: TslintConfiguration.RawConfigFile = {
       // Checks for whitespace around operator tokens
       "check-operator",
       // Checks for whitespace in import & export statements
-      "check-module",
+      // "check-module",
       // Checks for whitespace after separator tokens (`,`/`;`)
       "check-separator",
       // Checks for whitespace before a variable type specification
       "check-type",
       // Checks for whitespace between a typecast and its target
       "check-typecast",
+      // Checks for whitespace before the opening brace of a block
+      "check-preblock",
     ],
   },
 };
