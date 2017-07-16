@@ -3,6 +3,10 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
+## Next
+
+- **[Feature]** Add `:lint:fix` project task to fix some lint errors.
+
 ## 0.14.2 (2017-07-10)
 
 - **[Internal]** Update dependencies: add `package-lock.json` and update `tslint`.

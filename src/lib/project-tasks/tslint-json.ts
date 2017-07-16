@@ -1,7 +1,4 @@
 import {Gulp} from "gulp";
-import gulpTypescript = require("gulp-typescript");
-import gulpSourceMaps = require("gulp-sourcemaps");
-import merge = require("merge2");
 import {posix as path} from "path";
 import {ProjectOptions} from "../config/config";
 import defaultTslintConfig from "../config/tslint";
