@@ -4,18 +4,12 @@
 [![Build status](https://img.shields.io/travis/demurgos/web-build-tools/master.svg?maxAge=2592000)](https://travis-ci.org/demurgos/web-build-tools)
 [![GitHub repository](https://img.shields.io/badge/Github-demurgos%2Fweb--build--tools-blue.svg)](https://github.com/demurgos/web-build-tools)
 
-Gulp tasks generator for standard web projects.
+Gulp tasks generator for projects following my conventional structure.
 
-This package consolidates various tools in a single interface. This is tailored for my personal
-needs. By using the same tools with a standard structure, I am able to update my build chain in a
-single place (here) and benefit from this in all my main projects.
+This is intend for multi-target Typescript libraries or applications. It adds compilation, lint rules,
+unit-tests and resource management. It supports both Node and browser builds.
 
-Here is the list of tools:
-- Typescript
-- Webpack: Bundle resource for the browser
-- Mocha: Tests
-- Pug: Generate HTML pages from templates
-- Sass: Generate CSS from Sass files
+Here is a list of some of the main tools bundled with this package: Typescript, mocha, TSLint, pug, sass, webpack.
 
 ## Standard project layout
 
@@ -31,8 +25,7 @@ Here is the list of tools:
 ├── NOTICE.md       # To match requirements of third-party tools
 ├── README.md       # Projects presentation
 ├── package.json    # Project's metadata
-├── gulpfile.js     # Definition of Gulp tasks
-└── typings.json    # Type declarations settings
+└── gulpfile.js     # Definition of Gulp tasks
 ```
 
 ## Usage
@@ -140,7 +133,36 @@ or export (distribute).
 
 ### `tslint`
 
-**TODO**: The configuration of tslint will be updated. It currently uses `tslintJson` and `tslintOptions`.
+- Type:
+  ```typescript
+  interface TslintOptions {
+    /**
+     * Path to the output tslint.json file, relative to `root`
+     */
+    tslintJson?: string;
+  
+    /**
+     * Extend the default configuration (merge them).
+     * This can either be path relative to `root` or a raw config object (content of tslint.json).
+     * If you pass a raw config object, its configFileDir will be `root`.
+     */
+    configuration?: TslintConfiguration.RawConfigFile | string,
+  
+    formatter?: "msbuild" | "verbose" | string;
+  
+    /**
+     * The files to lint, relative to `root`
+     */
+    files?: string[];
+  
+    /**
+     * Instance of tslint to use
+     */
+    tslint?: any;
+  }
+  ```
+
+This allows you to configure the lint rules.
 
 ### Project Tasks
 

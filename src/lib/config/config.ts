@@ -41,7 +41,7 @@ export interface ProjectOptions {
   srcDir: string;
 
   /**
-   * Tslint configuration
+   * Tslint options
    */
   tslint?: {
     /**
@@ -56,7 +56,7 @@ export interface ProjectOptions {
      */
     configuration?: TslintConfiguration.RawConfigFile | string,
 
-    formatter?: "verbose" | string;
+    formatter?: "msbuild" | "verbose" | string;
 
     /**
      * The files to lint, relative to `root`
