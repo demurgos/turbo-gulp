@@ -3,7 +3,7 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
-## Next
+## 0.14.3 (2017-07-16)
 
 - **[Feature]** Add `:lint:fix` project task to fix some lint errors.
 
