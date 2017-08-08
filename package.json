@@ -70,6 +70,7 @@
     "demurgos-web-build-tools": "latest",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-cli": "^1.3.0",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "ts-node": "^3.3.0"
   }
 }
