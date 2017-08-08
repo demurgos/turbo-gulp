@@ -1,8 +1,5 @@
 import {Gulp} from "gulp";
-import gulpTypescript = require("gulp-typescript");
-import gulpSourceMaps = require("gulp-sourcemaps");
 import {assign} from "lodash";
-import merge = require("merge2");
 import {IMinimatch, Minimatch} from "minimatch";
 import {posix as path} from "path";
 import {CompilerJsonOptions, DEV_TSC_OPTIONS} from "../config/typescript";
