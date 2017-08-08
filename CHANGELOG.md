@@ -6,6 +6,7 @@
 ## Next
 
 - **[Internal]** Convert gulpfile to Typescript, use `ts-node` to run it.
+- **[Internal]** Update dependencies
 
 ## 0.14.3 (2017-07-16)
 
