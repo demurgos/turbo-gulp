@@ -1,17 +1,19 @@
+import del = require("del");
+import {FSWatcher} from "fs";
 import {Gulp} from "gulp";
+import {TaskFunc} from "orchestrator";
 import {posix as path} from "path";
 import {ProjectOptions, WebpackTarget} from "../config/config";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as buildWebpack from "../task-generators/build-webpack";
 import * as clean from "../task-generators/clean";
-import del = require("del");
-import {FSWatcher} from "fs";
-import gulpSourceMaps = require("gulp-sourcemaps");
-import {TaskFunc} from "orchestrator";
 import {TaskFunction} from "../utils/gulp-task-function";
 import {toUnix} from "../utils/locations";
 import {
-  generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks,
+  generateCopyTasks,
+  generatePugTasks,
+  generateSassTasks,
+  generateTsconfigJsonTasks,
   ManyWatchFunction,
 } from "./base";
 

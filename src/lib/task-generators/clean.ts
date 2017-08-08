@@ -1,7 +1,7 @@
+import del = require("del");
 import {Gulp} from "gulp";
 import {Minimatch} from "minimatch";
 import {posix as path} from "path";
-import del = require("del");
 import {TaskFunction} from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
