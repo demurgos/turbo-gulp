@@ -2,7 +2,7 @@ import {Gulp} from "gulp";
 import {assign} from "lodash";
 import {IMinimatch, Minimatch} from "minimatch";
 import {posix as path} from "path";
-import {CompilerJsonOptions, DEV_TSC_OPTIONS} from "../config/typescript";
+import {DEV_TSC_OPTIONS, TscOptions} from "../options/tsc";
 import * as buildTypescript from "../task-generators/build-typescript";
 import {TaskFunction} from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
@@ -55,7 +55,7 @@ export function getTsconfigPaths(options: Options): TsconfigPaths {
 }
 
 export function generateTask(gulp: Gulp, options: Options): TaskFunction {
-  const compilerOptions: CompilerJsonOptions = assign({}, DEV_TSC_OPTIONS, options.compilerOptions);
+  const compilerOptions: TscOptions = assign({}, DEV_TSC_OPTIONS, options.compilerOptions);
 
   const paths: TsconfigPaths = getTsconfigPaths(options);
 

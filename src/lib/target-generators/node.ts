@@ -2,7 +2,8 @@ import {FSWatcher} from "fs";
 import {Gulp} from "gulp";
 import {TaskFunc} from "orchestrator";
 import {posix as path} from "path";
-import {NodeTarget, ProjectOptions} from "../config/config";
+import {Project} from "../project";
+import {NodeTarget} from "../targets";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as clean from "../task-generators/clean";
 import {TaskFunction} from "../utils/gulp-task-function";
@@ -26,7 +27,7 @@ export interface Locations {
  * @param target
  * @returns {Locations} The absolute locations
  */
-export function resolveLocations(project: ProjectOptions, target: NodeTarget): Locations {
+export function resolveLocations(project: Project, target: NodeTarget): Locations {
   const targetDir: string = target.targetDir === undefined ? target.name : target.targetDir;
 
   const rootDir: string = toUnix(project.root);
@@ -37,7 +38,7 @@ export function resolveLocations(project: ProjectOptions, target: NodeTarget): L
   return {rootDir, srcDir, buildDir, distDir};
 }
 
-export function generateTarget(gulp: Gulp, project: ProjectOptions, target: NodeTarget) {
+export function generateTarget(gulp: Gulp, project: Project, target: NodeTarget) {
   const targetName: string = target.name;
   const locations: Locations = resolveLocations(project, target);
 

@@ -7,7 +7,7 @@ import merge = require("merge2");
 import {IMinimatch, Minimatch} from "minimatch";
 import * as path from "path";
 import * as ts from "typescript";
-import {CompilerJsonOptions, DEV_TSC_OPTIONS} from "../config/typescript";
+import {DEV_TSC_OPTIONS, TscOptions} from "../options/tsc";
 import {TaskFunction} from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
@@ -42,7 +42,7 @@ export interface Options {
    * Options to pass to gulp-typescript.
    * These are also used when generating tsconfig.json files
    */
-  compilerOptions?: CompilerJsonOptions;
+  compilerOptions?: TscOptions;
 
   /**
    * Typescript compiler instance to use
@@ -144,7 +144,7 @@ function getReporter(strict: boolean = true): CompleteReporter {
 
 export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const sources: Sources = getSources(options);
-  const compilerOptions: CompilerJsonOptions = {...DEV_TSC_OPTIONS, ...options.compilerOptions};
+  const compilerOptions: TscOptions = {...DEV_TSC_OPTIONS, ...options.compilerOptions};
   const reporter: CompleteReporter = getReporter(options.strict);
 
   const task: TaskFunction = function () {

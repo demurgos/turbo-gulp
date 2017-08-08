@@ -1,11 +1,11 @@
-import del = require("del");
 import {Gulp} from "gulp";
 import {TaskFunc} from "orchestrator";
-import {ProjectOptions, TestTarget} from "../config/config";
+import {Project} from "../project";
+import {TestTarget} from "../targets";
 import * as testNode from "../task-generators/test-node";
 import {generateTarget as generateNodeTarget, Locations, resolveLocations} from "./node";
 
-export function generateTarget(gulp: Gulp, project: ProjectOptions, target: TestTarget) {
+export function generateTarget(gulp: Gulp, project: Project, target: TestTarget) {
   const targetName: string = target.name;
   const locations: Locations = resolveLocations(project, target);
 

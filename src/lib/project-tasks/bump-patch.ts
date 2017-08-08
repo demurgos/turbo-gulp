@@ -1,10 +1,10 @@
 import {Gulp} from "gulp";
-import {ProjectOptions} from "../config/config";
+import {Project} from "../project";
 import {bumpVersion} from "../utils/project";
 
 export const taskName: string = ":bump-patch";
 
-export function registerTask(gulp: Gulp, project: ProjectOptions): void {
+export function registerTask(gulp: Gulp, project: Project): void {
   gulp.task(taskName, function (): Promise<void> {
     return bumpVersion("patch", project);
   });

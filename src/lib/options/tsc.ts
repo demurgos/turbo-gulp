@@ -1,4 +1,4 @@
-export interface CompilerJsonOptions {
+export interface TscOptions {
   allowJs?: boolean;
   allowSyntheticDefaultImports?: boolean;
   allowUnreachableCode?: boolean;
@@ -67,7 +67,7 @@ export interface CompilerJsonOptions {
   typeRoots?: string[];
 }
 
-export const PROD_TSC_OPTIONS: CompilerJsonOptions = {
+export const PROD_TSC_OPTIONS: TscOptions = {
   allowJs: false,
   allowSyntheticDefaultImports: false,
   allowUnreachableCode: false,
@@ -111,7 +111,7 @@ export const PROD_TSC_OPTIONS: CompilerJsonOptions = {
   target: "es5",
 };
 
-export const DEV_TSC_OPTIONS: CompilerJsonOptions = Object.assign({}, PROD_TSC_OPTIONS, {
+export const DEV_TSC_OPTIONS: TscOptions = Object.assign({}, PROD_TSC_OPTIONS, {
   noUnusedLocals: false,
   preserveConstEnums: true,
   removeComments: false,
