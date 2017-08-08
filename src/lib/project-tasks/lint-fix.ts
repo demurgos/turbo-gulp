@@ -3,8 +3,8 @@ import {default as gulpTslint, PluginOptions as GulpTslintOptions} from "gulp-ts
 import {IMinimatch, Minimatch} from "minimatch";
 import {posix as path} from "path";
 import tslint = require("tslint");
-import {ProjectOptions} from "../config/config";
-import defaultTslintConfig from "../config/tslint";
+import {DEFAULT_UNTYPED_TSLINT_CONFIG} from "../options/tslint";
+import {Project} from "../project";
 import * as matcher from "../utils/matcher";
 
 export const taskName: string = ":lint:fix";
@@ -24,7 +24,7 @@ export interface Sources {
   sources: string[];
 }
 
-export function getSources(project: ProjectOptions): Sources {
+export function getSources(project: Project): Sources {
   const baseDir: string = project.root;
   const sources: string[] = [];
   let patterns: string[];
@@ -44,13 +44,13 @@ export function getSources(project: ProjectOptions): Sources {
   return {baseDir, sources};
 }
 
-export function registerTask(gulp: Gulp, project: ProjectOptions) {
+export function registerTask(gulp: Gulp, project: Project) {
   type TslintRawConfig = tslint.Configuration.RawConfigFile;
   type TslintConfig = tslint.Configuration.IConfigurationFile;
 
   let configuration: TslintConfig;
 
-  const baseConfig: TslintConfig = tslint.Configuration.parseConfigFile(defaultTslintConfig, project.root);
+  const baseConfig: TslintConfig = tslint.Configuration.parseConfigFile(DEFAULT_UNTYPED_TSLINT_CONFIG, project.root);
 
   if (project.tslint !== undefined && project.tslint.configuration !== undefined) {
     const userRawConfig: TslintRawConfig | string = project.tslint.configuration;

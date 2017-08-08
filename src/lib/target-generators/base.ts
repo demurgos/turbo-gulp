@@ -2,7 +2,9 @@ import asyncDone = require("async-done");
 import {FSWatcher} from "fs";
 import {Gulp} from "gulp";
 import {posix as path} from "path";
-import {CopyOptions, PugOptions, SassOptions} from "../config/config";
+import {CopyOptions} from "../options/copy";
+import {PugOptions} from "../options/pug";
+import {SassOptions} from "../options/sass";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as copy from "../task-generators/copy";
 import * as pug from "../task-generators/pug";
@@ -43,8 +45,12 @@ function groupByName<T extends {name?: string}>(items: T[]): {[name: string]: T[
 export type WatchFunction = () => FSWatcher;
 export type ManyWatchFunction = () => FSWatcher[];
 
-function mergeCopy(gulp: Gulp, srcDir: string,
-                   buildDir: string, copyOptions: CopyOptions[]): [TaskFunction, ManyWatchFunction] {
+function mergeCopy(
+  gulp: Gulp,
+  srcDir: string,
+  buildDir: string,
+  copyOptions: CopyOptions[],
+): [TaskFunction, ManyWatchFunction] {
   const tasks: TaskFunction[] = [];
   const watchFunctions: WatchFunction[] = [];
   for (const options of copyOptions) {
@@ -67,8 +73,12 @@ function mergeCopy(gulp: Gulp, srcDir: string,
   return [task, watch];
 }
 
-export function generateCopyTasks(gulp: Gulp, srcDir: string,
-                                  buildDir: string, copyOptions: CopyOptions[]): [TaskFunction, ManyWatchFunction] {
+export function generateCopyTasks(
+  gulp: Gulp,
+  srcDir: string,
+  buildDir: string,
+  copyOptions: CopyOptions[],
+): [TaskFunction, ManyWatchFunction] {
   const subTasks: TaskFunction[] = [];
   const subWatchs: ManyWatchFunction[] = [];
   const groups: {[name: string]: CopyOptions[]} = groupByName(copyOptions);
@@ -95,8 +105,12 @@ export function generateCopyTasks(gulp: Gulp, srcDir: string,
   return [mainTask, mainWatch];
 }
 
-function mergePug(gulp: Gulp, srcDir: string,
-                  buildDir: string, pugOptions: PugOptions[]): [TaskFunction, ManyWatchFunction] {
+function mergePug(
+  gulp: Gulp,
+  srcDir: string,
+  buildDir: string,
+  pugOptions: PugOptions[],
+): [TaskFunction, ManyWatchFunction] {
   const tasks: TaskFunction[] = [];
   const watchFunctions: WatchFunction[] = [];
   for (const options of pugOptions) {
@@ -122,8 +136,12 @@ function mergePug(gulp: Gulp, srcDir: string,
   return [task, watch];
 }
 
-export function generatePugTasks(gulp: Gulp, srcDir: string,
-                                 buildDir: string, pugOptions: PugOptions[]): [TaskFunction, ManyWatchFunction] {
+export function generatePugTasks(
+  gulp: Gulp,
+  srcDir: string,
+  buildDir: string,
+  pugOptions: PugOptions[],
+): [TaskFunction, ManyWatchFunction] {
   const subTasks: TaskFunction[] = [];
   const subWatchs: ManyWatchFunction[] = [];
   const groups: {[name: string]: PugOptions[]} = groupByName(pugOptions);
@@ -150,8 +168,12 @@ export function generatePugTasks(gulp: Gulp, srcDir: string,
   return [mainTask, mainWatch];
 }
 
-function mergeSass(gulp: Gulp, srcDir: string,
-                   buildDir: string, sassOptions: SassOptions[]): [TaskFunction, ManyWatchFunction] {
+function mergeSass(
+  gulp: Gulp,
+  srcDir: string,
+  buildDir: string,
+  sassOptions: SassOptions[],
+): [TaskFunction, ManyWatchFunction] {
   const tasks: TaskFunction[] = [];
   const watchFunctions: WatchFunction[] = [];
   for (const options of sassOptions) {
@@ -177,8 +199,12 @@ function mergeSass(gulp: Gulp, srcDir: string,
   return [task, watch];
 }
 
-export function generateSassTasks(gulp: Gulp, srcDir: string,
-                                  buildDir: string, sassOptions: SassOptions[]): [TaskFunction, ManyWatchFunction] {
+export function generateSassTasks(
+  gulp: Gulp,
+  srcDir: string,
+  buildDir: string,
+  sassOptions: SassOptions[],
+): [TaskFunction, ManyWatchFunction] {
   const subTasks: TaskFunction[] = [];
   const subWatchs: ManyWatchFunction[] = [];
   const groups: {[name: string]: SassOptions[]} = groupByName(sassOptions);
@@ -205,8 +231,12 @@ export function generateSassTasks(gulp: Gulp, srcDir: string,
   return [mainTask, mainWatch];
 }
 
-export function generateTsconfigJsonTasks(gulp: Gulp, srcDir: string,
-                                          tsOptions: buildTypescript.Options, tsconfigPaths: string[]): TaskFunction {
+export function generateTsconfigJsonTasks(
+  gulp: Gulp,
+  srcDir: string,
+  tsOptions: buildTypescript.Options,
+  tsconfigPaths: string[],
+): TaskFunction {
   const subTasks: TaskFunction[] = [];
 
   for (const tsconfigPath of tsconfigPaths) {

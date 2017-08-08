@@ -1,6 +1,6 @@
 import * as semver from "semver";
 
-import {ProjectOptions} from "../config/config";
+import {Project} from "../project";
 import * as git from "./git";
 import {readText, writeText} from "./node-async";
 
@@ -26,7 +26,7 @@ export async function commitVersion(version: string, projectRoot?: string): Prom
   await git.exec("tag", ["-a", tag, "-m", message]);
 }
 
-export async function release(version: string, locations: ProjectOptions): Promise<void> {
+export async function release(version: string, locations: Project): Promise<void> {
   await Promise.all([
     assertUnusedTag(getVersionTag(version)),
     git.assertCleanBranch(["master", getVersionTag(version)]),
@@ -47,15 +47,15 @@ export function writeJsonFile<T>(filePath: string, data: T): Promise<void> {
   return writeText(filePath, JSON.stringify(data, null, 2) + "\n");
 }
 
-export function readPackage(locations: ProjectOptions): Promise<PackageJson> {
+export function readPackage(locations: Project): Promise<PackageJson> {
   return readJsonFile<PackageJson>(locations.packageJson);
 }
 
-export function writePackage(pkg: PackageJson, locations: ProjectOptions): Promise<void> {
+export function writePackage(pkg: PackageJson, locations: Project): Promise<void> {
   return writeJsonFile(locations.packageJson, pkg);
 }
 
-export async function setPackageVersion(version: string, locations: ProjectOptions): Promise<void> {
+export async function setPackageVersion(version: string, locations: Project): Promise<void> {
   const packageData: PackageJson = await readPackage(locations);
   packageData.version = version;
   return writePackage(packageData, locations);
@@ -63,13 +63,13 @@ export async function setPackageVersion(version: string, locations: ProjectOptio
 
 export async function getNextVersion(
   bumpKind: "major" | "minor" | "patch",
-  locations: ProjectOptions,
+  locations: Project,
 ): Promise<string> {
   const packageData: PackageJson = await readPackage(locations);
   return semver.inc(packageData.version, bumpKind);
 }
 
-export async function bumpVersion(bumpKind: "major" | "minor" | "patch", locations: ProjectOptions): Promise<void> {
+export async function bumpVersion(bumpKind: "major" | "minor" | "patch", locations: Project): Promise<void> {
   const nextVersion: string = await getNextVersion(bumpKind, locations);
   await release(nextVersion, locations);
 }

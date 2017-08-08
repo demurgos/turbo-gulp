@@ -1,11 +1,11 @@
 import {Gulp} from "gulp";
 import {posix as path} from "path";
-import {ProjectOptions} from "../config/config";
-import defaultTslintConfig from "../config/tslint";
+import {DEFAULT_UNTYPED_TSLINT_CONFIG} from "../options/tslint";
+import {Project} from "../project";
 import {TaskFunction} from "../utils/gulp-task-function";
 import {writeJsonFile} from "../utils/project";
 
-export function generateTask(gulp: Gulp, project: ProjectOptions): TaskFunction {
+export function generateTask(gulp: Gulp, project: Project): TaskFunction {
   let relativePath: string;
   if (project.tslint !== undefined && project.tslint.tslintJson !== undefined) {
     relativePath = project.tslint.tslintJson;
@@ -15,7 +15,7 @@ export function generateTask(gulp: Gulp, project: ProjectOptions): TaskFunction 
   const absolutePath: string = path.join(project.root, relativePath);
 
   return function () {
-    return writeJsonFile(absolutePath, defaultTslintConfig);
+    return writeJsonFile(absolutePath, DEFAULT_UNTYPED_TSLINT_CONFIG);
   };
 }
 
@@ -23,7 +23,7 @@ export function getTaskName(): string {
   return `:tslint.json`;
 }
 
-export function registerTask(gulp: Gulp, project: ProjectOptions): TaskFunction {
+export function registerTask(gulp: Gulp, project: Project): TaskFunction {
   const taskName: string = getTaskName();
   const task: TaskFunction = generateTask(gulp, project);
   gulp.task(taskName, task);

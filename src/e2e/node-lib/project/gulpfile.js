@@ -6,7 +6,7 @@ const buildTools = require("./local-web-build-tools");
 // Project-wide options
 const projectOptions = Object.assign(
   {},
-  buildTools.config.DEFAULT_PROJECT_OPTIONS,
+  buildTools.DEFAULT_PROJECT,
   {
     root: __dirname
   }
@@ -15,7 +15,7 @@ const projectOptions = Object.assign(
 // Node library
 const libTarget = Object.assign(
   {},
-  buildTools.config.LIB_TARGET,
+  buildTools.LIB_TARGET,
   {
     typescript: {
       compilerOptions: {
@@ -32,7 +32,7 @@ const libTarget = Object.assign(
 // Browser version
 const libES5Target = Object.assign(
   {},
-  buildTools.config.LIB_TARGET,
+  buildTools.LIB_TARGET,
   {
     name: "lib-es5",
     typescript: {
@@ -50,7 +50,7 @@ const libES5Target = Object.assign(
 // Browser version
 const testTarget = Object.assign(
   {},
-  buildTools.config.LIB_TEST_TARGET,
+  buildTools.LIB_TEST_TARGET,
   {
     typescript: {
       compilerOptions: {
