@@ -3,6 +3,10 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
+## Next
+
+- **[Internal]** Update gulpfile.ts to use build tools `0.15.0-beta.0`.
+
 ## 0.15.0-beta.0 (2017-08-09)
 
 - **[Breaking]** Expose option interfaces directly in the main module instead of the `config` namespace.
