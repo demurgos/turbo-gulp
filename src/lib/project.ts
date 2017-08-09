@@ -1,5 +1,5 @@
-import {Configuration as TslintConfiguration} from "tslint";
 import {TslintOptions} from "./options/tslint";
+import {TypescriptOptions} from "./options/typescript";
 
 /**
  * Project-wide webpackOptions.
@@ -42,6 +42,12 @@ export interface Project {
    * Tslint options
    */
   tslint?: TslintOptions;
+
+  /**
+   * Typescript options, targets inherit these options.
+   * See the merge rules to see how the target options are merged with the project options.
+   */
+  typescript?: TypescriptOptions;
 }
 
 /**

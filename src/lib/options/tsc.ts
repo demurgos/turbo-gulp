@@ -1,4 +1,15 @@
-export interface TscOptions {
+export {CompilerOptions} from "typescript";
+
+/* tslint:disable:max-line-length */
+/**
+ * JSON variant of the compiler options, as found in `tsconfig.json`.
+ *
+ * @see https://github.com/Microsoft/TypeScript/blob/3118e812973687a63f530f72bfa9fd9d550a2de6/src/compiler/types.ts#L3520
+ * @see https://github.com/Microsoft/TypeScript/blob/5a64556e4becb41ac33441a79562361df2bf793b/src/compiler/commandLineParser.ts#L11
+ */
+
+/* tslint:enable */
+export interface CompilerOptionsJson {
   allowJs?: boolean;
   allowSyntheticDefaultImports?: boolean;
   allowUnreachableCode?: boolean;
@@ -6,9 +17,11 @@ export interface TscOptions {
   alwaysStrict?: boolean;
   baseUrl?: string;
   charset?: string;
+  checkJs?: boolean;
   declaration?: boolean;
   declarationDir?: string;
   disableSizeLimit?: boolean;
+  downlevelIteration?: boolean;
   emitBOM?: boolean;
   emitDecoratorMetadata?: boolean;
   experimentalDecorators?: boolean;
@@ -17,12 +30,12 @@ export interface TscOptions {
   inlineSourceMap?: boolean;
   inlineSources?: boolean;
   isolatedModules?: boolean;
-  jsx?: "none" | "preserve" | "react";
+  jsx?: "preserve" | "react" | "react-native";
   lib?: string[];
   locale?: string;
   mapRoot?: string;
   maxNodeModuleJsDepth?: number;
-  module?: "none" | "commonjs" | "amd" | "umd" | "system" | "es2015";
+  module?: "none" | "commonjs" | "amd" | "umd" | "system" | "es2015" | "esnext";
   moduleResolution?: "classic" | "node";
   newLine?: "crlf" | "lf";
   noEmit?: boolean;
@@ -33,12 +46,12 @@ export interface TscOptions {
   noImplicitAny?: boolean;
   noImplicitReturns?: boolean;
   noImplicitThis?: boolean;
+  noStrictGenericChecks?: boolean;
   noUnusedLocals?: boolean;
   noUnusedParameters?: boolean;
   noImplicitUseStrict?: boolean;
   noLib?: boolean;
   noResolve?: boolean;
-  out?: string;
   outDir?: string;
   outFile?: string;
   paths?: {[key: string]: string[]};
@@ -50,73 +63,112 @@ export interface TscOptions {
   rootDir?: string;
   rootDirs?: string[];
   skipLibCheck?: boolean;
-  skipDefaultLibCheck?: boolean;
   sourceMap?: boolean;
   sourceRoot?: string;
+  strict?: boolean;
   strictNullChecks?: boolean;
   suppressExcessPropertyErrors?: boolean;
   suppressImplicitAnyIndexErrors?: boolean;
-  target?: "es3" | "es5" | "es2015" | "es2016" | "es2017" | "next" | "latest";
-
-  // Documented but not in ts.CompilerOptions:
-  diagnostics?: boolean;
-  listEmittedFiles?: boolean;
-  listFiles?: boolean;
-  pretty?: boolean;
-  stripInternal?: boolean;
+  target?: "es3" | "es5" | "es6" | "es2015" | "es2016" | "es2017" | "esnext";
+  traceResolution?: boolean;
+  types?: string[];
   typeRoots?: string[];
 }
 
-export const PROD_TSC_OPTIONS: TscOptions = {
+export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
   allowJs: false,
   allowSyntheticDefaultImports: false,
   allowUnreachableCode: false,
   allowUnusedLabels: false,
+  alwaysStrict: true,
+  baseUrl: undefined,
   charset: "utf8",
-  declaration: true,
-  diagnostics: false,
+  checkJs: false,
+  declaration: false,
+  declarationDir: undefined,
   disableSizeLimit: false,
+  downlevelIteration: false,
   emitBOM: false,
   emitDecoratorMetadata: true,
   experimentalDecorators: true,
   forceConsistentCasingInFileNames: true,
+  importHelpers: false,
   inlineSourceMap: false,
   inlineSources: false,
   isolatedModules: false,
-  lib: ["es6"],
-  listEmittedFiles: false,
-  listFiles: false,
+  jsx: undefined,
+  lib: ["es2017", "esnext.asynciterable"],
   locale: "en-us",
-  module: "commonjs",
+  mapRoot: undefined,
+  maxNodeModuleJsDepth: undefined,
+  module: "es2015",
   moduleResolution: "node",
   newLine: "lf",
-  noFallthroughCasesInSwitch: false,
+  noEmit: false,
+  noEmitHelpers: false,
+  noEmitOnError: true,
+  noErrorTruncation: true,
+  noFallthroughCasesInSwitch: true,
   noImplicitAny: true,
   noImplicitReturns: true,
   noImplicitThis: true,
-  noImplicitUseStrict: false,
-  noResolve: false,
+  noStrictGenericChecks: false,
   noUnusedLocals: true,
   noUnusedParameters: false,
-  preserveConstEnums: true,
-  pretty: true,
+  noImplicitUseStrict: false,
+  noLib: false,
+  noResolve: false,
+  outDir: undefined,
+  outFile: undefined,
+  paths: undefined,
+  preserveConstEnums: false,
+  project: undefined,
+  reactNamespace: undefined,
+  jsxFactory: undefined,
   removeComments: false,
-  skipLibCheck: false,
-  skipDefaultLibCheck: false,
-  sourceMap: false,
+  rootDir: undefined,
+  rootDirs: undefined,
+  skipLibCheck: true,
+  sourceMap: true,
+  sourceRoot: undefined,
+  strict: true,
   strictNullChecks: true,
-  stripInternal: true,
   suppressExcessPropertyErrors: false,
   suppressImplicitAnyIndexErrors: false,
-  target: "es5",
+  target: "es2017",
+  traceResolution: false,
+  types: undefined,
+  typeRoots: undefined,
 };
 
-export const DEV_TSC_OPTIONS: TscOptions = Object.assign({}, PROD_TSC_OPTIONS, {
+export const PROD_TSC_OPTIONS: CompilerOptionsJson = {
+  ...DEFAULT_PROJECT_TSC_OPTIONS,
+  module: "commonjs",
+  removeComments: false,
+  skipLibCheck: false,
+};
+
+export const DEV_TSC_OPTIONS: CompilerOptionsJson = {
+  ...PROD_TSC_OPTIONS,
   noUnusedLocals: false,
   preserveConstEnums: true,
   removeComments: false,
   sourceMap: true,
-  stripInternal: false,
-});
+};
 
-export default DEV_TSC_OPTIONS;
+/**
+ * Merges two typescript compiler options.
+ * The options of `extra` overide the options of `base`.
+ * It does not mutate the arguments.
+ * If `extra` is undefined, returns a shallow copy of `base`.
+ *
+ * @param base Base options
+ * @param extra Additional options
+ * @return The merged TSC options
+ */
+export function mergeTscOptionsJson(
+  base: CompilerOptionsJson,
+  extra?: CompilerOptionsJson,
+): CompilerOptionsJson {
+  return {...base, ...extra};
+}

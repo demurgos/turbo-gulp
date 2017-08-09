@@ -7,47 +7,38 @@ import merge = require("merge2");
 import {IMinimatch, Minimatch} from "minimatch";
 import * as path from "path";
 import * as ts from "typescript";
-import {DEV_TSC_OPTIONS, TscOptions} from "../options/tsc";
+import {CompilerOptionsJson, DEV_TSC_OPTIONS} from "../options/tsc";
+import {TypescriptOptions} from "../options/typescript";
 import {TaskFunction} from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
-export interface Options {
+/**
+ * Typescript options for a specific target.
+ */
+export interface Options extends TypescriptOptions {
   /**
-   * Base directory when resolving scripts
+   * Base directory when resolving scripts (absolute path to `project.src`)
    */
   srcDir: string;
 
   /**
-   * Directories where to search for type definitions
+   * Directories where to search for type definitions.
+   *
+   * Relative to `target.typescript.srcDir`.
    */
   typeRoots: string[];
 
   /**
-   * List of patterns (relative to srcDir) to match the typescript files
+   * List of patterns to match the typescript files.
+   *
+   * The patterns path patterns are relative to `target.typescript.srcDir`.
    */
   scripts: string[];
 
   /**
-   * Output directory
+   * Absolute path to the output directory
    */
   buildDir: string;
-
-  /**
-   * Exit with an error code when an issue happens during the compilation.
-   * Default: true
-   */
-  strict?: boolean;
-
-  /**
-   * Options to pass to gulp-typescript.
-   * These are also used when generating tsconfig.json files
-   */
-  compilerOptions?: TscOptions;
-
-  /**
-   * Typescript compiler instance to use
-   */
-  typescript?: any;
 }
 
 /**
@@ -142,9 +133,18 @@ function getReporter(strict: boolean = true): CompleteReporter {
   return reporter;
 }
 
+function deleteUndefinedProperties(obj: any): void {
+  for (const key in obj) {
+    if (obj[key] ===  undefined) {
+      delete obj[key];
+    }
+  }
+}
+
 export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const sources: Sources = getSources(options);
-  const compilerOptions: TscOptions = {...DEV_TSC_OPTIONS, ...options.compilerOptions};
+  const compilerOptions: CompilerOptionsJson = {...DEV_TSC_OPTIONS, ...options.compilerOptions};
+  deleteUndefinedProperties(compilerOptions);
   const reporter: CompleteReporter = getReporter(options.strict);
 
   const task: TaskFunction = function () {

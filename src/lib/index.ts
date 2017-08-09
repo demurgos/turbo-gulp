@@ -8,7 +8,7 @@ export {CleanOptions} from "./options/clean";
 export {CopyOptions} from "./options/copy";
 export {PugOptions} from "./options/pug";
 export {SassOptions} from "./options/sass";
-export {DEV_TSC_OPTIONS, PROD_TSC_OPTIONS, TscOptions} from "./options/tsc";
+export {DEV_TSC_OPTIONS, PROD_TSC_OPTIONS, CompilerOptionsJson} from "./options/tsc";
 export {
   DEFAULT_TYPED_TSLINT_CONFIG,
   DEFAULT_TYPED_TSLINT_RULES,

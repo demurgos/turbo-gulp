@@ -2,6 +2,7 @@ import {FSWatcher} from "fs";
 import {Gulp} from "gulp";
 import {TaskFunc} from "orchestrator";
 import {posix as path} from "path";
+import {DEFAULT_PROJECT_TS_OPTIONS, mergeTypescriptOptions, TypescriptOptions} from "../options/typescript";
 import {Project} from "../project";
 import {NodeTarget} from "../targets";
 import * as buildTypescript from "../task-generators/build-typescript";
@@ -9,7 +10,10 @@ import * as clean from "../task-generators/clean";
 import {TaskFunction} from "../utils/gulp-task-function";
 import {toUnix} from "../utils/locations";
 import {
-  generateCopyTasks, generatePugTasks, generateSassTasks, generateTsconfigJsonTasks,
+  generateCopyTasks,
+  generatePugTasks,
+  generateSassTasks,
+  generateTsconfigJsonTasks,
   ManyWatchFunction,
 } from "./base";
 
@@ -57,10 +61,16 @@ export function generateTarget(gulp: Gulp, project: Project, target: NodeTarget)
   const buildTasks: string[] = [];
   const watchFunctions: ManyWatchFunction[] = [];
 
+  // TODO
+  const typescriptOptions: TypescriptOptions = mergeTypescriptOptions(
+    mergeTypescriptOptions(DEFAULT_PROJECT_TS_OPTIONS, project.typescript),
+    target.typescript,
+  );
+
   const buildTypescriptOptions: buildTypescript.Options = {
-    compilerOptions: target.typescript !== undefined ? target.typescript.compilerOptions : undefined,
-    strict: target.typescript !== undefined ? target.typescript.strict : undefined,
-    typescript: target.typescript !== undefined ? target.typescript.typescript : undefined,
+    compilerOptions: typescriptOptions.compilerOptions,
+    strict: typescriptOptions.strict,
+    typescript: typescriptOptions.typescript,
     typeRoots: target.typeRoots,
     scripts: target.scripts,
     buildDir: locations.buildDir,
@@ -170,14 +180,14 @@ export function generateTarget(gulp: Gulp, project: Project, target: NodeTarget)
 
   // target:tsconfig.json
   if (target.typescript !== undefined && target.typescript.tsconfigJson !== undefined) {
-    const mainCopyTask: TaskFunction = generateTsconfigJsonTasks(
+    const tsconfigJsonTask: TaskFunction = generateTsconfigJsonTasks(
       gulp,
       locations.srcDir,
       buildTypescriptOptions,
       target.typescript.tsconfigJson,
     );
-    mainCopyTask.displayName = taskNames.tsconfigJson;
-    gulp.task(mainCopyTask.displayName, mainCopyTask);
-    buildTasks.push(mainCopyTask.displayName);
+    tsconfigJsonTask.displayName = taskNames.tsconfigJson;
+    gulp.task(tsconfigJsonTask.displayName, tsconfigJsonTask);
+    buildTasks.push(tsconfigJsonTask.displayName);
   }
 }
