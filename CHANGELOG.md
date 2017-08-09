@@ -3,7 +3,7 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
-## Next
+## 0.15.0-beta.1 (2017-08-09)
 
 - **[Feature]** Support typed TSLint rules.
 - **[Internal]** Update gulpfile.ts to use build tools `0.15.0-beta.0`.
