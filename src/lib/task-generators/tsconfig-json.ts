@@ -1,8 +1,7 @@
 import {Gulp} from "gulp";
-import {assign} from "lodash";
 import {IMinimatch, Minimatch} from "minimatch";
 import {posix as path} from "path";
-import {DEV_TSC_OPTIONS, TscOptions} from "../options/tsc";
+import {CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson} from "../options/tsc";
 import * as buildTypescript from "../task-generators/build-typescript";
 import {TaskFunction} from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
@@ -55,7 +54,7 @@ export function getTsconfigPaths(options: Options): TsconfigPaths {
 }
 
 export function generateTask(gulp: Gulp, options: Options): TaskFunction {
-  const compilerOptions: TscOptions = assign({}, DEV_TSC_OPTIONS, options.compilerOptions);
+  const compilerOptions: CompilerOptionsJson = mergeTscOptionsJson(DEV_TSC_OPTIONS, options.compilerOptions);
 
   const paths: TsconfigPaths = getTsconfigPaths(options);
 
@@ -69,6 +68,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
     exclude: paths.exclude,
   };
 
+  // TODO: Remove this unneeded join? Why is it there?
   const tsconfigPath: string = path.join(options.tsconfigPath);
 
   const task: TaskFunction = function () {

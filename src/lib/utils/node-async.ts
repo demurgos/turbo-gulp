@@ -86,7 +86,7 @@ export function execFile(file: string, args: string[], options?: ExecFileOptions
     }
     normalizedOptions.encoding = "buffer";
 
-    const child: childProcess.ChildProcess = childProcess.execFile(
+    childProcess.execFile(
       file,
       args,
       normalizedOptions,

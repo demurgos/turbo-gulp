@@ -54,7 +54,8 @@ const testTarget = Object.assign(
   {
     typescript: {
       compilerOptions: {
-        skipLibCheck: true
+        skipLibCheck: true,
+        module: "commonjs"
       },
       typescript: typescript,
       tsconfigJson: ["test/tsconfig.json"]

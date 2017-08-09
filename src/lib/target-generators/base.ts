@@ -240,13 +240,10 @@ export function generateTsconfigJsonTasks(
   const subTasks: TaskFunction[] = [];
 
   for (const tsconfigPath of tsconfigPaths) {
-    const completeOptions: tsconfigJson.Options = Object.assign(
-      {},
-      tsOptions,
-      {
-        tsconfigPath: path.join(srcDir, tsconfigPath),
-      },
-    );
+    const completeOptions: tsconfigJson.Options = {
+      ...tsOptions,
+      tsconfigPath: path.join(srcDir, tsconfigPath),
+    };
     const task: TaskFunction = tsconfigJson.generateTask(gulp, completeOptions);
     task.displayName = `_tsconfig.json:${tsconfigPath}`;
     subTasks.push(task);

@@ -22,11 +22,6 @@ export interface Options {
   files?: string[];
 }
 
-interface Sources {
-  dirs: string[];
-  files: string[];
-}
-
 /**
  * Return a list of files, prefixed by "base"
  */

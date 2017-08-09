@@ -7,6 +7,7 @@
 
 - **[Breaking]** Expose option interfaces directly in the main module instead of the `config` namespace.
 - **[Breaking]** Rename `DEFAULT_PROJECT_OPTIONS` to `DEFAULT_PROJECT`.
+- **[Feature]** Emit project-wide `tsconfig.json`.
 - **[Internal]** Convert gulpfile to Typescript, use `ts-node` to run it.
 - **[Internal]** Update dependencies
 
