@@ -1,20 +1,31 @@
 import * as buildTools from "demurgos-web-build-tools"; // Going meta
 // import * as buildTools from "./build/lib/lib/index";
+
 import * as gulp from "gulp";
 import * as typescript from "typescript";
 
 // Project-wide options
-const projectOptions: buildTools.config.ProjectOptions = {
-  ...buildTools.config.DEFAULT_PROJECT_OPTIONS,
+const projectOptions: buildTools.Project = {
+  ...buildTools.DEFAULT_PROJECT,
   root: __dirname,
   tslint: {
     files: ["src/**/*.ts", "!src/e2e/*/*/**/*.ts"],
   },
+  typescript: {
+    tsconfigJson: ["tsconfig.json"],
+    compilerOptions: {
+      module: "commonjs",
+      typeRoots: [
+        "src/custom-typings",
+        "node_modules/@types",
+      ],
+    },
+  },
 };
 
 // `lib` target
-const libTarget: buildTools.config.NodeTarget = {
-  ...buildTools.config.LIB_TARGET,
+const libTarget: buildTools.NodeTarget = {
+  ...buildTools.LIB_TARGET,
   typescript: {
     compilerOptions: {
       skipLibCheck: true,
@@ -26,8 +37,8 @@ const libTarget: buildTools.config.NodeTarget = {
 };
 
 // `lib-es5` target
-const es5Target: buildTools.config.NodeTarget = {
-  ...buildTools.config.LIB_TARGET,
+const es5Target: buildTools.NodeTarget = {
+  ...buildTools.LIB_TARGET,
   name: "lib-es5",
   typescript: {
     compilerOptions: {
@@ -40,8 +51,8 @@ const es5Target: buildTools.config.NodeTarget = {
 };
 
 // `lib-test` target
-const libTestTarget: buildTools.config.TestTarget = {
-  ...buildTools.config.LIB_TEST_TARGET,
+const libTestTarget: buildTools.TestTarget = {
+  ...buildTools.LIB_TEST_TARGET,
   name: "lib-test",
   scripts: ["test/**/*.ts", "lib/**/*.ts", "e2e/*/*.ts"],
   typescript: {
