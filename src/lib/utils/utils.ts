@@ -5,7 +5,7 @@
  * @param stream The stream to promisify
  * @returns A promise resolved once the stream ends
  */
-export function streamToPromise(stream: NodeJS.ReadableStream): Promise<void> {
+export async function streamToPromise(stream: NodeJS.ReadableStream): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     stream.on("end", resolve);
     stream.on("error", reject);

@@ -5,7 +5,7 @@ import {bumpVersion} from "../utils/project";
 export const taskName: string = ":bump-patch";
 
 export function registerTask(gulp: Gulp, project: Project): void {
-  gulp.task(taskName, function (): Promise<void> {
+  gulp.task(taskName, async function (): Promise<void> {
     return bumpVersion("patch", project);
   });
 }

@@ -43,15 +43,15 @@ export async function readJsonFile<T>(filePath: string): Promise<T> {
   return JSON.parse(await readText(filePath));
 }
 
-export function writeJsonFile<T>(filePath: string, data: T): Promise<void> {
+export async function writeJsonFile<T>(filePath: string, data: T): Promise<void> {
   return writeText(filePath, JSON.stringify(data, null, 2) + "\n");
 }
 
-export function readPackage(locations: Project): Promise<PackageJson> {
+export async function readPackage(locations: Project): Promise<PackageJson> {
   return readJsonFile<PackageJson>(locations.packageJson);
 }
 
-export function writePackage(pkg: PackageJson, locations: Project): Promise<void> {
+export async function writePackage(pkg: PackageJson, locations: Project): Promise<void> {
   return writeJsonFile(locations.packageJson, pkg);
 }
 

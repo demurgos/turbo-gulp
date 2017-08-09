@@ -38,7 +38,7 @@
     "gulp-pug": "^3.3.0",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.0",
-    "gulp-tslint": "^8.1.1",
+    "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.1",
     "gulp-util": "^3.0.7",
     "incident": "^2.0.0",

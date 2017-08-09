@@ -23,7 +23,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
     options.compilerOptions,
   );
 
-  const task: TaskFunction = function () {
+  const task: TaskFunction = async function () {
     return writeJsonFile(options.tsconfigJson, {compilerOptions});
   };
 

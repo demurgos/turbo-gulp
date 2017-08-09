@@ -12,7 +12,7 @@ import * as sass from "../task-generators/sass";
 import * as tsconfigJson from "../task-generators/tsconfig-json";
 import {TaskFunction} from "../utils/gulp-task-function";
 
-function asyncDoneAsync(fn: asyncDone.AsyncTask): Promise<any> {
+async function asyncDoneAsync(fn: asyncDone.AsyncTask): Promise<any> {
   return new Promise((resolve, reject) => {
     asyncDone(fn, (err: Error | null | undefined, result: any) => {
       if (err === undefined || err === null) {

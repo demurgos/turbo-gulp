@@ -14,7 +14,7 @@ export function generateTask(gulp: Gulp, project: Project): TaskFunction {
   }
   const absolutePath: string = path.join(project.root, relativePath);
 
-  return function () {
+  return async function () {
     return writeJsonFile(absolutePath, DEFAULT_UNTYPED_TSLINT_CONFIG);
   };
 }
