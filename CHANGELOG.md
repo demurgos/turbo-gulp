@@ -5,7 +5,9 @@
 
 ## Next
 
+- **[Feature]** Support typed TSLint rules.
 - **[Internal]** Update gulpfile.ts to use build tools `0.15.0-beta.0`.
+- **[Fix]** Fix regressions caused by `0.15.0-beta.0` (missing type definition).
 
 ## 0.15.0-beta.0 (2017-08-09)
 

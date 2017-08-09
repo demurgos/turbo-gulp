@@ -123,8 +123,9 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
       .pipe(webpackStream(
         webpackMerge(angularWebpackConfig, userConfiguration),
         curWebpack,
-        (err: Error, stats: webpack.compiler.Stats): void => {
-          if (err) {
+        (err: Error, stats: webpack.Stats): void => {
+          // TODO: Check if err is `null` or `undefined` (success) and type properly
+          if (<any> err) {
             throw new PluginError("_build:webpack", err);
           }
           gulpLog(`[_build:webpack]`, stats.toString({colors: true}));

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": false,
+    "allowJs": true,
     "allowSyntheticDefaultImports": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -36,7 +36,7 @@
     "noImplicitThis": true,
     "noStrictGenericChecks": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noImplicitUseStrict": false,
     "noLib": false,
     "noResolve": false,

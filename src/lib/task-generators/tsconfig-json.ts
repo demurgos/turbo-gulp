@@ -71,7 +71,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   // TODO: Remove this unneeded join? Why is it there?
   const tsconfigPath: string = path.join(options.tsconfigPath);
 
-  const task: TaskFunction = function () {
+  const task: TaskFunction = async function () {
     return writeJsonFile(tsconfigPath, tsconfigData);
   };
 

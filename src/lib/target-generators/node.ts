@@ -2,7 +2,8 @@ import {FSWatcher} from "fs";
 import {Gulp} from "gulp";
 import {TaskFunc} from "orchestrator";
 import {posix as path} from "path";
-import {DEFAULT_PROJECT_TS_OPTIONS, mergeTypescriptOptions, TypescriptOptions} from "../options/typescript";
+import {DEV_TSC_OPTIONS} from "../options/tsc";
+import {mergeTypescriptOptions, TypescriptOptions} from "../options/typescript";
 import {Project} from "../project";
 import {NodeTarget} from "../targets";
 import * as buildTypescript from "../task-generators/build-typescript";
@@ -62,10 +63,7 @@ export function generateTarget(gulp: Gulp, project: Project, target: NodeTarget)
   const watchFunctions: ManyWatchFunction[] = [];
 
   // TODO
-  const typescriptOptions: TypescriptOptions = mergeTypescriptOptions(
-    mergeTypescriptOptions(DEFAULT_PROJECT_TS_OPTIONS, project.typescript),
-    target.typescript,
-  );
+  const typescriptOptions: TypescriptOptions = mergeTypescriptOptions(DEV_TSC_OPTIONS, target.typescript);
 
   const buildTypescriptOptions: buildTypescript.Options = {
     compilerOptions: typescriptOptions.compilerOptions,

@@ -47,7 +47,7 @@ function getFiles(options: Options): string[] {
  * Generate a task to clean files
  */
 export function generateTask(gulp: Gulp, options: Options): TaskFunction {
-  return function () {
+  return async function () {
     return del(getFiles(options));
   };
 }

@@ -78,8 +78,8 @@ export async function writeText(file: string, text: string): Promise<void> {
   return await _writeFile(file, text);
 }
 
-export function execFile(file: string, args: string[], options?: ExecFileOptions): Promise<ExecFileResult> {
-  return new Promise((resolve, reject) => {
+export async function execFile(file: string, args: string[], options?: ExecFileOptions): Promise<ExecFileResult> {
+  return new Promise<ExecFileResult>((resolve, reject) => {
     const normalizedOptions: childProcess.ExecFileOptions & {encoding: string} = <any> {};
     if (options !== undefined) {
       Object.assign(normalizedOptions, options);

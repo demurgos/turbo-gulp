@@ -1,9 +1,21 @@
+import {existsSync as fileExistsSync, readFileSync} from "fs";
 import {Gulp} from "gulp";
 import {default as gulpTslint, PluginOptions as GulpTslintOptions} from "gulp-tslint";
 import {IMinimatch, Minimatch} from "minimatch";
 import {posix as path} from "path";
-import tslint = require("tslint");
-import {DEFAULT_UNTYPED_TSLINT_CONFIG} from "../options/tslint";
+import * as tslint from "tslint";
+import {Configuration as TslintConfiguration} from "tslint";
+import {
+  CompilerHost,
+  createCompilerHost,
+  createProgram,
+  ParseConfigHost,
+  ParsedCommandLine,
+  parseJsonConfigFileContent,
+  Program,
+  sys as tsSys,
+} from "typescript";
+import {DEFAULT_TYPED_TSLINT_CONFIG} from "../options/tslint";
 import {Project} from "../project";
 import * as matcher from "../utils/matcher";
 
@@ -44,27 +56,46 @@ export function getSources(project: Project): Sources {
   return {baseDir, sources};
 }
 
+function createTsProgram(tsconfigJson: any, basePath: string): Program {
+  const parseConfigHost: ParseConfigHost = {
+    useCaseSensitiveFileNames: true,
+    readDirectory: tsSys.readDirectory,
+    fileExists: fileExistsSync,
+    readFile: (path: string) => readFileSync(path, "utf8"),
+  };
+  const parsed: ParsedCommandLine = parseJsonConfigFileContent(
+    tsconfigJson,
+    parseConfigHost,
+    basePath,
+    {noEmit: true},
+  );
+  const host: CompilerHost = createCompilerHost(parsed.options, true);
+  return createProgram(parsed.fileNames, parsed.options, host);
+}
+
 export function registerTask(gulp: Gulp, project: Project) {
-  type TslintRawConfig = tslint.Configuration.RawConfigFile;
-  type TslintConfig = tslint.Configuration.IConfigurationFile;
+  type TslintRawConfig = TslintConfiguration.RawConfigFile;
+  type TslintConfig = TslintConfiguration.IConfigurationFile;
 
   let configuration: TslintConfig;
 
-  const baseConfig: TslintConfig = tslint.Configuration.parseConfigFile(DEFAULT_UNTYPED_TSLINT_CONFIG, project.root);
+  const baseConfig: TslintConfig = TslintConfiguration.parseConfigFile(DEFAULT_TYPED_TSLINT_CONFIG, project.root);
 
   if (project.tslint !== undefined && project.tslint.configuration !== undefined) {
     const userRawConfig: TslintRawConfig | string = project.tslint.configuration;
     let userConfig: TslintConfig;
     if (typeof userRawConfig === "string") {
       const configPath: string = path.join(project.root, userRawConfig);
-      userConfig = tslint.Configuration.loadConfigurationFromPath(configPath);
+      userConfig = TslintConfiguration.loadConfigurationFromPath(configPath);
     } else {
-      userConfig = tslint.Configuration.parseConfigFile(userRawConfig, project.root);
+      userConfig = TslintConfiguration.parseConfigFile(userRawConfig, project.root);
     }
-    configuration = tslint.Configuration.extendConfigurationFile(baseConfig, userConfig);
+    configuration = TslintConfiguration.extendConfigurationFile(baseConfig, userConfig);
   } else {
     configuration = baseConfig;
   }
+
+  const program: Program = createTsProgram({compilerOptions: {}}, project.root);
 
   const options: GulpTslintOptions = {
     emitError: true,
@@ -72,6 +103,7 @@ export function registerTask(gulp: Gulp, project: Project) {
     tslint: tslint,
     ...project.tslint,
     configuration: configuration,
+    program,
   };
 
   const sources: Sources = getSources(project);
