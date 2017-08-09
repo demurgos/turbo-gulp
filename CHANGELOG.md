@@ -3,7 +3,7 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
-## Next
+## 0.15.0-beta.0 (2017-08-09)
 
 - **[Breaking]** Expose option interfaces directly in the main module instead of the `config` namespace.
 - **[Breaking]** Rename `DEFAULT_PROJECT_OPTIONS` to `DEFAULT_PROJECT`.
