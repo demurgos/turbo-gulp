@@ -3,6 +3,10 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
+## Next
+
+- **[Internal]** Update self-dependency to `0.15.0-beta.1`.
+
 ## 0.15.0-beta.1 (2017-08-09)
 
 - **[Feature]** Support typed TSLint rules.
