@@ -1,5 +1,5 @@
 import {TslintOptions} from "./options/tslint";
-import {TypescriptOptions} from "./options/typescript";
+import {DEFAULT_PROJECT_TS_OPTIONS, TypescriptOptions} from "./options/typescript";
 
 /**
  * Project-wide webpackOptions.
@@ -63,4 +63,5 @@ export const DEFAULT_PROJECT: Project = {
   tslint: {
     tslintJson: "tslint.json",
   },
+  typescript: DEFAULT_PROJECT_TS_OPTIONS,
 };
