@@ -6,6 +6,7 @@
 ## Next
 
 - **[Fix]** Default to CommonJS for project tsconfig.json
+- **[Fix]** Add Typescript configuration for default project.
 - **[Internal]** Update self-dependency to `0.15.0-beta.1`.
 
 ## 0.15.0-beta.1 (2017-08-09)
