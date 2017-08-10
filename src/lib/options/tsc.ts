@@ -101,7 +101,7 @@ export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
   locale: "en-us",
   mapRoot: undefined,
   maxNodeModuleJsDepth: undefined,
-  module: "es2015",
+  module: "commonjs",
   moduleResolution: "node",
   newLine: "lf",
   noEmit: false,
