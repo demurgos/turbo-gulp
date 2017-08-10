@@ -14,8 +14,6 @@ const projectOptions: buildTools.Project = {
   typescript: {
     tsconfigJson: ["tsconfig.json"],
     compilerOptions: {
-      declaration: true,
-      module: "commonjs",
       typeRoots: [
         "src/custom-typings",
         "node_modules/@types",
