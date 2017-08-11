@@ -3,8 +3,10 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
-## 0.15.0-beta.3 (2017-08-10)
+## 0.15.0-beta.3 (2017-08-11)
 
+- **[Breaking]** Update default lib target to use target-specific `srcDir`.
+- **[Feature]** Allow to complete `srcDir` in target.
 - **[Feature]** Add experimental library distribution supporting deep requires.
 
 ## 0.15.0-beta.2 (2017-08-10)
