@@ -3,6 +3,10 @@
 - Review the organization of the build targets
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions.
 
+## 0.15.0-beta.3 (2017-08-10)
+
+- **[Feature]** Add experimental library distribution supporting deep requires.
+
 ## 0.15.0-beta.2 (2017-08-10)
 
 - **[Fix]** Default to CommonJS for project tsconfig.json

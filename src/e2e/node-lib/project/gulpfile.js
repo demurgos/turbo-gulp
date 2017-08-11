@@ -24,7 +24,7 @@ const libTarget = Object.assign(
       },
       typescript: typescript,
       strict: true,
-      tsconfigJson: ["lib/tsconfig.json"]
+      tsconfigJson: ["tsconfig.json"]
     }
   }
 );

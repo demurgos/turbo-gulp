@@ -43,7 +43,7 @@
     "outDir": "../../build/lib",
     "preserveConstEnums": true,
     "removeComments": false,
-    "rootDir": "..",
+    "rootDir": "",
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
@@ -54,15 +54,11 @@
     "traceResolution": false,
     "typeRoots": [
       "../custom-typings",
-      "../../typings/globals",
-      "../../typings/modules",
       "../../node_modules/@types"
     ]
   },
   "include": [
     "**/*.ts"
   ],
-  "exclude": [
-    "../**/*.spec.ts"
-  ]
+  "exclude": []
 }

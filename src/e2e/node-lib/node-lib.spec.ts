@@ -44,7 +44,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
     });
 
     it("should output runnable typescript files", async function (this: Mocha.ITestCallbackContext): Promise<void> {
-      const result: ExecFileResult = await execFile("node", ["build/lib/lib/hello-world.js"], {cwd: PROJECT_ROOT});
+      const result: ExecFileResult = await execFile("node", ["build/lib/hello-world.js"], {cwd: PROJECT_ROOT});
 
       const actualOutput: string = result.stdout.toString("utf8");
       const expectedOutput: string = "Hello, World!\n";
@@ -60,7 +60,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
     });
 
     it("should output runnable typescript files", async function (this: Mocha.ITestCallbackContext): Promise<void> {
-      const result: ExecFileResult = await execFile("node", ["dist/lib/lib/hello-world.js"], {cwd: PROJECT_ROOT});
+      const result: ExecFileResult = await execFile("node", ["dist/lib/hello-world.js"], {cwd: PROJECT_ROOT});
 
       const actualOutput: string = result.stdout.toString("utf8");
       const expectedOutput: string = "Hello, World!\n";

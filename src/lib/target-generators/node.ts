@@ -10,6 +10,7 @@ import * as buildTypescript from "../task-generators/build-typescript";
 import * as clean from "../task-generators/clean";
 import {TaskFunction} from "../utils/gulp-task-function";
 import {toUnix} from "../utils/locations";
+import {PackageJson, readJsonFile, writeJsonFile} from "../utils/project";
 import {
   generateCopyTasks,
   generatePugTasks,
@@ -23,6 +24,7 @@ export interface Locations {
   srcDir: string;
   buildDir: string;
   distDir: string;
+  packageJson: string;
 }
 
 /**
@@ -36,11 +38,16 @@ export function resolveLocations(project: Project, target: NodeTarget): Location
   const targetDir: string = target.targetDir === undefined ? target.name : target.targetDir;
 
   const rootDir: string = toUnix(project.root);
-  const srcDir: string = path.join(rootDir, toUnix(project.srcDir));
+  let srcDir: string = path.join(rootDir, toUnix(project.srcDir));
+  if (typeof target.srcDir === "string") {
+    srcDir = path.join(srcDir, target.srcDir);
+  }
   const buildDir: string = path.join(rootDir, toUnix(project.buildDir), targetDir);
   const distDir: string = path.join(rootDir, toUnix(project.distDir), targetDir);
 
-  return {rootDir, srcDir, buildDir, distDir};
+  const packageJson: string = path.join(rootDir, toUnix(project.packageJson));
+
+  return {rootDir, srcDir, buildDir, distDir, packageJson};
 }
 
 export function generateTarget(gulp: Gulp, project: Project, target: NodeTarget) {
@@ -55,6 +62,8 @@ export function generateTarget(gulp: Gulp, project: Project, target: NodeTarget)
     buildSass: `${targetName}:build:sass`,
     buildCopy: `${targetName}:build:copy`,
     dist: `${targetName}:dist`,
+    distScripts: `${targetName}:dist:scripts`,
+    distPackage: `${targetName}:dist:package`,
     tsconfigJson: `${targetName}:tsconfig.json`,
     watch: `${targetName}:watch`,
   };
@@ -62,7 +71,7 @@ export function generateTarget(gulp: Gulp, project: Project, target: NodeTarget)
   const buildTasks: string[] = [];
   const watchFunctions: ManyWatchFunction[] = [];
 
-  // TODO
+  // TODO: merge with project options
   const typescriptOptions: TypescriptOptions = mergeTypescriptOptions(DEV_TSC_OPTIONS, target.typescript);
 
   const buildTypescriptOptions: buildTypescript.Options = {
@@ -163,18 +172,60 @@ export function generateTarget(gulp: Gulp, project: Project, target: NodeTarget)
   cleanTask.displayName = `${targetName}:clean`;
   gulp.task(cleanTask.displayName, cleanTask);
 
-  gulp.task(
-    taskNames.dist,
-    <TaskFunc> gulp.series(
-      cleanTask.displayName,
-      `${targetName}:build`,
-      function _buildToDist() {
-        return gulp
-          .src([path.join(locations.buildDir, "**/*")], {base: locations.buildDir})
-          .pipe(gulp.dest(locations.distDir));
-      },
-    ),
-  );
+  // <targetName>:dist
+  if (Boolean(target.distPackage)) {
+
+    const buildTypescriptOptions: buildTypescript.Options = {
+      compilerOptions: typescriptOptions.compilerOptions,
+      strict: typescriptOptions.strict,
+      typescript: typescriptOptions.typescript,
+      typeRoots: target.typeRoots,
+      scripts: target.scripts,
+      buildDir: locations.distDir,
+      srcDir: locations.distDir,
+    };
+
+    // <targetName>:dist:scripts
+    const distScriptsTask: TaskFunction = buildTypescript.generateTask(gulp, buildTypescriptOptions);
+    distScriptsTask.displayName = taskNames.distScripts;
+    gulp.task(distScriptsTask.displayName, distScriptsTask);
+    // buildTasks.push(distScriptsTask.displayName);
+    // watchFunctions.push(() => [buildTypescript.watch(gulp, buildTypescriptOptions)]);
+
+    gulp.task(
+      taskNames.dist,
+      <TaskFunc> gulp.series(
+        cleanTask.displayName,
+        function _srcToDist() {
+          return gulp
+            .src([path.join(locations.srcDir, "**/*.ts")], {base: locations.srcDir})
+            .pipe(gulp.dest(locations.distDir));
+        },
+        distScriptsTask.displayName,
+        async function _distPackage() {
+          const pkg: PackageJson = await readJsonFile(path.join(locations.packageJson));
+          if (typeof target.mainModule === "string") {
+            pkg.main = `${target.mainModule}.js`;
+            pkg.types = `${target.mainModule}.d.ts`;
+          }
+          return writeJsonFile(path.join(locations.distDir, "package.json"), pkg);
+        },
+      ),
+    );
+  } else {
+    gulp.task(
+      taskNames.dist,
+      <TaskFunc> gulp.series(
+        cleanTask.displayName,
+        `${targetName}:build`,
+        function _buildToDist() {
+          return gulp
+            .src([path.join(locations.buildDir, "**/*")], {base: locations.buildDir})
+            .pipe(gulp.dest(locations.distDir));
+        },
+      ),
+    );
+  }
 
   // target:tsconfig.json
   if (target.typescript !== undefined && target.typescript.tsconfigJson !== undefined) {

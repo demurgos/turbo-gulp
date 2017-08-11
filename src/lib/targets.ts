@@ -21,14 +21,19 @@ export interface Target {
   targetDir?: string;
 
   /**
+   * Source directory for this target, relative to `project.srcDir`.
+   */
+  srcDir?: string;
+
+  /**
    * List of minimatch glob patterns matching the Typescript scripts, relative
-   * to `project.srcDir`.
+   * to `target.srcDir`.
    */
   scripts: string[];
 
   /**
    * List of directories where Typescript should search for declarations,
-   * relative to `project.srcDir`.
+   * relative to `target.srcDir`.
    */
   typeRoots: string[];
 
@@ -69,6 +74,8 @@ export interface NodeTarget extends Target {
    * relative to `project.srcDir`.
    */
   mainModule?: string | null;
+
+  distPackage?: boolean;
 }
 
 export interface TestTarget extends NodeTarget {
@@ -100,16 +107,17 @@ export interface WebpackTarget extends Target {
 }
 
 /**
- * Preconfigured "node" configuration to develop a node library.
+ * Preconfigured "node" configuration to develop a simple node library.
  * It uses Typescript and Typings.
  */
 export const LIB_TARGET: NodeTarget = {
   name: "lib",
-  scripts: ["lib/**/*.ts", "!**/*.spec.ts"],
-  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
-  mainModule: "lib/index",
+  srcDir: "./lib",
+  scripts: ["**/*.ts"],
+  typeRoots: ["../custom-typings", "../../node_modules/@types"],
+  mainModule: "index",
   typescript: {
-    tsconfigJson: ["lib/tsconfig.json"],
+    tsconfigJson: ["tsconfig.json"],
   },
 };
 
