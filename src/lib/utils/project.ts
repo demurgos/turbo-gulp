@@ -37,9 +37,12 @@ export async function release(version: string, locations: Project): Promise<void
 
 export interface PackageJson {
   version: string;
+  main: string;
+  types: string;
+  module?: string;
 }
 
-export async function readJsonFile<T>(filePath: string): Promise<T> {
+export async function readJsonFile<T = any>(filePath: string): Promise<T> {
   return JSON.parse(await readText(filePath));
 }
 
