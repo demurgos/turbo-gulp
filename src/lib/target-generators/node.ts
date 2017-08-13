@@ -4,12 +4,11 @@ import {TaskFunc} from "orchestrator";
 import {posix as path} from "path";
 import {DEV_TSC_OPTIONS} from "../options/tsc";
 import {mergeTypescriptOptions, TypescriptOptions} from "../options/typescript";
-import {Project} from "../project";
+import {Project, ResolvedProject, resolveProject} from "../project";
 import {NodeTarget} from "../targets";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as clean from "../task-generators/clean";
 import {TaskFunction} from "../utils/gulp-task-function";
-import {toUnix} from "../utils/locations";
 import {PackageJson, readJsonFile, writeJsonFile} from "../utils/project";
 import {
   generateCopyTasks,
@@ -36,18 +35,14 @@ export interface Locations {
  */
 export function resolveLocations(project: Project, target: NodeTarget): Locations {
   const targetDir: string = target.targetDir === undefined ? target.name : target.targetDir;
-
-  const rootDir: string = toUnix(project.root);
-  let srcDir: string = path.join(rootDir, toUnix(project.srcDir));
-  if (typeof target.srcDir === "string") {
-    srcDir = path.join(srcDir, target.srcDir);
-  }
-  const buildDir: string = path.join(rootDir, toUnix(project.buildDir), targetDir);
-  const distDir: string = path.join(rootDir, toUnix(project.distDir), targetDir);
-
-  const packageJson: string = path.join(rootDir, toUnix(project.packageJson));
-
-  return {rootDir, srcDir, buildDir, distDir, packageJson};
+  const resolved: ResolvedProject = resolveProject(project);
+  return {
+    rootDir: resolved.absRoot,
+    srcDir: path.join(resolved.absSrcDir, typeof target.srcDir === "string" ? target.srcDir : "."),
+    buildDir: path.join(resolved.absBuildDir, targetDir),
+    distDir: path.join(resolved.absDistDir, targetDir),
+    packageJson: resolved.absPackageJson,
+  };
 }
 
 export function generateTarget(gulp: Gulp, project: Project, target: NodeTarget) {

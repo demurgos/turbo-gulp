@@ -3,13 +3,12 @@ import {FSWatcher} from "fs";
 import {Gulp} from "gulp";
 import {TaskFunc} from "orchestrator";
 import {posix as path} from "path";
-import {Project} from "../project";
+import {Project, ResolvedProject, resolveProject, toPosix} from "../project";
 import {WebpackTarget} from "../targets";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as buildWebpack from "../task-generators/build-webpack";
 import * as clean from "../task-generators/clean";
 import {TaskFunction} from "../utils/gulp-task-function";
-import {toUnix} from "../utils/locations";
 import {
   generateCopyTasks,
   generatePugTasks,
@@ -35,14 +34,14 @@ interface Locations {
  */
 function resolveLocations(project: Project, target: WebpackTarget): Locations {
   const targetDir: string = target.targetDir === undefined ? target.name : target.targetDir;
-
-  const rootDir: string = toUnix(project.root);
-  const srcDir: string = path.join(rootDir, toUnix(project.srcDir));
-  const webpackDir: string = path.join(rootDir, toUnix(project.buildDir), target.webpackDir);
-  const buildDir: string = path.join(rootDir, toUnix(project.buildDir), targetDir);
-  const distDir: string = path.join(rootDir, toUnix(project.distDir), targetDir);
-
-  return {rootDir, srcDir, webpackDir, buildDir, distDir};
+  const resolved: ResolvedProject = resolveProject(project);
+  return {
+    rootDir: resolved.absRoot,
+    srcDir: resolved.absSrcDir,
+    webpackDir: path.join(project.buildDir, target.webpackDir),
+    buildDir: path.join(resolved.absBuildDir, targetDir),
+    distDir: path.join(resolved.absDistDir, targetDir),
+  };
 }
 
 export function generateTarget(gulp: Gulp, project: Project, target: WebpackTarget) {
@@ -68,7 +67,7 @@ export function generateTarget(gulp: Gulp, project: Project, target: WebpackTarg
 
   const buildTypescriptOptions: buildTypescript.Options = {
     compilerOptions: target.typescript !== undefined ? target.typescript.compilerOptions : undefined,
-    typeRoots: target.typeRoots.map(toUnix),
+    typeRoots: target.typeRoots.map(toPosix),
     scripts: target.scripts,
     srcDir: locations.srcDir,
     buildDir: locations.webpackDir,

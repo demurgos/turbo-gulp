@@ -1,14 +1,14 @@
 import chai = require("chai");
 import chaiAsPromised = require("chai-as-promised");
 import {posix as path} from "path";
-import {toUnix} from "../../lib/utils/locations";
+import {toPosix} from "../../lib/utils/locations";
 import {execFile, readText, writeText} from "../../lib/utils/node-async";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 
-const PROJECT_ROOT: string = path.join(toUnix(__dirname), "project");
-const RESOURCES_ROOT: string = path.join(toUnix(__dirname), "test-resources");
+const PROJECT_ROOT: string = path.join(toPosix(__dirname), "project");
+const RESOURCES_ROOT: string = path.join(toPosix(__dirname), "test-resources");
 
 describe("Project angular", function (this: Mocha.ISuiteCallbackContext) {
   before("Install npm dependencies", async function(this: Mocha.IHookCallbackContext) {
