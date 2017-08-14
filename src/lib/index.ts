@@ -28,3 +28,4 @@ export {
   TestTarget,
   WebpackTarget,
 } from "./targets";
+export {LibTarget, registerLibTargetTasks} from "./targets/lib";

@@ -1,7 +1,12 @@
 ## Planned
 
-- Review the organization of the build targets
-- Use `displayName` on task functions, instead of separate `generateTaskName` functions.
+- Review the organization of the build targets (in progress)
+- Use `displayName` on task functions, instead of separate `generateTaskName` functions (in progress).
+
+## Next
+
+- **[Feature]** Introduce first new-style target (`LibTarget`). it supports typedoc generation, dev builds and
+  simple distribution.
 
 ## 0.15.0-beta.3 (2017-08-11)
 

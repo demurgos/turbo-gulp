@@ -1,7 +1,7 @@
 import chai = require("chai");
 import chaiAsPromised = require("chai-as-promised");
 import {posix as path} from "path";
-import {toPosix} from "../../lib/utils/locations";
+import {toPosix} from "../../lib/project";
 import {execFile, ExecFileError, ExecFileResult, readText, writeText} from "../../lib/utils/node-async";
 
 chai.use(chaiAsPromised);

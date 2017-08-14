@@ -13,3 +13,11 @@ export async function streamToPromise(stream: NodeJS.ReadableStream): Promise<vo
     // https://github.com/petkaantonov/bluebird/issues/332#issuecomment-229833058
   });
 }
+
+export function deleteUndefinedProperties(obj: any): void {
+  for (const key in obj) {
+    if (obj[key] ===  undefined) {
+      delete obj[key];
+    }
+  }
+}
