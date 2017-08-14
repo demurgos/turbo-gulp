@@ -3,6 +3,10 @@
 - Review the organization of the build targets (in progress)
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions (in progress).
 
+## Next
+
+- **[Fix]** Fix package entry for the main module.
+
 ## 0.15.0-beta.4 (2017-08-14)
 
 - **[Breaking]** Drop ES5 build exposed to browsers with the `browser` field in `package.json`.
