@@ -3,7 +3,7 @@
 - Review the organization of the build targets (in progress)
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions (in progress).
 
-## Next
+## 0.15.0-beta.4 (2017-08-14)
 
 - **[Breaking]** Drop ES5 build exposed to browsers with the `browser` field in `package.json`.
 - **[Feature]** Introduce first new-style target (`LibTarget`). it supports typedoc generation, dev builds and
