@@ -31,21 +31,7 @@ const libTarget: buildTools.NodeTarget = {
       target: "es2015",
     },
     typescript: typescript,
-    tsconfigJson: ["lib/tsconfig.json"],
-  },
-};
-
-// `lib-es5` target
-const es5Target: buildTools.NodeTarget = {
-  ...buildTools.LIB_TARGET,
-  name: "lib-es5",
-  typescript: {
-    compilerOptions: {
-      skipLibCheck: true,
-      target: "es5",
-    },
-    typescript: typescript,
-    tsconfigJson: ["lib/es5.tsconfig.json"],
+    tsconfigJson: ["tsconfig.json"],
   },
 };
 
@@ -75,8 +61,7 @@ const libTestTarget: buildTools.TestTarget = {
 
 buildTools.projectTasks.registerAll(gulp, projectOptions);
 buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, libTarget);
-buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, es5Target);
 buildTools.targetGenerators.test.generateTarget(gulp, projectOptions, libTestTarget);
 
 gulp.task("all:tsconfig.json", gulp.parallel("lib:tsconfig.json", "lib-test:tsconfig.json"));
-gulp.task("all:dist", gulp.parallel("lib:dist", "lib-es5:dist"));
+gulp.task("all:dist", gulp.parallel("lib:dist"));

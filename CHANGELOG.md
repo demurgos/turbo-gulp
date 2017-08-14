@@ -5,6 +5,7 @@
 
 ## Next
 
+- **[Breaking]** Drop ES5 build exposed to browsers with the `browser` field in `package.json`.
 - **[Feature]** Introduce first new-style target (`LibTarget`). it supports typedoc generation, dev builds and
   simple distribution.
 

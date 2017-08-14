@@ -4,7 +4,6 @@
   "description": "Gulp tasks generator for standard web projects.",
   "private": false,
   "main": "dist/lib/lib/index.js",
-  "browser": "dist/lib-es5/lib/index.js",
   "types": "dist/lib/lib/index.d.ts",
   "repository": {
     "type": "git",
