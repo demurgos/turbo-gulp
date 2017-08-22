@@ -31,7 +31,7 @@ export interface NpmPublishOptions {
   /**
    * Auth token
    */
-  authToken: string;
+  authToken?: string;
 }
 
 export interface ResolvedNpmPublishOptions {
@@ -58,22 +58,23 @@ export interface ResolvedNpmPublishOptions {
   /**
    * Auth token
    */
-  authToken: string;
+  authToken?: string;
 }
 
 function resolveNpmPublishOptions(options: NpmPublishOptions): ResolvedNpmPublishOptions {
   const tag: string = options.tag !== undefined ? options.tag : "latest";
   const command: string = options.command !== undefined ? options.command : "npm";
   const registry: string = options.registry !== undefined ? options.registry : "registry.npmjs.org/";
-  const authToken: string = options.authToken;
+  const authToken: string | undefined = options.authToken;
   return {directory: options.directory, tag, command, registry, authToken};
 }
 
 export async function npmPublish(options: NpmPublishOptions): Promise<void> {
   const resolved: ResolvedNpmPublishOptions = resolveNpmPublishOptions(options);
   const args: string[] = ["--tag", resolved.tag];
-  const env: {[key: string]: string} = {
-    NPM_TOKEN: resolved.authToken,
-  };
+  const env: {[key: string]: string} = {};
+  if (resolved.authToken !== undefined) {
+    env.NPM_TOKEN = resolved.authToken;
+  }
   await execFile(resolved.command, ["publish", ...args], {cwd: resolved.directory, env});
 }

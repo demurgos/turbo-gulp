@@ -17,6 +17,7 @@ import {AbsPosixPath, RelPosixPath} from "../types";
 import {branchPublish} from "../utils/branch-publish";
 import {getHeadHash} from "../utils/git";
 import * as matcher from "../utils/matcher";
+import {npmPublish} from "../utils/npm-publish";
 import {PackageJson, readJsonFile} from "../utils/project";
 
 function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableStream {
@@ -179,6 +180,8 @@ export interface DistOptions {
    */
   distDir?: RelPosixPath;
 
+  npmPublish?: NpmPublishOptions;
+
   /**
    * Optional function to apply when copying the `package.json` file to the dist directory.
    */
@@ -212,6 +215,31 @@ export interface TypedocOptions {
 
 export interface ResolvedTypedocOptions extends TypedocOptions {
   dir: AbsPosixPath;
+}
+
+export interface NpmPublishOptions {
+  /**
+   * Tag to use for this publication.
+   *
+   * Default: `"latest"`.
+   */
+  tag?: string;
+
+  /**
+   * Path to the npm command-line program.
+   *
+   * Default: `"npm"` (assumes that `npm` is in the `$PATH`)
+   */
+  command?: string;
+
+  /**
+   * URI of the registry to use.
+   *
+   * Default: `"registry.npmjs.org/"`
+   */
+  registry?: string;
+
+  authToken?: string;
 }
 
 export interface GitDeployOptions {
@@ -288,11 +316,13 @@ function resolveLibTarget(project: ResolvedProject, target: LibTarget): Resolved
       dist = {
         distDir: defaultDistDir,
         packageJsonMap: defaultPackageJsonMap,
+        npmPublish: {},
       };
     } else {
       dist = {
         distDir: target.dist.distDir !== undefined ? target.dist.distDir : defaultDistDir,
         packageJsonMap: target.dist.packageJsonMap !== undefined ? target.dist.packageJsonMap : defaultPackageJsonMap,
+        npmPublish: target.dist.npmPublish,
       };
     }
   }
@@ -335,10 +365,17 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
     scripts: resolvedTarget.scripts,
   };
 
+  const buildTasks: TaskFunction[] = [];
+
   // build:scripts
   const buildTypescriptTask: TaskFunction = getBuildTypescriptTask(gulp, tsOptions);
   buildTypescriptTask.displayName = `${target.name}:build:scripts`;
   gulp.task(buildTypescriptTask);
+  buildTasks.push(buildTypescriptTask);
+
+  const buildTask: TaskFunction = gulp.parallel(buildTasks);
+  buildTask.displayName = `${target.name}:build`;
+  gulp.task(buildTask);
 
   // tsconfig.json
   if (resolvedTarget.tsconfigJson !== null) {
@@ -346,8 +383,6 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
     tsconfigJsonTask.displayName = `${target.name}:tsconfig.json`;
     gulp.task(tsconfigJsonTask);
   }
-
-  const publishTasks: TaskFunction[] = [];
 
   // typedoc
   if (resolvedTarget.typedoc !== undefined) {
@@ -374,7 +409,6 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
       };
       deployTypedocTask.displayName = `${target.name}:typedoc:deploy`;
       gulp.task(deployTypedocTask);
-      publishTasks.push(deployTypedocTask);
     }
   }
 
@@ -448,7 +482,7 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
 
     {
       // dist:package.json
-      const copySrcTask: TaskFunction = async (): Promise<NodeJS.ReadableStream> => {
+      const distPackageJsonTask: TaskFunction = async (): Promise<NodeJS.ReadableStream> => {
         let pkg: PackageJson = await readJsonFile(resolvedProject.absPackageJson);
         if (typeof target.mainModule === "string") {
           pkg.main = `${target.mainModule}.js`;
@@ -459,13 +493,25 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
         return gulpBufferSrc("package.json", Buffer.from(JSON.stringify(pkg, null, 2)))
           .pipe(gulp.dest(dist.distDir));
       };
-      copySrcTask.displayName = `${target.name}:dist:package.json`;
-      gulp.task(copySrcTask);
-      distTasks.push(copySrcTask);
+      distPackageJsonTask.displayName = `${target.name}:dist:package.json`;
+      gulp.task(distPackageJsonTask);
+      distTasks.push(distPackageJsonTask);
     }
 
     const distTask: TaskFunction = gulp.series(...distTasks);
     distTask.displayName = `${target.name}:dist`;
     gulp.task(distTask);
+
+    if (dist.npmPublish !== undefined) {
+      const npmPublishOptions: NpmPublishOptions = dist.npmPublish;
+      const npmPublishTask: TaskFunction = async (): Promise<void> => {
+        return npmPublish({
+          ...npmPublishOptions,
+          directory: dist.distDir,
+        });
+      };
+      npmPublishTask.displayName = `${target.name}:dist:publish`;
+      gulp.task(npmPublishTask);
+    }
   }
 }
