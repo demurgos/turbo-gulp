@@ -12,7 +12,7 @@
   "scripts": {
     "prepare": "gulp all:tsconfig.json && gulp :tslint.json && gulp all:dist",
     "test": "npm run lint && gulp lib-test",
-    "prepublishOnly": "npm test",
+    "prepublishOnly": "echo \"Invalid\"exit 1 && npm test",
     "lint": "gulp :lint"
   },
   "pre-commit": {
@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/del": "^2.2.32",
+    "@types/fs-extra": "^4.0.0",
     "@types/gulp": "^4.0.4",
     "@types/gulp-sourcemaps": "0.0.31",
     "@types/gulp-util": "^3.0.31",
@@ -30,7 +31,9 @@
     "@types/minimatch": "^2.0.29",
     "@types/orchestrator": "^0.3.0",
     "@types/semver": "^5.3.33",
+    "@types/tmp": "0.0.33",
     "del": "^3.0.0",
+    "fs-extra": "^4.0.1",
     "gulp-mocha": "^4.3.0",
     "gulp-pug": "^3.3.0",
     "gulp-sass": "^3.1.0",
@@ -43,8 +46,10 @@
     "json-loader": "^0.5.7",
     "merge2": "^1.0.2",
     "minimatch": "^3.0.4",
+    "minimist": "^1.2.0",
     "raw-loader": "^0.5.1",
     "semver": "^5.4.1",
+    "tmp": "0.0.33",
     "tslint": "^5.6.0",
     "typedoc": "^0.8.0",
     "typescript": "^2.4.2",
@@ -60,6 +65,7 @@
     "@types/gulp-sass": "0.0.30",
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.0.19",
+    "@types/npm": "^2.0.28",
     "@types/webpack": "^3.0.6",
     "@types/webpack-merge": "0.0.5",
     "@types/webpack-stream": "^3.2.6",

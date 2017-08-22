@@ -3,6 +3,10 @@
 - Review the organization of the build targets (in progress)
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions (in progress).
 
+## Next
+
+- **[Feature]** Add support for Typedoc deployment to a remote git branch (such as `gh-pages`)
+
 ## 0.15.0-beta.5 (2017-08-14)
 
 - **[Fix]** Fix package entry for the main module.

@@ -11,7 +11,7 @@ import {AbsPosixPath, PosixPath, RelPosixPath, SysPath} from "./types";
 export interface Project {
   /**
    * The root directory of the project.
-   * This corresponds usually to the repo of the repo.
+   * This corresponds usually to the root of the repository.
    *
    * This should be the only absolute path in the configuration.
    */
@@ -124,4 +124,8 @@ export function resolveProject(project: Project): ResolvedProject {
   const absBuildDir: AbsPosixPath = posixPath.join(absRoot, project.buildDir);
   const absDistDir: AbsPosixPath = posixPath.join(absRoot, project.distDir);
   return {...project, absRoot, absPackageJson, absSrcDir, absBuildDir, absDistDir};
+}
+
+export function registerProjectTasks(): void {
+
 }
