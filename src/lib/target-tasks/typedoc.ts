@@ -7,7 +7,7 @@ import {deleteUndefinedProperties} from "../utils/utils";
 import {ResolvedTsLocations, resolveTsLocations, TypescriptConfig} from "./_typescript";
 
 export interface TypedocOptions {
-  typedocDir: AbsPosixPath;
+  dir: AbsPosixPath;
   name: string;
 }
 
@@ -29,7 +29,7 @@ export function getTypedocTask(gulp: Gulp, tsConfig: TypescriptConfig, options: 
         module: "commonjs",
         target: "es2017",
         includeDeclarations: false,
-        out: options.typedocDir,
+        out: options.dir,
         // TypeDoc options (see typedoc docs)
         name: options.name,
         // theme: "/path/to/my/theme",

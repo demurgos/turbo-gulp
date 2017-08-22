@@ -6,6 +6,8 @@
 ## Next
 
 - **[Feature]** Add support for Typedoc deployment to a remote git branch (such as `gh-pages`)
+- **[Feature]** Add support for `copy` tasks in new library target.
+- **[Fix]** Resolve absolute paths when compiling scripts with custom typings.
 
 ## 0.15.0-beta.5 (2017-08-14)
 

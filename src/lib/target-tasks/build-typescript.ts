@@ -1,9 +1,8 @@
 import {FSWatcher} from "fs";
 import {Gulp} from "gulp";
-import gulpSourceMaps = require("gulp-sourcemaps");
-import gulpTypescript = require("gulp-typescript");
-import {Reporter} from "gulp-typescript/release/reporter";
-import merge = require("merge2");
+import * as gulpSourceMaps from "gulp-sourcemaps";
+import * as gulpTypescript from "gulp-typescript";
+import * as merge from "merge2";
 import {CompilerOptionsJson} from "../options/tsc";
 import {TaskFunction} from "../utils/gulp-task-function";
 import {deleteUndefinedProperties} from "../utils/utils";
@@ -18,14 +17,13 @@ export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): T
     typeRoots: resolved.typeRoots,
   };
   deleteUndefinedProperties(tscOptions);
-  const reporter: Reporter = gulpTypescript.reporter.defaultReporter();
 
   const task: TaskFunction = function () {
     // tslint:disable-next-line:typedef
     const tsResult = gulp
       .src(resolved.absScripts, {base: options.srcDir})
       .pipe(gulpSourceMaps.init())
-      .pipe(gulpTypescript(tscOptions, reporter));
+      .pipe(gulpTypescript(tscOptions));
 
     return merge([
       tsResult.dts

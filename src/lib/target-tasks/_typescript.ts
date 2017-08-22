@@ -67,9 +67,7 @@ export function resolveTsLocations(options: TypescriptConfig): ResolvedTsLocatio
   let typeRoots: RelPosixPath[] | undefined = undefined;
   if (options.customTypingsDir !== null) {
     const atTypesDir: RelPosixPath = posixPath.join(posixPath.dirname(options.packageJson), "node_modules", "@types");
-    const relAtTypes: RelPosixPath = posixPath.relative(tsconfigJsonDir, atTypesDir);
-    const customTypingsDir: RelPosixPath = posixPath.relative(tsconfigJsonDir, options.customTypingsDir);
-    typeRoots = [relAtTypes, customTypingsDir];
+    typeRoots = [atTypesDir, options.customTypingsDir];
   }
   const outDir: RelPosixPath = posixPath.relative(tsconfigJsonDir, options.buildDir);
   const relInclude: string[] = [];

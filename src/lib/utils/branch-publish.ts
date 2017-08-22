@@ -34,7 +34,7 @@ export interface BranchPublishOptions {
   /**
    * Directory to publish
    */
-  directory: string;
+  dir: string;
 
   /**
    * Name of the branch to update.
@@ -44,7 +44,7 @@ export interface BranchPublishOptions {
   /**
    * Repo where to publish.
    */
-  repositorySsh: string;
+  repository: string;
 
   /**
    * Message to use when commiting changes.
@@ -60,9 +60,9 @@ export interface BranchPublishOptions {
 export async function branchPublish(options: BranchPublishOptions): Promise<void> {
   return withTmpDir(async (tmpDirPath: AbsPosixPath): Promise<void> => {
     console.log(`Using temporary directory: ${tmpDirPath}`);
-    await gitClone({branch: options.branch, depth: 1, repository: options.repositorySsh, directory: tmpDirPath});
+    await gitClone({branch: options.branch, depth: 1, repository: options.repository, directory: tmpDirPath});
     await del([posixPath.join(tmpDirPath, "**", "*"), `!${posixPath.join(tmpDirPath, ".git")}`], {force: true});
-    await copy(options.directory, tmpDirPath);
+    await copy(options.dir, tmpDirPath);
     await gitAdd({repository: tmpDirPath, paths: ["."]});
     await gitCommit({
       repository: tmpDirPath,
