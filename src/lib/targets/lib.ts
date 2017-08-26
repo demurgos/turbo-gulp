@@ -14,6 +14,7 @@ import {TypescriptConfig} from "../target-tasks/_typescript";
 import {getBuildTypescriptTask} from "../target-tasks/build-typescript";
 import {getTsconfigJsonTask} from "../target-tasks/tsconfig-json";
 import {getTypedocTask} from "../target-tasks/typedoc";
+import * as clean from "../task-generators/clean";
 import {AbsPosixPath, RelPosixPath} from "../types";
 import {branchPublish} from "../utils/branch-publish";
 import {getHeadHash} from "../utils/git";
@@ -391,6 +392,16 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
   // build
   addTask(gulp, `${target.name}:build`, gulp.parallel(buildTasks));
 
+  // clean
+  if (resolvedTarget.clean !== undefined) {
+    const cleanOptions: clean.Options = {
+      base: resolvedProject.absRoot,
+      dirs: resolvedTarget.clean.dirs,
+      files: resolvedTarget.clean.files,
+    };
+    addTask(gulp, `${target.name}:clean`, clean.generateTask(gulp, cleanOptions));
+  }
+
   // tsconfig.json
   if (resolvedTarget.tsconfigJson !== null) {
     addTask(gulp, `${target.name}:tsconfig.json`, getTsconfigJsonTask(tsOptions));
@@ -461,6 +472,7 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
       distTasks.push(addTask(gulp, `${target.name}:dist:copy`, copyTask));
     }
 
+    // Resolve tsconfig for `dist`
     const tsconfigJson: AbsPosixPath | null = resolvedTarget.tsconfigJson !== null ?
       posixPath.join(dist.distDir, "tsconfig.json") :
       null;
