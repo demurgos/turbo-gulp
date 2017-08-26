@@ -40,6 +40,8 @@ export interface PackageJson {
   main: string;
   types: string;
   module?: string;
+  script?: any;
+  gitHead?: string;
 }
 
 export async function readJsonFile<T = any>(filePath: string): Promise<T> {
@@ -69,7 +71,11 @@ export async function getNextVersion(
   locations: Project,
 ): Promise<string> {
   const packageData: PackageJson = await readPackage(locations);
-  return semver.inc(packageData.version, bumpKind);
+  const result: string | null = semver.inc(packageData.version, bumpKind);
+  if (typeof result !== "string") {
+    throw new Error("FailedAssertion: Unable to increment package version");
+  }
+  return result;
 }
 
 export async function bumpVersion(bumpKind: "major" | "minor" | "patch", locations: Project): Promise<void> {

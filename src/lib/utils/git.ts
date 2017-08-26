@@ -36,7 +36,7 @@ export async function assertCleanBranch(allowedBranches: string[]): Promise<void
  * @return The hash of the HEAD commit.
  */
 export async function getHeadHash(): Promise<string> {
-  return (await execGit("rev-parse", ["--verify", "HEAD"])).stdout.toString("utf8");
+  return (await execGit("rev-parse", ["--verify", "HEAD"])).stdout.toString("utf8").trim();
 }
 
 export async function tagExists(tag: string): Promise<boolean> {

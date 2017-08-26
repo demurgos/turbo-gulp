@@ -506,6 +506,7 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
           pkg.main = `${resolvedTarget.mainModule}.js`;
           pkg.types = `${resolvedTarget.mainModule}.d.ts`;
         }
+        pkg.gitHead = await getHeadHash();
         pkg = dist.packageJsonMap(pkg);
 
         return gulpBufferSrc("package.json", Buffer.from(JSON.stringify(pkg, null, 2)))
