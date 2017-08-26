@@ -3,6 +3,11 @@
 - Review the organization of the build targets (in progress)
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions (in progress).
 
+## 0.15.0-beta.7 (2017-08-26)
+
+- **[Feature]** Add `clean` task to `lib` targets.
+- **[Fix]** Ensure that `gitHead` is defined when publishing a package to npm.
+
 ## 0.15.0-beta.6 (2017-08-22)
 
 - **[Feature]** Add support for Typedoc deployment to a remote git branch (such as `gh-pages`)
