@@ -233,15 +233,6 @@ export interface NpmPublishOptions {
    * Default: `"npm"` (assumes that `npm` is in the `$PATH`)
    */
   readonly command?: string;
-
-  /**
-   * URI of the registry to use.
-   *
-   * Default: `"registry.npmjs.org/"`
-   */
-  readonly registry?: string;
-
-  readonly authToken?: string;
 }
 
 export interface GitDeployOptions {

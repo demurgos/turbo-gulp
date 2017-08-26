@@ -3,6 +3,11 @@
 - Review the organization of the build targets (in progress)
 - Use `displayName` on task functions, instead of separate `generateTaskName` functions (in progress).
 
+## Next
+
+- **[Fix]** Remove auth token and registry options for `<lib>:dist:publish`. It is better served
+  by configuring the environment appropriately.
+
 ## 0.15.0-beta.7 (2017-08-26)
 
 - **[Feature]** Add `clean` task to `lib` targets.

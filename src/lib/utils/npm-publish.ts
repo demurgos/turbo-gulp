@@ -20,18 +20,6 @@ export interface NpmPublishOptions {
    * Default: `"npm"` (assumes that `npm` is in the `$PATH`)
    */
   command?: string;
-
-  /**
-   * URI of the registry to use.
-   *
-   * Default: `"registry.npmjs.org/"`
-   */
-  registry?: string;
-
-  /**
-   * Auth token
-   */
-  authToken?: string;
 }
 
 export interface ResolvedNpmPublishOptions {
@@ -49,32 +37,16 @@ export interface ResolvedNpmPublishOptions {
    * Path to the npm command-line program.
    */
   command: string;
-
-  /**
-   * URI of the registry to use.
-   */
-  registry: string;
-
-  /**
-   * Auth token
-   */
-  authToken?: string;
 }
 
 function resolveNpmPublishOptions(options: NpmPublishOptions): ResolvedNpmPublishOptions {
   const tag: string = options.tag !== undefined ? options.tag : "latest";
   const command: string = options.command !== undefined ? options.command : "npm";
-  const registry: string = options.registry !== undefined ? options.registry : "registry.npmjs.org/";
-  const authToken: string | undefined = options.authToken;
-  return {directory: options.directory, tag, command, registry, authToken};
+  return {directory: options.directory, tag, command};
 }
 
 export async function npmPublish(options: NpmPublishOptions): Promise<void> {
   const resolved: ResolvedNpmPublishOptions = resolveNpmPublishOptions(options);
   const args: string[] = ["--tag", resolved.tag];
-  const env: {[key: string]: string} = {};
-  if (resolved.authToken !== undefined) {
-    env.NPM_TOKEN = resolved.authToken;
-  }
-  await execFile(resolved.command, ["publish", ...args], {cwd: resolved.directory, env});
+  await execFile(resolved.command, ["publish", ...args], {cwd: resolved.directory});
 }
