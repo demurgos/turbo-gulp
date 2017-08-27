@@ -1,7 +1,7 @@
-## Planned
+## Next
 
-- Review the organization of the build targets (in progress)
-- Use `displayName` on task functions, instead of separate `generateTaskName` functions (in progress).
+- **[Fix]** Run `clean` before `dist`, if defined.
+- **[Fix]** Run `dist` before `publish`.
 
 ## 0.15.0-beta.8 (2017-08-26)
 

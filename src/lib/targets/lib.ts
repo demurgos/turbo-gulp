@@ -383,6 +383,7 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
   // build
   addTask(gulp, `${target.name}:build`, gulp.parallel(buildTasks));
 
+  let cleanTask: TaskFunction | undefined = undefined;
   // clean
   if (resolvedTarget.clean !== undefined) {
     const cleanOptions: clean.Options = {
@@ -390,7 +391,7 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
       dirs: resolvedTarget.clean.dirs,
       files: resolvedTarget.clean.files,
     };
-    addTask(gulp, `${target.name}:clean`, clean.generateTask(gulp, cleanOptions));
+    cleanTask = addTask(gulp, `${target.name}:clean`, clean.generateTask(gulp, cleanOptions));
   }
 
   // tsconfig.json
@@ -519,7 +520,10 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
       distTasks.push(addTask(gulp, `${target.name}:dist:package.json`, distPackageJsonTask));
     }
 
-    addTask(gulp, `${target.name}:dist`, gulp.parallel(distTasks));
+    const distTask: TaskFunction = cleanTask !== undefined ?
+      gulp.series(cleanTask, gulp.parallel(distTasks)) :
+      gulp.parallel(distTasks);
+    addTask(gulp, `${target.name}:dist`, distTask);
 
     if (dist.npmPublish !== undefined) {
       const npmPublishOptions: NpmPublishOptions = dist.npmPublish;
@@ -531,6 +535,7 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
       };
       npmPublishTask.displayName = `${target.name}:dist:publish`;
       gulp.task(npmPublishTask);
+      addTask(gulp, `${target.name}:dist:publish`, gulp.series(distTask, npmPublishTask));
     }
   }
 }
