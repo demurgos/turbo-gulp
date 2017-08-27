@@ -154,7 +154,7 @@ export function generateTarget(gulp: Gulp, project: Project, target: WebpackTarg
   });
 
   // <targetName>:clean
-  let cleanOptions: clean.Options;
+  let cleanOptions: clean.CleanOptions;
   if (target.clean !== undefined) {
     cleanOptions = {
       base: locations.rootDir,

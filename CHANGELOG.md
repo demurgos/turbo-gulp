@@ -1,5 +1,7 @@
 ## Next
 
+- **[Breaking]** Drop old-style `test` target.
+- **[Feature]** Add `mocha` target to run tests in `spec.ts` files.
 - **[Fix]** Run `clean` before `dist`, if defined.
 - **[Fix]** Run `dist` before `publish`.
 

@@ -1,74 +1,35 @@
-import {existsSync} from "fs";
 import {Gulp, TaskFunction} from "gulp";
-import * as gulpUtil from "gulp-util";
 import {Minimatch} from "minimatch";
 import {posix as posixPath} from "path";
-import {Readable as ReadableStream} from "stream";
-import * as typescript from "typescript";
 import {CleanOptions} from "../options/clean";
 import {CopyOptions} from "../options/copy";
-import {CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson} from "../options/tsc";
+import {CompilerOptionsJson} from "../options/tsc";
 import {Project, ResolvedProject, resolveProject} from "../project";
 import {generateCopyTasks, ManyWatchFunction} from "../target-generators/base";
 import {TypescriptConfig} from "../target-tasks/_typescript";
 import {getBuildTypescriptTask} from "../target-tasks/build-typescript";
-import {getTsconfigJsonTask} from "../target-tasks/tsconfig-json";
 import {getTypedocTask} from "../target-tasks/typedoc";
-import * as clean from "../task-generators/clean";
 import {AbsPosixPath, RelPosixPath} from "../types";
 import {branchPublish} from "../utils/branch-publish";
 import {getHeadHash} from "../utils/git";
 import * as matcher from "../utils/matcher";
 import {npmPublish} from "../utils/npm-publish";
 import {PackageJson, readJsonFile} from "../utils/project";
-
-function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableStream {
-  const src: ReadableStream = new ReadableStream({objectMode: true});
-  src._read = function () {
-    this.push(new gulpUtil.File({
-      cwd: "",
-      base: "",
-      path: filename,
-      contents: data,
-    }));
-    this.push(null);
-  };
-  return src;
-}
+import {
+  addTask,
+  BaseTasks, gulpBufferSrc,
+  registerBaseTasks,
+  ResolvedBaseDependencies,
+  ResolvedTargetBase,
+  resolveTargetBase,
+  TargetBase,
+} from "./_base";
 
 /**
  * Represents a Typescript library.
  * This is compatible with both browsers and Node.
  */
-export interface LibTarget {
-  /**
-   * Name of the target.
-   * All the tasks related to this target will be prefixed by this name.
-   * It will also be used to resolve the default values for some paths, so it must avoid any special characters.
-   */
-  name: string;
-
-  /**
-   * Relative path to the base directory for the sources, relative to `project.rootDir`.
-   * The default value is `project.srcDir`.
-   */
-  srcDir?: RelPosixPath;
-
-  /**
-   * Relative path to the build directory for this target, relative to `project.rootDir`.
-   * The default value is `join(project.buildDir, target.name)`.
-   */
-  buildDir?: RelPosixPath;
-
-  /**
-   * Glob patterns for the Typescript sources, relative to `target.srcDir`.
-   *
-   * It uses the `minimatch` patterns. Glob stars (wild stars, `**`) use `target.srcDir` as their base directory.
-   *
-   * Default: `[join(target.srcDir, "**", "*.ts")]`
-   */
-  scripts?: Iterable<string>;
-
+export interface LibTarget extends TargetBase {
   /**
    * Relative path for the main module (entry point of the lib) WITHOUT EXTENSION, relative to `project.srcDir`.
    * Default: `"index"`.
@@ -76,57 +37,11 @@ export interface LibTarget {
   mainModule: RelPosixPath;
 
   /**
-   * Directory containing custom typings, relative to `project.rootDir`.
-   * Custom typings are typings that are not available on `@types`.
-   * `null` means that you don't use custom typings.
-   * The default value will be `join(target.srcDir, "custom-typings")` if it exists (sync test), else `null`.
-   */
-  customTypingsDir?: RelPosixPath | null;
-
-  /**
-   * Overrides for the options of the Typescript compiler.
-   */
-  tscOptions?: CompilerOptionsJson;
-
-  /**
-   * Path to the `tsconfig.json` file for this target, relative to `project.rootDir`.
-   * Use `null` to not generate a `tsconfig.json` task.
-   *
-   * The default value is `join(target.srcDir, "tsconfig.json")`.
-   */
-  tsconfigJson?: RelPosixPath | null;
-
-  /**
    * Path to the `typedoc` directory, relative to `project.rootDir`.
    * Use `null` to not generate a `typedoc` task.
    * Default: `join(project.rootDir, "typedoc")`.
    */
   typedoc?: TypedocOptions;
-
-  /**
-   * Override default dependencies or provide optional dependencies.
-   */
-  dependencies?: LibDependencies;
-
-  /**
-   * A list of copy operations to perform during the build process.
-   *
-   * Default: `[]`
-   */
-  copy?: CopyOptions[];
-
-  /**
-   * Minimatch patterns to clean the files create during the `build` and `dist` tasks, relative to `project.root`.
-   *
-   * Default:
-   * {
-   *   dirs: [
-   *     path.join(project.buildDir, target.targetDir),
-   *     path.join(project.distDir, target.targetDir)
-   *   ]
-   * }
-   */
-  clean?: CleanOptions;
 
   /**
    * Options for distribution builds.
@@ -141,7 +56,7 @@ export interface LibTarget {
 /**
  * Library with fully resolved paths and dependencies.
  */
-interface ResolvedLibTarget extends LibTarget {
+interface ResolvedLibTarget extends LibTarget, ResolvedTargetBase {
   readonly srcDir: AbsPosixPath;
 
   readonly buildDir: AbsPosixPath;
@@ -156,24 +71,13 @@ interface ResolvedLibTarget extends LibTarget {
 
   readonly typedoc?: ResolvedTypedocOptions;
 
-  readonly dependencies: ResolvedLibDependencies;
+  readonly dependencies: ResolvedBaseDependencies;
 
   readonly copy?: CopyOptions[];
 
   readonly clean?: CleanOptions;
 
   readonly dist: false | ResolvedDistOptions;
-}
-
-export interface LibDependencies {
-  readonly typescript?: typeof typescript;
-}
-
-/**
- * Fully resolved dependencies, either using defaults or the library provided by the user.
- */
-interface ResolvedLibDependencies extends LibDependencies {
-  readonly typescript: typeof typescript;
 }
 
 export interface DistOptions {
@@ -249,34 +153,7 @@ export interface GitDeployOptions {
  * @return Resolved target.
  */
 function resolveLibTarget(project: ResolvedProject, target: LibTarget): ResolvedLibTarget {
-  const srcDir: AbsPosixPath = typeof target.srcDir === "string" ?
-    posixPath.join(project.absRoot, target.srcDir) :
-    project.srcDir;
-
-  const buildDir: AbsPosixPath = typeof target.buildDir === "string" ?
-    posixPath.join(project.absRoot, target.buildDir) :
-    posixPath.join(project.absBuildDir, target.name);
-
-  const scripts: string[] = [];
-  if (target.scripts === undefined) {
-    scripts.push(posixPath.join(srcDir, "**", "*.ts"));
-  } else {
-    for (const script of target.scripts) {
-      scripts.push(matcher.asString(matcher.join(srcDir, new Minimatch(script))));
-    }
-  }
-
-  const defaultCustomTypingsDir: AbsPosixPath = posixPath.join(srcDir, "custom-typings");
-
-  const customTypingsDir: AbsPosixPath | null = target.customTypingsDir !== undefined ?
-    (target.customTypingsDir !== null ? posixPath.join(project.absRoot, target.customTypingsDir) : null) :
-    (existsSync(defaultCustomTypingsDir) ? defaultCustomTypingsDir : null);
-
-  const tscOptions: CompilerOptionsJson = mergeTscOptionsJson(DEV_TSC_OPTIONS, target.tscOptions);
-
-  const tsconfigJson: AbsPosixPath | null = target.tsconfigJson !== undefined ?
-    (target.tsconfigJson !== null ? posixPath.join(project.absRoot, target.tsconfigJson) : null) :
-    posixPath.join(srcDir, "tsconfig.json");
+  const base: ResolvedTargetBase = resolveTargetBase(project, target);
 
   let typedoc: ResolvedTypedocOptions | undefined = undefined;
   if (target.typedoc !== undefined) {
@@ -285,17 +162,6 @@ function resolveLibTarget(project: ResolvedProject, target: LibTarget): Resolved
       name: target.typedoc.name,
       deploy: target.typedoc.deploy,
     };
-  }
-
-  const defaultDependencies: ResolvedLibDependencies = {
-    typescript: typescript,
-  };
-
-  let dependencies: ResolvedLibDependencies;
-  if (target.dependencies !== undefined) {
-    dependencies = {...defaultDependencies, ...target.dependencies};
-  } else {
-    dependencies = defaultDependencies;
   }
 
   let dist: ResolvedDistOptions | false;
@@ -320,27 +186,12 @@ function resolveLibTarget(project: ResolvedProject, target: LibTarget): Resolved
     }
   }
 
-  return {
-    name: target.name,
-    srcDir,
-    buildDir,
-    scripts,
-    mainModule: target.mainModule,
-    customTypingsDir,
-    tscOptions,
-    tsconfigJson,
-    typedoc,
-    dependencies,
-    copy: target.copy,
-    clean: target.clean,
-    dist,
-  };
+  return {...base, mainModule: target.mainModule, typedoc, dist};
 }
 
-function addTask(gulp: Gulp, displayName: string, task: TaskFunction): TaskFunction {
-  task.displayName = displayName;
-  gulp.task(task);
-  return task;
+export interface LibTasks extends BaseTasks {
+  typedoc?: TaskFunction;
+  typedocDeploy?: TaskFunction;
 }
 
 /**
@@ -350,9 +201,10 @@ function addTask(gulp: Gulp, displayName: string, task: TaskFunction): TaskFunct
  * @param project Project configuration.
  * @param target Target configuration.
  */
-export function registerLibTargetTasks(gulp: Gulp, project: Project, target: LibTarget): void {
+export function registerLibTargetTasks(gulp: Gulp, project: Project, target: LibTarget): LibTasks {
   const resolvedProject: ResolvedProject = resolveProject(project);
   const resolvedTarget: ResolvedLibTarget = resolveLibTarget(resolvedProject, target);
+  const result: LibTasks = <LibTasks> registerBaseTasks(gulp, project, target);
 
   const tsOptions: TypescriptConfig = {
     tscOptions: resolvedTarget.tscOptions,
@@ -364,49 +216,10 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
     scripts: resolvedTarget.scripts,
   };
 
-  const buildTasks: TaskFunction[] = [];
-
-  // build:scripts
-  buildTasks.push(addTask(gulp, `${target.name}:build:scripts`, getBuildTypescriptTask(gulp, tsOptions)));
-
-  // build:copy
-  if (resolvedTarget.copy !== undefined) {
-    const [copyTask, copyWatchers]: [TaskFunction, ManyWatchFunction] = generateCopyTasks(
-      gulp,
-      resolvedTarget.srcDir,
-      resolvedTarget.buildDir,
-      resolvedTarget.copy,
-    );
-    buildTasks.push(addTask(gulp, `${target.name}:build:copy`, copyTask));
-  }
-
-  // build
-  addTask(gulp, `${target.name}:build`, gulp.parallel(buildTasks));
-
-  let cleanTask: TaskFunction | undefined = undefined;
-  // clean
-  if (resolvedTarget.clean !== undefined) {
-    const cleanOptions: clean.Options = {
-      base: resolvedProject.absRoot,
-      dirs: resolvedTarget.clean.dirs,
-      files: resolvedTarget.clean.files,
-    };
-    cleanTask = addTask(gulp, `${target.name}:clean`, clean.generateTask(gulp, cleanOptions));
-  }
-
-  // tsconfig.json
-  if (resolvedTarget.tsconfigJson !== null) {
-    addTask(gulp, `${target.name}:tsconfig.json`, getTsconfigJsonTask(tsOptions));
-  }
-
   // typedoc
   if (resolvedTarget.typedoc !== undefined) {
     const typedocOptions: TypedocOptions = resolvedTarget.typedoc;
-    const typedocTask: TaskFunction = addTask(
-      gulp,
-      `${target.name}:typedoc`,
-      getTypedocTask(gulp, tsOptions, typedocOptions),
-    );
+    result.typedoc = addTask(gulp, `${target.name}:typedoc`, getTypedocTask(gulp, tsOptions, typedocOptions));
 
     // typedoc:deploy
     if (typedocOptions.deploy !== undefined) {
@@ -415,7 +228,11 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
         return branchPublish({...typedocOptions.deploy, dir: typedocOptions.dir, commitMessage});
       }
 
-      addTask(gulp, `${target.name}:typedoc:deploy`, gulp.series(typedocTask, deployTypedocTask));
+      result.typedocDeploy = addTask(
+        gulp,
+        `${target.name}:typedoc:deploy`,
+        gulp.series(result.typedoc, deployTypedocTask),
+      );
     }
   }
 
@@ -520,8 +337,8 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
       distTasks.push(addTask(gulp, `${target.name}:dist:package.json`, distPackageJsonTask));
     }
 
-    const distTask: TaskFunction = cleanTask !== undefined ?
-      gulp.series(cleanTask, gulp.parallel(distTasks)) :
+    const distTask: TaskFunction = result.clean !== undefined ?
+      gulp.series(result.clean, gulp.parallel(distTasks)) :
       gulp.parallel(distTasks);
     addTask(gulp, `${target.name}:dist`, distTask);
 
@@ -538,4 +355,6 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
       addTask(gulp, `${target.name}:dist:publish`, gulp.series(distTask, npmPublishTask));
     }
   }
+
+  return result;
 }

@@ -29,4 +29,5 @@ export {
   WebpackTarget,
 } from "./targets";
 export {LibTarget, registerLibTargetTasks} from "./targets/lib";
+export {MochaTarget, registerMochaTargetTasks} from "./targets/mocha";
 export {PackageJson} from "./utils/project";

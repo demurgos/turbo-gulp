@@ -5,7 +5,7 @@ import {posix as path} from "path";
 import {TaskFunction} from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
-export interface Options {
+export interface CleanOptions {
   /**
    * Base-directory for clean (usually `project.root`)
    */
@@ -25,7 +25,7 @@ export interface Options {
 /**
  * Return a list of files, prefixed by "base"
  */
-function getFiles(options: Options): string[] {
+function getFiles(options: CleanOptions): string[] {
   const files: string[] = [];
 
   if (options.dirs !== undefined) {
@@ -46,7 +46,7 @@ function getFiles(options: Options): string[] {
 /**
  * Generate a task to clean files
  */
-export function generateTask(gulp: Gulp, options: Options): TaskFunction {
+export function generateTask(gulp: Gulp, options: CleanOptions): TaskFunction {
   return async function () {
     return del(getFiles(options));
   };
