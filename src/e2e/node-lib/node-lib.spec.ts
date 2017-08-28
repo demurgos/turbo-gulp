@@ -26,7 +26,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
     it("should return an error when the task is unknown", async function (this: Mocha.ITestCallbackContext) {
       this.timeout(60 * 1000);
       const result: Promise<ExecFileResult> = execFile("gulp", [":unknown-task"], {cwd: PROJECT_ROOT});
-      await assert.isRejected(result, ExecFileError);
+      return assert.isRejected(result, ExecFileError);
     });
   });
 

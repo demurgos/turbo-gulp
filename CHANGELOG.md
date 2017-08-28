@@ -1,3 +1,7 @@
+# Next
+
+- **[Internal]** Update self-dependency to `v0.15.0-beta.10`.
+
 ## 0.15.0-beta.10 (2017-08-28)
 
 - **[Breaking]** Update Tslint rules to use `tslint@5.7.0`.
