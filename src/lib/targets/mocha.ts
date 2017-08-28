@@ -59,15 +59,16 @@ export function registerMochaTargetTasks(gulp: Gulp, project: Project, target: M
   const resolvedTarget: ResolvedMochaTarget = resolveMochaTarget(resolvedProject, target);
   const result: MochaTasks = <MochaTasks> registerBaseTasks(gulp, project, target);
 
+  // run
   result.run = addTask(gulp, `${target.name}:run`, mocha.generateTask(gulp, {testDir: resolvedTarget.buildDir}));
 
+  // start
   const startTasks: TaskFunction[] = [];
   if (result.clean !== undefined) {
     startTasks.push(result.clean);
   }
   startTasks.push(result.build);
   startTasks.push(result.run);
-
   result.start = addTask(gulp, target.name, gulp.series(startTasks));
 
   return result;

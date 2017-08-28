@@ -1,7 +1,9 @@
 ## Next
 
 - **[Breaking]** Drop old-style `test` target.
+- **[Breaking]** Drop old-style `node` target.
 - **[Feature]** Add `mocha` target to run tests in `spec.ts` files.
+- **[Feature]** Add `node` target to build and run top-level Node applications.
 - **[Fix]** Run `clean` before `dist`, if defined.
 - **[Fix]** Run `dist` before `publish`.
 

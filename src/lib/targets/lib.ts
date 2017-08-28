@@ -192,6 +192,9 @@ function resolveLibTarget(project: ResolvedProject, target: LibTarget): Resolved
 export interface LibTasks extends BaseTasks {
   typedoc?: TaskFunction;
   typedocDeploy?: TaskFunction;
+  dist?: TaskFunction;
+  distPublish?: TaskFunction;
+  distPackageJson?: TaskFunction;
 }
 
 /**
@@ -334,13 +337,14 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
           .pipe(gulp.dest(dist.distDir));
       }
 
-      distTasks.push(addTask(gulp, `${target.name}:dist:package.json`, distPackageJsonTask));
+      result.distPackageJson = addTask(gulp, `${target.name}:dist:package.json`, distPackageJsonTask);
+      distTasks.push(result.distPackageJson);
     }
 
     const distTask: TaskFunction = result.clean !== undefined ?
       gulp.series(result.clean, gulp.parallel(distTasks)) :
       gulp.parallel(distTasks);
-    addTask(gulp, `${target.name}:dist`, distTask);
+    result.dist = addTask(gulp, `${target.name}:dist`, distTask);
 
     if (dist.npmPublish !== undefined) {
       const npmPublishOptions: NpmPublishOptions = dist.npmPublish;
@@ -352,7 +356,7 @@ export function registerLibTargetTasks(gulp: Gulp, project: Project, target: Lib
       };
       npmPublishTask.displayName = `${target.name}:dist:publish`;
       gulp.task(npmPublishTask);
-      addTask(gulp, `${target.name}:dist:publish`, gulp.series(distTask, npmPublishTask));
+      result.distPublish = addTask(gulp, `${target.name}:dist:publish`, gulp.series(distTask, npmPublishTask));
     }
   }
 

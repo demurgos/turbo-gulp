@@ -65,28 +65,6 @@ export interface Target {
   clean?: CleanOptions;
 }
 
-/**
- * Represents a build to run tests with Mocha.
- */
-export interface NodeTarget extends Target {
-  /**
-   * The name of tha main module (name of the file without the extension),
-   * relative to `project.srcDir`.
-   */
-  mainModule?: string | null;
-
-  distPackage?: boolean;
-}
-
-export interface TestTarget extends NodeTarget {
-  mocha?: {
-    /**
-     * List of files to test, relative to targetDir
-     */
-    files?: string[];
-  };
-}
-
 export interface WebpackTarget extends Target {
   /**
    * Directory to store webpack files during the build, relative to
@@ -105,51 +83,6 @@ export interface WebpackTarget extends Target {
     configuration?: webpack.Configuration;
   };
 }
-
-/**
- * Preconfigured "node" configuration to develop a simple node library.
- * It uses Typescript and Typings.
- */
-export const LIB_TARGET: NodeTarget = {
-  name: "lib",
-  srcDir: "./lib",
-  scripts: ["**/*.ts"],
-  typeRoots: ["../custom-typings", "../../node_modules/@types"],
-  mainModule: "index",
-  typescript: {
-    tsconfigJson: ["tsconfig.json"],
-  },
-};
-
-/**
- * Preconfigured "test" configuration to test a node library.
- * It uses Typescript, Typings and Mocha.
- */
-export const LIB_TEST_TARGET: TestTarget = {
-  name: "lib-test",
-  scripts: ["test/**/*.ts", "lib/**/*.ts"],
-  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
-  typescript: {
-    tsconfigJson: ["test/tsconfig.json"],
-    strict: true,
-  },
-};
-
-/**
- * Preconfigured "node" configuration for an Angular Universal server.
- */
-export const ANGULAR_SERVER_TARGET: NodeTarget = {
-  name: "server",
-  scripts: ["server/**/*.ts", "app/**/*.ts", "lib/**/*.ts", "!**/*.spec.ts"],
-  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
-  mainModule: "server/main",
-  pug: [{name: "app", src: "app", dest: "app"}, {name: "static", src: "static", dest: "static"}],
-  sass: [{name: "app", src: "app", dest: "app"}, {name: "static", src: "static", dest: "static"}],
-  copy: [{name: "static", src: "static", files: ["**/*", "!**/*.(pug|scss)"], dest: "static"}],
-  typescript: {
-    tsconfigJson: ["server/tsconfig.json"],
-  },
-};
 
 /**
  * Preconfigured "webpack" configuration for an Angular Universal client.

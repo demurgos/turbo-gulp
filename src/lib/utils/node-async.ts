@@ -97,7 +97,11 @@ export async function execFile(file: string, args: string[], options?: ExecFileO
 export interface SpawnOptions {
   cwd?: string;
   env?: {[key: string]: string};
-  stdio: "inherit";
+  stdio: "inherit" | "pipe";
+  /**
+   * Run in detached mode. Default: `false`.
+   */
+  detached?: boolean;
 }
 
 export interface SpawnResult {
@@ -130,18 +134,22 @@ export class SpawnedProcess {
     this.stderrChunks = [];
     this.exit = undefined;
 
+    const detached: boolean = options.detached !== undefined ? options.detached : false;
+
     this.process = _spawn(
       file,
       args,
-      {stdio: [process.stdin, "pipe", "pipe"], cwd: options.cwd, env: options.env},
+      {stdio: [process.stdin, "pipe", "pipe"], cwd: options.cwd, env: options.env, detached},
     );
 
     const stdout: TransformStream = new PassThrough();
     this.process.stdout.pipe(stdout);
-    stdout.pipe(process.stdout);
     const stderr: TransformStream = new PassThrough();
     this.process.stderr.pipe(stderr);
-    stderr.pipe(process.stderr);
+    if (options.stdio === "inherit") {
+      stdout.pipe(process.stdout);
+      stderr.pipe(process.stderr);
+    }
 
     stdout.on("data", (chunk: Buffer): void => {
       this.stdoutChunks.push(chunk);

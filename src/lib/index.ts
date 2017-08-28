@@ -20,14 +20,10 @@ export {TypescriptOptions} from "./options/typescript";
 export {DEFAULT_PROJECT, Project} from "./project";
 export {
   ANGULAR_CLIENT_TARGET,
-  ANGULAR_SERVER_TARGET,
-  LIB_TARGET,
-  LIB_TEST_TARGET,
-  NodeTarget,
   Target,
-  TestTarget,
   WebpackTarget,
 } from "./targets";
 export {LibTarget, registerLibTargetTasks} from "./targets/lib";
 export {MochaTarget, registerMochaTargetTasks} from "./targets/mocha";
+export {NodeTarget, registerNodeTargetTasks} from "./targets/node";
 export {PackageJson} from "./utils/project";
