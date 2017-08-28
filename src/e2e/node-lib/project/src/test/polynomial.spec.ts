@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import {Polynomial} from "./polynomial";
+import {Polynomial} from "../lib/polynomial";
 
 describe("Polynomial", function() {
   it("normalize []", function() {

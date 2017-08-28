@@ -90,7 +90,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
   describe("lib:test", async function (this: Mocha.ISuiteCallbackContext): Promise<void> {
     it("should not report any error", async function (this: Mocha.ITestCallbackContext) {
       this.timeout(60 * 1000);
-      await execFile("gulp", ["lib-test"], {cwd: PROJECT_ROOT});
+      await execFile("gulp", ["test"], {cwd: PROJECT_ROOT});
     });
   });
 });

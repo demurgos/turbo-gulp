@@ -50,12 +50,9 @@
     "strictNullChecks": true,
     "suppressExcessPropertyErrors": false,
     "suppressImplicitAnyIndexErrors": false,
-    "target": "es2015",
+    "target": "es2017",
     "traceResolution": false,
-    "typeRoots": [
-      "../custom-typings",
-      "../../node_modules/@types"
-    ]
+    "typeRoots": []
   },
   "include": [
     "**/*.ts"
