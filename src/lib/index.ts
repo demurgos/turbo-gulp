@@ -23,7 +23,7 @@ export {
   Target,
   WebpackTarget,
 } from "./targets";
-export {LibTarget, registerLibTargetTasks} from "./targets/lib";
-export {MochaTarget, registerMochaTargetTasks} from "./targets/mocha";
-export {NodeTarget, registerNodeTargetTasks} from "./targets/node";
+export {generateLibTasks, LibTarget, registerLibTargetTasks} from "./targets/lib";
+export {generateMochaTargetTasks, MochaTarget, registerMochaTargetTasks} from "./targets/mocha";
+export {generateNodeTargetTasks, NodeTarget, registerNodeTargetTasks} from "./targets/node";
 export {PackageJson} from "./utils/project";

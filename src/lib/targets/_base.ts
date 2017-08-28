@@ -191,12 +191,29 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
   };
 }
 
+/**
+ * Adds a display name to the supplied task function and returns the task function.
+ *
+ * @param name The display name to set.
+ * @param task The task function to name.
+ * @return The input task, with its `displayName` property set to `name`.
+ */
+export function nameTask<T extends TaskFunction>(name: string, task: T): T & {displayName: string} {
+  task.displayName = name;
+  return <T & {displayName: string}> task;
+}
+
+/**
+ * Name a task function and register it to the provided gulp instance.
+ */
 export function addTask(gulp: Gulp, displayName: string, task: TaskFunction): TaskFunction {
-  task.displayName = displayName;
-  gulp.task(task);
+  gulp.task(nameTask(displayName, task));
   return task;
 }
 
+/**
+ * Creates a Vinyl stream source from a Buffer.
+ */
 export function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableStream {
   const src: ReadableStream = new ReadableStream({objectMode: true});
   src._read = function () {
@@ -211,6 +228,9 @@ export function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableSt
   return src;
 }
 
+/**
+ * Base tasks available for every target.
+ */
 export interface BaseTasks {
   buildScripts: TaskFunction;
   buildCopy?: TaskFunction;
@@ -220,16 +240,17 @@ export interface BaseTasks {
 }
 
 /**
- * Generates and registers gulp tasks for the provided lib target.
+ * Generates gulp tasks available for every target (base tasks).
  *
- * @param gulp Gulp instance where the tasks will be registered.
+ * @param gulp Gulp instance used to generate tasks manipulating files.
  * @param targetOptions Target configuration.
  */
-export function registerBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTasks {
+export function generateBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTasks {
   const target: ResolvedTargetBase = resolveTargetBase(targetOptions);
 
   const result: BaseTasks = <any> {};
 
+  // Typescript options
   const tsOptions: TypescriptConfig = {
     tscOptions: target.tscOptions,
     tsconfigJson: target.tsconfigJson,
@@ -240,11 +261,8 @@ export function registerBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
     scripts: target.scripts,
   };
 
-  const buildTasks: TaskFunction[] = [];
-
   // build:scripts
-  result.buildScripts = addTask(gulp, `${target.name}:build:scripts`, getBuildTypescriptTask(gulp, tsOptions));
-  buildTasks.push(result.buildScripts);
+  result.buildScripts = nameTask(`${target.name}:build:scripts`, getBuildTypescriptTask(gulp, tsOptions));
 
   // build:copy
   if (target.copy !== undefined) {
@@ -254,12 +272,15 @@ export function registerBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
       target.buildDir,
       target.copy,
     );
-    result.buildCopy = addTask(gulp, `${target.name}:build:copy`, copyTask);
-    buildTasks.push(result.buildCopy);
+    result.buildCopy = nameTask(`${target.name}:build:copy`, copyTask);
   }
 
   // build
-  result.build = addTask(gulp, `${target.name}:build`, gulp.parallel(buildTasks));
+  const buildTasks: TaskFunction[] = [result.buildScripts];
+  if (result.buildCopy !== undefined) {
+    buildTasks.push(result.buildCopy);
+  }
+  result.build = nameTask(`${target.name}:build`, gulp.parallel(buildTasks));
 
   // clean
   if (target.clean !== undefined) {
@@ -268,13 +289,30 @@ export function registerBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
       dirs: target.clean.dirs,
       files: target.clean.files,
     };
-    result.clean = addTask(gulp, `${target.name}:clean`, generateCleanTask(gulp, cleanOptions));
+    result.clean = nameTask(`${target.name}:clean`, generateCleanTask(gulp, cleanOptions));
   }
 
   // tsconfig.json
   if (target.tsconfigJson !== null) {
-    result.tsconfigJson = addTask(gulp, `${target.name}:tsconfig.json`, getTsconfigJsonTask(tsOptions));
+    result.tsconfigJson = nameTask(`${target.name}:tsconfig.json`, getTsconfigJsonTask(tsOptions));
   }
 
   return result;
+}
+
+/**
+ * Generates and registers gulp tasks available for every target (base tasks).
+ *
+ * @param gulp Gulp instance where the tasks will be registered.
+ * @param targetOptions Target configuration.
+ */
+export function registerBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTasks {
+  const tasks: BaseTasks = generateBaseTasks(gulp, targetOptions);
+  for (const key in tasks) {
+    const task: TaskFunction | undefined = (<any> tasks)[key];
+    if (task !== undefined) {
+      gulp.task(task);
+    }
+  }
+  return tasks;
 }

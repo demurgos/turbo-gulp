@@ -4,11 +4,11 @@ import {posix as posixPath} from "path";
 import {CleanOptions} from "../options/clean";
 import {CopyOptions} from "../options/copy";
 import {CompilerOptionsJson} from "../options/tsc";
-import {Project, ResolvedProject, resolveProject} from "../project";
+import {ResolvedProject} from "../project";
 import {AbsPosixPath, RelPosixPath} from "../types";
 import {
-  addTask,
   BaseTasks,
+  nameTask,
   registerBaseTasks,
   ResolvedBaseDependencies,
   ResolvedTargetBase,
@@ -72,18 +72,17 @@ export interface NodeTasks extends BaseTasks {
 /**
  * Generates and registers gulp tasks for the provided node target.
  *
- * @param gulp Gulp instance where the tasks will be registered.
- * @param project Project configuration.
+ * @param gulp Gulp instance used to generate tasks manipulating files.
  * @param targetOptions Target configuration.
  */
-export function registerNodeTargetTasks(gulp: Gulp, project: Project, targetOptions: NodeTarget): NodeTasks {
+export function generateNodeTargetTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTasks {
   const target: ResolvedNodeTarget = resolveLibTarget(targetOptions);
   const result: NodeTasks = <NodeTasks> registerBaseTasks(gulp, targetOptions);
 
   const absMain: AbsPosixPath = posixPath.join(target.buildDir, `${target.mainModule}.js`);
 
   // run
-  result.run = addTask(gulp, `${target.name}:run`, () => {
+  result.run = nameTask(`${target.name}:run`, () => {
     return spawn(
       "node",
       [absMain, ...process.argv.splice(1)],
@@ -98,7 +97,24 @@ export function registerNodeTargetTasks(gulp: Gulp, project: Project, targetOpti
   }
   startTasks.push(result.build);
   startTasks.push(result.run);
-  result.start = addTask(gulp, target.name, gulp.series(startTasks));
+  result.start = nameTask(target.name, gulp.series(startTasks));
 
   return result;
+}
+
+/**
+ * Generates and registers gulp tasks for the provided node target.
+ *
+ * @param gulp Gulp instance where the tasks will be registered.
+ * @param targetOptions Target configuration.
+ */
+export function registerNodeTargetTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTasks {
+  const tasks: NodeTasks = generateNodeTargetTasks(gulp, targetOptions);
+  for (const key in tasks) {
+    const task: TaskFunction | undefined = (<any> tasks)[key];
+    if (task !== undefined) {
+      gulp.task(task);
+    }
+  }
+  return tasks;
 }

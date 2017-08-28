@@ -2,7 +2,10 @@ import {Gulp, TaskFunction} from "gulp";
 import * as gulpUtil from "gulp-util";
 import {Readable as ReadableStream} from "stream";
 import * as mocha from "../task-generators/mocha";
-import {addTask, BaseTasks, registerBaseTasks, ResolvedTargetBase, resolveTargetBase, TargetBase} from "./_base";
+import {
+  addTask, BaseTasks, nameTask, registerBaseTasks, ResolvedTargetBase, resolveTargetBase,
+  TargetBase,
+} from "./_base";
 
 function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableStream {
   const src: ReadableStream = new ReadableStream({objectMode: true});
@@ -46,17 +49,17 @@ export interface MochaTasks extends BaseTasks {
 }
 
 /**
- * Generates and registers gulp tasks for the provided lib target.
+ * Generates gulp tasks for the provided Mocha target.
  *
- * @param gulp Gulp instance where the tasks will be registered.
+ * @param gulp Gulp instance used to generate tasks manipulating files.
  * @param targetOptions Target configuration.
  */
-export function registerMochaTargetTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
+export function generateMochaTargetTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
   const target: ResolvedMochaTarget = resolveMochaTarget(targetOptions);
   const result: MochaTasks = <MochaTasks> registerBaseTasks(gulp, targetOptions);
 
   // run
-  result.run = addTask(gulp, `${target.name}:run`, mocha.generateTask(gulp, {testDir: target.buildDir}));
+  result.run = nameTask(`${target.name}:run`, mocha.generateTask(gulp, {testDir: target.buildDir}));
 
   // start
   const startTasks: TaskFunction[] = [];
@@ -65,7 +68,24 @@ export function registerMochaTargetTasks(gulp: Gulp, targetOptions: MochaTarget)
   }
   startTasks.push(result.build);
   startTasks.push(result.run);
-  result.start = addTask(gulp, target.name, gulp.series(startTasks));
+  result.start = nameTask(target.name, gulp.series(startTasks));
 
   return result;
+}
+
+/**
+ * Generates and registers gulp tasks for the provided Mocha target.
+ *
+ * @param gulp Gulp instance where the tasks will be registered.
+ * @param targetOptions Target configuration.
+ */
+export function registerMochaTargetTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
+  const tasks: MochaTasks = generateMochaTargetTasks(gulp, targetOptions);
+  for (const key in tasks) {
+    const task: TaskFunction | undefined = (<any> tasks)[key];
+    if (task !== undefined) {
+      gulp.task(task);
+    }
+  }
+  return tasks;
 }

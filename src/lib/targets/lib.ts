@@ -4,7 +4,7 @@ import {posix as posixPath} from "path";
 import {CleanOptions} from "../options/clean";
 import {CopyOptions} from "../options/copy";
 import {CompilerOptionsJson} from "../options/tsc";
-import {Project, ResolvedProject, resolveProject} from "../project";
+import {ResolvedProject} from "../project";
 import {generateCopyTasks, ManyWatchFunction} from "../target-generators/base";
 import {TypescriptConfig} from "../target-tasks/_typescript";
 import {getBuildTypescriptTask} from "../target-tasks/build-typescript";
@@ -16,8 +16,9 @@ import * as matcher from "../utils/matcher";
 import {npmPublish} from "../utils/npm-publish";
 import {PackageJson, readJsonFile} from "../utils/project";
 import {
-  addTask,
-  BaseTasks, gulpBufferSrc,
+  BaseTasks,
+  gulpBufferSrc,
+  nameTask,
   registerBaseTasks,
   ResolvedBaseDependencies,
   ResolvedTargetBase,
@@ -199,12 +200,12 @@ export interface LibTasks extends BaseTasks {
 }
 
 /**
- * Generates and registers gulp tasks for the provided lib target.
+ * Generates gulp tasks for the provided lib target.
  *
- * @param gulp Gulp instance where the tasks will be registered.
+ * @param gulp Gulp instance used to generate tasks manipulating files.
  * @param targetOptions Target configuration.
  */
-export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks {
+export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks {
   const target: ResolvedLibTarget = resolveLibTarget(targetOptions);
   const result: LibTasks = <LibTasks> registerBaseTasks(gulp, targetOptions);
 
@@ -221,7 +222,7 @@ export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): Li
   // typedoc
   if (target.typedoc !== undefined) {
     const typedocOptions: TypedocOptions = target.typedoc;
-    result.typedoc = addTask(gulp, `${target.name}:typedoc`, getTypedocTask(gulp, tsOptions, typedocOptions));
+    result.typedoc = nameTask(`${target.name}:typedoc`, getTypedocTask(gulp, tsOptions, typedocOptions));
 
     // typedoc:deploy
     if (typedocOptions.deploy !== undefined) {
@@ -230,11 +231,7 @@ export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): Li
         return branchPublish({...typedocOptions.deploy, dir: typedocOptions.dir, commitMessage});
       }
 
-      result.typedocDeploy = addTask(
-        gulp,
-        `${target.name}:typedoc:deploy`,
-        gulp.series(result.typedoc, deployTypedocTask),
-      );
+      result.typedocDeploy = nameTask(`${target.name}:typedoc:deploy`, gulp.series(result.typedoc!, deployTypedocTask));
     }
   }
 
@@ -245,8 +242,7 @@ export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): Li
     const distScriptsTasks: TaskFunction[] = [];
 
     // dist:copy-src
-    distScriptsTasks.push(addTask(
-      gulp,
+    distScriptsTasks.push(nameTask(
       `${target.name}:dist:copy-src`,
       (): NodeJS.ReadableStream => {
         return gulp
@@ -261,8 +257,7 @@ export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): Li
     if (target.customTypingsDir !== null) {
       const customTypingsDir: RelPosixPath = target.customTypingsDir;
       distCustomTypingsDir = posixPath.join(dist.distDir, "_custom-typings");
-      distScriptsTasks.push(addTask(
-        gulp,
+      distScriptsTasks.push(nameTask(
         `${target.name}:dist:copy-custom-typings`,
         (): NodeJS.ReadableStream => {
           return gulp
@@ -280,7 +275,7 @@ export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): Li
         target.dist.distDir,
         target.copy,
       );
-      distTasks.push(addTask(gulp, `${target.name}:dist:copy`, copyTask));
+      distTasks.push(nameTask(`${target.name}:dist:copy`, copyTask));
     }
 
     // Resolve tsconfig for `dist`
@@ -306,15 +301,14 @@ export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): Li
     };
 
     // dist:scripts
-    distTasks.push(addTask(
-      gulp,
+    distTasks.push(nameTask(
       `${target.name}:dist:scripts`,
       gulp.series(gulp.parallel(distScriptsTasks), getBuildTypescriptTask(gulp, tsOptions)),
     ));
 
     // // dist:tsconfig.json
     // if (target.tsconfigJson !== null) {
-    //   distTasks.push(addTask(
+    //   distTasks.push(nameTask(
     //     gulp,
     //     `${target.name}:dist:tsconfig.json`,
     //     getTsconfigJsonTask({...tsOptions, packageJson})
@@ -336,14 +330,14 @@ export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): Li
           .pipe(gulp.dest(dist.distDir));
       }
 
-      result.distPackageJson = addTask(gulp, `${target.name}:dist:package.json`, distPackageJsonTask);
+      result.distPackageJson = nameTask(`${target.name}:dist:package.json`, distPackageJsonTask);
       distTasks.push(result.distPackageJson);
     }
 
     const distTask: TaskFunction = result.clean !== undefined ?
       gulp.series(result.clean, gulp.parallel(distTasks)) :
       gulp.parallel(distTasks);
-    result.dist = addTask(gulp, `${target.name}:dist`, distTask);
+    result.dist = nameTask(`${target.name}:dist`, distTask);
 
     if (dist.npmPublish !== undefined) {
       const npmPublishOptions: NpmPublishOptions = dist.npmPublish;
@@ -355,9 +349,26 @@ export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): Li
       };
       npmPublishTask.displayName = `${target.name}:dist:publish`;
       gulp.task(npmPublishTask);
-      result.distPublish = addTask(gulp, `${target.name}:dist:publish`, gulp.series(distTask, npmPublishTask));
+      result.distPublish = nameTask(`${target.name}:dist:publish`, gulp.series(distTask, npmPublishTask));
     }
   }
 
   return result;
+}
+
+/**
+ * Generates and registers gulp tasks for the provided lib target.
+ *
+ * @param gulp Gulp instance where the tasks will be registered.
+ * @param targetOptions Target configuration.
+ */
+export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks {
+  const tasks: LibTasks = generateLibTasks(gulp, targetOptions);
+  for (const key in tasks) {
+    const task: TaskFunction | undefined = (<any> tasks)[key];
+    if (task !== undefined) {
+      gulp.task(task);
+    }
+  }
+  return tasks;
 }
