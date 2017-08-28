@@ -54,7 +54,7 @@ export interface MochaTasks extends BaseTasks {
  * @param gulp Gulp instance used to generate tasks manipulating files.
  * @param targetOptions Target configuration.
  */
-export function generateMochaTargetTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
+export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
   const target: ResolvedMochaTarget = resolveMochaTarget(targetOptions);
   const result: MochaTasks = <MochaTasks> registerBaseTasks(gulp, targetOptions);
 
@@ -79,8 +79,8 @@ export function generateMochaTargetTasks(gulp: Gulp, targetOptions: MochaTarget)
  * @param gulp Gulp instance where the tasks will be registered.
  * @param targetOptions Target configuration.
  */
-export function registerMochaTargetTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
-  const tasks: MochaTasks = generateMochaTargetTasks(gulp, targetOptions);
+export function registerMochaTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
+  const tasks: MochaTasks = generateMochaTasks(gulp, targetOptions);
   for (const key in tasks) {
     const task: TaskFunction | undefined = (<any> tasks)[key];
     if (task !== undefined) {

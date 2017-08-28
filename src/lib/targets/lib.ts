@@ -362,7 +362,7 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
  * @param gulp Gulp instance where the tasks will be registered.
  * @param targetOptions Target configuration.
  */
-export function registerLibTargetTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks {
+export function registerLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks {
   const tasks: LibTasks = generateLibTasks(gulp, targetOptions);
   for (const key in tasks) {
     const task: TaskFunction | undefined = (<any> tasks)[key];

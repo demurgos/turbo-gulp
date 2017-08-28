@@ -75,7 +75,7 @@ export interface NodeTasks extends BaseTasks {
  * @param gulp Gulp instance used to generate tasks manipulating files.
  * @param targetOptions Target configuration.
  */
-export function generateNodeTargetTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTasks {
+export function generateNodeTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTasks {
   const target: ResolvedNodeTarget = resolveLibTarget(targetOptions);
   const result: NodeTasks = <NodeTasks> registerBaseTasks(gulp, targetOptions);
 
@@ -108,8 +108,8 @@ export function generateNodeTargetTasks(gulp: Gulp, targetOptions: NodeTarget): 
  * @param gulp Gulp instance where the tasks will be registered.
  * @param targetOptions Target configuration.
  */
-export function registerNodeTargetTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTasks {
-  const tasks: NodeTasks = generateNodeTargetTasks(gulp, targetOptions);
+export function registerNodeTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTasks {
+  const tasks: NodeTasks = generateNodeTasks(gulp, targetOptions);
   for (const key in tasks) {
     const task: TaskFunction | undefined = (<any> tasks)[key];
     if (task !== undefined) {
