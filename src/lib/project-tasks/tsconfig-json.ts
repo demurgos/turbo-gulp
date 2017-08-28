@@ -1,9 +1,9 @@
-import {Gulp} from "gulp";
-import {posix as posixPath} from "path";
-import {CompilerOptionsJson, DEFAULT_PROJECT_TSC_OPTIONS, mergeTscOptionsJson} from "../options/tsc";
-import {Project} from "../project";
-import {TaskFunction} from "../utils/gulp-task-function";
-import {writeJsonFile} from "../utils/project";
+import { Gulp } from "gulp";
+import {posix as posixPath } from "path";
+import { CompilerOptionsJson, DEFAULT_PROJECT_TSC_OPTIONS, mergeTscOptionsJson } from "../options/tsc";
+import { Project } from "../project";
+import { TaskFunction } from "../utils/gulp-task-function";
+import { writeJsonFile } from "../utils/project";
 
 export interface Options {
   /**
@@ -55,5 +55,3 @@ export function registerTask(gulp: Gulp, project: Project): TaskFunction {
   gulp.task(mainTask.displayName, mainTask);
   return mainTask;
 }
-
-export default registerTask;

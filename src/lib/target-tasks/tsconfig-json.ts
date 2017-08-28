@@ -1,9 +1,9 @@
-import {posix as posixPath} from "path";
-import {CompilerOptionsJson} from "../options/tsc";
-import {AbsPosixPath, RelPosixPath} from "../types";
-import {TaskFunction} from "../utils/gulp-task-function";
-import {writeJsonFile} from "../utils/project";
-import {ResolvedTsLocations, resolveTsLocations, TypescriptConfig} from "./_typescript";
+import {posix as posixPath } from "path";
+import { CompilerOptionsJson } from "../options/tsc";
+import { AbsPosixPath, RelPosixPath } from "../types";
+import { TaskFunction } from "../utils/gulp-task-function";
+import { writeJsonFile } from "../utils/project";
+import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 
 export function getTsconfigJsonTask(options: TypescriptConfig): TaskFunction {
   const resolved: ResolvedTsLocations = resolveTsLocations(options);

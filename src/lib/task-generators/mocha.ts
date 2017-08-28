@@ -1,7 +1,7 @@
-import {Gulp} from "gulp";
-import gulpMocha = require("gulp-mocha");
-import {Minimatch} from "minimatch";
-import {TaskFunction} from "../utils/gulp-task-function";
+import { Gulp } from "gulp";
+import * as gulpMocha from "gulp-mocha";
+import { Minimatch } from "minimatch";
+import { TaskFunction } from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
 export interface Options {
@@ -18,7 +18,7 @@ export function getSources(options: Options): Sources {
   const specs: string = matcher.asString(matcher.join(baseDir, new Minimatch("**/*.spec.js")));
 
   return {
-    baseDir: baseDir,
+    baseDir,
     specs: [specs],
   };
 }
@@ -41,5 +41,3 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
 export function getTaskName(): string {
   return "_mocha:run";
 }
-
-export default generateTask;

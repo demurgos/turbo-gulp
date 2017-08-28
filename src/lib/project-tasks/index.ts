@@ -1,5 +1,5 @@
-import {Gulp} from "gulp";
-import {Project} from "../project";
+import { Gulp } from "gulp";
+import { Project } from "../project";
 import * as bumpMajor from "./bump-major";
 import * as bumpMinor from "./bump-minor";
 import * as bumpPatch from "./bump-patch";

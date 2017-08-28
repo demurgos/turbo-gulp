@@ -1,15 +1,15 @@
-import {FSWatcher} from "fs";
-import {Gulp} from "gulp";
-import gulpSourceMaps = require("gulp-sourcemaps");
-import gulpTypescript = require("gulp-typescript");
+import { FSWatcher } from "fs";
+import { Gulp } from "gulp";
+import * as gulpSourceMaps from "gulp-sourcemaps";
+import * as gulpTypescript from "gulp-typescript";
 import * as gulpUtil from "gulp-util";
-import merge = require("merge2");
-import {IMinimatch, Minimatch} from "minimatch";
+import * as merge from "merge2";
+import { IMinimatch, Minimatch } from "minimatch";
 import * as path from "path";
 import * as ts from "typescript";
-import {CompilerOptionsJson, DEV_TSC_OPTIONS} from "../options/tsc";
-import {TypescriptOptions} from "../options/typescript";
-import {TaskFunction} from "../utils/gulp-task-function";
+import { CompilerOptionsJson, DEV_TSC_OPTIONS } from "../options/tsc";
+import { TypescriptOptions } from "../options/typescript";
+import { TaskFunction } from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
 /**
@@ -105,8 +105,9 @@ function hasError(compilerResult: gulpTypescript.reporter.CompilationResult): bo
 }
 
 interface CompleteReporter extends gulpTypescript.reporter.Reporter {
-  error: (error: gulpTypescript.reporter.TypeScriptError, typescript: typeof ts) => void;
-  finish: (results: gulpTypescript.reporter.CompilationResult) => void;
+  error(error: gulpTypescript.reporter.TypeScriptError, typescript: typeof ts): void;
+
+  finish(results: gulpTypescript.reporter.CompilationResult): void;
 }
 
 function getReporter(strict: boolean = true): CompleteReporter {
@@ -135,7 +136,7 @@ function getReporter(strict: boolean = true): CompleteReporter {
 
 function deleteUndefinedProperties(obj: any): void {
   for (const key in obj) {
-    if (obj[key] ===  undefined) {
+    if (obj[key] === undefined) {
       delete obj[key];
     }
   }
@@ -162,14 +163,12 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
         .pipe(gulp.dest(options.buildDir)),
     ]);
   };
-  task.displayName = `_build:scripts`;
+  task.displayName = "_build:scripts";
   return task;
 }
 
 export function watch(gulp: Gulp, options: Options): FSWatcher {
-  const buildTask: TaskFunction = generateTask(gulp, Object.assign({}, options, {strict: false}));
+  const buildTask: TaskFunction = generateTask(gulp, {...options, strict: false});
   const sources: Sources = getSources(options);
   return gulp.watch(sources.sources, {cwd: sources.baseDir}, buildTask) as FSWatcher;
 }
-
-export default generateTask;

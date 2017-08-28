@@ -1,6 +1,6 @@
-import {Gulp} from "gulp";
-import {Project} from "../project";
-import {bumpVersion} from "../utils/project";
+import { Gulp } from "gulp";
+import { Project } from "../project";
+import { bumpVersion } from "../utils/project";
 
 export const taskName: string = ":bump-patch";
 
@@ -9,5 +9,3 @@ export function registerTask(gulp: Gulp, project: Project): void {
     return bumpVersion("patch", project);
   });
 }
-
-export default registerTask;

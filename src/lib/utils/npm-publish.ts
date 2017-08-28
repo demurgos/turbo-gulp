@@ -1,5 +1,5 @@
-import {AbsPosixPath} from "../types";
-import {execFile} from "./node-async";
+import { AbsPosixPath } from "../types";
+import { execFile } from "./node-async";
 
 export interface NpmPublishOptions {
   /**

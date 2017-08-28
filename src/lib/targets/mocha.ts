@@ -1,6 +1,6 @@
-import {Gulp, TaskFunction} from "gulp";
+import { Gulp, TaskFunction } from "gulp";
 import * as gulpUtil from "gulp-util";
-import {Readable as ReadableStream} from "stream";
+import {Readable as ReadableStream } from "stream";
 import * as mocha from "../task-generators/mocha";
 import {
   addTask, BaseTasks, nameTask, registerBaseTasks, ResolvedTargetBase, resolveTargetBase,

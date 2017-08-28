@@ -1,3 +1,3 @@
-import {TaskFunc} from "orchestrator";
+import { TaskFunc } from "orchestrator";
 
-export type TaskFunction = TaskFunc & {name?: string, displayName?: string, description?: string} | any;
+export type TaskFunction = TaskFunc & {name?: string; displayName?: string; description?: string} | any;

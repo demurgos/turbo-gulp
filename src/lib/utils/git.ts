@@ -1,5 +1,5 @@
-import {AbsPosixPath} from "../types";
-import {SpawnedProcess, SpawnOptions, SpawnResult} from "./node-async";
+import { AbsPosixPath } from "../types";
+import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
 export async function execGit(cmd: string, args: string[] = [], options?: SpawnOptions): Promise<SpawnResult> {
   return new SpawnedProcess(

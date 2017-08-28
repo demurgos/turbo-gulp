@@ -1,12 +1,12 @@
-import {FSWatcher} from "fs";
-import {Gulp} from "gulp";
+import { FSWatcher } from "fs";
+import { Gulp } from "gulp";
 import * as gulpSourceMaps from "gulp-sourcemaps";
 import * as gulpTypescript from "gulp-typescript";
 import * as merge from "merge2";
-import {CompilerOptionsJson} from "../options/tsc";
-import {TaskFunction} from "../utils/gulp-task-function";
-import {deleteUndefinedProperties} from "../utils/utils";
-import {ResolvedTsLocations, resolveTsLocations, TypescriptConfig} from "./_typescript";
+import { CompilerOptionsJson } from "../options/tsc";
+import { TaskFunction } from "../utils/gulp-task-function";
+import { deleteUndefinedProperties } from "../utils/utils";
+import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 
 export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): TaskFunction {
   const resolved: ResolvedTsLocations = resolveTsLocations(options);
@@ -33,7 +33,7 @@ export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): T
         .pipe(gulp.dest(options.buildDir)),
     ]);
   };
-  task.displayName = `_build:scripts`;
+  task.displayName = "_build:scripts";
   return task;
 }
 

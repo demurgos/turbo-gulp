@@ -1,11 +1,11 @@
-import {Gulp} from "gulp";
-import {IMinimatch, Minimatch} from "minimatch";
-import {posix as path} from "path";
-import {CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson} from "../options/tsc";
+import { Gulp } from "gulp";
+import { IMinimatch, Minimatch } from "minimatch";
+import {posix as path } from "path";
+import { CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson } from "../options/tsc";
 import * as buildTypescript from "../task-generators/build-typescript";
-import {TaskFunction} from "../utils/gulp-task-function";
+import { TaskFunction } from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
-import {writeJsonFile} from "../utils/project";
+import { writeJsonFile } from "../utils/project";
 
 export interface Options extends buildTypescript.Options {
   tsconfigPath: string;
@@ -63,7 +63,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   compilerOptions.typeRoots = paths.typeRoots;
 
   const tsconfigData: Object = {
-    compilerOptions: compilerOptions,
+    compilerOptions,
     include: paths.include,
     exclude: paths.exclude,
   };
@@ -82,5 +82,3 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
 export function getTaskName(): string {
   return "_tsconfig.json";
 }
-
-export default generateTask;

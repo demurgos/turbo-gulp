@@ -1,21 +1,21 @@
 import * as semver from "semver";
 
-import {Project} from "../project";
+import { Project } from "../project";
 import * as git from "./git";
-import {readText, writeText} from "./node-async";
+import { readText, writeText } from "./node-async";
 
 export async function assertUnusedTag(tag: string): Promise<void> {
   if (await git.tagExists(tag)) {
-    throw new Error("Tag " + tag + " already exists");
+    throw new Error(`Tag ${tag} already exists`);
   }
 }
 
 export function getVersionTag(version: string): string {
-  return "v" + version;
+  return `v${version}`;
 }
 
 export function getVersionMessage(version: string): string {
-  return "Release v" + version;
+  return `Release v${version}`;
 }
 
 export async function commitVersion(version: string, projectRoot?: string): Promise<void> {

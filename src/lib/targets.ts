@@ -1,9 +1,9 @@
-import webpack = require("webpack");
-import {CleanOptions} from "./options/clean";
-import {CopyOptions} from "./options/copy";
-import {PugOptions} from "./options/pug";
-import {SassOptions} from "./options/sass";
-import {TypescriptOptions} from "./options/typescript";
+import * as webpack from "webpack";
+import { CleanOptions } from "./options/clean";
+import { CopyOptions } from "./options/copy";
+import { PugOptions } from "./options/pug";
+import { SassOptions } from "./options/sass";
+import { TypescriptOptions } from "./options/typescript";
 
 /**
  * A target represents a group of tasks to produce a specific build.

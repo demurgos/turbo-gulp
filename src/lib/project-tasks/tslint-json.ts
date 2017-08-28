@@ -1,9 +1,9 @@
-import {Gulp} from "gulp";
-import {posix as path} from "path";
-import {DEFAULT_UNTYPED_TSLINT_CONFIG} from "../options/tslint";
-import {Project} from "../project";
-import {TaskFunction} from "../utils/gulp-task-function";
-import {writeJsonFile} from "../utils/project";
+import { Gulp } from "gulp";
+import {posix as path } from "path";
+import { DEFAULT_UNTYPED_TSLINT_CONFIG } from "../options/tslint";
+import { Project } from "../project";
+import { TaskFunction } from "../utils/gulp-task-function";
+import { writeJsonFile } from "../utils/project";
 
 export function generateTask(gulp: Gulp, project: Project): TaskFunction {
   let relativePath: string;
@@ -20,7 +20,7 @@ export function generateTask(gulp: Gulp, project: Project): TaskFunction {
 }
 
 export function getTaskName(): string {
-  return `:tslint.json`;
+  return ":tslint.json";
 }
 
 export function registerTask(gulp: Gulp, project: Project): TaskFunction {
@@ -29,5 +29,3 @@ export function registerTask(gulp: Gulp, project: Project): TaskFunction {
   gulp.task(taskName, task);
   return task;
 }
-
-export default registerTask;

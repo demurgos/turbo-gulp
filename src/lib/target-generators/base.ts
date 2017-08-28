@@ -1,16 +1,16 @@
-import asyncDone = require("async-done");
-import {FSWatcher} from "fs";
-import {Gulp} from "gulp";
-import {posix as path} from "path";
-import {CopyOptions} from "../options/copy";
-import {PugOptions} from "../options/pug";
-import {SassOptions} from "../options/sass";
+import * as asyncDone from "async-done";
+import { FSWatcher } from "fs";
+import { Gulp } from "gulp";
+import {posix as path } from "path";
+import { CopyOptions } from "../options/copy";
+import { PugOptions } from "../options/pug";
+import { SassOptions } from "../options/sass";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as copy from "../task-generators/copy";
 import * as pug from "../task-generators/pug";
 import * as sass from "../task-generators/sass";
 import * as tsconfigJson from "../task-generators/tsconfig-json";
-import {TaskFunction} from "../utils/gulp-task-function";
+import { TaskFunction } from "../utils/gulp-task-function";
 
 async function asyncDoneAsync(fn: asyncDone.AsyncTask): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -68,7 +68,7 @@ function mergeCopy(
     return;
   };
   const watch: ManyWatchFunction = function (): FSWatcher[] {
-    return watchFunctions.map((fn) => fn());
+    return watchFunctions.map(fn => fn());
   };
   return [task, watch];
 }
@@ -91,7 +91,7 @@ export function generateCopyTasks(
   }
 
   const mainTask: TaskFunction = gulp.parallel(...subTasks);
-  mainTask.displayName = `_copy`;
+  mainTask.displayName = "_copy";
   const mainWatch: ManyWatchFunction = function (): FSWatcher[] {
     const watchers: FSWatcher[] = [];
     for (const fn of subWatchs) {
@@ -131,7 +131,7 @@ function mergePug(
     return;
   };
   const watch: ManyWatchFunction = function (): FSWatcher[] {
-    return watchFunctions.map((fn) => fn());
+    return watchFunctions.map(fn => fn());
   };
   return [task, watch];
 }
@@ -154,7 +154,7 @@ export function generatePugTasks(
   }
 
   const mainTask: TaskFunction = gulp.parallel(...subTasks);
-  mainTask.displayName = `_pug`;
+  mainTask.displayName = "_pug";
   const mainWatch: ManyWatchFunction = function (): FSWatcher[] {
     const watchers: FSWatcher[] = [];
     for (const fn of subWatchs) {
@@ -194,7 +194,7 @@ function mergeSass(
     return;
   };
   const watch: ManyWatchFunction = function (): FSWatcher[] {
-    return watchFunctions.map((fn) => fn());
+    return watchFunctions.map(fn => fn());
   };
   return [task, watch];
 }
@@ -217,7 +217,7 @@ export function generateSassTasks(
   }
 
   const mainTask: TaskFunction = gulp.parallel(...subTasks);
-  mainTask.displayName = `_sass`;
+  mainTask.displayName = "_sass";
   const mainWatch: ManyWatchFunction = function (): FSWatcher[] {
     const watchers: FSWatcher[] = [];
     for (const fn of subWatchs) {
@@ -250,6 +250,6 @@ export function generateTsconfigJsonTasks(
   }
 
   const mainTask: TaskFunction = gulp.parallel(...subTasks);
-  mainTask.displayName = `_tsconfig`;
+  mainTask.displayName = "_tsconfig";
   return mainTask;
 }

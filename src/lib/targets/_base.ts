@@ -1,20 +1,20 @@
-import {existsSync} from "fs";
-import {Gulp, TaskFunction} from "gulp";
+import { existsSync } from "fs";
+import { Gulp, TaskFunction } from "gulp";
 import * as gulpUtil from "gulp-util";
-import {Minimatch} from "minimatch";
-import {posix as posixPath} from "path";
-import {Readable as ReadableStream} from "stream";
+import { Minimatch } from "minimatch";
+import {posix as posixPath } from "path";
+import {Readable as ReadableStream } from "stream";
 import * as typescript from "typescript";
-import {CleanOptions} from "../options/clean";
-import {CopyOptions} from "../options/copy";
-import {CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson} from "../options/tsc";
-import {Project, ResolvedProject, resolveProject} from "../project";
-import {generateCopyTasks, ManyWatchFunction} from "../target-generators/base";
-import {TypescriptConfig} from "../target-tasks/_typescript";
-import {getBuildTypescriptTask} from "../target-tasks/build-typescript";
-import {getTsconfigJsonTask} from "../target-tasks/tsconfig-json";
-import {CleanOptions as _CleanOptions, generateTask as generateCleanTask} from "../task-generators/clean";
-import {AbsPosixPath, RelPosixPath} from "../types";
+import { CleanOptions } from "../options/clean";
+import { CopyOptions } from "../options/copy";
+import { CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson } from "../options/tsc";
+import { Project, ResolvedProject, resolveProject } from "../project";
+import { generateCopyTasks, ManyWatchFunction } from "../target-generators/base";
+import { TypescriptConfig } from "../target-tasks/_typescript";
+import { getBuildTypescriptTask } from "../target-tasks/build-typescript";
+import { getTsconfigJsonTask } from "../target-tasks/tsconfig-json";
+import {CleanOptions as _CleanOptions, generateTask as generateCleanTask } from "../task-generators/clean";
+import { AbsPosixPath, RelPosixPath } from "../types";
 import * as matcher from "../utils/matcher";
 
 export interface TargetBase {
@@ -169,9 +169,7 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
     (target.tsconfigJson !== null ? posixPath.join(project.absRoot, target.tsconfigJson) : null) :
     posixPath.join(srcDir, "tsconfig.json");
 
-  const dependencies: ResolvedBaseDependencies = {
-    typescript: typescript,
-  };
+  const dependencies: ResolvedBaseDependencies = {typescript};
   if (target.dependencies !== undefined) {
     Object.assign(dependencies, target.dependencies);
   }

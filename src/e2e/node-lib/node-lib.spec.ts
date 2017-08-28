@@ -1,8 +1,8 @@
-import chai = require("chai");
-import chaiAsPromised = require("chai-as-promised");
-import {posix as path} from "path";
-import {toPosix} from "../../lib/project";
-import {execFile, ExecFileError, ExecFileResult, readText, writeText} from "../../lib/utils/node-async";
+import * as chai from "chai";
+import * as chaiAsPromised from "chai-as-promised";
+import {posix as path } from "path";
+import { toPosix } from "../../lib/project";
+import { execFile, ExecFileError, ExecFileResult, readText, writeText } from "../../lib/utils/node-async";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
@@ -11,7 +11,7 @@ const PROJECT_ROOT: string = path.join(toPosix(__dirname), "project");
 const RESOURCES_ROOT: string = path.join(toPosix(__dirname), "test-resources");
 
 describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
-  before("Install npm dependencies", async function(this: Mocha.IHookCallbackContext) {
+  before("Install npm dependencies", async function (this: Mocha.IHookCallbackContext) {
     this.timeout(5 * 60 * 1000);
     const buildToolsPath: string = "../../../lib/index";
     await writeText(
@@ -38,7 +38,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
   });
 
   describe("lib:build", async function (this: Mocha.ISuiteCallbackContext): Promise<void> {
-    before("Run `gulp lib:build`", async function(this: Mocha.IHookCallbackContext) {
+    before("Run `gulp lib:build`", async function (this: Mocha.IHookCallbackContext) {
       this.timeout(60 * 1000);
       await execFile("gulp", ["lib:build"], {cwd: PROJECT_ROOT});
     });
@@ -54,7 +54,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
   });
 
   describe("lib:dist", async function (this: Mocha.ISuiteCallbackContext): Promise<void> {
-    before("Run `gulp lib:dist`", async function(this: Mocha.IHookCallbackContext) {
+    before("Run `gulp lib:dist`", async function (this: Mocha.IHookCallbackContext) {
       this.timeout(60 * 1000);
       await execFile("gulp", ["lib:dist"], {cwd: PROJECT_ROOT});
     });
@@ -70,7 +70,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
   });
 
   describe("lib:tsconfig.json", async function (this: Mocha.ISuiteCallbackContext): Promise<void> {
-    before("Run `gulp lib:tsconfig.json`", async function(this: Mocha.IHookCallbackContext) {
+    before("Run `gulp lib:tsconfig.json`", async function (this: Mocha.IHookCallbackContext) {
       this.timeout(60 * 1000);
       await execFile("gulp", ["lib:tsconfig.json"], {cwd: PROJECT_ROOT});
     });

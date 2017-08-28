@@ -1,10 +1,10 @@
-import {Gulp} from "gulp";
-import {default as gulpTslint, PluginOptions as GulpTslintOptions} from "gulp-tslint";
-import {IMinimatch, Minimatch} from "minimatch";
-import {posix as path} from "path";
-import tslint = require("tslint");
-import {DEFAULT_UNTYPED_TSLINT_CONFIG} from "../options/tslint";
-import {Project} from "../project";
+import { Gulp } from "gulp";
+import {default as gulpTslint, PluginOptions as GulpTslintOptions } from "gulp-tslint";
+import { IMinimatch, Minimatch } from "minimatch";
+import {posix as path } from "path";
+import * as tslint from "tslint";
+import { DEFAULT_UNTYPED_TSLINT_CONFIG } from "../options/tslint";
+import { Project } from "../project";
 import * as matcher from "../utils/matcher";
 
 export const taskName: string = ":lint:fix";
@@ -69,9 +69,9 @@ export function registerTask(gulp: Gulp, project: Project) {
   const options: GulpTslintOptions = {
     emitError: true,
     formatter: "msbuild",
-    tslint: tslint,
+    tslint,
     ...project.tslint,
-    configuration: configuration,
+    configuration,
     fix: true,
   };
 
@@ -85,5 +85,3 @@ export function registerTask(gulp: Gulp, project: Project) {
       }));
   });
 }
-
-export default registerTask;

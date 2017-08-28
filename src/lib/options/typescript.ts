@@ -1,5 +1,5 @@
 import * as ts from "typescript";
-import {CompilerOptionsJson, DEFAULT_PROJECT_TSC_OPTIONS, mergeTscOptionsJson} from "./tsc";
+import { CompilerOptionsJson, DEFAULT_PROJECT_TSC_OPTIONS, mergeTscOptionsJson } from "./tsc";
 
 /**
  * Typescript options, can be applied both to the project or for specific targets.

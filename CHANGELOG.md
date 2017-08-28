@@ -1,5 +1,6 @@
 ## Next
 
+**[Breaking]** Update Tslint rules to use `tslint@5.7.0`.
 **[Fix]** Do not pipe output of git commands to stdout.
 **[Internal]** Update self-dependency to `v0.15.0-beta.9`.
 

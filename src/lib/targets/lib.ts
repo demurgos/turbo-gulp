@@ -1,20 +1,20 @@
-import {Gulp, TaskFunction} from "gulp";
-import {Minimatch} from "minimatch";
-import {posix as posixPath} from "path";
-import {CleanOptions} from "../options/clean";
-import {CopyOptions} from "../options/copy";
-import {CompilerOptionsJson} from "../options/tsc";
-import {ResolvedProject} from "../project";
-import {generateCopyTasks, ManyWatchFunction} from "../target-generators/base";
-import {TypescriptConfig} from "../target-tasks/_typescript";
-import {getBuildTypescriptTask} from "../target-tasks/build-typescript";
-import {getTypedocTask} from "../target-tasks/typedoc";
-import {AbsPosixPath, RelPosixPath} from "../types";
-import {branchPublish} from "../utils/branch-publish";
-import {getHeadHash} from "../utils/git";
+import { Gulp, TaskFunction } from "gulp";
+import { Minimatch } from "minimatch";
+import {posix as posixPath } from "path";
+import { CleanOptions } from "../options/clean";
+import { CopyOptions } from "../options/copy";
+import { CompilerOptionsJson } from "../options/tsc";
+import { ResolvedProject } from "../project";
+import { generateCopyTasks, ManyWatchFunction } from "../target-generators/base";
+import { TypescriptConfig } from "../target-tasks/_typescript";
+import { getBuildTypescriptTask } from "../target-tasks/build-typescript";
+import { getTypedocTask } from "../target-tasks/typedoc";
+import { AbsPosixPath, RelPosixPath } from "../types";
+import { branchPublish } from "../utils/branch-publish";
+import { getHeadHash } from "../utils/git";
 import * as matcher from "../utils/matcher";
-import {npmPublish} from "../utils/npm-publish";
-import {PackageJson, readJsonFile} from "../utils/project";
+import { npmPublish } from "../utils/npm-publish";
+import { PackageJson, readJsonFile } from "../utils/project";
 import {
   BaseTasks,
   gulpBufferSrc,
@@ -171,7 +171,7 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
     dist = false;
   } else {
     const defaultDistDir: AbsPosixPath = posixPath.join(base.project.absDistDir, target.name);
-    const defaultPackageJsonMap: (pkg: PackageJson) => PackageJson = (pkg) => pkg;
+    const defaultPackageJsonMap: (pkg: PackageJson) => PackageJson = pkg => pkg;
 
     if (target.dist === true) { // `true` literal
       dist = {

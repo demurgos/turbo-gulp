@@ -1,9 +1,9 @@
-import {FSWatcher} from "fs";
-import {Gulp} from "gulp";
-import gulpPug = require("gulp-pug");
-import {Minimatch} from "minimatch";
-import {TaskFunction} from "../utils/gulp-task-function";
-import {asString, join} from "../utils/matcher";
+import { FSWatcher } from "fs";
+import { Gulp } from "gulp";
+import * as gulpPug from "gulp-pug";
+import { Minimatch } from "minimatch";
+import { TaskFunction } from "../utils/gulp-task-function";
+import { asString, join } from "../utils/matcher";
 
 export interface Options {
   /**
@@ -50,7 +50,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const task: TaskFunction = function (): NodeJS.ReadableStream {
     return buildPug(gulp, options);
   };
-  task.displayName = `_build:pug`;
+  task.displayName = "_build:pug";
   return task;
 }
 

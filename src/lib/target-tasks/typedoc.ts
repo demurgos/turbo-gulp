@@ -1,10 +1,10 @@
-import {Gulp} from "gulp";
-import gulpTypedoc = require("gulp-typedoc");
-import {CompilerOptionsJson} from "../options/tsc";
-import {AbsPosixPath} from "../types";
-import {TaskFunction} from "../utils/gulp-task-function";
-import {deleteUndefinedProperties} from "../utils/utils";
-import {ResolvedTsLocations, resolveTsLocations, TypescriptConfig} from "./_typescript";
+import { Gulp } from "gulp";
+import * as gulpTypedoc from "gulp-typedoc";
+import { CompilerOptionsJson } from "../options/tsc";
+import { AbsPosixPath } from "../types";
+import { TaskFunction } from "../utils/gulp-task-function";
+import { deleteUndefinedProperties } from "../utils/utils";
+import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 
 export interface TypedocOptions {
   dir: AbsPosixPath;
@@ -38,6 +38,6 @@ export function getTypedocTask(gulp: Gulp, tsConfig: TypescriptConfig, options: 
         version: true,
       }));
   };
-  task.displayName = `_typedoc`;
+  task.displayName = "_typedoc";
   return task;
 }

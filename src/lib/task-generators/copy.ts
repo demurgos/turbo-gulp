@@ -1,8 +1,8 @@
-import {FSWatcher} from "fs";
-import {Gulp} from "gulp";
-import {Minimatch} from "minimatch";
-import {TaskFunction} from "../utils/gulp-task-function";
-import {asString, join} from "../utils/matcher";
+import { FSWatcher } from "fs";
+import { Gulp } from "gulp";
+import { Minimatch } from "minimatch";
+import { TaskFunction } from "../utils/gulp-task-function";
+import { asString, join } from "../utils/matcher";
 
 export interface Options {
   /**
@@ -41,7 +41,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const task: TaskFunction = function (): NodeJS.ReadableStream {
     return copy(gulp, options);
   };
-  task.displayName = `_build:copy`;
+  task.displayName = "_build:copy";
   return task;
 }
 

@@ -1,5 +1,5 @@
-import {IMinimatch, Minimatch} from "minimatch";
-import {posix as path} from "path";
+import { IMinimatch, Minimatch } from "minimatch";
+import {posix as path } from "path";
 
 export function join(prefix: string, matcher: IMinimatch): IMinimatch {
   let result: IMinimatch;

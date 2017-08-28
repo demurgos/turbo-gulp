@@ -1,14 +1,14 @@
-import del = require("del");
-import {FSWatcher} from "fs";
-import {Gulp} from "gulp";
-import {TaskFunc} from "orchestrator";
-import {posix as path} from "path";
-import {Project, ResolvedProject, resolveProject, toPosix} from "../project";
-import {WebpackTarget} from "../targets";
+import * as del from "del";
+import { FSWatcher } from "fs";
+import { Gulp } from "gulp";
+import { TaskFunc } from "orchestrator";
+import {posix as path } from "path";
+import { Project, ResolvedProject, resolveProject, toPosix } from "../project";
+import { WebpackTarget } from "../targets";
 import * as buildTypescript from "../task-generators/build-typescript";
 import * as buildWebpack from "../task-generators/build-webpack";
 import * as clean from "../task-generators/clean";
-import {TaskFunction} from "../utils/gulp-task-function";
+import { TaskFunction } from "../utils/gulp-task-function";
 import {
   generateCopyTasks,
   generatePugTasks,

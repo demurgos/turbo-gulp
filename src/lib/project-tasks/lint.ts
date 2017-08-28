@@ -1,10 +1,10 @@
-import {existsSync as fileExistsSync, readFileSync} from "fs";
-import {Gulp} from "gulp";
-import {default as gulpTslint, PluginOptions as GulpTslintOptions} from "gulp-tslint";
-import {IMinimatch, Minimatch} from "minimatch";
-import {posix as path} from "path";
+import { existsSync as fileExistsSync, readFileSync } from "fs";
+import { Gulp } from "gulp";
+import { default as gulpTslint, PluginOptions as GulpTslintOptions } from "gulp-tslint";
+import { IMinimatch, Minimatch } from "minimatch";
+import { posix as path } from "path";
 import * as tslint from "tslint";
-import {Configuration as TslintConfiguration} from "tslint";
+import { Configuration as TslintConfiguration } from "tslint";
 import {
   CompilerHost,
   createCompilerHost,
@@ -15,8 +15,8 @@ import {
   Program,
   sys as tsSys,
 } from "typescript";
-import {DEFAULT_TYPED_TSLINT_CONFIG} from "../options/tslint";
-import {Project} from "../project";
+import { DEFAULT_TYPED_TSLINT_CONFIG } from "../options/tslint";
+import { Project } from "../project";
 import * as matcher from "../utils/matcher";
 
 export const taskName: string = ":lint";
@@ -100,9 +100,9 @@ export function registerTask(gulp: Gulp, project: Project) {
   const options: GulpTslintOptions = {
     emitError: true,
     formatter: "msbuild",
-    tslint: tslint,
+    tslint,
     ...project.tslint,
-    configuration: configuration,
+    configuration,
     program,
   };
 
@@ -116,5 +116,3 @@ export function registerTask(gulp: Gulp, project: Project) {
       }));
   });
 }
-
-export default registerTask;

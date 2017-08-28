@@ -1,8 +1,13 @@
-import {ChildProcess, execFile as _execFile, ExecFileOptions as _ExecFileOptions, spawn as _spawn} from "child_process";
+import {
+  ChildProcess,
+  execFile as _execFile,
+  ExecFileOptions as _ExecFileOptions,
+  spawn as _spawn,
+} from "child_process";
 import * as fs from "fs";
-import {Incident} from "incident";
-import {PassThrough, Transform as TransformStream} from "stream";
-import {promisify} from "util";
+import { Incident } from "incident";
+import { PassThrough, Transform as TransformStream } from "stream";
+import { promisify } from "util";
 
 export interface ExecFileOptions {
   cwd?: string;

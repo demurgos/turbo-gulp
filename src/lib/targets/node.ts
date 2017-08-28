@@ -1,11 +1,11 @@
-import {spawn} from "child_process";
-import {Gulp, TaskFunction} from "gulp";
-import {posix as posixPath} from "path";
-import {CleanOptions} from "../options/clean";
-import {CopyOptions} from "../options/copy";
-import {CompilerOptionsJson} from "../options/tsc";
-import {ResolvedProject} from "../project";
-import {AbsPosixPath, RelPosixPath} from "../types";
+import { spawn } from "child_process";
+import { Gulp, TaskFunction } from "gulp";
+import {posix as posixPath } from "path";
+import { CleanOptions } from "../options/clean";
+import { CopyOptions } from "../options/copy";
+import { CompilerOptionsJson } from "../options/tsc";
+import { ResolvedProject } from "../project";
+import { AbsPosixPath, RelPosixPath } from "../types";
 import {
   BaseTasks,
   nameTask,

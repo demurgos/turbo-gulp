@@ -1,8 +1,8 @@
-import del = require("del");
-import {Gulp} from "gulp";
-import {Minimatch} from "minimatch";
-import {posix as path} from "path";
-import {TaskFunction} from "../utils/gulp-task-function";
+import * as del from "del";
+import { Gulp } from "gulp";
+import { Minimatch } from "minimatch";
+import {posix as path } from "path";
+import { TaskFunction } from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
 export interface CleanOptions {

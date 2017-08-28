@@ -1,5 +1,5 @@
-import {assert} from "chai";
-import {Minimatch} from "minimatch";
+import { assert } from "chai";
+import { Minimatch } from "minimatch";
 import * as matcher from "./matcher";
 
 describe("matcher.asString", function () {
