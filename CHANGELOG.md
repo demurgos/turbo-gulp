@@ -1,4 +1,4 @@
-## Next
+## 0.15.0-beta.9 (2017-08-28)
 
 - **[Breaking]** Drop old-style `test` target.
 - **[Breaking]** Drop old-style `node` target.
