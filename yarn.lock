@@ -108,7 +108,7 @@
   version "9.1.10"
   resolved "https://registry.yarnpkg.com/@types/highlight.js/-/highlight.js-9.1.10.tgz#b621f809cd9573b80992b90cffc5788208e3069c"
 
-"@types/lodash@^4.14.37", "@types/lodash@^4.14.71":
+"@types/lodash@^4.14.37", "@types/lodash@^4.14.71", "@types/lodash@^4.14.74":
   version "4.14.74"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.74.tgz#ac3bd8db988e7f7038e5d22bd76a7ba13f876168"
 
@@ -116,7 +116,7 @@
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.0.28.tgz#44ba754e9fa51432583e8eb30a7c4dd249b52faa"
 
-"@types/minimatch@*", "@types/minimatch@^3.0.1n":
+"@types/minimatch@*", "@types/minimatch@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.1.tgz#b683eb60be358304ef146f5775db4c0e3696a550"
 
@@ -153,7 +153,7 @@
   version "0.0.36"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-0.0.36.tgz#97d786389641bcbd0e22bfc729a534175976371d"
 
-"@types/semver@^5.3.33":
+"@types/semver@^5.3.33", "@types/semver@^5.4.0":
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/@types/semver/-/semver-5.4.0.tgz#f3658535af7f1f502acd6da7daf405ffeb1f7ee4"
 
@@ -1736,7 +1736,7 @@ gulp-cli@^1.0.0, gulp-cli@^1.4.0:
     wreck "^6.3.0"
     yargs "^3.28.0"
 
-gulp-mocha@^4.3.0:
+gulp-mocha@^4.3.0, gulp-mocha@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/gulp-mocha/-/gulp-mocha-4.3.1.tgz#77950b43bcff816595767c0734e0fda7d173dcd9"
   dependencies:
@@ -1776,7 +1776,7 @@ gulp-sourcemaps@1.6.0:
     through2 "^2.0.0"
     vinyl "^1.0.0"
 
-gulp-sourcemaps@^2.6.0:
+gulp-sourcemaps@^2.6.0, gulp-sourcemaps@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/gulp-sourcemaps/-/gulp-sourcemaps-2.6.1.tgz#833a4e28f0b8f4661075032cd782417f7cd8fb0b"
   dependencies:
@@ -1808,7 +1808,7 @@ gulp-typedoc@^2.0.3:
     event-stream "^3.3.4"
     gulp-util "^3.0.8"
 
-gulp-typescript@^3.2.1:
+gulp-typescript@^3.2.1, gulp-typescript@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/gulp-typescript/-/gulp-typescript-3.2.2.tgz#b7e5e1d3cb35f772e53e604026601826e2be77fc"
   dependencies:
@@ -2653,7 +2653,7 @@ merge-stream@^1.0.0:
   dependencies:
     readable-stream "^2.0.1"
 
-merge2@^1.0.2:
+merge2@^1.0.2, merge2@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.1.0.tgz#99fb32b35e9fad840146004e13a56b7549a524db"
 
@@ -3981,7 +3981,7 @@ tslib@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.7.1.tgz#bc8004164691923a79fe8378bbeb3da2017538ec"
 
-tslint@^5.6.0:
+tslint@^5.6.0, tslint@^5.7.0:
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.7.0.tgz#c25e0d0c92fa1201c2bc30e844e08e682b4f3552"
   dependencies:
@@ -4299,7 +4299,7 @@ webpack-stream@^4.0.0:
     vinyl "^2.1.0"
     webpack "^3.4.1"
 
-webpack@^3.4.1, webpack@^3.5.1:
+webpack@^3.4.1, webpack@^3.5.1, webpack@^3.5.5:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.5.5.tgz#3226f09fc8b3e435ff781e7af34f82b68b26996c"
   dependencies:

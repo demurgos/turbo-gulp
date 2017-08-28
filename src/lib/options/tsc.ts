@@ -76,7 +76,7 @@ export interface CompilerOptionsJson {
 }
 
 export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
-  allowJs: true,
+  allowJs: false,
   allowSyntheticDefaultImports: false,
   allowUnreachableCode: false,
   allowUnusedLabels: false,
@@ -143,7 +143,6 @@ export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
 
 export const PROD_TSC_OPTIONS: CompilerOptionsJson = {
   ...DEFAULT_PROJECT_TSC_OPTIONS,
-  allowJs: false,
   declaration: true,
   module: "commonjs",
   removeComments: false,
