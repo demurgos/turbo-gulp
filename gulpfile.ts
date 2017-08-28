@@ -2,51 +2,73 @@ import * as buildTools from "demurgos-web-build-tools"; // Going meta
 // import * as buildTools from "./build/lib/lib/index";
 
 import * as gulp from "gulp";
-import * as typescript from "typescript";
+import * as minimist from "minimist";
+import {ParsedArgs} from "minimist";
 
-// Project-wide options
-const projectOptions: buildTools.Project = {
-  ...buildTools.DEFAULT_PROJECT,
+interface Options {
+  devDist?: string;
+}
+
+const options: Options & ParsedArgs = minimist(process.argv.slice(2), {
+  string: ["devDist"],
+  default: {devDist: undefined},
+  alias: {devDist: "dev-dist"},
+});
+
+const project: buildTools.Project = {
   root: __dirname,
-  tslint: {
-    files: ["src/**/*.ts", "!src/e2e/*/*/**/*.ts"],
-  },
-  typescript: {
-    tsconfigJson: ["tsconfig.json"],
-    compilerOptions: {
-      typeRoots: [
-        "src/custom-typings",
-        "node_modules/@types",
-      ],
+  packageJson: "package.json",
+  buildDir: "build",
+  distDir: "dist",
+  srcDir: "src",
+};
+
+const lib: buildTools.LibTarget = {
+  project,
+  name: "lib",
+  srcDir: "src/lib",
+  scripts: ["**/*.ts"],
+  mainModule: "index",
+  dist: {
+    packageJsonMap: (old: buildTools.PackageJson): buildTools.PackageJson => {
+      const version: string = options.devDist !== undefined ? `${old.version}-dev.${options.devDist}` : old.version;
+      return <any> {...old, version, scripts: undefined};
     },
+    npmPublish: {
+      tag: options.devDist !== undefined ? "next" : "latest",
+    },
+  },
+  customTypingsDir: "src/custom-typings",
+  tscOptions: {
+    skipLibCheck: true,
+  },
+  typedoc: {
+    dir: "typedoc",
+    name: "Web Build Tools",
+    deploy: {
+      repository: "git@github.com:demurgos/web-build-tools.git",
+      branch: "gh-pages",
+    },
+  },
+  copy: [
+    {
+      name: "json",
+      files: ["**/*.json"],
+    },
+  ],
+  clean: {
+    dirs: ["build/lib", "dist/lib"],
   },
 };
 
-// `lib` target
-const libTarget: buildTools.NodeTarget = {
-  ...buildTools.LIB_TARGET,
-  typescript: {
-    compilerOptions: {
-      skipLibCheck: true,
-      target: "es2015",
-    },
-    typescript: typescript,
-    tsconfigJson: ["tsconfig.json"],
-  },
-};
-
-// `lib-test` target
-const libTestTarget: buildTools.TestTarget = {
-  ...buildTools.LIB_TEST_TARGET,
-  name: "lib-test",
+const test: buildTools.MochaTarget = {
+  project,
+  name: "test",
+  srcDir: "src",
   scripts: ["test/**/*.ts", "lib/**/*.ts", "e2e/*/*.ts"],
-  typescript: {
-    compilerOptions: {
-      skipLibCheck: true,
-      target: "es2015",
-    },
-    typescript: typescript,
-    tsconfigJson: ["test/tsconfig.json"],
+  customTypingsDir: "src/custom-typings",
+  tscOptions: {
+    skipLibCheck: true,
   },
   copy: [
     {
@@ -57,11 +79,14 @@ const libTestTarget: buildTools.TestTarget = {
       dest: "e2e",
     },
   ],
+  clean: {
+    dirs: ["build/test"],
+  },
 };
 
-buildTools.projectTasks.registerAll(gulp, projectOptions);
-buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, libTarget);
-buildTools.targetGenerators.test.generateTarget(gulp, projectOptions, libTestTarget);
+const libTasks: any = buildTools.registerLibTasks(gulp, lib);
+buildTools.registerMochaTasks(gulp, test);
+buildTools.projectTasks.registerAll(gulp, project);
 
-gulp.task("all:tsconfig.json", gulp.parallel("lib:tsconfig.json", "lib-test:tsconfig.json"));
-gulp.task("all:dist", gulp.parallel("lib:dist"));
+gulp.task("all:tsconfig.json", gulp.parallel("lib:tsconfig.json", "test:tsconfig.json"));
+gulp.task("dist", libTasks.dist);

@@ -1,3 +1,7 @@
+## Next
+
+**[Internal]** Update self-dependency to `v0.15.0-beta.9`.
+
 ## 0.15.0-beta.9 (2017-08-28)
 
 - **[Breaking]** Drop old-style `test` target.
