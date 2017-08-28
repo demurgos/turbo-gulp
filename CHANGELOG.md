@@ -1,5 +1,6 @@
 ## Next
 
+**[Fix]** Do not pipe output of git commands to stdout.
 **[Internal]** Update self-dependency to `v0.15.0-beta.9`.
 
 ## 0.15.0-beta.9 (2017-08-28)

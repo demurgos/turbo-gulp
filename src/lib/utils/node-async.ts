@@ -97,7 +97,7 @@ export async function execFile(file: string, args: string[], options?: ExecFileO
 export interface SpawnOptions {
   cwd?: string;
   env?: {[key: string]: string};
-  stdio: "inherit" | "pipe";
+  stdio?: "inherit" | "pipe";
   /**
    * Run in detached mode. Default: `false`.
    */

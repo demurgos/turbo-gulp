@@ -1,5 +1,5 @@
 import * as buildTools from "demurgos-web-build-tools"; // Going meta
-// import * as buildTools from "./build/lib/lib/index";
+// import * as buildTools from "./build/lib/index";
 
 import * as gulp from "gulp";
 import * as minimist from "minimist";
