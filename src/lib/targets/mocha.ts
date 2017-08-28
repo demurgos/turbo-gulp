@@ -1,7 +1,6 @@
 import {Gulp, TaskFunction} from "gulp";
 import * as gulpUtil from "gulp-util";
 import {Readable as ReadableStream} from "stream";
-import {Project, ResolvedProject, resolveProject} from "../project";
 import * as mocha from "../task-generators/mocha";
 import {addTask, BaseTasks, registerBaseTasks, ResolvedTargetBase, resolveTargetBase, TargetBase} from "./_base";
 
@@ -34,12 +33,11 @@ interface ResolvedMochaTarget extends ResolvedTargetBase {
 /**
  * Resolve absolute paths and dependencies for the provided target.
  *
- * @param project Project to use.
  * @param target Non-resolved target.
  * @return Resolved target.
  */
-function resolveMochaTarget(project: ResolvedProject, target: MochaTarget): ResolvedMochaTarget {
-  return resolveTargetBase(project, target);
+function resolveMochaTarget(target: MochaTarget): ResolvedMochaTarget {
+  return resolveTargetBase(target);
 }
 
 export interface MochaTasks extends BaseTasks {
@@ -51,16 +49,14 @@ export interface MochaTasks extends BaseTasks {
  * Generates and registers gulp tasks for the provided lib target.
  *
  * @param gulp Gulp instance where the tasks will be registered.
- * @param project Project configuration.
- * @param target Target configuration.
+ * @param targetOptions Target configuration.
  */
-export function registerMochaTargetTasks(gulp: Gulp, project: Project, target: MochaTarget): MochaTasks {
-  const resolvedProject: ResolvedProject = resolveProject(project);
-  const resolvedTarget: ResolvedMochaTarget = resolveMochaTarget(resolvedProject, target);
-  const result: MochaTasks = <MochaTasks> registerBaseTasks(gulp, project, target);
+export function registerMochaTargetTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
+  const target: ResolvedMochaTarget = resolveMochaTarget(targetOptions);
+  const result: MochaTasks = <MochaTasks> registerBaseTasks(gulp, targetOptions);
 
   // run
-  result.run = addTask(gulp, `${target.name}:run`, mocha.generateTask(gulp, {testDir: resolvedTarget.buildDir}));
+  result.run = addTask(gulp, `${target.name}:run`, mocha.generateTask(gulp, {testDir: target.buildDir}));
 
   // start
   const startTasks: TaskFunction[] = [];

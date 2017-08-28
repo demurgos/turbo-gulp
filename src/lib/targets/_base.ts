@@ -18,6 +18,8 @@ import {AbsPosixPath, RelPosixPath} from "../types";
 import * as matcher from "../utils/matcher";
 
 export interface TargetBase {
+  project: Project;
+
   /**
    * Name of the target.
    * All the tasks related to this target will be prefixed by this name.
@@ -97,6 +99,8 @@ export interface TargetBase {
  * Library with fully resolved paths and dependencies.
  */
 export interface ResolvedTargetBase extends TargetBase {
+  readonly project: ResolvedProject;
+
   readonly srcDir: AbsPosixPath;
 
   readonly buildDir: AbsPosixPath;
@@ -130,11 +134,12 @@ export interface ResolvedBaseDependencies extends BaseDependencies {
 /**
  * Resolve absolute paths and dependencies for the provided target.
  *
- * @param project Project to use.
  * @param target Non-resolved target.
  * @return Resolved target.
  */
-export function resolveTargetBase(project: ResolvedProject, target: TargetBase): ResolvedTargetBase {
+export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
+  const project: ResolvedProject = resolveProject(target.project);
+
   const srcDir: AbsPosixPath = typeof target.srcDir === "string" ?
     posixPath.join(project.absRoot, target.srcDir) :
     project.srcDir;
@@ -172,6 +177,7 @@ export function resolveTargetBase(project: ResolvedProject, target: TargetBase):
   }
 
   return {
+    project,
     name: target.name,
     srcDir,
     buildDir,
@@ -217,23 +223,21 @@ export interface BaseTasks {
  * Generates and registers gulp tasks for the provided lib target.
  *
  * @param gulp Gulp instance where the tasks will be registered.
- * @param project Project configuration.
- * @param target Target configuration.
+ * @param targetOptions Target configuration.
  */
-export function registerBaseTasks(gulp: Gulp, project: Project, target: TargetBase): BaseTasks {
-  const resolvedProject: ResolvedProject = resolveProject(project);
-  const resolvedTarget: ResolvedTargetBase = resolveTargetBase(resolvedProject, target);
+export function registerBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTasks {
+  const target: ResolvedTargetBase = resolveTargetBase(targetOptions);
 
   const result: BaseTasks = <any> {};
 
   const tsOptions: TypescriptConfig = {
-    tscOptions: resolvedTarget.tscOptions,
-    tsconfigJson: resolvedTarget.tsconfigJson,
-    customTypingsDir: resolvedTarget.customTypingsDir,
-    packageJson: resolvedProject.absPackageJson,
-    buildDir: resolvedTarget.buildDir,
-    srcDir: resolvedTarget.srcDir,
-    scripts: resolvedTarget.scripts,
+    tscOptions: target.tscOptions,
+    tsconfigJson: target.tsconfigJson,
+    customTypingsDir: target.customTypingsDir,
+    packageJson: target.project.absPackageJson,
+    buildDir: target.buildDir,
+    srcDir: target.srcDir,
+    scripts: target.scripts,
   };
 
   const buildTasks: TaskFunction[] = [];
@@ -243,12 +247,12 @@ export function registerBaseTasks(gulp: Gulp, project: Project, target: TargetBa
   buildTasks.push(result.buildScripts);
 
   // build:copy
-  if (resolvedTarget.copy !== undefined) {
+  if (target.copy !== undefined) {
     const [copyTask, copyWatchers]: [TaskFunction, ManyWatchFunction] = generateCopyTasks(
       gulp,
-      resolvedTarget.srcDir,
-      resolvedTarget.buildDir,
-      resolvedTarget.copy,
+      target.srcDir,
+      target.buildDir,
+      target.copy,
     );
     result.buildCopy = addTask(gulp, `${target.name}:build:copy`, copyTask);
     buildTasks.push(result.buildCopy);
@@ -258,17 +262,17 @@ export function registerBaseTasks(gulp: Gulp, project: Project, target: TargetBa
   result.build = addTask(gulp, `${target.name}:build`, gulp.parallel(buildTasks));
 
   // clean
-  if (resolvedTarget.clean !== undefined) {
+  if (target.clean !== undefined) {
     const cleanOptions: _CleanOptions = {
-      base: resolvedProject.absRoot,
-      dirs: resolvedTarget.clean.dirs,
-      files: resolvedTarget.clean.files,
+      base: target.project.absRoot,
+      dirs: target.clean.dirs,
+      files: target.clean.files,
     };
     result.clean = addTask(gulp, `${target.name}:clean`, generateCleanTask(gulp, cleanOptions));
   }
 
   // tsconfig.json
-  if (resolvedTarget.tsconfigJson !== null) {
+  if (target.tsconfigJson !== null) {
     result.tsconfigJson = addTask(gulp, `${target.name}:tsconfig.json`, getTsconfigJsonTask(tsOptions));
   }
 

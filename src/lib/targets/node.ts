@@ -32,6 +32,8 @@ export interface NodeTarget extends TargetBase {
  * Node target with fully resolved paths and dependencies.
  */
 interface ResolvedNodeTarget extends NodeTarget, ResolvedTargetBase {
+  readonly project: ResolvedProject;
+
   readonly srcDir: AbsPosixPath;
 
   readonly buildDir: AbsPosixPath;
@@ -54,12 +56,11 @@ interface ResolvedNodeTarget extends NodeTarget, ResolvedTargetBase {
 /**
  * Resolve absolute paths and dependencies for the provided target.
  *
- * @param project Project to use.
  * @param target Non-resolved target.
  * @return Resolved target.
  */
-function resolveLibTarget(project: ResolvedProject, target: NodeTarget): ResolvedNodeTarget {
-  const base: ResolvedTargetBase = resolveTargetBase(project, target);
+function resolveLibTarget(target: NodeTarget): ResolvedNodeTarget {
+  const base: ResolvedTargetBase = resolveTargetBase(target);
   return {...base, mainModule: target.mainModule};
 }
 
@@ -73,14 +74,13 @@ export interface NodeTasks extends BaseTasks {
  *
  * @param gulp Gulp instance where the tasks will be registered.
  * @param project Project configuration.
- * @param target Target configuration.
+ * @param targetOptions Target configuration.
  */
-export function registerNodeTargetTasks(gulp: Gulp, project: Project, target: NodeTarget): NodeTasks {
-  const resolvedProject: ResolvedProject = resolveProject(project);
-  const resolvedTarget: ResolvedNodeTarget = resolveLibTarget(resolvedProject, target);
-  const result: NodeTasks = <NodeTasks> registerBaseTasks(gulp, project, target);
+export function registerNodeTargetTasks(gulp: Gulp, project: Project, targetOptions: NodeTarget): NodeTasks {
+  const target: ResolvedNodeTarget = resolveLibTarget(targetOptions);
+  const result: NodeTasks = <NodeTasks> registerBaseTasks(gulp, targetOptions);
 
-  const absMain: AbsPosixPath = posixPath.join(resolvedTarget.buildDir, `${resolvedTarget.mainModule}.js`);
+  const absMain: AbsPosixPath = posixPath.join(target.buildDir, `${target.mainModule}.js`);
 
   // run
   result.run = addTask(gulp, `${target.name}:run`, () => {
