@@ -1,6 +1,6 @@
 import { Gulp, TaskFunction } from "gulp";
 import { Minimatch } from "minimatch";
-import {posix as posixPath } from "path";
+import { posix as posixPath } from "path";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CompilerOptionsJson } from "../options/tsc";
@@ -119,7 +119,7 @@ export interface TypedocOptions {
 
   readonly name: string;
 
-  readonly deploy: GitDeployOptions;
+  readonly deploy?: GitDeployOptions;
 }
 
 export interface ResolvedTypedocOptions extends TypedocOptions {
@@ -226,9 +226,11 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
 
     // typedoc:deploy
     if (typedocOptions.deploy !== undefined) {
+      const deploy: GitDeployOptions = typedocOptions.deploy;
+
       async function deployTypedocTask(): Promise<void> {
         const commitMessage: string = `Deploy documentation for ${await getHeadHash()}`;
-        return branchPublish({...typedocOptions.deploy, dir: typedocOptions.dir, commitMessage});
+        return branchPublish({...deploy, dir: typedocOptions.dir, commitMessage});
       }
 
       result.typedocDeploy = nameTask(`${target.name}:typedoc:deploy`, gulp.series(result.typedoc!, deployTypedocTask));
