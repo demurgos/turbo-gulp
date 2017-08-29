@@ -1,4 +1,4 @@
-import {posix as posixPath } from "path";
+import { posix as posixPath } from "path";
 import { CompilerOptionsJson } from "../options/tsc";
 import { AbsPosixPath, RelPosixPath } from "../types";
 import { TaskFunction } from "../utils/gulp-task-function";
@@ -15,8 +15,8 @@ export function getTsconfigJsonTask(options: TypescriptConfig): TaskFunction {
   }
   const tscOptions: CompilerOptionsJson = {
     ...options.tscOptions,
-    rootDir: resolved.rootDir,
-    outDir: resolved.outDir,
+    rootDir: posixPath.relative(resolved.tsconfigJsonDir, resolved.rootDir),
+    outDir: posixPath.relative(resolved.tsconfigJsonDir, resolved.outDir),
     typeRoots,
   };
   const tsconfigData: any = {

@@ -1,5 +1,5 @@
 import { IMinimatch, Minimatch } from "minimatch";
-import {posix as posixPath } from "path";
+import { posix as posixPath } from "path";
 import { CompilerOptionsJson } from "../options/tsc";
 import { AbsPosixPath, RelPosixPath } from "../types";
 import * as matcher from "../utils/matcher";
@@ -62,14 +62,14 @@ export function resolveTsLocations(options: TypescriptConfig): ResolvedTsLocatio
     posixPath.join(options.srcDir, "tsconfig.json");
   const tsconfigJsonDir: AbsPosixPath = posixPath.dirname(tsconfigJson);
 
-  const rootDir: RelPosixPath = posixPath.relative(tsconfigJsonDir, options.srcDir);
+  const rootDir: AbsPosixPath = options.srcDir;
 
-  let typeRoots: RelPosixPath[] | undefined = undefined;
+  let typeRoots: AbsPosixPath[] | undefined = undefined;
   if (options.customTypingsDir !== null) {
     const atTypesDir: RelPosixPath = posixPath.join(posixPath.dirname(options.packageJson), "node_modules", "@types");
     typeRoots = [atTypesDir, options.customTypingsDir];
   }
-  const outDir: RelPosixPath = posixPath.relative(tsconfigJsonDir, options.buildDir);
+  const outDir: AbsPosixPath = options.buildDir;
   const relInclude: string[] = [];
   const relExclude: string[] = [];
   const absScripts: string[] = [];

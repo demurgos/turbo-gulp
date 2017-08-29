@@ -1,5 +1,7 @@
 # Next
 
+- **[Feature]** Add `LibTarget.dist.copySrc` option to disable copy of source files to the dist directory.
+  This allows to prevent issues with missing custom typings.
 - **[Fix]** Mark `deploy` property of `LibTarget.typedoc` as optional.
 - **[Internal]** Update self-dependency to `v0.15.0-beta.10`.
 
