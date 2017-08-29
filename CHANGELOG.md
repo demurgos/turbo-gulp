@@ -1,4 +1,4 @@
-# Next
+## 0.15.0-beta.11 (2017-08-29)
 
 - **[Feature]** Add `LibTarget.dist.copySrc` option to disable copy of source files to the dist directory.
   This allows to prevent issues with missing custom typings.
