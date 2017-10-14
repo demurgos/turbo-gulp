@@ -3,7 +3,7 @@ import * as buildTools from "demurgos-web-build-tools"; // Going meta
 
 import * as gulp from "gulp";
 import * as minimist from "minimist";
-import {ParsedArgs} from "minimist";
+import { ParsedArgs } from "minimist";
 
 interface Options {
   devDist?: string;
