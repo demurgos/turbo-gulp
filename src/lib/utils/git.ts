@@ -1,3 +1,4 @@
+import { Incident } from "incident";
 import { AbsPosixPath } from "../types";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
@@ -59,7 +60,10 @@ export async function gitClone(options: GitCloneOptions): Promise<void> {
     args.push("--depth", options.depth.toString(10));
   }
   args.push(options.repository, options.directory);
-  await execGit("clone", args);
+  const result: SpawnResult = await execGit("clone", args);
+  if (result.exit.type === "code" && result.exit.code !== 0) {
+    throw new Incident("GitClone", {options, result}, result.stderr.toString("utf8"));
+  }
 }
 
 export interface GitAddOptions {
@@ -72,7 +76,10 @@ export interface GitAddOptions {
  */
 export async function gitAdd(options: GitAddOptions): Promise<void> {
   const args: string[] = ["--", ...options.paths];
-  await execGit("add", args, {cwd: options.repository});
+  const result: SpawnResult = await execGit("add", args, {cwd: options.repository});
+  if (result.exit.type === "code" && result.exit.code !== 0) {
+    throw new Incident("GitAdd", {options, result}, result.stderr.toString("utf8"));
+  }
 }
 
 export interface GitCommitOptions {
@@ -86,7 +93,10 @@ export async function gitCommit(options: GitCommitOptions): Promise<void> {
   if (options.author !== undefined) {
     args.push("--author", options.author);
   }
-  await execGit("commit", args, {cwd: options.repository});
+  const result: SpawnResult = await execGit("commit", args, {cwd: options.repository});
+  if (result.exit.type === "code" && result.exit.code !== 0) {
+    throw new Incident("GitCommit", {options, result}, result.stderr.toString("utf8"));
+  }
 }
 
 export interface GitPushOptions {
@@ -95,8 +105,8 @@ export interface GitPushOptions {
 }
 
 export async function gitPush(options: GitPushOptions): Promise<void> {
-  await execGit("push", [options.remote], {cwd: options.local});
-  // if (result.stderr.length > 0) {
-  //   throw new Incident("GitPush", result.stderr.toString("utf8"));
-  // }
+  const result: SpawnResult = await execGit("push", [options.remote], {cwd: options.local});
+  if (result.exit.type === "code" && result.exit.code !== 0) {
+    throw new Incident("GitPush", {options, result}, result.stderr.toString("utf8"));
+  }
 }
