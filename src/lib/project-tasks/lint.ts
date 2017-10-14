@@ -97,11 +97,11 @@ export function registerTask(gulp: Gulp, project: Project) {
 
   const program: Program = createTsProgram({compilerOptions: {}}, project.root);
 
-  const options: GulpTslintOptions = {
+  const options: any = {
     emitError: true,
     formatter: "msbuild",
     tslint,
-    ...project.tslint,
+    ...(project.tslint as GulpTslintOptions),
     configuration,
     program,
   };

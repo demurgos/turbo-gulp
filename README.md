@@ -4,88 +4,119 @@
 [![Build status](https://img.shields.io/travis/demurgos/web-build-tools/master.svg?maxAge=2592000)](https://travis-ci.org/demurgos/web-build-tools)
 [![GitHub repository](https://img.shields.io/badge/Github-demurgos%2Fweb--build--tools-blue.svg)](https://github.com/demurgos/web-build-tools)
 
-Gulp tasks generator for projects following my conventional structure.
+Gulp tasks generator for Node projects to help with builds, tests and distribution.
 
-This is intend for multi-target Typescript libraries or applications. It adds compilation, lint rules,
-unit-tests and resource management. It supports both Node and browser builds.
+This project started out because I wanted to avoid repeating complex configurations in every one of my projects.
+I solved it by centralizing most of logic for the tasks I need in this package. To further reduce the overhead of the
+configuration, the defaults use a sensible directory structure for Node projects.
 
-Here is a list of some of the main tools bundled with this package: Typescript, mocha, TSLint, pug, sass, webpack.
+The main features are:
+- Support for multiple targets in a single project (for example `lib` and `demo`)
+- Typescript builds, with support for custom typings, watch mode and custom compiler options
+- Tslint verification with type information
+- Mocha unit tests
+- Typedoc generation
+- Assets management: copy resources, build Pug templates, build Sass stylesheets
 
-## Standard project layout
+## Quick start
+
+Install the library as a dev-dependency:
+
+```shell
+npm install -D demurgos-web-build-tools
+```
+
+Then use it in your Gulp file, here is an example:
+
+```typescript
+// Import the build tools and the gulp instance for this project
+import * as buildTools from "demurgos-web-build-tools";
+import * as gulp from "gulp";
+
+// Project config shared by all the targets
+const project: buildTools.Project = {
+  root: __dirname,
+  packageJson: "package.json",
+  buildDir: "build",
+  distDir: "dist",
+  srcDir: "src",
+};
+
+// Configuration for a "library" target
+const lib: buildTools.LibTarget = {
+  // Project-wide config
+  project,
+  // Name (used as a prefix for the tasks)
+  name: "lib",
+  // Override srcDir
+  srcDir: "src/lib",
+  scripts: ["**/*.ts"],
+  mainModule: "index",
+  customTypingsDir: "src/custom-typings",
+  tscOptions: {
+    skipLibCheck: true,
+  },
+  typedoc: {
+    dir: "typedoc",
+    name: "Example lib",
+  },
+  copy: [
+    {
+      name: "json",
+      files: ["**/*.json"],
+    },
+  ],
+  clean: {
+    dirs: ["build/lib", "dist/lib"],
+  },
+};
+
+// Generate and register project-wide tasks
+buildTools.projectTasks.registerAll(gulp, project);
+// Generate and register the tasks for the lib target
+buildTools.registerLibTasks(gulp, lib);
+```
+
+You can then start using the tasks, for example `gulp lib:build`. Use `gulp --tasks` to list all the tasks.
+Check the documentation for the list of available tasks and configuration.
+
+## Recommended project layout
+
+Here 
 
 ```text
 .
 ├── build/          # Development builds
 ├── dist/           # Distributed files (this goes to npm)
-├── docs/           # Advanced documentation for the library
+├── docs/           # Custom documentation for the library
 ├── src/            # Scripts, assets and tests
-├── CHANGELOG.md    # Describe all the changes
+| ├── lib/          # Library source code
+| └── test/         # Tests source code
+├── CHANGELOG.md    # Description of the changes for each version
 ├── CONTRIBUTING.md # How to build and work on the project
-├── LICENSE.md      # Generally MIT
-├── NOTICE.md       # To match requirements of third-party tools
+├── LICENSE.md      # License file
+├── NOTICE.md       # Notice for third-party tools (required by some licenses)
 ├── README.md       # Projects presentation
 ├── package.json    # Project's metadata
-└── gulpfile.js     # Definition of Gulp tasks
+├── tsconfig.ts     # Default TS config file, used for the gulp file and to help the IDE
+└── gulpfile.ts     # Definition of Gulp tasks
 ```
 
 ## Usage
 
-This library generate gulp tasks for _targets_ in the context of a _project_.
-A target is basically a final build, and a project is a set of targets.
-
-There are currently 3 supported targets:
-- Node: Generate a Node package, either an executable or a library. It only
-  compiles Typescript files.
-- Angular: Generate an Angular application, for the server. It compiles
-  Typescript files, builds Pug and Sass files and copy assets.
-- Test: Build and run the unit-tests with Node. It is mainly to test a `node`
-  target.
-
-The project configuration defines were are the `package.json`, `src` directory,
-`build` directory, etc.
-
-A target configuration defines the files to compile and the specific options.
-  
-To generate general tasks (`:lint`, `:bump-minor`, etc.), use:
- 
-```typescript
-import * as buildTools from "demurgos-web-build-tools";
-import gulp = require("gulp");
-
-// Project-wide options
-const projectOptions = Object.assign(
-  {},
-  buildTools.config.DEFAULT_PROJECT_OPTIONS,
-  {
-    root: __dirname
-  }
-);
-
-buildTools.projectTasks.registerAll(gulp, projectOptions);
-```
- 
-To generate a target, use:
-
-```typescript
-import * as buildTools from "demurgos-web-build-tools";
-import gulp = require("gulp");
-
-// Project-wide options
-const projectOptions = buildTools.config.DEFAULT_PROJECT_OPTIONS;
-
-// Preconfigured targets
-// Node library
-const libTarget = buildTools.config.LIB_TARGET;
-// Mocha tests
-const libTestTarget = buildTools.config.LIB_TEST_TARGET;
-// Webpack build for angular config
-const angularClientTarget = buildTools.config.ANGULAR_CLIENT_TARGET;
-
-// buildTools.targetGenerators.<kind>.generateTarget(gulp, project, target);
-buildTools.targetGenerators.node.generateTarget(gulp, projectOptions, libTarget);
-buildTools.targetGenerators.test.generateTarget(gulp, projectOptions, libTestTarget);
-buildTools.targetGenerators.webpack.generateTarget(gulp, projectOptions, angularClientTarget);
-```
+The build tools use the following hierarchy:
+- **Project**: It represents a unit of code to implement a library or application, it usually corresponds to
+  a git repo or a single gulp file. A project is a set of targets (see below). The project configuration is shared by
+  all the targets, it defines the general structure of your project: what is the root directory, the build directory,
+  the base Typescript options, etc.
+- **Target**: A target represents a unit of output. You can have some shared source code and use it to build multiple
+  targets: for example, a library importable by other projects, a runnable demo, a test build using Mocha, a bundled
+  version for the browser, etc. The target options are specific to each type of output and allow you to configure how
+  each task is applied.
+- **Task**: A task represents an operation provided by a target: `build`, `run`, `test`, etc. This is what you actually
+  use when calling Gulp. The task names have the form `targetName:taskName`. For example to generate the documentation
+  of the library target `lib` using Typedoc, you can use `gulp lib:typedoc`. There are main tasks to do high-level
+  actions, and other tasks for fine-grained that are mostly available to integrate with other tools.
 
 ## Project
 

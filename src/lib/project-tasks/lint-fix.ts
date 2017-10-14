@@ -67,10 +67,9 @@ export function registerTask(gulp: Gulp, project: Project) {
   }
 
   const options: GulpTslintOptions = {
-    emitError: true,
     formatter: "msbuild",
     tslint,
-    ...project.tslint,
+    ...(project.tslint as GulpTslintOptions),
     configuration,
     fix: true,
   };
