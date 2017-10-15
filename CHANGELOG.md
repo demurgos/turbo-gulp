@@ -1,6 +1,7 @@
 ## Next
 
 - **[Fix]** Add error handling for git deployment.
+- **[Internal]** Enable continuous deployment of the `master` branch.
 
 ## 0.15.0-beta.11 (2017-08-29)
 
