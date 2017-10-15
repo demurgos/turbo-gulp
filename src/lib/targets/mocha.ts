@@ -1,11 +1,46 @@
+/**
+ * This module defines the _mocha_ target type used to build and run Mocha tests.
+ *
+ * In the following list of tasks, `{target}` represents the name of the target as defined by the `name` property
+ * of the target options.
+ * The _lib_ target provides the following tasks:
+ *
+ * ## {target}
+ *
+ * Build and run the tests, use the console reporter.
+ *
+ * ## {target}:build
+ *
+ * Performs a full test build of the library and test files.
+ *
+ * ## {target}:run
+ *
+ * Only run the tests (without rebuilding).
+ *
+ * ## {target}:typedoc:deploy
+ *
+ * Deploy the _Typedoc_ documentation using _git_. This can be used to easily deploy the documentation to the
+ * `gh-pages` branch.
+ *
+ * ## {target}:clean
+ *
+ * Remove the build and directory corresponding to this target.
+ *
+ * ## {target}:tsconfig.json
+ *
+ * Emit a `tsconfig.json` file corresponding to the configuration for this target. This allows to compile it using
+ * the command line `tsc` program. This is also useful for IDE to auto-detect the configuration of the project.
+ *
+ * @module targets/mocha
+ */
+
+/** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
+
 import { Gulp, TaskFunction } from "gulp";
 import * as gulpUtil from "gulp-util";
-import {Readable as ReadableStream } from "stream";
+import { Readable as ReadableStream } from "stream";
 import * as mocha from "../task-generators/mocha";
-import {
-  addTask, BaseTasks, nameTask, registerBaseTasks, ResolvedTargetBase, resolveTargetBase,
-  TargetBase,
-} from "./_base";
+import { BaseTasks, nameTask, registerBaseTasks, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
 
 function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableStream {
   const src: ReadableStream = new ReadableStream({objectMode: true});

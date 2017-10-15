@@ -1,3 +1,11 @@
+/**
+ * This module defines the general configuration of the project.
+ *
+ * @module project
+ */
+
+/** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
+
 import { posix as posixPath, resolve as resolveSysPath } from "path";
 import { TslintOptions } from "./options/tslint";
 import { DEFAULT_PROJECT_TS_OPTIONS, TypescriptOptions } from "./options/typescript";
@@ -13,7 +21,7 @@ export interface Project {
    * The root directory of the project.
    * This corresponds usually to the root of the repository.
    *
-   * This should be the only absolute path in the configuration.
+   * **This should be the only absolute path in the configuration.**
    */
   readonly root: SysPath;
 
@@ -41,13 +49,17 @@ export interface Project {
   readonly srcDir: RelPosixPath;
 
   /**
-   * Tslint options
+   * Tslint options.
+   *
+   * @default `{tslintJson: "tslint.json"}`
    */
   readonly tslint?: TslintOptions;
 
   /**
    * Typescript options, targets inherit these options.
    * See the merge rules to see how the target options are merged with the project options.
+   *
+   * @default [[DEFAULT_PROJECT_TS_OPTIONS]]
    */
   readonly typescript?: TypescriptOptions;
 }

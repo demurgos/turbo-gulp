@@ -33,7 +33,7 @@ export function getTypedocTask(gulp: Gulp, tsConfig: TypescriptConfig, options: 
         // TypeDoc options (see typedoc docs)
         name: options.name,
         // theme: "/path/to/my/theme",
-        // plugins: ["my", "plugins"],
+        plugins: ["external-module-name"],
         ignoreCompilerErrors: false,
         version: true,
       }));

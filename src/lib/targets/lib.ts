@@ -1,3 +1,66 @@
+/**
+ * This module defines the _lib_ target type used to create libraries for other projects.
+ *
+ * In the following list of tasks, `{target}` represents the name of the target as defined by the `name` property
+ * of the target options.
+ * The _lib_ target provides the following tasks:
+ *
+ * ## {target}:build
+ *
+ * Performs a full build of the library to the build directory, used for development.
+ * This copies the static assets and compiles the scripts.
+ *
+ * The following sub-tasks are available:
+ * - `{target}:build:copy`: Only copy the static assets
+ * - `{target}:build:script`: Only compile the scripts
+ *
+ * For distribution builds, use `{target:dist}`
+ *
+ * ## {target}:dist
+ *
+ * Performs a full build of the library to the dist directory, used for distribution (ie. publication to _npm_).
+ * This build creates a fully autonomous directory with its own `package.json`, source code, license file, etc.
+ * This allows to use a different structure for distribution rather than structure of the repo, the main benefit is
+ * to provide support for deep package imports (`import * as mod from "my-lib/deep/module"`) by placing the build
+ * at the root of the package.
+ * This build also allows you to remap the `package.json`, for example to set the version dynamically.
+ *
+ * The following sub-tasks are available:
+ * - `{target}:dist:publish`: Publish the package to an _npm_ registry (it honors the `registry` option, to publish
+ *   to private _npm_ registries such as _Verdaccio_). It uses the authentication token of the current user, this
+ *   token is in `~/.npmrc`. For CI, you can use the following command to set the token the registry `npm.example.com`.
+ *   (for the official registry, use `//registry.npmjs.org`):
+ *   ```
+ *   echo "//npm.example.com/:_authToken=\"${NPM_TOKEN}\"" > ~/.npmrc
+ *   ```
+ * - `{target}:dist:copy-src`: Only copy the source files to the build directory.
+ * - `{target}:dist:package.json`: Copy (and eventually transform) the root `package.json` to the build directory.
+ *
+ * For development builds, use `{target:build}`.
+ *
+ * ## {target}:typedoc
+ *
+ * Generate _Typedoc_ documentation.
+ *
+ * ## {target}:typedoc:deploy
+ *
+ * Deploy the _Typedoc_ documentation using _git_. This can be used to easily deploy the documentation to the
+ * `gh-pages` branch.
+ *
+ * ## {target}:clean
+ *
+ * Remove both the build and dist directories corresponding to this target.
+ *
+ * ## {target}:tsconfig.json
+ *
+ * Emit a `tsconfig.json` file corresponding to the configuration for this target. This allows to compile it using
+ * the command line `tsc` program. This is also useful for IDE to auto-detect the configuration of the project.
+ *
+ * @module targets/lib
+ */
+
+/** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
+
 import { Gulp, TaskFunction } from "gulp";
 import { Minimatch } from "minimatch";
 import { posix as posixPath } from "path";

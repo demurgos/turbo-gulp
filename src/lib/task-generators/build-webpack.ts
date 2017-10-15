@@ -1,8 +1,16 @@
+/**
+ * This module defines the tasks to create webpack bundles.
+ *
+ * @module task-generators/build-webpack
+ */
+
+/** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
+
 import { FSWatcher } from "fs";
 import { Gulp } from "gulp";
-import {log as gulpLog, PluginError } from "gulp-util";
+import { log as gulpLog, PluginError } from "gulp-util";
 import { Minimatch } from "minimatch";
-import {posix as path, resolve as sysResolvePath } from "path";
+import { posix as path, resolve as sysResolvePath } from "path";
 import * as webpack from "webpack";
 import * as webpackMerge from "webpack-merge";
 import * as webpackStream from "webpack-stream";
