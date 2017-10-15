@@ -121,8 +121,10 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
     return gulp
       .src([path.join(options.srcDir, entryFile)], {base: options.srcDir})
       .pipe(webpackStream(
-        webpackMerge(angularWebpackConfig, userConfiguration),
-        curWebpack,
+        // TODO: Remove `as any` once webpackMerge's typing support the latest version of Webpack (with `EntryFunc`)
+        webpackMerge(angularWebpackConfig as any, userConfiguration as any),
+        // TODO: Remove `as any` once gulpWebpack's typing support the latest version of Webpack (with `EntryFunc`)
+        curWebpack as any,
         (err: Error, stats: webpack.Stats): void => {
           // TODO: Check if err is `null` or `undefined` (success) and type properly
           if (<any> err) {
