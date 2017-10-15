@@ -31,7 +31,7 @@ const lib: buildTools.LibTarget = {
   mainModule: "index",
   dist: {
     packageJsonMap: (old: buildTools.PackageJson): buildTools.PackageJson => {
-      const version: string = options.devDist !== undefined ? `${old.version}-dev.${options.devDist}` : old.version;
+      const version: string = options.devDist !== undefined ? `${old.version}-build.${options.devDist}` : old.version;
       return <any> {...old, version, scripts: undefined};
     },
     npmPublish: {
