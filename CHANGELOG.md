@@ -1,3 +1,7 @@
+## Next
+
+- **[Fix]** Fix support of releases from Continuous Deployment using Travis.
+
 ## 0.15.0 (2017-10-18)
 
 - **[Fix]** Add error handling for git deployment.
