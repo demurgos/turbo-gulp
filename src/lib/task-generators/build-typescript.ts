@@ -1,3 +1,11 @@
+/**
+ * This module defines the task used to compile Typescript files.
+ *
+ * @module task-generators/build-typescript
+ */
+
+/** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
+
 import { FSWatcher } from "fs";
 import { Gulp } from "gulp";
 import * as gulpSourceMaps from "gulp-sourcemaps";
@@ -6,7 +14,6 @@ import * as gulpUtil from "gulp-util";
 import * as merge from "merge2";
 import { IMinimatch, Minimatch } from "minimatch";
 import * as path from "path";
-import * as ts from "typescript";
 import { CompilerOptionsJson, DEV_TSC_OPTIONS } from "../options/tsc";
 import { TypescriptOptions } from "../options/typescript";
 import { TaskFunction } from "../utils/gulp-task-function";
