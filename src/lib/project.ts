@@ -1,4 +1,4 @@
-import {posix as posixPath, resolve as resolveSysPath } from "path";
+import { posix as posixPath, resolve as resolveSysPath } from "path";
 import { TslintOptions } from "./options/tslint";
 import { DEFAULT_PROJECT_TS_OPTIONS, TypescriptOptions } from "./options/typescript";
 import { AbsPosixPath, PosixPath, RelPosixPath, SysPath } from "./types";

@@ -105,7 +105,8 @@ function hasError(compilerResult: gulpTypescript.reporter.CompilationResult): bo
 }
 
 interface CompleteReporter extends gulpTypescript.reporter.Reporter {
-  error(error: gulpTypescript.reporter.TypeScriptError, typescript: typeof ts): void;
+  // TODO: Remove `any` once gulpTypescript is updated tu support the latest version of Typescript
+  error?(error: gulpTypescript.reporter.TypeScriptError, typescript: any): void;
 
   finish(results: gulpTypescript.reporter.CompilationResult): void;
 }
