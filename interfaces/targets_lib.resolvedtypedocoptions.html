@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DistOptions | Web Build Tools</title>
+	<title>ResolvedTypedocOptions | Web Build Tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_targets_lib_.html">&quot;targets/lib&quot;</a>
+					<a href="../modules/targets_lib.html">targets/lib</a>
 				</li>
 				<li>
-					<a href="_targets_lib_.distoptions.html">DistOptions</a>
+					<a href="targets_lib.resolvedtypedocoptions.html">ResolvedTypedocOptions</a>
 				</li>
 			</ul>
-			<h1>Interface DistOptions</h1>
+			<h1>Interface ResolvedTypedocOptions</h1>
 		</div>
 	</div>
 </header>
@@ -73,10 +73,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">DistOptions</span>
+						<a href="targets_lib.typedocoptions.html" class="tsd-signature-type">TypedocOptions</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="_targets_lib_.resolveddistoptions.html" class="tsd-signature-type">ResolvedDistOptions</a>
+								<span class="target">ResolvedTypedocOptions</span>
 							</li>
 						</ul>
 					</li>
@@ -89,15 +89,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets_lib_.distoptions.html#copysrc" class="tsd-kind-icon">copy<wbr>Src</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets_lib_.distoptions.html#distdir" class="tsd-kind-icon">dist<wbr>Dir</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets_lib_.distoptions.html#npmpublish" class="tsd-kind-icon">npm<wbr>Publish</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_targets_lib_.distoptions.html#packagejsonmap" class="tsd-kind-icon">package<wbr>Json<wbr>Map</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="targets_lib.resolvedtypedocoptions.html#deploy" class="tsd-kind-icon">deploy</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="targets_lib.resolvedtypedocoptions.html#dir" class="tsd-kind-icon">dir</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="targets_lib.resolvedtypedocoptions.html#name" class="tsd-kind-icon">name</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,76 +99,38 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="copysrc" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy<wbr>Src</h3>
-					<div class="tsd-signature tsd-kind-icon">copy<wbr>Src<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="deploy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> deploy</h3>
+					<div class="tsd-signature tsd-kind-icon">deploy<span class="tsd-signature-symbol">:</span> <a href="targets_lib.gitdeployoptions.html" class="tsd-signature-type">GitDeployOptions</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="targets_lib.typedocoptions.html">TypedocOptions</a>.<a href="targets_lib.typedocoptions.html#deploy">deploy</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L95">targets/lib.ts:95</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Copy the sources from <code>target.srcDir</code> to <code>target.dist.distDir</code>. Default: <code>true</code>.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="distdir" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> dist<wbr>Dir</h3>
-					<div class="tsd-signature tsd-kind-icon">dist<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#relposixpath" class="tsd-signature-type">RelPosixPath</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L90">targets/lib.ts:90</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Directory used for distribution builds.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="npmpublish" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> npm<wbr>Publish</h3>
-					<div class="tsd-signature tsd-kind-icon">npm<wbr>Publish<span class="tsd-signature-symbol">:</span> <a href="_targets_lib_.npmpublishoptions.html" class="tsd-signature-type">NpmPublishOptions</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L97">targets/lib.ts:97</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/lib.ts#L195">targets/lib.ts:195</a></li>
 						</ul>
 					</aside>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="packagejsonmap" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> package<wbr>Json<wbr>Map</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">package<wbr>Json<wbr>Map<span class="tsd-signature-symbol">(</span>old<span class="tsd-signature-symbol">: </span><a href="_utils_project_.packagejson.html" class="tsd-signature-type">PackageJson</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_utils_project_.packagejson.html" class="tsd-signature-type">PackageJson</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L102">targets/lib.ts:102</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Optional function to apply when copying the <code>package.json</code> file to the dist directory.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>old: <a href="_utils_project_.packagejson.html" class="tsd-signature-type">PackageJson</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_utils_project_.packagejson.html" class="tsd-signature-type">PackageJson</a></h4>
-						</li>
-					</ul>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+					<a name="dir" class="tsd-anchor"></a>
+					<h3>dir</h3>
+					<div class="tsd-signature tsd-kind-icon">dir<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
+					<aside class="tsd-sources">
+						<p>Overrides <a href="targets_lib.typedocoptions.html">TypedocOptions</a>.<a href="targets_lib.typedocoptions.html#dir">dir</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/lib.ts#L199">targets/lib.ts:199</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="targets_lib.typedocoptions.html">TypedocOptions</a>.<a href="targets_lib.typedocoptions.html#name">name</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/lib.ts#L193">targets/lib.ts:193</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -185,65 +141,62 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_targets_lib_.html">"targets/lib"</a>
+						<a href="../modules/targets_lib.html">targets/lib</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.distoptions.html" class="tsd-kind-icon">Dist<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.gitdeployoptions.html" class="tsd-kind-icon">Git<wbr>Deploy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.libtarget.html" class="tsd-kind-icon">Lib<wbr>Target</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.libtasks.html" class="tsd-kind-icon">Lib<wbr>Tasks</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.npmpublishoptions.html" class="tsd-kind-icon">Npm<wbr>Publish<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.resolveddistoptions.html" class="tsd-kind-icon">Resolved<wbr>Dist<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="targets_lib.resolvedlibtarget.html" class="tsd-kind-icon">Resolved<wbr>Lib<wbr>Target</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.distoptions.html" class="tsd-kind-icon">Dist<wbr>Options</a>
+						<a href="targets_lib.resolvedtypedocoptions.html" class="tsd-kind-icon">Resolved<wbr>Typedoc<wbr>Options</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_targets_lib_.distoptions.html#copysrc" class="tsd-kind-icon">copy<wbr>Src</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="targets_lib.resolvedtypedocoptions.html#deploy" class="tsd-kind-icon">deploy</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_targets_lib_.distoptions.html#distdir" class="tsd-kind-icon">dist<wbr>Dir</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+								<a href="targets_lib.resolvedtypedocoptions.html#dir" class="tsd-kind-icon">dir</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_targets_lib_.distoptions.html#npmpublish" class="tsd-kind-icon">npm<wbr>Publish</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_targets_lib_.distoptions.html#packagejsonmap" class="tsd-kind-icon">package<wbr>Json<wbr>Map</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="targets_lib.resolvedtypedocoptions.html#name" class="tsd-kind-icon">name</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.gitdeployoptions.html" class="tsd-kind-icon">Git<wbr>Deploy<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.libtarget.html" class="tsd-kind-icon">Lib<wbr>Target</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.libtasks.html" class="tsd-kind-icon">Lib<wbr>Tasks</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.npmpublishoptions.html" class="tsd-kind-icon">Npm<wbr>Publish<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.resolveddistoptions.html" class="tsd-kind-icon">Resolved<wbr>Dist<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_targets_lib_.resolvedlibtarget.html" class="tsd-kind-icon">Resolved<wbr>Lib<wbr>Target</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.resolvedtypedocoptions.html" class="tsd-kind-icon">Resolved<wbr>Typedoc<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.typedocoptions.html" class="tsd-kind-icon">Typedoc<wbr>Options</a>
+						<a href="targets_lib.typedocoptions.html" class="tsd-kind-icon">Typedoc<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_targets_lib_.html#generatelibtasks" class="tsd-kind-icon">generate<wbr>Lib<wbr>Tasks</a>
+						<a href="../modules/targets_lib.html#generatelibtasks" class="tsd-kind-icon">generate<wbr>Lib<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_targets_lib_.html#registerlibtasks" class="tsd-kind-icon">register<wbr>Lib<wbr>Tasks</a>
+						<a href="../modules/targets_lib.html#registerlibtasks" class="tsd-kind-icon">register<wbr>Lib<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_targets_lib_.html#resolvelibtarget" class="tsd-kind-icon">resolve<wbr>Lib<wbr>Target</a>
+						<a href="../modules/targets_lib.html#resolvelibtarget" class="tsd-kind-icon">resolve<wbr>Lib<wbr>Target</a>
 					</li>
 				</ul>
 			</nav>

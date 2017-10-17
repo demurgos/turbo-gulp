@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;task-generators/build-typescript&quot; | Web Build Tools</title>
+	<title>targets/mocha | Web Build Tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,16 +56,40 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_task_generators_build_typescript_.html">&quot;task-generators/build-typescript&quot;</a>
+					<a href="targets_mocha.html">targets/mocha</a>
 				</li>
 			</ul>
-			<h1>External module &quot;task-generators/build-typescript&quot;</h1>
+			<h1>External module targets/mocha</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>This module defines the <em>mocha</em> target type used to build and run Mocha tests.</p>
+					</div>
+					<p>In the following list of tasks, <code>{target}</code> represents the name of the target as defined by the <code>name</code> property
+						of the target options.
+					The <em>lib</em> target provides the following tasks:</p>
+					<h2 id="-target-">{target}</h2>
+					<p>Build and run the tests, use the console reporter.</p>
+					<h2 id="-target-build">{target}:build</h2>
+					<p>Performs a full test build of the library and test files.</p>
+					<h2 id="-target-run">{target}:run</h2>
+					<p>Only run the tests (without rebuilding).</p>
+					<h2 id="-target-typedoc-deploy">{target}:typedoc:deploy</h2>
+					<p>Deploy the <em>Typedoc</em> documentation using <em>git</em>. This can be used to easily deploy the documentation to the
+					<code>gh-pages</code> branch.</p>
+					<h2 id="-target-clean">{target}:clean</h2>
+					<p>Remove the build and directory corresponding to this target.</p>
+					<h2 id="-target-tsconfig-json">{target}:tsconfig.json</h2>
+					<p>Emit a <code>tsconfig.json</code> file corresponding to the configuration for this target. This allows to compile it using
+					the command line <code>tsc</code> program. This is also useful for IDE to auto-detect the configuration of the project.</p>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -73,20 +97,18 @@
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/_task_generators_build_typescript_.completereporter.html" class="tsd-kind-icon">Complete<wbr>Reporter</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_task_generators_build_typescript_.options.html" class="tsd-kind-icon">Options</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_task_generators_build_typescript_.sources.html" class="tsd-kind-icon">Sources</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_mocha.mochatarget.html" class="tsd-kind-icon">Mocha<wbr>Target</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_mocha.mochatasks.html" class="tsd-kind-icon">Mocha<wbr>Tasks</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/targets_mocha.resolvedmochatarget.html" class="tsd-kind-icon">Resolved<wbr>Mocha<wbr>Target</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_task_generators_build_typescript_.html#deleteundefinedproperties" class="tsd-kind-icon">delete<wbr>Undefined<wbr>Properties</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_task_generators_build_typescript_.html#generatetask" class="tsd-kind-icon">generate<wbr>Task</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_task_generators_build_typescript_.html#getreporter" class="tsd-kind-icon">get<wbr>Reporter</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_task_generators_build_typescript_.html#getsources" class="tsd-kind-icon">get<wbr>Sources</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_task_generators_build_typescript_.html#haserror" class="tsd-kind-icon">has<wbr>Error</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_task_generators_build_typescript_.html#watch" class="tsd-kind-icon">watch</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="targets_mocha.html#generatemochatasks" class="tsd-kind-icon">generate<wbr>Mocha<wbr>Tasks</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="targets_mocha.html#gulpbuffersrc" class="tsd-kind-icon">gulp<wbr>Buffer<wbr>Src</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="targets_mocha.html#registermochatasks" class="tsd-kind-icon">register<wbr>Mocha<wbr>Tasks</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="targets_mocha.html#resolvemochatarget" class="tsd-kind-icon">resolve<wbr>Mocha<wbr>Target</a></li>
 							</ul>
 						</section>
 					</div>
@@ -94,147 +116,135 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="deleteundefinedproperties" class="tsd-anchor"></a>
-					<h3>delete<wbr>Undefined<wbr>Properties</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">delete<wbr>Undefined<wbr>Properties<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/task-generators/build-typescript.ts#L137">task-generators/build-typescript.ts:137</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>obj: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="generatetask" class="tsd-anchor"></a>
-					<h3>generate<wbr>Task</h3>
+					<a name="generatemochatasks" class="tsd-anchor"></a>
+					<h3>generate<wbr>Mocha<wbr>Tasks</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Task<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_task_generators_build_typescript_.options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_utils_gulp_task_function_.html#taskfunction" class="tsd-signature-type">TaskFunction</a></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Mocha<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_mocha.mochatarget.html" class="tsd-signature-type">MochaTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_mocha.mochatasks.html" class="tsd-signature-type">MochaTasks</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/task-generators/build-typescript.ts#L145">task-generators/build-typescript.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/mocha.ts#L92">targets/mocha.ts:92</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates gulp tasks for the provided Mocha target.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>gulp: <span class="tsd-signature-type">Gulp</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Gulp instance used to generate tasks manipulating files.</p>
+									</div>
 								</li>
 								<li>
-									<h5>options: <a href="../interfaces/_task_generators_build_typescript_.options.html" class="tsd-signature-type">Options</a></h5>
+									<h5>targetOptions: <a href="../interfaces/targets_mocha.mochatarget.html" class="tsd-signature-type">MochaTarget</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Target configuration.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_utils_gulp_task_function_.html#taskfunction" class="tsd-signature-type">TaskFunction</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/targets_mocha.mochatasks.html" class="tsd-signature-type">MochaTasks</a></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="getreporter" class="tsd-anchor"></a>
-					<h3>get<wbr>Reporter</h3>
+					<a name="gulpbuffersrc" class="tsd-anchor"></a>
+					<h3>gulp<wbr>Buffer<wbr>Src</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Reporter<span class="tsd-signature-symbol">(</span>strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_task_generators_build_typescript_.completereporter.html" class="tsd-signature-type">CompleteReporter</a></li>
+						<li class="tsd-signature tsd-kind-icon">gulp<wbr>Buffer<wbr>Src<span class="tsd-signature-symbol">(</span>filename<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadableStream</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/task-generators/build-typescript.ts#L113">task-generators/build-typescript.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/mocha.ts#L45">targets/mocha.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
+									<h5>filename: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">Buffer</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_task_generators_build_typescript_.completereporter.html" class="tsd-signature-type">CompleteReporter</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReadableStream</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="getsources" class="tsd-anchor"></a>
-					<h3>get<wbr>Sources</h3>
+					<a name="registermochatasks" class="tsd-anchor"></a>
+					<h3>register<wbr>Mocha<wbr>Tasks</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Sources<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_task_generators_build_typescript_.options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_task_generators_build_typescript_.sources.html" class="tsd-signature-type">Sources</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Mocha<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_mocha.mochatarget.html" class="tsd-signature-type">MochaTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_mocha.mochatasks.html" class="tsd-signature-type">MochaTasks</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/task-generators/build-typescript.ts#L69">task-generators/build-typescript.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/mocha.ts#L117">targets/mocha.ts:117</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>options: <a href="../interfaces/_task_generators_build_typescript_.options.html" class="tsd-signature-type">Options</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_task_generators_build_typescript_.sources.html" class="tsd-signature-type">Sources</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="haserror" class="tsd-anchor"></a>
-					<h3>has<wbr>Error</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">has<wbr>Error<span class="tsd-signature-symbol">(</span>compilerResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CompilationResult</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/task-generators/build-typescript.ts#L96">task-generators/build-typescript.ts:96</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>compilerResult: <span class="tsd-signature-type">CompilationResult</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="watch" class="tsd-anchor"></a>
-					<h3>watch</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">watch<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_task_generators_build_typescript_.options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FSWatcher</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/task-generators/build-typescript.ts#L170">task-generators/build-typescript.ts:170</a></li>
-								</ul>
-							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates and registers gulp tasks for the provided Mocha target.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>gulp: <span class="tsd-signature-type">Gulp</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Gulp instance where the tasks will be registered.</p>
+									</div>
 								</li>
 								<li>
-									<h5>options: <a href="../interfaces/_task_generators_build_typescript_.options.html" class="tsd-signature-type">Options</a></h5>
+									<h5>targetOptions: <a href="../interfaces/targets_mocha.mochatarget.html" class="tsd-signature-type">MochaTarget</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Target configuration.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">FSWatcher</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/targets_mocha.mochatasks.html" class="tsd-signature-type">MochaTasks</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="resolvemochatarget" class="tsd-anchor"></a>
+					<h3>resolve<wbr>Mocha<wbr>Target</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">resolve<wbr>Mocha<wbr>Target<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_mocha.mochatarget.html" class="tsd-signature-type">MochaTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_mocha.resolvedmochatarget.html" class="tsd-signature-type">ResolvedMochaTarget</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/mocha.ts#L77">targets/mocha.ts:77</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resolve absolute paths and dependencies for the provided target.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>target: <a href="../interfaces/targets_mocha.mochatarget.html" class="tsd-signature-type">MochaTarget</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Non-resolved target.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/targets_mocha.resolvedmochatarget.html" class="tsd-signature-type">ResolvedMochaTarget</a></h4>
+							<p>Resolved target.</p>
 						</li>
 					</ul>
 				</section>
@@ -247,38 +257,32 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="_task_generators_build_typescript_.html">"task-<wbr>generators/build-<wbr>typescript"</a>
+						<a href="targets_mocha.html">targets/mocha</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/targets_mocha.mochatarget.html" class="tsd-kind-icon">Mocha<wbr>Target</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/targets_mocha.mochatasks.html" class="tsd-kind-icon">Mocha<wbr>Tasks</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/_task_generators_build_typescript_.completereporter.html" class="tsd-kind-icon">Complete<wbr>Reporter</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_task_generators_build_typescript_.options.html" class="tsd-kind-icon">Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_task_generators_build_typescript_.sources.html" class="tsd-kind-icon">Sources</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_task_generators_build_typescript_.html#deleteundefinedproperties" class="tsd-kind-icon">delete<wbr>Undefined<wbr>Properties</a>
+						<a href="../interfaces/targets_mocha.resolvedmochatarget.html" class="tsd-kind-icon">Resolved<wbr>Mocha<wbr>Target</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_task_generators_build_typescript_.html#generatetask" class="tsd-kind-icon">generate<wbr>Task</a>
+						<a href="targets_mocha.html#generatemochatasks" class="tsd-kind-icon">generate<wbr>Mocha<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_task_generators_build_typescript_.html#getreporter" class="tsd-kind-icon">get<wbr>Reporter</a>
+						<a href="targets_mocha.html#gulpbuffersrc" class="tsd-kind-icon">gulp<wbr>Buffer<wbr>Src</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_task_generators_build_typescript_.html#getsources" class="tsd-kind-icon">get<wbr>Sources</a>
+						<a href="targets_mocha.html#registermochatasks" class="tsd-kind-icon">register<wbr>Mocha<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_task_generators_build_typescript_.html#haserror" class="tsd-kind-icon">has<wbr>Error</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_task_generators_build_typescript_.html#watch" class="tsd-kind-icon">watch</a>
+						<a href="targets_mocha.html#resolvemochatarget" class="tsd-kind-icon">resolve<wbr>Mocha<wbr>Target</a>
 					</li>
 				</ul>
 			</nav>

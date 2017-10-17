@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MochaTasks | Web Build Tools</title>
+	<title>TypedocOptions | Web Build Tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_targets_mocha_.html">&quot;targets/mocha&quot;</a>
+					<a href="../modules/targets_lib.html">targets/lib</a>
 				</li>
 				<li>
-					<a href="_targets_mocha_.mochatasks.html">MochaTasks</a>
+					<a href="targets_lib.typedocoptions.html">TypedocOptions</a>
 				</li>
 			</ul>
-			<h1>Interface MochaTasks</h1>
+			<h1>Interface TypedocOptions</h1>
 		</div>
 	</div>
 </header>
@@ -73,10 +73,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_targets__base_.basetasks.html" class="tsd-signature-type">BaseTasks</a>
+						<span class="target">TypedocOptions</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">MochaTasks</span>
+								<a href="targets_lib.resolvedtypedocoptions.html" class="tsd-signature-type">ResolvedTypedocOptions</a>
 							</li>
 						</ul>
 					</li>
@@ -89,13 +89,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_targets_mocha_.mochatasks.html#build" class="tsd-kind-icon">build</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_targets_mocha_.mochatasks.html#buildcopy" class="tsd-kind-icon">build<wbr>Copy</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_targets_mocha_.mochatasks.html#buildscripts" class="tsd-kind-icon">build<wbr>Scripts</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_targets_mocha_.mochatasks.html#clean" class="tsd-kind-icon">clean</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets_mocha_.mochatasks.html#run" class="tsd-kind-icon">run</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets_mocha_.mochatasks.html#start" class="tsd-kind-icon">start</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_targets_mocha_.mochatasks.html#tsconfigjson" class="tsd-kind-icon">tsconfig<wbr>Json</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.typedocoptions.html#deploy" class="tsd-kind-icon">deploy</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.typedocoptions.html#dir" class="tsd-kind-icon">dir</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.typedocoptions.html#name" class="tsd-kind-icon">name</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,78 +99,40 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="build" class="tsd-anchor"></a>
-					<h3>build</h3>
-					<div class="tsd-signature tsd-kind-icon">build<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="deploy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> deploy</h3>
+					<div class="tsd-signature tsd-kind-icon">deploy<span class="tsd-signature-symbol">:</span> <a href="targets_lib.gitdeployoptions.html" class="tsd-signature-type">GitDeployOptions</a></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_targets__base_.basetasks.html">BaseTasks</a>.<a href="_targets__base_.basetasks.html#build">build</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/_base.ts#L235">targets/_base.ts:235</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="buildcopy" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> build<wbr>Copy</h3>
-					<div class="tsd-signature tsd-kind-icon">build<wbr>Copy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_targets__base_.basetasks.html">BaseTasks</a>.<a href="_targets__base_.basetasks.html#buildcopy">buildCopy</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/_base.ts#L234">targets/_base.ts:234</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="buildscripts" class="tsd-anchor"></a>
-					<h3>build<wbr>Scripts</h3>
-					<div class="tsd-signature tsd-kind-icon">build<wbr>Scripts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_targets__base_.basetasks.html">BaseTasks</a>.<a href="_targets__base_.basetasks.html#buildscripts">buildScripts</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/_base.ts#L233">targets/_base.ts:233</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="clean" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> clean</h3>
-					<div class="tsd-signature tsd-kind-icon">clean<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_targets__base_.basetasks.html">BaseTasks</a>.<a href="_targets__base_.basetasks.html#clean">clean</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/_base.ts#L236">targets/_base.ts:236</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/lib.ts#L195">targets/lib.ts:195</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="run" class="tsd-anchor"></a>
-					<h3>run</h3>
-					<div class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
+					<a name="dir" class="tsd-anchor"></a>
+					<h3>dir</h3>
+					<div class="tsd-signature tsd-kind-icon">dir<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#relposixpath" class="tsd-signature-type">RelPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/mocha.ts#L48">targets/mocha.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/lib.ts#L191">targets/lib.ts:191</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Path to the <code>typedoc</code> directory, relative to <code>project.rootDir</code>.
+								Use <code>null</code> to not generate a <code>typedoc</code> task.
+							Default: <code>join(project.rootDir, &quot;typedoc&quot;)</code>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="start" class="tsd-anchor"></a>
-					<h3>start</h3>
-					<div class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/mocha.ts#L47">targets/mocha.ts:47</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="tsconfigjson" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tsconfig<wbr>Json</h3>
-					<div class="tsd-signature tsd-kind-icon">tsconfig<wbr>Json<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_targets__base_.basetasks.html">BaseTasks</a>.<a href="_targets__base_.basetasks.html#tsconfigjson">tsconfigJson</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/_base.ts#L237">targets/_base.ts:237</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/lib.ts#L193">targets/lib.ts:193</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -187,59 +145,62 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_targets_mocha_.html">"targets/mocha"</a>
+						<a href="../modules/targets_lib.html">targets/lib</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_mocha_.mochatarget.html" class="tsd-kind-icon">Mocha<wbr>Target</a>
+						<a href="targets_lib.distoptions.html" class="tsd-kind-icon">Dist<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.gitdeployoptions.html" class="tsd-kind-icon">Git<wbr>Deploy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.libtarget.html" class="tsd-kind-icon">Lib<wbr>Target</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.libtasks.html" class="tsd-kind-icon">Lib<wbr>Tasks</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.npmpublishoptions.html" class="tsd-kind-icon">Npm<wbr>Publish<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.resolveddistoptions.html" class="tsd-kind-icon">Resolved<wbr>Dist<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="targets_lib.resolvedlibtarget.html" class="tsd-kind-icon">Resolved<wbr>Lib<wbr>Target</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="targets_lib.resolvedtypedocoptions.html" class="tsd-kind-icon">Resolved<wbr>Typedoc<wbr>Options</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_mocha_.mochatasks.html" class="tsd-kind-icon">Mocha<wbr>Tasks</a>
+						<a href="targets_lib.typedocoptions.html" class="tsd-kind-icon">Typedoc<wbr>Options</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_targets_mocha_.mochatasks.html#build" class="tsd-kind-icon">build</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_targets_mocha_.mochatasks.html#buildcopy" class="tsd-kind-icon">build<wbr>Copy</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_targets_mocha_.mochatasks.html#buildscripts" class="tsd-kind-icon">build<wbr>Scripts</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_targets_mocha_.mochatasks.html#clean" class="tsd-kind-icon">clean</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="targets_lib.typedocoptions.html#deploy" class="tsd-kind-icon">deploy</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_targets_mocha_.mochatasks.html#run" class="tsd-kind-icon">run</a>
+								<a href="targets_lib.typedocoptions.html#dir" class="tsd-kind-icon">dir</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_targets_mocha_.mochatasks.html#start" class="tsd-kind-icon">start</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_targets_mocha_.mochatasks.html#tsconfigjson" class="tsd-kind-icon">tsconfig<wbr>Json</a>
+								<a href="targets_lib.typedocoptions.html#name" class="tsd-kind-icon">name</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_targets_mocha_.resolvedmochatarget.html" class="tsd-kind-icon">Resolved<wbr>Mocha<wbr>Target</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/targets_lib.html#generatelibtasks" class="tsd-kind-icon">generate<wbr>Lib<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_targets_mocha_.html#generatemochatasks" class="tsd-kind-icon">generate<wbr>Mocha<wbr>Tasks</a>
+						<a href="../modules/targets_lib.html#registerlibtasks" class="tsd-kind-icon">register<wbr>Lib<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_targets_mocha_.html#gulpbuffersrc" class="tsd-kind-icon">gulp<wbr>Buffer<wbr>Src</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_targets_mocha_.html#registermochatasks" class="tsd-kind-icon">register<wbr>Mocha<wbr>Tasks</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_targets_mocha_.html#resolvemochatarget" class="tsd-kind-icon">resolve<wbr>Mocha<wbr>Target</a>
+						<a href="../modules/targets_lib.html#resolvelibtarget" class="tsd-kind-icon">resolve<wbr>Lib<wbr>Target</a>
 					</li>
 				</ul>
 			</nav>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GitDeployOptions | Web Build Tools</title>
+	<title>Project | Web Build Tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,24 +56,38 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_targets_lib_.html">&quot;targets/lib&quot;</a>
+					<a href="../modules/project.html">project</a>
 				</li>
 				<li>
-					<a href="_targets_lib_.gitdeployoptions.html">GitDeployOptions</a>
+					<a href="project.project-1.html">Project</a>
 				</li>
 			</ul>
-			<h1>Interface GitDeployOptions</h1>
+			<h1>Interface Project</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Project-wide options.
+							These affect all the targets.
+						It defines the main structure of the project.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">GitDeployOptions</span>
+						<span class="target">Project</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<a href="project.resolvedproject.html" class="tsd-signature-type">ResolvedProject</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -84,9 +98,13 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets_lib_.gitdeployoptions.html#branch" class="tsd-kind-icon">branch</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets_lib_.gitdeployoptions.html#commitauthor" class="tsd-kind-icon">commit<wbr>Author</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets_lib_.gitdeployoptions.html#repository" class="tsd-kind-icon">repository</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="project.project-1.html#builddir" class="tsd-kind-icon">build<wbr>Dir</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="project.project-1.html#distdir" class="tsd-kind-icon">dist<wbr>Dir</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="project.project-1.html#packagejson" class="tsd-kind-icon">package<wbr>Json</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="project.project-1.html#root" class="tsd-kind-icon">root</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="project.project-1.html#srcdir" class="tsd-kind-icon">src<wbr>Dir</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="project.project-1.html#tslint" class="tsd-kind-icon">tslint</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="project.project-1.html#typescript" class="tsd-kind-icon">typescript</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,34 +113,125 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="branch" class="tsd-anchor"></a>
-					<h3>branch</h3>
-					<div class="tsd-signature tsd-kind-icon">branch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="builddir" class="tsd-anchor"></a>
+					<h3>build<wbr>Dir</h3>
+					<div class="tsd-signature tsd-kind-icon">build<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#relposixpath" class="tsd-signature-type">RelPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L157">targets/lib.ts:157</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/project.ts#L37">project.ts:37</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Path to the build directory relative to <code>root</code>. This is the directory where all of the builds
+							will be placed.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="commitauthor" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> commit<wbr>Author</h3>
-					<div class="tsd-signature tsd-kind-icon">commit<wbr>Author<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="distdir" class="tsd-anchor"></a>
+					<h3>dist<wbr>Dir</h3>
+					<div class="tsd-signature tsd-kind-icon">dist<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#relposixpath" class="tsd-signature-type">RelPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L158">targets/lib.ts:158</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/project.ts#L43">project.ts:43</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Path to the dist directory relative to <code>root</code>.
+							This is the directory where files ready for distribution are placed.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="repository" class="tsd-anchor"></a>
-					<h3>repository</h3>
-					<div class="tsd-signature tsd-kind-icon">repository<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="packagejson" class="tsd-anchor"></a>
+					<h3>package<wbr>Json</h3>
+					<div class="tsd-signature tsd-kind-icon">package<wbr>Json<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#relposixpath" class="tsd-signature-type">RelPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L156">targets/lib.ts:156</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/project.ts#L31">project.ts:31</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Path to the <code>package.json</code> file, relative to <code>root</code>.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="root" class="tsd-anchor"></a>
+					<h3>root</h3>
+					<div class="tsd-signature tsd-kind-icon">root<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#syspath" class="tsd-signature-type">SysPath</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/project.ts#L26">project.ts:26</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The root directory of the project.
+							This corresponds usually to the root of the repository.</p>
+						</div>
+						<p><strong>This should be the only absolute path in the configuration.</strong></p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="srcdir" class="tsd-anchor"></a>
+					<h3>src<wbr>Dir</h3>
+					<div class="tsd-signature tsd-kind-icon">src<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#relposixpath" class="tsd-signature-type">RelPosixPath</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/project.ts#L49">project.ts:49</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Path the source directory relative to <code>root</code>.
+							This is the directory where all of the source files and assets are located.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="tslint" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tslint</h3>
+					<div class="tsd-signature tsd-kind-icon">tslint<span class="tsd-signature-symbol">:</span> <a href="_options_tslint_.tslintoptions.html" class="tsd-signature-type">TslintOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/project.ts#L56">project.ts:56</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Tslint options.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p><code>{tslintJson: &quot;tslint.json&quot;}</code></p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="typescript" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> typescript</h3>
+					<div class="tsd-signature tsd-kind-icon">typescript<span class="tsd-signature-symbol">:</span> <a href="_options_typescript_.typescriptoptions.html" class="tsd-signature-type">TypescriptOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/project.ts#L64">project.ts:64</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Typescript options, targets inherit these options.
+							See the merge rules to see how the target options are merged with the project options.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p><a href="../modules/_options_typescript_.html#default_project_ts_options">DEFAULT_PROJECT_TS_OPTIONS</a></p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -133,62 +242,56 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_targets_lib_.html">"targets/lib"</a>
+						<a href="../modules/project.html">project</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.distoptions.html" class="tsd-kind-icon">Dist<wbr>Options</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.gitdeployoptions.html" class="tsd-kind-icon">Git<wbr>Deploy<wbr>Options</a>
+						<a href="project.project-1.html" class="tsd-kind-icon">Project</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_targets_lib_.gitdeployoptions.html#branch" class="tsd-kind-icon">branch</a>
+								<a href="project.project-1.html#builddir" class="tsd-kind-icon">build<wbr>Dir</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_targets_lib_.gitdeployoptions.html#commitauthor" class="tsd-kind-icon">commit<wbr>Author</a>
+								<a href="project.project-1.html#distdir" class="tsd-kind-icon">dist<wbr>Dir</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_targets_lib_.gitdeployoptions.html#repository" class="tsd-kind-icon">repository</a>
+								<a href="project.project-1.html#packagejson" class="tsd-kind-icon">package<wbr>Json</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="project.project-1.html#root" class="tsd-kind-icon">root</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="project.project-1.html#srcdir" class="tsd-kind-icon">src<wbr>Dir</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="project.project-1.html#tslint" class="tsd-kind-icon">tslint</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="project.project-1.html#typescript" class="tsd-kind-icon">typescript</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.libtarget.html" class="tsd-kind-icon">Lib<wbr>Target</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.libtasks.html" class="tsd-kind-icon">Lib<wbr>Tasks</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.npmpublishoptions.html" class="tsd-kind-icon">Npm<wbr>Publish<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.resolveddistoptions.html" class="tsd-kind-icon">Resolved<wbr>Dist<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_targets_lib_.resolvedlibtarget.html" class="tsd-kind-icon">Resolved<wbr>Lib<wbr>Target</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.resolvedtypedocoptions.html" class="tsd-kind-icon">Resolved<wbr>Typedoc<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_targets_lib_.typedocoptions.html" class="tsd-kind-icon">Typedoc<wbr>Options</a>
+						<a href="project.resolvedproject.html" class="tsd-kind-icon">Resolved<wbr>Project</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_targets_lib_.html#generatelibtasks" class="tsd-kind-icon">generate<wbr>Lib<wbr>Tasks</a>
+						<a href="../modules/project.html#registerprojecttasks" class="tsd-kind-icon">register<wbr>Project<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_targets_lib_.html#registerlibtasks" class="tsd-kind-icon">register<wbr>Lib<wbr>Tasks</a>
+						<a href="../modules/project.html#resolveproject" class="tsd-kind-icon">resolve<wbr>Project</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_targets_lib_.html#resolvelibtarget" class="tsd-kind-icon">resolve<wbr>Lib<wbr>Target</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/project.html#toposix" class="tsd-kind-icon">to<wbr>Posix</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
+						<a href="../modules/project.html#default_project" class="tsd-kind-icon">DEFAULT_<wbr>PROJECT</a>
 					</li>
 				</ul>
 			</nav>

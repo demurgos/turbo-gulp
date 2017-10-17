@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;targets/lib&quot; | Web Build Tools</title>
+	<title>targets/lib | Web Build Tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,16 +56,63 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_targets_lib_.html">&quot;targets/lib&quot;</a>
+					<a href="targets_lib.html">targets/lib</a>
 				</li>
 			</ul>
-			<h1>External module &quot;targets/lib&quot;</h1>
+			<h1>External module targets/lib</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>This module defines the <em>lib</em> target type used to create libraries for other projects.</p>
+					</div>
+					<p>In the following list of tasks, <code>{target}</code> represents the name of the target as defined by the <code>name</code> property
+						of the target options.
+					The <em>lib</em> target provides the following tasks:</p>
+					<h2 id="-target-build">{target}:build</h2>
+					<p>Performs a full build of the library to the build directory, used for development.
+					This copies the static assets and compiles the scripts.</p>
+					<p>The following sub-tasks are available:</p>
+					<ul>
+						<li><code>{target}:build:copy</code>: Only copy the static assets</li>
+						<li><code>{target}:build:script</code>: Only compile the scripts</li>
+					</ul>
+					<p>For distribution builds, use <code>{target:dist}</code></p>
+					<h2 id="-target-dist">{target}:dist</h2>
+					<p>Performs a full build of the library to the dist directory, used for distribution (ie. publication to <em>npm</em>).
+						This build creates a fully autonomous directory with its own <code>package.json</code>, source code, license file, etc.
+						This allows to use a different structure for distribution rather than structure of the repo, the main benefit is
+						to provide support for deep package imports (<code>import * as mod from &quot;my-lib/deep/module&quot;</code>) by placing the build
+						at the root of the package.
+					This build also allows you to remap the <code>package.json</code>, for example to set the version dynamically.</p>
+					<p>The following sub-tasks are available:</p>
+					<ul>
+						<li><code>{target}:dist:publish</code>: Publish the package to an <em>npm</em> registry (it honors the <code>registry</code> option, to publish
+							to private <em>npm</em> registries such as <em>Verdaccio</em>). It uses the authentication token of the current user, this
+							token is in <code>~/.npmrc</code>. For CI, you can use the following command to set the token the registry <code>npm.example.com</code>.
+							(for the official registry, use <code>//registry.npmjs.org</code>):<pre><code><span class="hljs-built_in">echo</span> <span class="hljs-string">"//npm.example.com/:_authToken=\"<span class="hljs-variable">${NPM_TOKEN}</span>\""</span> &gt; ~/.npmrc
+</code></pre></li>
+						<li><code>{target}:dist:copy-src</code>: Only copy the source files to the build directory.</li>
+						<li><code>{target}:dist:package.json</code>: Copy (and eventually transform) the root <code>package.json</code> to the build directory.</li>
+					</ul>
+					<p>For development builds, use <code>{target:build}</code>.</p>
+					<h2 id="-target-typedoc">{target}:typedoc</h2>
+					<p>Generate <em>Typedoc</em> documentation.</p>
+					<h2 id="-target-typedoc-deploy">{target}:typedoc:deploy</h2>
+					<p>Deploy the <em>Typedoc</em> documentation using <em>git</em>. This can be used to easily deploy the documentation to the
+					<code>gh-pages</code> branch.</p>
+					<h2 id="-target-clean">{target}:clean</h2>
+					<p>Remove both the build and dist directories corresponding to this target.</p>
+					<h2 id="-target-tsconfig-json">{target}:tsconfig.json</h2>
+					<p>Emit a <code>tsconfig.json</code> file corresponding to the configuration for this target. This allows to compile it using
+					the command line <code>tsc</code> program. This is also useful for IDE to auto-detect the configuration of the project.</p>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -73,23 +120,23 @@
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_targets_lib_.distoptions.html" class="tsd-kind-icon">Dist<wbr>Options</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_targets_lib_.gitdeployoptions.html" class="tsd-kind-icon">Git<wbr>Deploy<wbr>Options</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_targets_lib_.libtarget.html" class="tsd-kind-icon">Lib<wbr>Target</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_targets_lib_.libtasks.html" class="tsd-kind-icon">Lib<wbr>Tasks</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_targets_lib_.npmpublishoptions.html" class="tsd-kind-icon">Npm<wbr>Publish<wbr>Options</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_targets_lib_.resolveddistoptions.html" class="tsd-kind-icon">Resolved<wbr>Dist<wbr>Options</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/_targets_lib_.resolvedlibtarget.html" class="tsd-kind-icon">Resolved<wbr>Lib<wbr>Target</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_targets_lib_.resolvedtypedocoptions.html" class="tsd-kind-icon">Resolved<wbr>Typedoc<wbr>Options</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_targets_lib_.typedocoptions.html" class="tsd-kind-icon">Typedoc<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_lib.distoptions.html" class="tsd-kind-icon">Dist<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_lib.gitdeployoptions.html" class="tsd-kind-icon">Git<wbr>Deploy<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_lib.libtarget.html" class="tsd-kind-icon">Lib<wbr>Target</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_lib.libtasks.html" class="tsd-kind-icon">Lib<wbr>Tasks</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_lib.npmpublishoptions.html" class="tsd-kind-icon">Npm<wbr>Publish<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_lib.resolveddistoptions.html" class="tsd-kind-icon">Resolved<wbr>Dist<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/targets_lib.resolvedlibtarget.html" class="tsd-kind-icon">Resolved<wbr>Lib<wbr>Target</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_lib.resolvedtypedocoptions.html" class="tsd-kind-icon">Resolved<wbr>Typedoc<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/targets_lib.typedocoptions.html" class="tsd-kind-icon">Typedoc<wbr>Options</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_targets_lib_.html#generatelibtasks" class="tsd-kind-icon">generate<wbr>Lib<wbr>Tasks</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_targets_lib_.html#registerlibtasks" class="tsd-kind-icon">register<wbr>Lib<wbr>Tasks</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_targets_lib_.html#resolvelibtarget" class="tsd-kind-icon">resolve<wbr>Lib<wbr>Target</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="targets_lib.html#generatelibtasks" class="tsd-kind-icon">generate<wbr>Lib<wbr>Tasks</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="targets_lib.html#registerlibtasks" class="tsd-kind-icon">register<wbr>Lib<wbr>Tasks</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="targets_lib.html#resolvelibtarget" class="tsd-kind-icon">resolve<wbr>Lib<wbr>Target</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,13 +148,13 @@
 					<a name="generatelibtasks" class="tsd-anchor"></a>
 					<h3>generate<wbr>Lib<wbr>Tasks</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Lib<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_lib_.libtarget.html" class="tsd-signature-type">LibTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_lib_.libtasks.html" class="tsd-signature-type">LibTasks</a></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Lib<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_lib.libtarget.html" class="tsd-signature-type">LibTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_lib.libtasks.html" class="tsd-signature-type">LibTasks</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L223">targets/lib.ts:223</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/lib.ts#L286">targets/lib.ts:286</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -124,13 +171,13 @@
 									</div>
 								</li>
 								<li>
-									<h5>targetOptions: <a href="../interfaces/_targets_lib_.libtarget.html" class="tsd-signature-type">LibTarget</a></h5>
+									<h5>targetOptions: <a href="../interfaces/targets_lib.libtarget.html" class="tsd-signature-type">LibTarget</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Target configuration.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_targets_lib_.libtasks.html" class="tsd-signature-type">LibTasks</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/targets_lib.libtasks.html" class="tsd-signature-type">LibTasks</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -138,13 +185,13 @@
 					<a name="registerlibtasks" class="tsd-anchor"></a>
 					<h3>register<wbr>Lib<wbr>Tasks</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">register<wbr>Lib<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_lib_.libtarget.html" class="tsd-signature-type">LibTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_lib_.libtasks.html" class="tsd-signature-type">LibTasks</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Lib<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_lib.libtarget.html" class="tsd-signature-type">LibTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_lib.libtasks.html" class="tsd-signature-type">LibTasks</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L396">targets/lib.ts:396</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/lib.ts#L459">targets/lib.ts:459</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -161,13 +208,13 @@
 									</div>
 								</li>
 								<li>
-									<h5>targetOptions: <a href="../interfaces/_targets_lib_.libtarget.html" class="tsd-signature-type">LibTarget</a></h5>
+									<h5>targetOptions: <a href="../interfaces/targets_lib.libtarget.html" class="tsd-signature-type">LibTarget</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Target configuration.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_targets_lib_.libtasks.html" class="tsd-signature-type">LibTasks</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/targets_lib.libtasks.html" class="tsd-signature-type">LibTasks</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -175,13 +222,13 @@
 					<a name="resolvelibtarget" class="tsd-anchor"></a>
 					<h3>resolve<wbr>Lib<wbr>Target</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">resolve<wbr>Lib<wbr>Target<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_lib_.libtarget.html" class="tsd-signature-type">LibTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_lib_.resolvedlibtarget.html" class="tsd-signature-type">ResolvedLibTarget</a></li>
+						<li class="tsd-signature tsd-kind-icon">resolve<wbr>Lib<wbr>Target<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_lib.libtarget.html" class="tsd-signature-type">LibTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/targets_lib.resolvedlibtarget.html" class="tsd-signature-type">ResolvedLibTarget</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/6e2a7cb/src/lib/targets/lib.ts#L167">targets/lib.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/fe31d3c/src/lib/targets/lib.ts#L230">targets/lib.ts:230</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -192,13 +239,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>target: <a href="../interfaces/_targets_lib_.libtarget.html" class="tsd-signature-type">LibTarget</a></h5>
+									<h5>target: <a href="../interfaces/targets_lib.libtarget.html" class="tsd-signature-type">LibTarget</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Non-resolved target.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_targets_lib_.resolvedlibtarget.html" class="tsd-signature-type">ResolvedLibTarget</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/targets_lib.resolvedlibtarget.html" class="tsd-signature-type">ResolvedLibTarget</a></h4>
 							<p>Resolved target.</p>
 						</li>
 					</ul>
@@ -212,47 +259,47 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="_targets_lib_.html">"targets/lib"</a>
+						<a href="targets_lib.html">targets/lib</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_targets_lib_.distoptions.html" class="tsd-kind-icon">Dist<wbr>Options</a>
+						<a href="../interfaces/targets_lib.distoptions.html" class="tsd-kind-icon">Dist<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_targets_lib_.gitdeployoptions.html" class="tsd-kind-icon">Git<wbr>Deploy<wbr>Options</a>
+						<a href="../interfaces/targets_lib.gitdeployoptions.html" class="tsd-kind-icon">Git<wbr>Deploy<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_targets_lib_.libtarget.html" class="tsd-kind-icon">Lib<wbr>Target</a>
+						<a href="../interfaces/targets_lib.libtarget.html" class="tsd-kind-icon">Lib<wbr>Target</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_targets_lib_.libtasks.html" class="tsd-kind-icon">Lib<wbr>Tasks</a>
+						<a href="../interfaces/targets_lib.libtasks.html" class="tsd-kind-icon">Lib<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_targets_lib_.npmpublishoptions.html" class="tsd-kind-icon">Npm<wbr>Publish<wbr>Options</a>
+						<a href="../interfaces/targets_lib.npmpublishoptions.html" class="tsd-kind-icon">Npm<wbr>Publish<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_targets_lib_.resolveddistoptions.html" class="tsd-kind-icon">Resolved<wbr>Dist<wbr>Options</a>
+						<a href="../interfaces/targets_lib.resolveddistoptions.html" class="tsd-kind-icon">Resolved<wbr>Dist<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/_targets_lib_.resolvedlibtarget.html" class="tsd-kind-icon">Resolved<wbr>Lib<wbr>Target</a>
+						<a href="../interfaces/targets_lib.resolvedlibtarget.html" class="tsd-kind-icon">Resolved<wbr>Lib<wbr>Target</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_targets_lib_.resolvedtypedocoptions.html" class="tsd-kind-icon">Resolved<wbr>Typedoc<wbr>Options</a>
+						<a href="../interfaces/targets_lib.resolvedtypedocoptions.html" class="tsd-kind-icon">Resolved<wbr>Typedoc<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_targets_lib_.typedocoptions.html" class="tsd-kind-icon">Typedoc<wbr>Options</a>
+						<a href="../interfaces/targets_lib.typedocoptions.html" class="tsd-kind-icon">Typedoc<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_targets_lib_.html#generatelibtasks" class="tsd-kind-icon">generate<wbr>Lib<wbr>Tasks</a>
+						<a href="targets_lib.html#generatelibtasks" class="tsd-kind-icon">generate<wbr>Lib<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_targets_lib_.html#registerlibtasks" class="tsd-kind-icon">register<wbr>Lib<wbr>Tasks</a>
+						<a href="targets_lib.html#registerlibtasks" class="tsd-kind-icon">register<wbr>Lib<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_targets_lib_.html#resolvelibtarget" class="tsd-kind-icon">resolve<wbr>Lib<wbr>Target</a>
+						<a href="targets_lib.html#resolvelibtarget" class="tsd-kind-icon">resolve<wbr>Lib<wbr>Target</a>
 					</li>
 				</ul>
 			</nav>
