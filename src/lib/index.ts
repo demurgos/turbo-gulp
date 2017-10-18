@@ -1,8 +1,7 @@
 import * as projectTasks from "./project-tasks/index";
-import * as targetGenerators from "./target-generators/index";
 import * as taskGenerators from "./task-generators/index";
 
-export { projectTasks, targetGenerators, taskGenerators };
+export { projectTasks, taskGenerators };
 
 export { CleanOptions } from "./options/clean";
 export { CopyOptions } from "./options/copy";
@@ -16,7 +15,7 @@ export {
   DEFAULT_UNTYPED_TSLINT_RULES,
   TslintOptions,
 } from "./options/tslint";
-export { TypescriptOptions } from "./options/typescript";
+export { OutModules, TypescriptOptions } from "./options/typescript";
 export { DEFAULT_PROJECT, Project } from "./project";
 export {
   ANGULAR_CLIENT_TARGET,

@@ -1,6 +1,7 @@
 import { IMinimatch, Minimatch } from "minimatch";
 import { posix as posixPath } from "path";
 import { CompilerOptionsJson } from "../options/tsc";
+import { OutModules } from "../options/typescript";
 import { AbsPosixPath, RelPosixPath } from "../types";
 import * as matcher from "../utils/matcher";
 
@@ -12,6 +13,7 @@ export interface TypescriptConfig {
   readonly buildDir: AbsPosixPath;
   readonly srcDir: AbsPosixPath;
   readonly scripts: Iterable<string>;
+  readonly outModules: OutModules;
 }
 
 export interface ResolvedTsLocations {

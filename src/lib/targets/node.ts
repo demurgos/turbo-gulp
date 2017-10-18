@@ -4,6 +4,7 @@ import { posix as posixPath } from "path";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CompilerOptionsJson } from "../options/tsc";
+import { OutModules } from "../options/typescript";
 import { ResolvedProject } from "../project";
 import { AbsPosixPath, RelPosixPath } from "../types";
 import {
@@ -43,6 +44,8 @@ interface ResolvedNodeTarget extends NodeTarget, ResolvedTargetBase {
   readonly customTypingsDir: AbsPosixPath | null;
 
   readonly tscOptions: CompilerOptionsJson;
+
+  readonly outModules: OutModules;
 
   readonly tsconfigJson: AbsPosixPath | null;
 

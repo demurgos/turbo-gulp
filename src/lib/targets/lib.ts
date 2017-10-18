@@ -67,8 +67,8 @@ import { posix as posixPath } from "path";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CompilerOptionsJson } from "../options/tsc";
+import { OutModules } from "../options/typescript";
 import { ResolvedProject } from "../project";
-import { generateCopyTasks, ManyWatchFunction } from "../target-generators/base";
 import { TypescriptConfig } from "../target-tasks/_typescript";
 import { getBuildTypescriptTask } from "../target-tasks/build-typescript";
 import { getTypedocTask } from "../target-tasks/typedoc";
@@ -81,7 +81,9 @@ import { PackageJson, readJsonFile } from "../utils/project";
 import {
   BaseTasks,
   generateBaseTasks,
+  generateCopyTasks,
   gulpBufferSrc,
+  ManyWatchFunction,
   nameTask,
   ResolvedBaseDependencies,
   ResolvedTargetBase,
@@ -132,6 +134,11 @@ interface ResolvedLibTarget extends LibTarget, ResolvedTargetBase {
   readonly customTypingsDir: AbsPosixPath | null;
 
   readonly tscOptions: CompilerOptionsJson;
+
+  /**
+   * TODO
+   */
+  readonly outModules: OutModules;
 
   readonly tsconfigJson: AbsPosixPath | null;
 
@@ -295,6 +302,7 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
     buildDir: target.buildDir,
     srcDir: target.srcDir,
     scripts: target.scripts,
+    outModules: target.outModules,
   };
 
   // typedoc
@@ -388,6 +396,7 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
       buildDir: dist.distDir,
       srcDir,
       scripts,
+      outModules: target.outModules,
     };
 
     // dist:scripts
@@ -400,21 +409,12 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
       distTasks.push(nameTask(`${target.name}:dist:scripts`, getBuildTypescriptTask(gulp, tsOptions)));
     }
 
-    // // dist:tsconfig.json
-    // if (target.tsconfigJson !== null) {
-    //   distTasks.push(nameTask(
-    //     gulp,
-    //     `${target.name}:dist:tsconfig.json`,
-    //     getTsconfigJsonTask({...tsOptions, packageJson})
-    //   ));
-    // }
-
     // dist:package.json
     {
       async function distPackageJsonTask(): Promise<NodeJS.ReadableStream> {
         let pkg: PackageJson = await readJsonFile(target.project.absPackageJson);
         if (typeof target.mainModule === "string") {
-          pkg.main = `${target.mainModule}.js`;
+          pkg.main = target.mainModule;
           pkg.types = `${target.mainModule}.d.ts`;
         }
         pkg.gitHead = await getHeadHash();
