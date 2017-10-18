@@ -1,4 +1,4 @@
-## Next
+## 0.15.0 (2017-10-18)
 
 - **[Fix]** Add error handling for git deployment.
 - **[Internal]** Enable continuous deployment of the `master` branch.
