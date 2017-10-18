@@ -85,9 +85,6 @@
 							<li>
 								<a href="_options_typescript_.completetypescriptoptions.html" class="tsd-signature-type">CompleteTypescriptOptions</a>
 							</li>
-							<li>
-								<a href="task_generators_build_typescript.options.html" class="tsd-signature-type">Options</a>
-							</li>
 						</ul>
 					</li>
 				</ul>
@@ -100,6 +97,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#compileroptions" class="tsd-kind-icon">compiler<wbr>Options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#outmodules" class="tsd-kind-icon">out<wbr>Modules</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#strict" class="tsd-kind-icon">strict</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#tsconfigjson" class="tsd-kind-icon">tsconfig<wbr>Json</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#typescript" class="tsd-kind-icon">typescript</a></li>
@@ -116,7 +114,7 @@
 					<div class="tsd-signature tsd-kind-icon">compiler<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="_options_tsc_.compileroptionsjson.html" class="tsd-signature-type">CompilerOptionsJson</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/options/typescript.ts#L30">options/typescript.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/options/typescript.ts#L36">options/typescript.ts:36</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -128,12 +126,33 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="outmodules" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> out<wbr>Modules</h3>
+					<div class="tsd-signature tsd-kind-icon">out<wbr>Modules<span class="tsd-signature-symbol">:</span> <a href="../enums/_options_typescript_.outmodules.html" class="tsd-signature-type">OutModules</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/options/typescript.ts#L57">options/typescript.ts:57</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Output modules.</p>
+						</div>
+						<ul>
+							<li><code>Default</code>: Use the compiler options to emit <code>*.js</code> files.</li>
+							<li><code>Mjs</code>: Enforce <code>es2015</code> modules and emit <code>*.mjs</code> files.</li>
+							<li><code>Both</code>: Emit both <code>*.js</code> files using the compiler options and <code>*.mjs</code> using <code>es2015</code>.</li>
+						</ul>
+						<p>Default: <code>Both</code></p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="strict" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> strict</h3>
 					<div class="tsd-signature tsd-kind-icon">strict<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/options/typescript.ts#L22">options/typescript.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/options/typescript.ts#L28">options/typescript.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -151,7 +170,7 @@
 					<div class="tsd-signature tsd-kind-icon">tsconfig<wbr>Json<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/options/typescript.ts#L40">options/typescript.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/options/typescript.ts#L46">options/typescript.ts:46</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -169,7 +188,7 @@
 					<div class="tsd-signature tsd-kind-icon">typescript<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ts</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/options/typescript.ts#L13">options/typescript.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/options/typescript.ts#L19">options/typescript.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -194,6 +213,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="../enums/_options_typescript_.outmodules.html" class="tsd-kind-icon">Out<wbr>Modules</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_options_typescript_.completetypescriptoptions.html" class="tsd-kind-icon">Complete<wbr>Typescript<wbr>Options</a>
 					</li>
@@ -204,6 +226,9 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_options_typescript_.typescriptoptions.html#compileroptions" class="tsd-kind-icon">compiler<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_options_typescript_.typescriptoptions.html#outmodules" class="tsd-kind-icon">out<wbr>Modules</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_options_typescript_.typescriptoptions.html#strict" class="tsd-kind-icon">strict</a>

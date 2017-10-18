@@ -113,6 +113,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="_targets__base_.resolvedtargetbase.html#customtypingsdir" class="tsd-kind-icon">custom<wbr>Typings<wbr>Dir</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="_targets__base_.resolvedtargetbase.html#dependencies" class="tsd-kind-icon">dependencies</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_targets__base_.resolvedtargetbase.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="_targets__base_.resolvedtargetbase.html#outmodules" class="tsd-kind-icon">out<wbr>Modules</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="_targets__base_.resolvedtargetbase.html#project" class="tsd-kind-icon">project</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="_targets__base_.resolvedtargetbase.html#scripts" class="tsd-kind-icon">scripts</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="_targets__base_.resolvedtargetbase.html#srcdir" class="tsd-kind-icon">src<wbr>Dir</a></li>
@@ -132,7 +133,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#builddir">buildDir</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L106">targets/_base.ts:106</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L212">targets/_base.ts:212</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -143,7 +144,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#clean">clean</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L120">targets/_base.ts:120</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L228">targets/_base.ts:228</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -154,7 +155,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#copy">copy</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L118">targets/_base.ts:118</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L226">targets/_base.ts:226</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -165,7 +166,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#customtypingsdir">customTypingsDir</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L110">targets/_base.ts:110</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L216">targets/_base.ts:216</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,7 +177,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#dependencies">dependencies</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L116">targets/_base.ts:116</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L224">targets/_base.ts:224</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -187,7 +188,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L28">targets/_base.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L123">targets/_base.ts:123</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -199,13 +200,24 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+					<a name="outmodules" class="tsd-anchor"></a>
+					<h3>out<wbr>Modules</h3>
+					<div class="tsd-signature tsd-kind-icon">out<wbr>Modules<span class="tsd-signature-symbol">:</span> <a href="../enums/_options_typescript_.outmodules.html" class="tsd-signature-type">OutModules</a></div>
+					<aside class="tsd-sources">
+						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#outmodules">outModules</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L220">targets/_base.ts:220</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="project" class="tsd-anchor"></a>
 					<h3>project</h3>
 					<div class="tsd-signature tsd-kind-icon">project<span class="tsd-signature-symbol">:</span> <a href="project.resolvedproject.html" class="tsd-signature-type">ResolvedProject</a></div>
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#project">project</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L102">targets/_base.ts:102</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L208">targets/_base.ts:208</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -216,7 +228,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#scripts">scripts</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L108">targets/_base.ts:108</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L214">targets/_base.ts:214</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -227,7 +239,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#srcdir">srcDir</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L104">targets/_base.ts:104</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L210">targets/_base.ts:210</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -238,7 +250,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#tscoptions">tscOptions</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L112">targets/_base.ts:112</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L218">targets/_base.ts:218</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -249,7 +261,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="_targets__base_.targetbase.html">TargetBase</a>.<a href="_targets__base_.targetbase.html#tsconfigjson">tsconfigJson</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/1f8abdb/src/lib/targets/_base.ts#L114">targets/_base.ts:114</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/080f6e3/src/lib/targets/_base.ts#L222">targets/_base.ts:222</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -301,6 +313,9 @@
 								<a href="_targets__base_.resolvedtargetbase.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+								<a href="_targets__base_.resolvedtargetbase.html#outmodules" class="tsd-kind-icon">out<wbr>Modules</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 								<a href="_targets__base_.resolvedtargetbase.html#project" class="tsd-kind-icon">project</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
@@ -322,14 +337,32 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_targets__base_.targetbase.html" class="tsd-kind-icon">Target<wbr>Base</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_targets__base_.html#manywatchfunction" class="tsd-kind-icon">Many<wbr>Watch<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_targets__base_.html#watchfunction" class="tsd-kind-icon">Watch<wbr>Function</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/_targets__base_.html#addtask" class="tsd-kind-icon">add<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_targets__base_.html#asyncdoneasync" class="tsd-kind-icon">async<wbr>Done<wbr>Async</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/_targets__base_.html#generatebasetasks" class="tsd-kind-icon">generate<wbr>Base<wbr>Tasks</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_targets__base_.html#generatecopytasks" class="tsd-kind-icon">generate<wbr>Copy<wbr>Tasks</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="../modules/_targets__base_.html#groupbyname" class="tsd-kind-icon">group<wbr>ByName</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/_targets__base_.html#gulpbuffersrc" class="tsd-kind-icon">gulp<wbr>Buffer<wbr>Src</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_targets__base_.html#mergecopy" class="tsd-kind-icon">merge<wbr>Copy</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="../modules/_targets__base_.html#nametask" class="tsd-kind-icon">name<wbr>Task</a>
