@@ -50,10 +50,8 @@ if [[ "${CI_BUILD_TYPE}" == "tag" ]]; then
   git config remote.origin.fetch refs/heads/*:refs/remotes/origin/*
   # Fetch all (TODO: Only fetch the last commits of the deployment branch)
   git fetch --quiet --unshallow --tags
-  echo "foo"
   # List the tags on the deployment branch (ignore errors), use grep to perform an exact match and test if the match returns the tag
   GIT_HEAD_TAG_ON_DEPLOYMENT_BRANCH_MATCH=`(git tag --merged "origin/${DEPLOYMENT_BRANCH}" 2> /dev/null || true) | grep --fixed-strings --line-regexp "${GIT_HEAD_TAG}"`
-  echo $GIT_HEAD_TAG_ON_DEPLOYMENT_BRANCH_MATCH
   IS_GIT_HEAD_TAG_ON_DEPLOYMENT_BRANCH=`[ -z "${GIT_HEAD_TAG_ON_DEPLOYMENT_BRANCH_MATCH}" ] && echo "false" || echo "true"`
 fi
 # Time of the latest commit in seconds since UNIX epoch
@@ -67,7 +65,7 @@ NPM_NEXT_GIT_HEAD=`npm view demurgos-web-build-tools@next gitHead`
 # Version of the latest release
 NPM_LATEST_VERSION=`npm view demurgos-web-build-tools@next version`
 # Local version of the package
-NPM_LOCAL_VERSION=`jq .version < package.json`
+NPM_LOCAL_VERSION=`jq --raw-output .version < package.json`
 
 echo "ci: build id: $BUILD_ID"
 echo "ci: build type: $CI_BUILD_TYPE"
