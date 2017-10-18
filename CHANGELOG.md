@@ -1,5 +1,6 @@
 ## Next
 
+- **[Feature]** Add experimental support for `*.mjs` files
 - **[Fix]** Fix support of releases from Continuous Deployment using Travis.
 
 ## 0.15.0 (2017-10-18)

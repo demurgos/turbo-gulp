@@ -1,6 +1,12 @@
 import * as ts from "typescript";
 import { CompilerOptionsJson, DEFAULT_PROJECT_TSC_OPTIONS, mergeTscOptionsJson } from "./tsc";
 
+export enum OutModules {
+  Js,
+  Mjs,
+  Both,
+}
+
 /**
  * Typescript options, can be applied both to the project or for specific targets.
  */
@@ -38,6 +44,17 @@ export interface TypescriptOptions {
    * Merge rule: Last write win (no array merge).
    */
   tsconfigJson?: string[];
+
+  /**
+   * Output modules.
+   *
+   * - `Default`: Use the compiler options to emit `*.js` files.
+   * - `Mjs`: Enforce `es2015` modules and emit `*.mjs` files.
+   * - `Both`: Emit both `*.js` files using the compiler options and `*.mjs` using `es2015`.
+   *
+   * Default: `Both`
+   */
+  outModules?: OutModules;
 }
 
 /**
@@ -77,11 +94,23 @@ export interface CompleteTypescriptOptions extends TypescriptOptions {
    * Merge rule: Last write win (no array merge).
    */
   tsconfigJson: string[];
+
+  /**
+   * Output modules.
+   *
+   * - `Default`: Use the compiler options to emit `*.js` files.
+   * - `Mjs`: Enforce `es2015` modules and emit `*.mjs` files.
+   * - `Both`: Emit both `*.js` files using the compiler options and `*.mjs` using `es2015`.
+   *
+   * Merge rule: Last write win
+   */
+  outModules: OutModules;
 }
 
 export const DEFAULT_PROJECT_TS_OPTIONS: TypescriptOptions = {
   compilerOptions: DEFAULT_PROJECT_TSC_OPTIONS,
   tsconfigJson: ["tsconfig.json"],
+  outModules: OutModules.Both,
 };
 
 export function mergeTypescriptOptions(

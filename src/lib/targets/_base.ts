@@ -1,21 +1,116 @@
-import { existsSync } from "fs";
+import * as asyncDone from "async-done";
+import { existsSync, FSWatcher } from "fs";
 import { Gulp, TaskFunction } from "gulp";
 import * as gulpUtil from "gulp-util";
 import { Minimatch } from "minimatch";
-import {posix as posixPath } from "path";
-import {Readable as ReadableStream } from "stream";
+import { posix as posixPath } from "path";
+import { Readable as ReadableStream } from "stream";
 import * as typescript from "typescript";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson } from "../options/tsc";
+import { OutModules } from "../options/typescript";
 import { Project, ResolvedProject, resolveProject } from "../project";
-import { generateCopyTasks, ManyWatchFunction } from "../target-generators/base";
 import { TypescriptConfig } from "../target-tasks/_typescript";
 import { getBuildTypescriptTask } from "../target-tasks/build-typescript";
 import { getTsconfigJsonTask } from "../target-tasks/tsconfig-json";
-import {CleanOptions as _CleanOptions, generateTask as generateCleanTask } from "../task-generators/clean";
+import { CleanOptions as _CleanOptions, generateTask as generateCleanTask } from "../task-generators/clean";
+import * as copy from "../task-generators/copy";
 import { AbsPosixPath, RelPosixPath } from "../types";
 import * as matcher from "../utils/matcher";
+
+export type WatchFunction = () => FSWatcher;
+export type ManyWatchFunction = () => FSWatcher[];
+
+async function asyncDoneAsync(fn: asyncDone.AsyncTask): Promise<any> {
+  return new Promise((resolve, reject) => {
+    asyncDone(fn, (err: Error | null | undefined, result: any) => {
+      if (err === undefined || err === null) {
+        resolve(result);
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
+/**
+ * Groups the item according to the `name` property. Missing `name` is treated as `"default"`.
+ *
+ * @param items
+ * @returns A map of name to the list of its options
+ */
+function groupByName<T extends {name?: string}>(items: T[]): {[name: string]: T[]} {
+  const result: {[name: string]: T[]} = {};
+  for (const item of items) {
+    const name: string = item.name === undefined ? "default" : item.name;
+    if (!(name in result)) {
+      result[name] = [];
+    }
+    result[name].push(item);
+  }
+  return result;
+}
+
+function mergeCopy(
+  gulp: Gulp,
+  srcDir: string,
+  buildDir: string,
+  copyOptions: CopyOptions[],
+): [TaskFunction, ManyWatchFunction] {
+  const tasks: TaskFunction[] = [];
+  const watchFunctions: WatchFunction[] = [];
+  for (const options of copyOptions) {
+    const from: string = options.src === undefined ? srcDir : posixPath.join(srcDir, options.src);
+    const files: string[] = options.files === undefined ? ["**/*"] : options.files;
+    const to: string = options.dest === undefined ? buildDir : posixPath.join(buildDir, options.dest);
+
+    const completeOptions: copy.Options = {from, files, to};
+    tasks.push(copy.generateTask(gulp, completeOptions));
+    watchFunctions.push(() => copy.watch(gulp, completeOptions));
+  }
+
+  const task: TaskFunction = async function (): Promise<void> {
+    await Promise.all(tasks.map(asyncDoneAsync));
+    return;
+  };
+  const watch: ManyWatchFunction = function (): FSWatcher[] {
+    return watchFunctions.map(fn => fn());
+  };
+  return [task, watch];
+}
+
+export function generateCopyTasks(
+  gulp: Gulp,
+  srcDir: string,
+  buildDir: string,
+  copyOptions: CopyOptions[],
+): [TaskFunction, ManyWatchFunction] {
+  const subTasks: TaskFunction[] = [];
+  const subWatchs: ManyWatchFunction[] = [];
+  const groups: {[name: string]: CopyOptions[]} = groupByName(copyOptions);
+
+  for (const name in groups) {
+    const [subTask, subWatch]: [TaskFunction, ManyWatchFunction] = mergeCopy(gulp, srcDir, buildDir, groups[name]);
+    subTask.displayName = `_copy:${name}`;
+    subTasks.push(subTask);
+    subWatchs.push(subWatch);
+  }
+
+  const mainTask: TaskFunction = gulp.parallel(...subTasks);
+  mainTask.displayName = "_copy";
+  const mainWatch: ManyWatchFunction = function (): FSWatcher[] {
+    const watchers: FSWatcher[] = [];
+    for (const fn of subWatchs) {
+      const subWatchers: FSWatcher[] = fn();
+      for (const watcher of subWatchers) {
+        watchers.push(watcher);
+      }
+    }
+    return watchers;
+  };
+  return [mainTask, mainWatch];
+}
 
 export interface TargetBase {
   project: Project;
@@ -60,6 +155,17 @@ export interface TargetBase {
    * Overrides for the options of the Typescript compiler.
    */
   tscOptions?: CompilerOptionsJson;
+
+  /**
+   * Output modules.
+   *
+   * - `Js`: Use the compiler options to emit `*.js` files.
+   * - `Mjs`: Enforce `es2015` modules and emit `*.mjs` files.
+   * - `Both`: Emit both `*.js` files using the compiler options and `*.mjs` using `es2015`.
+   *
+   * Default: `Both`
+   */
+  outModules?: OutModules;
 
   /**
    * Path to the `tsconfig.json` file for this target, relative to `project.rootDir`.
@@ -110,6 +216,8 @@ export interface ResolvedTargetBase extends TargetBase {
   readonly customTypingsDir: AbsPosixPath | null;
 
   readonly tscOptions: CompilerOptionsJson;
+
+  readonly outModules: OutModules;
 
   readonly tsconfigJson: AbsPosixPath | null;
 
@@ -165,6 +273,8 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
 
   const tscOptions: CompilerOptionsJson = mergeTscOptionsJson(DEV_TSC_OPTIONS, target.tscOptions);
 
+  const outModules: OutModules = target.outModules !== undefined ? target.outModules : OutModules.Both;
+
   const tsconfigJson: AbsPosixPath | null = target.tsconfigJson !== undefined ?
     (target.tsconfigJson !== null ? posixPath.join(project.absRoot, target.tsconfigJson) : null) :
     posixPath.join(srcDir, "tsconfig.json");
@@ -182,6 +292,7 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
     scripts,
     customTypingsDir,
     tscOptions,
+    outModules,
     tsconfigJson,
     dependencies,
     copy: target.copy,
@@ -257,6 +368,7 @@ export function generateBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
     buildDir: target.buildDir,
     srcDir: target.srcDir,
     scripts: target.scripts,
+    outModules: target.outModules,
   };
 
   // build:scripts
