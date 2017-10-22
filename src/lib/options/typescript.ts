@@ -52,7 +52,7 @@ export interface TypescriptOptions {
    * - `Mjs`: Enforce `es2015` modules and emit `*.mjs` files.
    * - `Both`: Emit both `*.js` files using the compiler options and `*.mjs` using `es2015`.
    *
-   * Default: `Both`
+   * Default: `Js`
    */
   outModules?: OutModules;
 }
@@ -110,7 +110,7 @@ export interface CompleteTypescriptOptions extends TypescriptOptions {
 export const DEFAULT_PROJECT_TS_OPTIONS: TypescriptOptions = {
   compilerOptions: DEFAULT_PROJECT_TSC_OPTIONS,
   tsconfigJson: ["tsconfig.json"],
-  outModules: OutModules.Both,
+  outModules: OutModules.Js,
 };
 
 export function mergeTypescriptOptions(
