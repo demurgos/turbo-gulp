@@ -163,7 +163,7 @@ export interface TargetBase {
    * - `Mjs`: Enforce `es2015` modules and emit `*.mjs` files.
    * - `Both`: Emit both `*.js` files using the compiler options and `*.mjs` using `es2015`.
    *
-   * Default: `Both`
+   * Default: `Js`
    */
   outModules?: OutModules;
 
@@ -273,7 +273,7 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
 
   const tscOptions: CompilerOptionsJson = mergeTscOptionsJson(DEV_TSC_OPTIONS, target.tscOptions);
 
-  const outModules: OutModules = target.outModules !== undefined ? target.outModules : OutModules.Both;
+  const outModules: OutModules = target.outModules !== undefined ? target.outModules : OutModules.Js;
 
   const tsconfigJson: AbsPosixPath | null = target.tsconfigJson !== undefined ?
     (target.tsconfigJson !== null ? posixPath.join(project.absRoot, target.tsconfigJson) : null) :

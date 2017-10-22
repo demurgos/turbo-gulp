@@ -1,3 +1,7 @@
+## Next
+
+- **[Fix]** Disable experimental support for `*.mjs` by default.
+
 ## 0.15.1 (2017-10-19)
 
 - **[Feature]** Add experimental support for `*.mjs` files
