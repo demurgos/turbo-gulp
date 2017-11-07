@@ -16,6 +16,12 @@
  *
  * For distribution builds, use `{target:dist}`
  *
+ * ## {target}:watch
+ *
+ * Watch the files and run incremental builds on change.
+ * This useful during development to get build errors reported immediately or accelerate the code/test cycle.
+ * You can combine it with _Nodemon_ to continuously restart your Node process when changing the source.
+ *
  * ## {target}:dist
  *
  * Performs a full build of the library to the dist directory, used for distribution (ie. publication to _npm_).
@@ -81,9 +87,8 @@ import { PackageJson, readJsonFile } from "../utils/project";
 import {
   BaseTasks,
   generateBaseTasks,
-  generateCopyTasks,
+  getCopyMap,
   gulpBufferSrc,
-  ManyWatchFunction,
   nameTask,
   ResolvedBaseDependencies,
   ResolvedTargetBase,
@@ -363,13 +368,17 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
 
     // dist:copy
     if (target.copy !== undefined) {
-      const [copyTask, copyWatchers]: [TaskFunction, ManyWatchFunction] = generateCopyTasks(
+      const copyMap: Map<string, [TaskFunction, TaskFunction]> = getCopyMap(
         gulp,
         target.srcDir,
         target.dist.distDir,
         target.copy,
       );
-      distTasks.push(nameTask(`${target.name}:dist:copy`, copyTask));
+      const copyTasks: TaskFunction[] = [];
+      for (const [name, [copyTask, copyWatchTask]] of copyMap) {
+        copyTasks.push(copyTask);
+      }
+      distTasks.push(nameTask(`${target.name}:dist:copy`, gulp.parallel(copyTasks)));
     }
 
     // Resolve tsconfig for `dist`

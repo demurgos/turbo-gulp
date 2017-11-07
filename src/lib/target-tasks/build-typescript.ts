@@ -97,8 +97,14 @@ export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): T
   return task;
 }
 
+export function getBuildTypescriptWatchTask(gulp: Gulp, options: TypescriptConfig): () => FSWatcher {
+  return (): FSWatcher => {
+    const buildTask: TaskFunction = getBuildTypescriptTask(gulp, options);
+    const resolved: ResolvedTsLocations = resolveTsLocations(options);
+    return gulp.watch(resolved.absScripts, {cwd: options.srcDir}, buildTask) as FSWatcher;
+  };
+}
+
 export function getBuildTypescriptWatcher(gulp: Gulp, options: TypescriptConfig): FSWatcher {
-  const buildTask: TaskFunction = getBuildTypescriptTask(gulp, options);
-  const resolved: ResolvedTsLocations = resolveTsLocations(options);
-  return gulp.watch(resolved.absScripts, {cwd: options.srcDir}, buildTask) as FSWatcher;
+  return getBuildTypescriptWatchTask(gulp, options)();
 }

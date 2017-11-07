@@ -1,5 +1,6 @@
 ## Next
 
+- **[Feature]** Add support for watch mode for library targets.
 - **[Fix]** Disable experimental support for `*.mjs` by default.
 - **[Fix]** Do not emit duplicate TS errors
 
