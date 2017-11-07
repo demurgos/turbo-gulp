@@ -12,15 +12,14 @@ import { CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson } from "../op
 import { OutModules } from "../options/typescript";
 import { Project, ResolvedProject, resolveProject } from "../project";
 import { TypescriptConfig } from "../target-tasks/_typescript";
-import { getBuildTypescriptTask } from "../target-tasks/build-typescript";
+import { getBuildTypescriptTask, getBuildTypescriptWatchTask } from "../target-tasks/build-typescript";
 import { getTsconfigJsonTask } from "../target-tasks/tsconfig-json";
 import { CleanOptions as _CleanOptions, generateTask as generateCleanTask } from "../task-generators/clean";
 import * as copy from "../task-generators/copy";
 import { AbsPosixPath, RelPosixPath } from "../types";
 import * as matcher from "../utils/matcher";
 
-export type WatchFunction = () => FSWatcher;
-export type ManyWatchFunction = () => FSWatcher[];
+export type WatchTaskFunction = (TaskFunction & (() => FSWatcher));
 
 async function asyncDoneAsync(fn: asyncDone.AsyncTask): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -40,76 +39,65 @@ async function asyncDoneAsync(fn: asyncDone.AsyncTask): Promise<any> {
  * @param items
  * @returns A map of name to the list of its options
  */
-function groupByName<T extends {name?: string}>(items: T[]): {[name: string]: T[]} {
-  const result: {[name: string]: T[]} = {};
+function groupByName<T extends {name?: string}>(items: T[]): Map<string, T[]> {
+  const result: Map<string, T[]> = new Map();
   for (const item of items) {
     const name: string = item.name === undefined ? "default" : item.name;
-    if (!(name in result)) {
-      result[name] = [];
+    let group: T[] | undefined = result.get(name);
+    if (group === undefined) {
+      group = [];
+      result.set(name, group);
     }
-    result[name].push(item);
+    group.push(item);
   }
   return result;
 }
 
-function mergeCopy(
+/**
+ * Generate a copy task (and the corresponding watch task) for the copy operations described by `copyOptions`
+ *
+ * @param gulp Gulp instance to use for utility methods.
+ * @param srcDir Base directory for source resolution.
+ * @param targetDir Base directory for target (build) resolution.
+ * @param copyOptions Simple copy operations to apply for this copy task.
+ * @return A tuple with the task function and corresponding watch task function.
+ */
+function getCopy(
   gulp: Gulp,
   srcDir: string,
-  buildDir: string,
-  copyOptions: CopyOptions[],
-): [TaskFunction, ManyWatchFunction] {
+  targetDir: string,
+  copyOptions: Iterable<CopyOptions>,
+): [TaskFunction, TaskFunction] {
   const tasks: TaskFunction[] = [];
-  const watchFunctions: WatchFunction[] = [];
+  const watchTasks: WatchTaskFunction[] = [];
   for (const options of copyOptions) {
     const from: string = options.src === undefined ? srcDir : posixPath.join(srcDir, options.src);
     const files: string[] = options.files === undefined ? ["**/*"] : options.files;
-    const to: string = options.dest === undefined ? buildDir : posixPath.join(buildDir, options.dest);
+    const to: string = options.dest === undefined ? targetDir : posixPath.join(targetDir, options.dest);
 
     const completeOptions: copy.Options = {from, files, to};
     tasks.push(copy.generateTask(gulp, completeOptions));
-    watchFunctions.push(() => copy.watch(gulp, completeOptions));
+    watchTasks.push(() => copy.watch(gulp, completeOptions));
   }
 
-  const task: TaskFunction = async function (): Promise<void> {
-    await Promise.all(tasks.map(asyncDoneAsync));
-    return;
-  };
-  const watch: ManyWatchFunction = function (): FSWatcher[] {
-    return watchFunctions.map(fn => fn());
-  };
+  const task: TaskFunction = gulp.parallel(tasks);
+  const watch: TaskFunction = gulp.parallel(watchTasks);
   return [task, watch];
 }
 
-export function generateCopyTasks(
+export function getCopyMap(
   gulp: Gulp,
   srcDir: string,
   buildDir: string,
   copyOptions: CopyOptions[],
-): [TaskFunction, ManyWatchFunction] {
-  const subTasks: TaskFunction[] = [];
-  const subWatchs: ManyWatchFunction[] = [];
-  const groups: {[name: string]: CopyOptions[]} = groupByName(copyOptions);
-
-  for (const name in groups) {
-    const [subTask, subWatch]: [TaskFunction, ManyWatchFunction] = mergeCopy(gulp, srcDir, buildDir, groups[name]);
-    subTask.displayName = `_copy:${name}`;
-    subTasks.push(subTask);
-    subWatchs.push(subWatch);
+): Map<string, [TaskFunction, TaskFunction]> {
+  const result: Map<string, [TaskFunction, TaskFunction]> = new Map();
+  for (const [name, group] of groupByName(copyOptions)) {
+    const [task, watch]: [TaskFunction, TaskFunction] = getCopy(gulp, srcDir, buildDir, group);
+    task.displayName = `_copy:${name}`;
+    result.set(name, [task, watch]);
   }
-
-  const mainTask: TaskFunction = gulp.parallel(...subTasks);
-  mainTask.displayName = "_copy";
-  const mainWatch: ManyWatchFunction = function (): FSWatcher[] {
-    const watchers: FSWatcher[] = [];
-    for (const fn of subWatchs) {
-      const subWatchers: FSWatcher[] = fn();
-      for (const watcher of subWatchers) {
-        watchers.push(watcher);
-      }
-    }
-    return watchers;
-  };
-  return [mainTask, mainWatch];
+  return result;
 }
 
 export interface TargetBase {
@@ -344,6 +332,7 @@ export interface BaseTasks {
   buildScripts: TaskFunction;
   buildCopy?: TaskFunction;
   build: TaskFunction;
+  watch?: TaskFunction;
   clean?: TaskFunction;
   tsconfigJson?: TaskFunction;
 }
@@ -371,18 +360,29 @@ export function generateBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
     outModules: target.outModules,
   };
 
+  const watchTasks: TaskFunction[] = [];
+
   // build:scripts
   result.buildScripts = nameTask(`${target.name}:build:scripts`, getBuildTypescriptTask(gulp, tsOptions));
+  watchTasks.push(nameTask(`${target.name}:watch:scripts`, getBuildTypescriptWatchTask(gulp, tsOptions)));
 
   // build:copy
   if (target.copy !== undefined) {
-    const [copyTask, copyWatchers]: [TaskFunction, ManyWatchFunction] = generateCopyTasks(
+    const copyMap: Map<string, [TaskFunction, TaskFunction]> = getCopyMap(
       gulp,
       target.srcDir,
       target.buildDir,
       target.copy,
     );
-    result.buildCopy = nameTask(`${target.name}:build:copy`, copyTask);
+    const copyTasks: TaskFunction[] = [];
+    const copyWatchTasks: TaskFunction[] = [];
+    for (const [name, [copyTask, copyWatchTask]] of copyMap) {
+      copyTasks.push(copyTask);
+      copyWatchTasks.push(copyWatchTask);
+    }
+    result.buildCopy = nameTask(`${target.name}:build:copy`, gulp.parallel(copyTasks));
+    const watchAll: TaskFunction = gulp.parallel(copyWatchTasks);
+    watchTasks.push(nameTask(`${target.name}:watch:copy`, watchAll));
   }
 
   // build
@@ -391,6 +391,7 @@ export function generateBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
     buildTasks.push(result.buildCopy);
   }
   result.build = nameTask(`${target.name}:build`, gulp.parallel(buildTasks));
+  result.watch = nameTask(`${target.name}:watch`, gulp.series(result.build, gulp.parallel(watchTasks)));
 
   // clean
   if (target.clean !== undefined) {

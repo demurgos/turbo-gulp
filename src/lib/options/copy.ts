@@ -22,7 +22,7 @@ export interface CopyOptions {
   /**
    * Name of the copy operation.
    * It will be used for the name of the task: `<targetName>:build:copy:<copyName>`.
-   * If youd do not define it, it will be "anonymous" and will only
+   * If you do not define it, it will be "anonymous" and will only
    * be called by `<targetName>:build:copy`
    */
   name?: string;

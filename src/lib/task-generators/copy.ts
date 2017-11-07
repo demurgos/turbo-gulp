@@ -13,7 +13,7 @@ export interface Options {
   /**
    * Base-directory for copy
    */
-    from: string;
+  from: string;
 
   /**
    * Target directory
@@ -41,7 +41,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
   const task: TaskFunction = function (): NodeJS.ReadableStream {
     return copy(gulp, options);
   };
-  task.displayName = "_build:copy";
+  task.displayName = "_copy";
   return task;
 }
 
