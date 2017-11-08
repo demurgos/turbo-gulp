@@ -10,6 +10,46 @@ import { TaskFunction } from "../utils/gulp-task-function";
 import { deleteUndefinedProperties } from "../utils/utils";
 import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 
+type TypescriptErrorHash = string;
+
+function hashTypescriptError(error: gulpTypescript.reporter.TypeScriptError): TypescriptErrorHash {
+  return JSON.stringify({
+    fileName: error.fullFilename,
+    code: error.diagnostic.code,
+    startPosition: error.startPosition,
+    endPosition: error.endPosition,
+  });
+}
+
+class UniqueReporter implements gulpTypescript.reporter.Reporter {
+  private baseReporter: gulpTypescript.reporter.Reporter;
+  private reported: Set<TypescriptErrorHash>;
+
+  constructor() {
+    this.baseReporter = gulpTypescript.reporter.defaultReporter();
+    this.reported = new Set();
+  }
+
+  error(error: gulpTypescript.reporter.TypeScriptError, typescript: any): void {
+    const hash: TypescriptErrorHash = hashTypescriptError(error);
+    if (this.reported.has(hash)) {
+      return;
+    }
+    this.reported.add(hash);
+    this.baseReporter.error!(error, typescript);
+  }
+
+  finish(compilerResult: gulpTypescript.reporter.CompilationResult): void {
+    this.baseReporter.finish!(compilerResult);
+    // if (hasError(compilerResult)) {
+    //   throw new gulpUtil.PluginError(
+    //     "gulp-typescript",
+    //     Error("Typescript: Compilation with `strict` option emitted some errors. See report for details"),
+    //   );
+    // }
+  }
+}
+
 export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): TaskFunction {
   const resolved: ResolvedTsLocations = resolveTsLocations(options);
   const tscOptions: CompilerOptionsJson = {
@@ -34,16 +74,19 @@ export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): T
       dts: NodeJS.ReadableStream;
     }
 
+    const reporter: UniqueReporter = new UniqueReporter();
+
     if (options.outModules === OutModules.Js) {
-      const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(tscOptions));
+      const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(tscOptions, reporter));
       jsStream = compiledStream.js.pipe(gulpSourceMaps.write());
       dtsStream = compiledStream.dts;
     } else { // Mjs or Both
-      const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript({...tscOptions, module: "es2015"}));
+      const mjsOptions: CompilerOptionsJson = {...tscOptions, module: "es2015"};
+      const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(mjsOptions, reporter));
       mjsStream = compiledStream.js.pipe(gulpRename({extname: ".mjs"})).pipe(gulpSourceMaps.write());
       dtsStream = compiledStream.dts;
       if (options.outModules === OutModules.Both) {
-        jsStream = srcStream.pipe(gulpTypescript(tscOptions)).js.pipe(gulpSourceMaps.write());
+        jsStream = srcStream.pipe(gulpTypescript(tscOptions, reporter)).js.pipe(gulpSourceMaps.write());
       }
     }
 
