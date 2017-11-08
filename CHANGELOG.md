@@ -1,6 +1,7 @@
 ## Next
 
 - **[Fix]** Disable experimental support for `*.mjs` by default.
+- **[Fix]** Do not emit duplicate TS errors
 
 ## 0.15.1 (2017-10-19)
 
