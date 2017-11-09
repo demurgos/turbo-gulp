@@ -55,14 +55,16 @@ if [[ "${CI_BUILD_TYPE}" == "tag" ]]; then
 fi
 # Time of the latest commit in seconds since UNIX epoch
 GIT_HEAD_TIME=`git log -1 --pretty=format:%ct`
+# Package name on npm
+NPM_LOCAL_NAME=`jq --raw-output .name < package.json`
 # ISO date or empty string: time of last modification of the pre-release build on npm
-NPM_NEXT_DATE=`npm view demurgos-web-build-tools@next time.modified`
+NPM_NEXT_DATE=`npm view "${NPM_LOCAL_NAME}@next" time.modified 2> /dev/null || echo ""`
 # Parse the ISO date to a timestamp if we got a non-empty result (default is 0 - UNIX epoch)
 NPM_NEXT_TIME=`[ -z "${NPM_NEXT_DATE}" ] && echo "0" || date -d ${NPM_NEXT_DATE} "+%s"`
 # Hash of the git head for the pre-release build on npm
-NPM_NEXT_GIT_HEAD=`npm view demurgos-web-build-tools@next gitHead`
+NPM_NEXT_GIT_HEAD=`npm view "${NPM_LOCAL_NAME}@next" gitHead 2> /dev/null || echo ""`
 # Version of the latest release
-NPM_LATEST_VERSION=`npm view demurgos-web-build-tools@next version`
+NPM_LATEST_VERSION=`npm view "${NPM_LOCAL_NAME}@next" version 2> /dev/null || echo ""`
 # Local version of the package
 NPM_LOCAL_VERSION=`jq --raw-output .version < package.json`
 
