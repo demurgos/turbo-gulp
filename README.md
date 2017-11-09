@@ -119,3 +119,7 @@ The build tools use the following hierarchy:
   use when calling Gulp. The task names have the form `targetName:taskName`. For example to generate the documentation
   of the library target `lib` using Typedoc, you can use `gulp lib:typedoc`. There are main tasks to do high-level
   actions, and other tasks for fine-grained that are mostly available to integrate with other tools.
+
+## License
+
+[MIT License](./LICENSE.md)
