@@ -1,6 +1,7 @@
 ## Next
 
 - **[Internal]** Update self-dependency to `turbo-gulp`
+- **[Internal]** Add link to license in `README.md`
 
 ## 0.15.3 (2017-11-09)
 
