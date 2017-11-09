@@ -64,7 +64,7 @@ NPM_NEXT_TIME=`[ -z "${NPM_NEXT_DATE}" ] && echo "0" || date -d ${NPM_NEXT_DATE}
 # Hash of the git head for the pre-release build on npm
 NPM_NEXT_GIT_HEAD=`npm view "${NPM_LOCAL_NAME}@next" gitHead 2> /dev/null || echo ""`
 # Version of the latest release
-NPM_LATEST_VERSION=`npm view "${NPM_LOCAL_NAME}@next" version 2> /dev/null || echo ""`
+NPM_LATEST_VERSION=`npm view "${NPM_LOCAL_NAME}@latest" version 2> /dev/null || echo ""`
 # Local version of the package
 NPM_LOCAL_VERSION=`jq --raw-output .version < package.json`
 

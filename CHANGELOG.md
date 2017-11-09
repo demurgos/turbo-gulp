@@ -1,4 +1,4 @@
-## Next
+## 0.15.3 (2017-11-09)
 
 **Rename to `turbo-gulp`**. This package was previously named `demurgos-web-build-tools`.
 This version is fully compatible: you can just change the name of your dependency.
