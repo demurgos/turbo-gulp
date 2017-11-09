@@ -1,5 +1,5 @@
 {
-  "name": "demurgos-web-build-tools.node-lib",
+  "name": "turbo-gulp.node-lib",
   "version": "1.0.0",
   "description": "Sample node library",
   "private": true,

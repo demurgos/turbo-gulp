@@ -1,6 +1,6 @@
 import * as chai from "chai";
 import * as chaiAsPromised from "chai-as-promised";
-import {posix as path } from "path";
+import { posix as path } from "path";
 import { toPosix } from "../../lib/project";
 import { execFile, ExecFileError, ExecFileResult, readText, writeText } from "../../lib/utils/node-async";
 
@@ -15,7 +15,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
     this.timeout(5 * 60 * 1000);
     const buildToolsPath: string = "../../../lib/index";
     await writeText(
-      path.join(PROJECT_ROOT, "local-web-build-tools.js"),
+      path.join(PROJECT_ROOT, "local-turbo-gulp.js"),
       `module.exports = require(${JSON.stringify(buildToolsPath)});\n`,
     );
     await execFile("npm", ["prune"], {cwd: PROJECT_ROOT});

@@ -1,5 +1,5 @@
 {
-  "name": "demurgos-web-build-tools",
+  "name": "turbo-gulp",
   "version": "0.15.2",
   "description": "Gulp tasks generator to boost your web projects.",
   "private": false,

@@ -46,7 +46,7 @@ const lib: buildTools.LibTarget = {
     dir: "typedoc",
     name: "Web Build Tools",
     deploy: {
-      repository: "git@github.com:demurgos/web-build-tools.git",
+      repository: "git@github.com:demurgos/turbo-gulp.git",
       branch: "gh-pages",
     },
   },

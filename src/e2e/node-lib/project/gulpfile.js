@@ -1,7 +1,7 @@
 // Sample gulpfile
 const gulp = require("gulp");
 const typescript = require("typescript");
-const buildTools = require("./local-web-build-tools");
+const buildTools = require("./local-turbo-gulp");
 
 const project = {
   root: __dirname,
