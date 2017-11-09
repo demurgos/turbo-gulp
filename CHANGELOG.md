@@ -1,4 +1,7 @@
-## Next
+## 0.15.2 (2017-11-09)
+
+**The package is prepared to be renamed `turbo-gulp`.**
+**This is the last version released as `demurgos-web-build-tools`.**
 
 - **[Feature]** Add support for watch mode for library targets.
 - **[Fix]** Disable experimental support for `*.mjs` by default.
