@@ -20,7 +20,7 @@ a different tag is used.
 
 We also want `lib:dist:deploy` to be the only command needed to deploy, it produces the right `dist`.
 
-The library (`demurgos-web-build-tools`) should not read the command line arguments directly.
+The library (`turbo-gulp`) should not read the command line arguments directly.
 
 #### Solution 1
 
