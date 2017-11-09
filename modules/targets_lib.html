@@ -83,6 +83,10 @@
 						<li><code>{target}:build:script</code>: Only compile the scripts</li>
 					</ul>
 					<p>For distribution builds, use <code>{target:dist}</code></p>
+					<h2 id="-target-watch">{target}:watch</h2>
+					<p>Watch the files and run incremental builds on change.
+						This useful during development to get build errors reported immediately or accelerate the code/test cycle.
+					You can combine it with <em>Nodemon</em> to continuously restart your Node process when changing the source.</p>
 					<h2 id="-target-dist">{target}:dist</h2>
 					<p>Performs a full build of the library to the dist directory, used for distribution (ie. publication to <em>npm</em>).
 						This build creates a fully autonomous directory with its own <code>package.json</code>, source code, license file, etc.
@@ -111,6 +115,11 @@
 					<h2 id="-target-tsconfig-json">{target}:tsconfig.json</h2>
 					<p>Emit a <code>tsconfig.json</code> file corresponding to the configuration for this target. This allows to compile it using
 					the command line <code>tsc</code> program. This is also useful for IDE to auto-detect the configuration of the project.</p>
+					<dl class="tsd-comment-tags">
+						<dt>module</dt>
+						<dd><p>targets/lib</p>
+						</dd>
+					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -154,7 +163,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/00a6171/src/lib/targets/lib.ts#L293">targets/lib.ts:293</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8885a50/src/lib/targets/lib.ts#L298">targets/lib.ts:298</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -191,7 +200,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/00a6171/src/lib/targets/lib.ts#L459">targets/lib.ts:459</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8885a50/src/lib/targets/lib.ts#L468">targets/lib.ts:468</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/00a6171/src/lib/targets/lib.ts#L237">targets/lib.ts:237</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8885a50/src/lib/targets/lib.ts#L242">targets/lib.ts:242</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

@@ -107,6 +107,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets__base_.basetasks.html#buildscripts" class="tsd-kind-icon">build<wbr>Scripts</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets__base_.basetasks.html#clean" class="tsd-kind-icon">clean</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets__base_.basetasks.html#tsconfigjson" class="tsd-kind-icon">tsconfig<wbr>Json</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_targets__base_.basetasks.html#watch" class="tsd-kind-icon">watch</a></li>
 							</ul>
 						</section>
 					</div>
@@ -120,7 +121,7 @@
 					<div class="tsd-signature tsd-kind-icon">build<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/00a6171/src/lib/targets/_base.ts#L346">targets/_base.ts:346</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8885a50/src/lib/targets/_base.ts#L334">targets/_base.ts:334</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -130,7 +131,7 @@
 					<div class="tsd-signature tsd-kind-icon">build<wbr>Copy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/00a6171/src/lib/targets/_base.ts#L345">targets/_base.ts:345</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8885a50/src/lib/targets/_base.ts#L333">targets/_base.ts:333</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -140,7 +141,7 @@
 					<div class="tsd-signature tsd-kind-icon">build<wbr>Scripts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/00a6171/src/lib/targets/_base.ts#L344">targets/_base.ts:344</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8885a50/src/lib/targets/_base.ts#L332">targets/_base.ts:332</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -150,7 +151,7 @@
 					<div class="tsd-signature tsd-kind-icon">clean<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/00a6171/src/lib/targets/_base.ts#L347">targets/_base.ts:347</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8885a50/src/lib/targets/_base.ts#L336">targets/_base.ts:336</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -160,7 +161,17 @@
 					<div class="tsd-signature tsd-kind-icon">tsconfig<wbr>Json<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/web-build-tools/blob/00a6171/src/lib/targets/_base.ts#L348">targets/_base.ts:348</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8885a50/src/lib/targets/_base.ts#L337">targets/_base.ts:337</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="watch" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> watch</h3>
+					<div class="tsd-signature tsd-kind-icon">watch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8885a50/src/lib/targets/_base.ts#L335">targets/_base.ts:335</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -202,6 +213,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_targets__base_.basetasks.html#tsconfigjson" class="tsd-kind-icon">tsconfig<wbr>Json</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_targets__base_.basetasks.html#watch" class="tsd-kind-icon">watch</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -216,10 +230,7 @@
 						<a href="_targets__base_.targetbase.html" class="tsd-kind-icon">Target<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_targets__base_.html#manywatchfunction" class="tsd-kind-icon">Many<wbr>Watch<wbr>Function</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/_targets__base_.html#watchfunction" class="tsd-kind-icon">Watch<wbr>Function</a>
+						<a href="../modules/_targets__base_.html#watchtaskfunction" class="tsd-kind-icon">Watch<wbr>Task<wbr>Function</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/_targets__base_.html#addtask" class="tsd-kind-icon">add<wbr>Task</a>
@@ -230,17 +241,17 @@
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/_targets__base_.html#generatebasetasks" class="tsd-kind-icon">generate<wbr>Base<wbr>Tasks</a>
 					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_targets__base_.html#getcopy" class="tsd-kind-icon">get<wbr>Copy</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_targets__base_.html#generatecopytasks" class="tsd-kind-icon">generate<wbr>Copy<wbr>Tasks</a>
+						<a href="../modules/_targets__base_.html#getcopymap" class="tsd-kind-icon">get<wbr>Copy<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
 						<a href="../modules/_targets__base_.html#groupbyname" class="tsd-kind-icon">group<wbr>ByName</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/_targets__base_.html#gulpbuffersrc" class="tsd-kind-icon">gulp<wbr>Buffer<wbr>Src</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_targets__base_.html#mergecopy" class="tsd-kind-icon">merge<wbr>Copy</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="../modules/_targets__base_.html#nametask" class="tsd-kind-icon">name<wbr>Task</a>
