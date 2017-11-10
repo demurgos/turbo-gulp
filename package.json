@@ -1,6 +1,6 @@
 {
   "name": "turbo-gulp",
-  "version": "0.15.3",
+  "version": "0.15.4",
   "description": "Gulp tasks generator to boost your web projects.",
   "private": false,
   "main": "dist/lib/index",

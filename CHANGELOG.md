@@ -1,10 +1,8 @@
-## Next
+## 0.15.4 (2017-11-10)
 
-- **[Fix]** Add support for custom additional copy for distribution builds. [#49][issue-49]
+- **[Fix]** Add support for custom additional copy for distribution builds. [#49](https://github.com/demurgos/turbo-gulp/issues/49)
 - **[Internal]** Update self-dependency to `turbo-gulp`
 - **[Internal]** Add link to license in `README.md`
-
-[issue-49]: https://github.com/demurgos/turbo-gulp/issues/49
 
 ## 0.15.3 (2017-11-09)
 
