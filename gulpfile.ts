@@ -32,7 +32,7 @@ const lib: buildTools.LibTarget = {
   dist: {
     packageJsonMap: (old: buildTools.PackageJson): buildTools.PackageJson => {
       const version: string = options.devDist !== undefined ? `${old.version}-build.${options.devDist}` : old.version;
-      return <any> {...old, version, scripts: undefined};
+      return <any> {...old, version, scripts: undefined, private: false};
     },
     npmPublish: {
       tag: options.devDist !== undefined ? "next" : "latest",

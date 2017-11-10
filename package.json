@@ -1,14 +1,16 @@
 {
   "name": "turbo-gulp",
-  "version": "0.15.4",
+  "version": "0.15.5",
   "description": "Gulp tasks generator to boost your web projects.",
-  "private": false,
+  "author": "Charles Samborski <demurgos@demurgos.net> (https://demurgos.net)",
+  "private": true,
   "main": "dist/lib/index",
   "types": "dist/lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/demurgos/turbo-gulp.git"
   },
+  "homepage": "https://demurgos.github.io/turbo-gulp",
   "scripts": {
     "prepare": "gulp all:tsconfig.json && gulp :tslint.json && gulp dist",
     "test": "npm run lint && gulp test",
@@ -43,7 +45,7 @@
     "gulp-typedoc": "^2.1.1",
     "gulp-typescript": "^3.2.3",
     "gulp-util": "^3.0.8",
-    "incident": "^2.0.0",
+    "incident": "^2.0.0-build.47",
     "json-loader": "^0.5.7",
     "merge2": "^1.2.0",
     "minimatch": "^3.0.4",

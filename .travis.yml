@@ -12,7 +12,6 @@ before_install:
 - npm install -g gulp-cli
 
 script:
-- gulp :lint
-- gulp test
+- npm test
 - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 - ./tools/continuous-deployment.travis.sh
