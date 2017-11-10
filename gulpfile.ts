@@ -52,7 +52,6 @@ const lib: buildTools.LibTarget = {
   },
   copy: [
     {
-      name: "json",
       files: ["**/*.json"],
     },
   ],
@@ -72,7 +71,6 @@ const test: buildTools.MochaTarget = {
   },
   copy: [
     {
-      name: "e2e",
       src: "e2e",
       // <project-name>/(project|test-resources)/<any>
       files: ["*/project/**/*", "*/test-resources/**/*"],
