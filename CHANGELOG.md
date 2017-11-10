@@ -1,3 +1,10 @@
+## 0.15.5 (2017-11-10)
+
+- **[Feature]** Enable the following TsLint rules: `no-duplicate-switch-case`, `no-implicit-dependencies`,
+  `no-return-await`
+- **[Internal]** Update self-dependency `0.15.4`, this restores the README on _npm_
+- **[Internal]** Add homepage and author fields to package.json
+
 ## 0.15.4 (2017-11-10)
 
 - **[Fix]** Add support for custom additional copy for distribution builds. [#49](https://github.com/demurgos/turbo-gulp/issues/49)

@@ -136,6 +136,8 @@ export const DEFAULT_UNTYPED_TSLINT_RULES: TslintConfiguration.RawRulesConfig = 
   "no-duplicate-imports": false,
   // Warns if `super()` appears twice in a constructor.
   "no-duplicate-super": true,
+  // Prevents duplicate cases in switch statements.
+  "no-duplicate-switch-case": true,
   // Disallows duplicate variable declarations in the same block scope.
   "no-duplicate-variable": true,
   // Disallows empty blocks.
@@ -144,6 +146,8 @@ export const DEFAULT_UNTYPED_TSLINT_RULES: TslintConfiguration.RawRulesConfig = 
   "no-empty-interface": false,
   // Disallows `eval` function invocations.
   "no-eval": true,
+  // Disallows importing modules that are not listed as dependency in the project’s package.json
+  "no-implicit-dependencies": [true, "dev", "optional"],
   // Avoid import statements with side-effect.
   "no-import-side-effect": false,
   // Disallows explicit type declarations for variables or parameters initialized to a number,
@@ -179,6 +183,8 @@ export const DEFAULT_UNTYPED_TSLINT_RULES: TslintConfiguration.RawRulesConfig = 
   "no-reference": true,
   // Disallows invocation of `require()`.
   "no-require-imports": true,
+  // Disallows unnecessary `return await`.
+  "no-return-await": true,
   // Disallows shadowing variable declarations.
   "no-shadowed-variable": false,
   // Forbids array literals to contain missing elements.

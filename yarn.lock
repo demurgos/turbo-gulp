@@ -48,8 +48,8 @@
     "@types/node" "*"
 
 "@types/fs-extra@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-4.0.3.tgz#87343b1ab99415b61817ac894ed622355a0ebf67"
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-4.0.4.tgz#72947e108f2cbeda5ab288a927399fdf6d02bd42"
   dependencies:
     "@types/node" "*"
 
@@ -86,8 +86,8 @@
     "@types/node" "*"
 
 "@types/gulp-util@^3.0.33":
-  version "3.0.33"
-  resolved "https://registry.yarnpkg.com/@types/gulp-util/-/gulp-util-3.0.33.tgz#5acf714d32806cbb491ae8a4905745e39d4a17ba"
+  version "3.0.34"
+  resolved "https://registry.yarnpkg.com/@types/gulp-util/-/gulp-util-3.0.34.tgz#d1291ebf706d93f46eb8df11344bbfd96247697e"
   dependencies:
     "@types/node" "*"
     "@types/through2" "*"
@@ -135,8 +135,8 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.44.tgz#1d4a798e53f35212fd5ad4d04050620171cd5b5e"
 
 "@types/node@*", "@types/node@^8.0.50":
-  version "8.0.50"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.50.tgz#dc545448e128c88c4eec7cd64025fcc3b7604541"
+  version "8.0.51"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.51.tgz#b31d716fb8d58eeb95c068a039b9b6292817d5fb"
 
 "@types/npm@^2.0.28":
   version "2.0.29"
@@ -145,8 +145,8 @@
     "@types/node" "*"
 
 "@types/orchestrator@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@types/orchestrator/-/orchestrator-0.3.1.tgz#72a9cfc56d07144f3c4c4e00826d62cc891877bd"
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@types/orchestrator/-/orchestrator-0.3.2.tgz#cd15c6cea978a32b98e5054239cbcc78e55671f1"
   dependencies:
     "@types/node" "*"
     "@types/q" "*"
@@ -214,8 +214,8 @@
     "@types/node" "*"
 
 "@types/webpack-merge@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@types/webpack-merge/-/webpack-merge-4.1.0.tgz#da75c36f79feb6fda08c53e0ea88da1f9eac4a5a"
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@types/webpack-merge/-/webpack-merge-4.1.1.tgz#9641e3c5d92f220239663855cc5a1ffcc53f5d83"
   dependencies:
     "@types/webpack" "*"
 
@@ -227,8 +227,8 @@
     "@types/webpack" "*"
 
 "@types/webpack@*", "@types/webpack@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-3.8.0.tgz#a50f913a50ffc20856d84c7145b2086d16331805"
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-3.8.1.tgz#20c11ea43f1ea7bb09eee4d6d633d830653e5a55"
   dependencies:
     "@types/node" "*"
     "@types/tapable" "*"
@@ -1521,11 +1521,11 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
 
 fsevents@^1.0.0:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.1.2.tgz#3282b713fb3ad80ede0e9fcf4611b5aa6fc033f4"
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.1.3.tgz#11f82318f5fe7bb2cd22965a108e9306208216d8"
   dependencies:
     nan "^2.3.0"
-    node-pre-gyp "^0.6.36"
+    node-pre-gyp "^0.6.39"
 
 fstream-ignore@^1.0.5:
   version "1.0.5"
@@ -2855,7 +2855,7 @@ node-libs-browser@^2.0.0:
     util "^0.10.3"
     vm-browserify "0.0.4"
 
-node-pre-gyp@^0.6.36:
+node-pre-gyp@^0.6.39:
   version "0.6.39"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.39.tgz#c00e96860b23c0e1420ac7befc5044e1d78d8649"
   dependencies:
@@ -4103,8 +4103,8 @@ tunnel-agent@^0.6.0:
     safe-buffer "^5.0.1"
 
 turbo-gulp@latest:
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/turbo-gulp/-/turbo-gulp-0.15.3.tgz#d811550c6dbd7db0cd99769fddfb4c0e04251cba"
+  version "0.15.4"
+  resolved "https://registry.yarnpkg.com/turbo-gulp/-/turbo-gulp-0.15.4.tgz#4622eec9795911823aa987eaa57114fabfd797fa"
   dependencies:
     "@types/del" "^3.0.0"
     "@types/fs-extra" "^4.0.3"
@@ -4149,8 +4149,8 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
 type-detect@^4.0.0:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.3.tgz#0e3f2670b44099b0b46c284d136a7ef49c74c2ea"
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.5.tgz#d70e5bc81db6de2a381bcaca0c6e0cbdc7635de2"
 
 typedarray@^0.0.6:
   version "0.0.6"
