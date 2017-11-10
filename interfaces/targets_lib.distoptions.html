@@ -89,6 +89,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.distoptions.html#copy" class="tsd-kind-icon">copy</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.distoptions.html#copysrc" class="tsd-kind-icon">copy<wbr>Src</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.distoptions.html#distdir" class="tsd-kind-icon">dist<wbr>Dir</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.distoptions.html#npmpublish" class="tsd-kind-icon">npm<wbr>Publish</a></li>
@@ -106,12 +107,33 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="copy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy</h3>
+					<div class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">:</span> <a href="_options_copy_.copyoptions.html" class="tsd-signature-type">CopyOptions</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/67461da/src/lib/targets/lib.ts#L181">targets/lib.ts:181</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Copy operations to perform when distributing the package.
+							The default copies the Markdown files at the project root (so you get <code>README.md</code>, <code>LICENSE.md</code>, ...).</p>
+						</div>
+						<p>The base values are:</p>
+						<ul>
+							<li><code>src</code>: <code>project.root</code></li>
+							<li><code>dest</code>: <code>dist.distDir</code></li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="copysrc" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy<wbr>Src</h3>
 					<div class="tsd-signature tsd-kind-icon">copy<wbr>Src<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8f5109a/src/lib/targets/lib.ts#L170">targets/lib.ts:170</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/67461da/src/lib/targets/lib.ts#L171">targets/lib.ts:171</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -126,12 +148,13 @@
 					<div class="tsd-signature tsd-kind-icon">dist<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#relposixpath" class="tsd-signature-type">RelPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8f5109a/src/lib/targets/lib.ts#L165">targets/lib.ts:165</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/67461da/src/lib/targets/lib.ts#L166">targets/lib.ts:166</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Directory used for distribution builds.</p>
+							<p>Directory used where the distribution builds will be written.
+							Default: <code>project.distDir</code></p>
 						</div>
 					</div>
 				</section>
@@ -141,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">npm<wbr>Publish<span class="tsd-signature-symbol">:</span> <a href="targets_lib.npmpublishoptions.html" class="tsd-signature-type">NpmPublishOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8f5109a/src/lib/targets/lib.ts#L172">targets/lib.ts:172</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/67461da/src/lib/targets/lib.ts#L183">targets/lib.ts:183</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -158,7 +181,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/8f5109a/src/lib/targets/lib.ts#L177">targets/lib.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/67461da/src/lib/targets/lib.ts#L188">targets/lib.ts:188</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -196,6 +219,9 @@
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="targets_lib.distoptions.html" class="tsd-kind-icon">Dist<wbr>Options</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="targets_lib.distoptions.html#copy" class="tsd-kind-icon">copy</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="targets_lib.distoptions.html#copysrc" class="tsd-kind-icon">copy<wbr>Src</a>
 							</li>
