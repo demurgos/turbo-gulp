@@ -87,7 +87,7 @@ import { PackageJson, readJsonFile } from "../utils/project";
 import {
   BaseTasks,
   generateBaseTasks,
-  getCopyMap,
+  getCopy,
   gulpBufferSrc,
   nameTask,
   ResolvedBaseDependencies,
@@ -160,7 +160,8 @@ interface ResolvedLibTarget extends LibTarget, ResolvedTargetBase {
 
 export interface DistOptions {
   /**
-   * Directory used for distribution builds.
+   * Directory used where the distribution builds will be written.
+   * Default: `project.distDir`
    */
   readonly distDir?: RelPosixPath;
 
@@ -168,6 +169,16 @@ export interface DistOptions {
    * Copy the sources from `target.srcDir` to `target.dist.distDir`. Default: `true`.
    */
   readonly copySrc?: boolean;
+
+  /**
+   * Copy operations to perform when distributing the package.
+   * The default copies the Markdown files at the project root (so you get `README.md`, `LICENSE.md`, ...).
+   *
+   * The base values are:
+   * - `src`: `project.root`
+   * - `dest`: `dist.distDir`
+   */
+  readonly copy?: CopyOptions[];
 
   readonly npmPublish?: NpmPublishOptions;
 
@@ -257,6 +268,9 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
   } else {
     const defaultDistDir: AbsPosixPath = posixPath.join(base.project.absDistDir, target.name);
     const defaultPackageJsonMap: (pkg: PackageJson) => PackageJson = pkg => pkg;
+    const defaultCopy: (dest: AbsPosixPath) => CopyOptions[] = (dest: AbsPosixPath) => [{
+      files: ["./*.md"],
+    }];
 
     if (target.dist === true) { // `true` literal
       dist = {
@@ -264,13 +278,16 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
         packageJsonMap: defaultPackageJsonMap,
         npmPublish: {},
         copySrc: true,
+        copy: defaultCopy(defaultDistDir),
       };
     } else {
+      const distDir: AbsPosixPath = target.dist.distDir !== undefined ? target.dist.distDir : defaultDistDir;
       dist = {
-        distDir: target.dist.distDir !== undefined ? target.dist.distDir : defaultDistDir,
+        distDir,
         packageJsonMap: target.dist.packageJsonMap !== undefined ? target.dist.packageJsonMap : defaultPackageJsonMap,
         npmPublish: target.dist.npmPublish,
         copySrc: target.dist.copySrc !== undefined ? target.dist.copySrc : true,
+        copy: defaultCopy(distDir),
       };
     }
   }
@@ -282,9 +299,7 @@ export interface LibTasks extends BaseTasks {
   typedoc?: TaskFunction;
   typedocDeploy?: TaskFunction;
   dist?: TaskFunction;
-  distCopySrc?: TaskFunction;
-  distCopySrcScripts?: TaskFunction;
-  distCopySrcCustomTypings?: TaskFunction;
+  distCopy?: TaskFunction;
   distPublish?: TaskFunction;
   distPackageJson?: TaskFunction;
 }
@@ -332,60 +347,66 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
   if (target.dist !== false) {
     const dist: ResolvedDistOptions = target.dist;
     const distTasks: TaskFunction[] = [];
+    const copyTasks: TaskFunction[] = [];
 
+    // Locations for compilation: default to the original sources but compile the copied files if copySrc is used
     let srcDir: AbsPosixPath = target.srcDir;
     let customTypingsDir: AbsPosixPath | null = target.customTypingsDir;
+    // dist:copy:scripts
     if (target.dist.copySrc) {
       srcDir = dist.distDir;
-      result.distCopySrcScripts = nameTask(
-        `${target.name}:dist:copy-src:scripts`,
+      copyTasks.push(nameTask(
+        `${target.name}:dist:copy:scripts`,
         (): NodeJS.ReadableStream => {
           return gulp
             .src([...target.scripts], {base: target.srcDir})
             .pipe(gulp.dest(dist.distDir));
         },
-      );
-      // dist:copy-custom-typings
+      ));
+      // dist:copy:custom-typings
       if (target.customTypingsDir !== null) {
         const srcCustomTypingsDir: AbsPosixPath = target.customTypingsDir;
-        customTypingsDir = posixPath.join(dist.distDir, "_custom-typings");
-        result.distCopySrcCustomTypings = nameTask(
-          `${target.name}:dist:copy-src:custom-typings`,
+        const destCustomTypingsDir: AbsPosixPath = posixPath.join(dist.distDir, "_custom-typings");
+        customTypingsDir = destCustomTypingsDir;
+        copyTasks.push(nameTask(
+          `${target.name}:dist:copy:custom-typings`,
           (): NodeJS.ReadableStream => {
             return gulp
               .src([posixPath.join(srcCustomTypingsDir, "**/*.d.ts")], {base: srcCustomTypingsDir})
-              .pipe(gulp.dest(customTypingsDir!));
+              .pipe(gulp.dest(destCustomTypingsDir!));
           },
-        );
+        ));
       }
 
-      const copySrcTasks: TaskFunction[] = [result.distCopySrcScripts];
-      if (result.distCopySrcCustomTypings !== undefined) {
-        copySrcTasks.push(result.distCopySrcCustomTypings);
+      // dist:copy:dist
+      if (target.dist.copy !== undefined) {
+        const [copyBaseTask, copyBaseWatchTask]: [TaskFunction, TaskFunction] = getCopy(
+          gulp,
+          target.project.absRoot,
+          target.dist.distDir,
+          target.dist.copy,
+        );
+        copyTasks.push(nameTask(`${target.name}:dist:copy:dist`, copyBaseTask));
       }
-      result.distCopySrc = nameTask(`${target.name}:dist:copy-src`, gulp.parallel(copySrcTasks));
     }
 
-    // dist:copy
+    // dist:copy:lib
     if (target.copy !== undefined) {
-      const copyMap: Map<string, [TaskFunction, TaskFunction]> = getCopyMap(
+      const [copyBaseTask, copyBaseWatchTask]: [TaskFunction, TaskFunction] = getCopy(
         gulp,
         target.srcDir,
         target.dist.distDir,
         target.copy,
       );
-      const copyTasks: TaskFunction[] = [];
-      for (const [name, [copyTask, copyWatchTask]] of copyMap) {
-        copyTasks.push(copyTask);
-      }
-      distTasks.push(nameTask(`${target.name}:dist:copy`, gulp.parallel(copyTasks)));
+      copyTasks.push(nameTask(`${target.name}:dist:copy:lib`, copyBaseTask));
     }
+
+    result.distCopy = nameTask(`${target.name}:dist:copy`, gulp.parallel(copyTasks));
 
     // Resolve tsconfig for `dist`
     const tsconfigJson: AbsPosixPath | null = target.tsconfigJson !== null ?
       posixPath.join(dist.distDir, "tsconfig.json") :
       null;
-    const packageJson: AbsPosixPath = posixPath.join(dist.distDir, "package.json");
     let scripts: string[] = [];
     if (srcDir !== target.srcDir) {
       for (const script of target.scripts) {
@@ -409,14 +430,10 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
     };
 
     // dist:scripts
-    if (result.distCopySrc !== undefined) {
-      distTasks.push(nameTask(
-        `${target.name}:dist:scripts`,
-        gulp.series(result.distCopySrc, getBuildTypescriptTask(gulp, tsOptions)),
-      ));
-    } else {
-      distTasks.push(nameTask(`${target.name}:dist:scripts`, getBuildTypescriptTask(gulp, tsOptions)));
-    }
+    distTasks.push(nameTask(
+      `${target.name}:dist:scripts`,
+      gulp.series(result.distCopy, getBuildTypescriptTask(gulp, tsOptions)),
+    ));
 
     // dist:package.json
     {
