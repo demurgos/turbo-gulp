@@ -49,7 +49,7 @@ function asBuffer(val: string | Buffer): Buffer {
   return val instanceof Buffer ? val : new Buffer(val, "utf8");
 }
 
-export class ExecFileError extends Incident<"ExecFileError", ExecFileErrorData, Error> {
+export class ExecFileError extends Incident<ExecFileErrorData, "ExecFileError", Error> {
   constructor(nativeError: Error, stdout: Buffer | string, stderr: Buffer | string) {
     const data: ExecFileErrorData = {
       cmd: (<Error & {cmd: string}> nativeError).cmd,
@@ -69,11 +69,11 @@ const _readFile: (filename: string, encoding: string) => Promise<string> = <any>
 const _writeFile: (filename: string, data: any) => Promise<any> = <any> promisify(fs.writeFile);
 
 export async function readText(file: string): Promise<string> {
-  return await _readFile(file, "utf8");
+  return _readFile(file, "utf8");
 }
 
 export async function writeText(file: string, text: string): Promise<void> {
-  return await _writeFile(file, text);
+  return _writeFile(file, text);
 }
 
 export async function execFile(file: string, args: string[], options?: ExecFileOptions): Promise<ExecFileResult> {
