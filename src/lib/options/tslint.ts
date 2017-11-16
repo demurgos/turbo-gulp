@@ -215,7 +215,8 @@ export const DEFAULT_UNTYPED_TSLINT_RULES: TslintConfiguration.RawRulesConfig = 
   // Disallows the use of require statements except in import statements.
   "no-var-requires": true,
   // Checks that decimal literals should begin with `0.` instead of just `.`, and should not end with a trailing `0`.
-  "number-literal-format": true,
+  // TODO: Enable it when the option to enforce lowercase hex is available
+  "number-literal-format": false,
   // Enforces consistent object literal property quote style.
   "object-literal-key-quotes": [true, "consistent-as-needed"],
   // Enforces use of ES6 object literal shorthand when possible.
