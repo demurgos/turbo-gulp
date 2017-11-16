@@ -1,7 +1,7 @@
 {
   "name": "turbo-gulp",
   "version": "0.15.5",
-  "description": "Gulp tasks generator to boost your web projects.",
+  "description": "Gulp tasks to boost high-quality projects.",
   "author": "Charles Samborski <demurgos@demurgos.net> (https://demurgos.net)",
   "private": true,
   "main": "dist/lib/index",

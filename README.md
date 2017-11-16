@@ -1,12 +1,13 @@
 # Turbo Gulp
 
-This package was known as `demurgos-web-build-tools` before `v0.15.2` (2017-11-09).
+Gulp tasks to boost high-quality projects.
 
 [![npm](https://img.shields.io/npm/v/turbo-gulp.svg?maxAge=2592000)](https://www.npmjs.com/package/turbo-gulp)
-[![Build status](https://img.shields.io/travis/demurgos/turbo-gulp/master.svg?maxAge=2592000)](https://travis-ci.org/demurgos/turbo-gulp)
 [![GitHub repository](https://img.shields.io/badge/Github-demurgos%2Fturbo--gulp-blue.svg)](https://github.com/demurgos/turbo-gulp)
+[![Build status](https://img.shields.io/travis/demurgos/turbo-gulp/master.svg?maxAge=2592000)](https://travis-ci.org/demurgos/turbo-gulp)
+[![Greenkeeper badge](https://badges.greenkeeper.io/demurgos/turbo-gulp.svg)](https://greenkeeper.io/)
 
-Gulp tasks generator for Node projects to help with builds, tests and distribution.
+This package was known as `demurgos-web-build-tools` before `v0.15.2` (2017-11-09).
 
 This project started out because I wanted to avoid repeating complex configurations in every one of my projects.
 I solved it by centralizing most of logic for the tasks I need in this package. To further reduce the overhead of the
