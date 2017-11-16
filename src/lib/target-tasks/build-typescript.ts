@@ -4,6 +4,7 @@ import * as gulpRename from "gulp-rename";
 import * as gulpSourceMaps from "gulp-sourcemaps";
 import * as gulpTypescript from "gulp-typescript";
 import * as merge from "merge2";
+import {posix as posixPath } from "path";
 import { CompilerOptionsJson } from "../options/tsc";
 import { OutModules } from "../options/typescript";
 import { TaskFunction } from "../utils/gulp-task-function";
@@ -75,18 +76,28 @@ export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): T
     }
 
     const reporter: UniqueReporter = new UniqueReporter();
-
+    // TODO: update type definitions to support destPath
+    const writeSourceMapsOptions: gulpSourceMaps.WriteOptions = <any> {
+      sourceRoot: posixPath.relative(options.buildDir, options.srcDir),
+      destPath: options.buildDir,
+    };
     if (options.outModules === OutModules.Js) {
       const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(tscOptions, reporter));
-      jsStream = compiledStream.js.pipe(gulpSourceMaps.write());
+      jsStream = compiledStream.js
+        .pipe(gulpSourceMaps.write(writeSourceMapsOptions));
       dtsStream = compiledStream.dts;
     } else { // Mjs or Both
       const mjsOptions: CompilerOptionsJson = {...tscOptions, module: "es2015"};
       const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(mjsOptions, reporter));
-      mjsStream = compiledStream.js.pipe(gulpRename({extname: ".mjs"})).pipe(gulpSourceMaps.write());
+      mjsStream = compiledStream.js
+        .pipe(gulpRename({extname: ".mjs"}))
+        .pipe(gulpSourceMaps.write(writeSourceMapsOptions));
       dtsStream = compiledStream.dts;
       if (options.outModules === OutModules.Both) {
-        jsStream = srcStream.pipe(gulpTypescript(tscOptions, reporter)).js.pipe(gulpSourceMaps.write());
+        jsStream = srcStream
+          .pipe(gulpTypescript(tscOptions, reporter))
+          .js
+          .pipe(gulpSourceMaps.write(writeSourceMapsOptions));
       }
     }
 

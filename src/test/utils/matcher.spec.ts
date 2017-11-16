@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { Minimatch } from "minimatch";
-import * as matcher from "./matcher";
+import * as matcher from "../../lib/utils/matcher";
 
 describe("matcher.asString", function () {
   const data: string[] = [

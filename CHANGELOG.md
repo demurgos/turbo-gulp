@@ -1,3 +1,7 @@
+## Next
+
+- **[Fix]** Fix path to source in source maps.
+
 ## 0.15.5 (2017-11-10)
 
 - **[Feature]** Enable the following TsLint rules: `no-duplicate-switch-case`, `no-implicit-dependencies`,
