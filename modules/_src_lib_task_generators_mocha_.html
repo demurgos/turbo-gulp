@@ -73,19 +73,60 @@
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_src_lib_task_generators_mocha_.options.html" class="tsd-kind-icon">Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-kind-icon">Mocha<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/_src_lib_task_generators_mocha_.resolvedmochaoptions.html" class="tsd-kind-icon">Resolved<wbr>Mocha<wbr>Options</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_src_lib_task_generators_mocha_.sources.html" class="tsd-kind-icon">Sources</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_src_lib_task_generators_mocha_.html#mochareporter" class="tsd-kind-icon">Mocha<wbr>Reporter</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_src_lib_task_generators_mocha_.html#mochabin" class="tsd-kind-icon">mocha<wbr>Bin</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_lib_task_generators_mocha_.html#generatetask" class="tsd-kind-icon">generate<wbr>Task</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_lib_task_generators_mocha_.html#getcommand" class="tsd-kind-icon">get<wbr>Command</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_lib_task_generators_mocha_.html#getsources" class="tsd-kind-icon">get<wbr>Sources</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_lib_task_generators_mocha_.html#gettaskname" class="tsd-kind-icon">get<wbr>Task<wbr>Name</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_src_lib_task_generators_mocha_.html#resolveoptions" class="tsd-kind-icon">resolve<wbr>Options</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="mochareporter" class="tsd-anchor"></a>
+					<h3>Mocha<wbr>Reporter</h3>
+					<div class="tsd-signature tsd-kind-icon">Mocha<wbr>Reporter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"spec"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/task-generators/mocha.ts#L11">src/lib/task-generators/mocha.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="mochabin" class="tsd-anchor"></a>
+					<h3>mocha<wbr>Bin</h3>
+					<div class="tsd-signature tsd-kind-icon">mocha<wbr>Bin<span class="tsd-signature-symbol">:</span> <a href="_src_lib_types_.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a><span class="tsd-signature-symbol"> =&nbsp;toPosix(require.resolve(&quot;mocha/bin/mocha&quot;))</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/task-generators/mocha.ts#L9">src/lib/task-generators/mocha.ts:9</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -94,13 +135,13 @@
 					<a name="generatetask" class="tsd-anchor"></a>
 					<h3>generate<wbr>Task</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Task<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_task_generators_mocha_.options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_lib_utils_gulp_task_function_.html#taskfunction" class="tsd-signature-type">TaskFunction</a></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Task<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-signature-type">MochaOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_lib_utils_gulp_task_function_.html#taskfunction" class="tsd-signature-type">TaskFunction</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f9dc186/src/lib/task-generators/mocha.ts#L26">src/lib/task-generators/mocha.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/task-generators/mocha.ts#L62">src/lib/task-generators/mocha.ts:62</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -109,7 +150,7 @@
 									<h5>gulp: <span class="tsd-signature-type">Gulp</span></h5>
 								</li>
 								<li>
-									<h5>options: <a href="../interfaces/_src_lib_task_generators_mocha_.options.html" class="tsd-signature-type">Options</a></h5>
+									<h5>options: <a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-signature-type">MochaOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_src_lib_utils_gulp_task_function_.html#taskfunction" class="tsd-signature-type">TaskFunction</a></h4>
@@ -117,22 +158,60 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="getsources" class="tsd-anchor"></a>
-					<h3>get<wbr>Sources</h3>
+					<a name="getcommand" class="tsd-anchor"></a>
+					<h3>get<wbr>Command</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Sources<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_task_generators_mocha_.options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_task_generators_mocha_.sources.html" class="tsd-signature-type">Sources</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Command<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-signature-type">MochaOptions</a>, colors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f9dc186/src/lib/task-generators/mocha.ts#L16">src/lib/task-generators/mocha.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/task-generators/mocha.ts#L49">src/lib/task-generators/mocha.ts:49</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return the command line arguments equivalent to this task</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-signature-type">MochaOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Mocha options</p>
+									</div>
+								</li>
+								<li>
+									<h5>colors: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Force colors</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+							<p>Command line arguments</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="getsources" class="tsd-anchor"></a>
+					<h3>get<wbr>Sources</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Sources<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-signature-type">MochaOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_task_generators_mocha_.sources.html" class="tsd-signature-type">Sources</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/task-generators/mocha.ts#L32">src/lib/task-generators/mocha.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>options: <a href="../interfaces/_src_lib_task_generators_mocha_.options.html" class="tsd-signature-type">Options</a></h5>
+									<h5>options: <a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-signature-type">MochaOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_src_lib_task_generators_mocha_.sources.html" class="tsd-signature-type">Sources</a></h4>
@@ -149,10 +228,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f9dc186/src/lib/task-generators/mocha.ts#L41">src/lib/task-generators/mocha.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/task-generators/mocha.ts#L78">src/lib/task-generators/mocha.ts:78</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="resolveoptions" class="tsd-anchor"></a>
+					<h3>resolve<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">resolve<wbr>Options<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-signature-type">MochaOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_task_generators_mocha_.resolvedmochaoptions.html" class="tsd-signature-type">ResolvedMochaOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/task-generators/mocha.ts#L23">src/lib/task-generators/mocha.ts:23</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-signature-type">MochaOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_src_lib_task_generators_mocha_.resolvedmochaoptions.html" class="tsd-signature-type">ResolvedMochaOptions</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -172,19 +274,34 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_src_lib_task_generators_mocha_.options.html" class="tsd-kind-icon">Options</a>
+						<a href="../interfaces/_src_lib_task_generators_mocha_.mochaoptions.html" class="tsd-kind-icon">Mocha<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../interfaces/_src_lib_task_generators_mocha_.resolvedmochaoptions.html" class="tsd-kind-icon">Resolved<wbr>Mocha<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_src_lib_task_generators_mocha_.sources.html" class="tsd-kind-icon">Sources</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_src_lib_task_generators_mocha_.html#mochareporter" class="tsd-kind-icon">Mocha<wbr>Reporter</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_src_lib_task_generators_mocha_.html#mochabin" class="tsd-kind-icon">mocha<wbr>Bin</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_src_lib_task_generators_mocha_.html#generatetask" class="tsd-kind-icon">generate<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_src_lib_task_generators_mocha_.html#getcommand" class="tsd-kind-icon">get<wbr>Command</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_src_lib_task_generators_mocha_.html#getsources" class="tsd-kind-icon">get<wbr>Sources</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_src_lib_task_generators_mocha_.html#gettaskname" class="tsd-kind-icon">get<wbr>Task<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_src_lib_task_generators_mocha_.html#resolveoptions" class="tsd-kind-icon">resolve<wbr>Options</a>
 					</li>
 				</ul>
 			</nav>

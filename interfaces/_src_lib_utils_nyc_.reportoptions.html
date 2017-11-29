@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GitCloneOptions | Web Build Tools</title>
+	<title>ReportOptions | Web Build Tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_lib_utils_git_.html">&quot;src/lib/utils/git&quot;</a>
+					<a href="../modules/_src_lib_utils_nyc_.html">&quot;src/lib/utils/nyc&quot;</a>
 				</li>
 				<li>
-					<a href="_src_lib_utils_git_.gitcloneoptions.html">GitCloneOptions</a>
+					<a href="_src_lib_utils_nyc_.reportoptions.html">ReportOptions</a>
 				</li>
 			</ul>
-			<h1>Interface GitCloneOptions</h1>
+			<h1>Interface ReportOptions</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">GitCloneOptions</span>
+						<span class="target">ReportOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -84,10 +84,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_utils_git_.gitcloneoptions.html#branch" class="tsd-kind-icon">branch</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_utils_git_.gitcloneoptions.html#depth" class="tsd-kind-icon">depth</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_utils_git_.gitcloneoptions.html#directory" class="tsd-kind-icon">directory</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_utils_git_.gitcloneoptions.html#repository" class="tsd-kind-icon">repository</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_utils_nyc_.reportoptions.html#tempdirectory" class="tsd-kind-icon">temp<wbr>Directory</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,42 +93,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="branch" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> branch</h3>
-					<div class="tsd-signature tsd-kind-icon">branch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="tempdirectory" class="tsd-anchor"></a>
+					<h3>temp<wbr>Directory</h3>
+					<div class="tsd-signature tsd-kind-icon">temp<wbr>Directory<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_lib_types_.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/utils/git.ts#L45">src/lib/utils/git.ts:45</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="depth" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> depth</h3>
-					<div class="tsd-signature tsd-kind-icon">depth<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/utils/git.ts#L46">src/lib/utils/git.ts:46</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="directory" class="tsd-anchor"></a>
-					<h3>directory</h3>
-					<div class="tsd-signature tsd-kind-icon">directory<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_lib_types_.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/utils/git.ts#L48">src/lib/utils/git.ts:48</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="repository" class="tsd-anchor"></a>
-					<h3>repository</h3>
-					<div class="tsd-signature tsd-kind-icon">repository<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/utils/git.ts#L47">src/lib/utils/git.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/e9341b5/src/lib/utils/nyc.ts#L17">src/lib/utils/nyc.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,65 +111,41 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_src_lib_utils_git_.html">"src/lib/utils/git"</a>
+						<a href="../modules/_src_lib_utils_nyc_.html">"src/lib/utils/nyc"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_src_lib_utils_git_.gitaddoptions.html" class="tsd-kind-icon">Git<wbr>Add<wbr>Options</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_src_lib_utils_git_.gitcloneoptions.html" class="tsd-kind-icon">Git<wbr>Clone<wbr>Options</a>
+						<a href="_src_lib_utils_nyc_.reportoptions.html" class="tsd-kind-icon">Report<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_utils_git_.gitcloneoptions.html#branch" class="tsd-kind-icon">branch</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_utils_git_.gitcloneoptions.html#depth" class="tsd-kind-icon">depth</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_utils_git_.gitcloneoptions.html#directory" class="tsd-kind-icon">directory</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_utils_git_.gitcloneoptions.html#repository" class="tsd-kind-icon">repository</a>
+								<a href="_src_lib_utils_nyc_.reportoptions.html#tempdirectory" class="tsd-kind-icon">temp<wbr>Directory</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_src_lib_utils_git_.gitcommitoptions.html" class="tsd-kind-icon">Git<wbr>Commit<wbr>Options</a>
+						<a href="_src_lib_utils_nyc_.runoptions.html" class="tsd-kind-icon">Run<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_src_lib_utils_git_.gitpushoptions.html" class="tsd-kind-icon">Git<wbr>Push<wbr>Options</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="../modules/_src_lib_utils_nyc_.html#nycreporter" class="tsd-kind-icon">Nyc<wbr>Reporter</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_src_lib_utils_git_.html#assertcleanbranch" class="tsd-kind-icon">assert<wbr>Clean<wbr>Branch</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_src_lib_utils_git_.html#execgit" class="tsd-kind-icon">exec<wbr>Git</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_src_lib_utils_nyc_.html#nycbin" class="tsd-kind-icon">nyc<wbr>Bin</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_src_lib_utils_git_.html#getheadhash" class="tsd-kind-icon">get<wbr>Head<wbr>Hash</a>
+						<a href="../modules/_src_lib_utils_nyc_.html#execnyc" class="tsd-kind-icon">exec<wbr>Nyc</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_src_lib_utils_git_.html#gitadd" class="tsd-kind-icon">git<wbr>Add</a>
+						<a href="../modules/_src_lib_utils_nyc_.html#report" class="tsd-kind-icon">report</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_src_lib_utils_git_.html#gitclone" class="tsd-kind-icon">git<wbr>Clone</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_src_lib_utils_git_.html#gitcommit" class="tsd-kind-icon">git<wbr>Commit</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_src_lib_utils_git_.html#gitpush" class="tsd-kind-icon">git<wbr>Push</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/_src_lib_utils_git_.html#tagexists" class="tsd-kind-icon">tag<wbr>Exists</a>
+						<a href="../modules/_src_lib_utils_nyc_.html#run" class="tsd-kind-icon">run</a>
 					</li>
 				</ul>
 			</nav>
