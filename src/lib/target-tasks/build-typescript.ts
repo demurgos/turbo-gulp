@@ -4,7 +4,7 @@ import * as gulpRename from "gulp-rename";
 import * as gulpSourceMaps from "gulp-sourcemaps";
 import * as gulpTypescript from "gulp-typescript";
 import * as merge from "merge2";
-import {posix as posixPath } from "path";
+import { posix as posixPath } from "path";
 import { CompilerOptionsJson } from "../options/tsc";
 import { OutModules } from "../options/typescript";
 import { TaskFunction } from "../utils/gulp-task-function";
@@ -76,10 +76,11 @@ export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): T
     }
 
     const reporter: UniqueReporter = new UniqueReporter();
-    // TODO: update type definitions to support destPath
+    // TODO: update type definitions of `gulp-sourcemaps`
     const writeSourceMapsOptions: gulpSourceMaps.WriteOptions = <any> {
-      sourceRoot: posixPath.relative(options.buildDir, options.srcDir),
-      destPath: options.buildDir,
+      sourceRoot: (file: any /* VinylFile */): string => {
+        return posixPath.relative(posixPath.dirname(file.relative), "");
+      },
     };
     if (options.outModules === OutModules.Js) {
       const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(tscOptions, reporter));
