@@ -1,4 +1,4 @@
-## Next
+## 0.15.6 (2017-11-29)
 
 - **[Fix]** Fix path to source in source maps.
 - **[Fix]** Disable `number-literal-format` in default Tslint rules. It enforced uppercase for hex.
