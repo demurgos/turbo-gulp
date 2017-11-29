@@ -1,6 +1,6 @@
-## Next
+## 0.15.7 (2017-11-29)
 
-- **[Feature]** Add `coverage` task to `mocha` target, use it by default with the `start` task
+- **[Feature]** Add `coverage` task to `mocha` target, use it for the default task
 
 ## 0.15.6 (2017-11-29)
 
