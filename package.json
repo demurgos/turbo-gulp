@@ -3,6 +3,7 @@
   "version": "0.15.5",
   "description": "Gulp tasks to boost high-quality projects.",
   "author": "Charles Samborski <demurgos@demurgos.net> (https://demurgos.net)",
+  "license": "MIT",
   "private": true,
   "main": "dist/lib/index",
   "types": "dist/lib/index.d.ts",
@@ -13,7 +14,7 @@
   "homepage": "https://demurgos.github.io/turbo-gulp",
   "scripts": {
     "prepare": "gulp all:tsconfig.json && gulp :tslint.json && gulp dist",
-    "test": "npm run lint && gulp test",
+    "test": "gulp :lint && gulp lib:build && nyc gulp test",
     "prepublishOnly": "npm test",
     "lint": "gulp :lint:fix"
   },
@@ -22,7 +23,15 @@
       "lint"
     ]
   },
-  "license": "MIT",
+  "nyc": {
+    "include": [
+      "build/test/lib/**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ]
+  },
   "dependencies": {
     "@types/del": "^3.0.0",
     "@types/fs-extra": "^4.0.3",
@@ -50,6 +59,7 @@
     "json-loader": "^0.5.7",
     "merge2": "^1.2.0",
     "minimatch": "^3.0.4",
+    "nyc": "^11.3.0",
     "orchestrator": "^0.3.8",
     "raw-loader": "^0.5.1",
     "semver": "^5.4.1",
