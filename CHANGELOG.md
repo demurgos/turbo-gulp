@@ -3,6 +3,8 @@
 - **[Fix]** Fix path to source in source maps.
 - **[Fix]** Disable `number-literal-format` in default Tslint rules. It enforced uppercase for hex.
 - **[Internal]** Enable integration with Greenkeeper.
+- **[Internal]** Enable integration with Codecov
+- **[Internal]** Enable code coverage
 
 ## 0.15.5 (2017-11-10)
 
