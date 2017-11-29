@@ -1,3 +1,7 @@
+## Next
+
+- **[Feature]** Add `coverage` task to `mocha` target, use it by default with the `start` task
+
 ## 0.15.6 (2017-11-29)
 
 - **[Fix]** Fix path to source in source maps.

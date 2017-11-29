@@ -51,7 +51,7 @@
     "target": "es2017",
     "traceResolution": false,
     "typeRoots": [
-      "src/custom-typings",
+      "src/lib/custom-typings",
       "node_modules/@types"
     ]
   }

@@ -15,7 +15,11 @@
  *
  * ## {target}:run
  *
- * Only run the tests (without rebuilding).
+ * Only run the tests (does not build the tests).
+ *
+ * ## {target}:coverage
+ *
+ * Run tests with coverage (does not build the tests).
  *
  * ## {target}:typedoc:deploy
  *
@@ -38,8 +42,10 @@
 
 import { Gulp, TaskFunction } from "gulp";
 import * as gulpUtil from "gulp-util";
+import { posix as posixPath } from "path";
 import { Readable as ReadableStream } from "stream";
 import * as mocha from "../task-generators/mocha";
+import * as nyc from "../task-generators/nyc";
 import { BaseTasks, nameTask, registerBaseTasks, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
 
 function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableStream {
@@ -81,6 +87,7 @@ function resolveMochaTarget(target: MochaTarget): ResolvedMochaTarget {
 export interface MochaTasks extends BaseTasks {
   start: TaskFunction;
   run: TaskFunction;
+  coverage: TaskFunction;
 }
 
 /**
@@ -93,8 +100,23 @@ export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): Moch
   const target: ResolvedMochaTarget = resolveMochaTarget(targetOptions);
   const result: MochaTasks = <MochaTasks> registerBaseTasks(gulp, targetOptions);
 
+  const testOptions: mocha.MochaOptions = {
+    testDir: target.buildDir,
+  };
+
   // run
-  result.run = nameTask(`${target.name}:run`, mocha.generateTask(gulp, {testDir: target.buildDir}));
+  result.run = nameTask(`${target.name}:run`, mocha.generateTask(gulp, testOptions));
+
+  const coverageOptions: nyc.NycOptions = {
+    test: testOptions,
+    rootDir: target.project.absRoot,
+    reportDir: posixPath.join(target.project.absRoot, "coverage"),
+    tempDir: posixPath.join(target.project.absRoot, ".nyc_output"),
+    reporters: ["text", "lcovonly", "html"],
+  };
+
+  // coverage
+  result.coverage = nameTask(`${target.name}:coverage`, nyc.generateTask(gulp, coverageOptions));
 
   // start
   const startTasks: TaskFunction[] = [];
@@ -102,7 +124,7 @@ export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): Moch
     startTasks.push(result.clean);
   }
   startTasks.push(result.build);
-  startTasks.push(result.run);
+  startTasks.push(result.coverage);
   result.start = nameTask(target.name, gulp.series(startTasks));
 
   return result;

@@ -4538,9 +4538,9 @@ tunnel-agent@~0.4.1:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/tunnel-agent/-/tunnel-agent-0.4.3.tgz#6373db76909fe570e08d73583365ed828a74eeeb"
 
-turbo-gulp@0.15.5-build.289:
-  version "0.15.5-build.289"
-  resolved "https://registry.yarnpkg.com/turbo-gulp/-/turbo-gulp-0.15.5-build.289.tgz#0fee63c0c9bcdc69f4ee86db9c88474fe4743fab"
+turbo-gulp@latest:
+  version "0.15.6"
+  resolved "https://registry.yarnpkg.com/turbo-gulp/-/turbo-gulp-0.15.6.tgz#c9f91ece2f1a601f227457506ebf12d1fe5ea2ec"
   dependencies:
     "@types/del" "^3.0.0"
     "@types/fs-extra" "^4.0.3"
