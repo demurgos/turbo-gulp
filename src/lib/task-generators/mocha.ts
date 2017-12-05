@@ -1,8 +1,10 @@
 import { Gulp } from "gulp";
 import * as gulpMocha from "gulp-mocha";
+import { Incident } from "incident";
 import { Minimatch } from "minimatch";
 import { toPosix } from "../project";
 import { AbsPosixPath } from "../types";
+import { asyncDone } from "../utils/async-done";
 import { TaskFunction } from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 
@@ -63,12 +65,19 @@ export function generateTask(gulp: Gulp, options: MochaOptions): TaskFunction {
   const resolved: ResolvedMochaOptions = resolveOptions(options);
   const sources: Sources = getSources(options);
 
-  const task: TaskFunction = function () {
-    return gulp
-      .src(sources.specs, {base: sources.baseDir})
-      .pipe(gulpMocha({
-        reporter: resolved.reporter,
-      }));
+  const task: TaskFunction = async function (): Promise<any> {
+    return asyncDone(() => {
+      gulp
+        .src(sources.specs, {base: sources.baseDir})
+        .pipe(gulpMocha({
+          reporter: resolved.reporter,
+        }));
+    })
+      .catch((err: Error) => {
+        // Swallow original error because its error message is too long and just add noise
+        // TODO: Differentiate failed test error from runtime error
+        throw Incident("MochaError");
+      });
   };
   task.displayName = getTaskName();
 

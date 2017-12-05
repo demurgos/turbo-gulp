@@ -1,3 +1,8 @@
+## Next
+
+- **[Fix]** Exit with non-zero code if command tested with coverage fails
+- **[Fix]** Solve duplicated error message when using the `run` mocha task.
+
 ## 0.15.7 (2017-11-29)
 
 - **[Feature]** Add `coverage` task to `mocha` target, use it for the default task

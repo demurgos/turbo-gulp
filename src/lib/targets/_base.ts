@@ -1,4 +1,3 @@
-import * as asyncDone from "async-done";
 import { existsSync, FSWatcher } from "fs";
 import { Gulp, TaskFunction } from "gulp";
 import * as gulpUtil from "gulp-util";
@@ -20,18 +19,6 @@ import { AbsPosixPath, RelPosixPath } from "../types";
 import * as matcher from "../utils/matcher";
 
 export type WatchTaskFunction = (TaskFunction & (() => FSWatcher));
-
-async function asyncDoneAsync(fn: asyncDone.AsyncTask): Promise<any> {
-  return new Promise((resolve, reject) => {
-    asyncDone(fn, (err: Error | null | undefined, result: any) => {
-      if (err === undefined || err === null) {
-        resolve(result);
-      } else {
-        reject(err);
-      }
-    });
-  });
-}
 
 /**
  * Generate a copy task (and the corresponding watch task) for the copy operations described by `copyOptions`

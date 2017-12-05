@@ -110,11 +110,25 @@ export interface SpawnOptions {
 }
 
 export interface SpawnResult {
+  /**
+   * Buffer containing the whole standard output of the spawned process.
+   */
   stdout: Buffer;
+
+  /**
+   * Buffer containing the whole standard error of the spawned process.
+   */
   stderr: Buffer;
+
+  /**
+   * Exit value of the spawned process: a return code or exit signal.
+   */
   exit: Exit;
 }
 
+/**
+ * Exit value of a spawned process: a return code or exit signal
+ */
 export type Exit = SignalExit | CodeExit;
 
 export interface CodeExit {

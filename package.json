@@ -14,7 +14,8 @@
   "homepage": "https://demurgos.github.io/turbo-gulp",
   "scripts": {
     "prepare": "gulp all:tsconfig.json && gulp :tslint.json && gulp dist",
-    "test": "gulp :lint && gulp lib:build && nyc gulp test",
+    "pretest": "gulp :lint && gulp lib:build",
+    "test": "gulp test",
     "prepublishOnly": "npm test",
     "lint": "gulp :lint:fix"
   },

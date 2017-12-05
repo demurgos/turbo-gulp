@@ -1,3 +1,4 @@
+import { Incident } from "incident";
 import { AbsPosixPath } from "../types";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
@@ -45,6 +46,13 @@ export async function run(options: RunOptions): Promise<void> {
     args.push("--color");
   }
   args.push("--", ...options.command);
-  console.log(`<nyc> ${JSON.stringify(args)}`);
-  await execNyc(null, args, {cwd: options.cwd, stdio: "inherit"});
+
+  const result: SpawnResult = await execNyc(null, args, {cwd: options.cwd, stdio: "inherit"});
+  if (result.exit.type === "code") {
+    if (result.exit.code === 0) {
+      return;
+    }
+    throw Incident("CoverageError");
+  }
+  throw new Incident("UnexpectedExitValue", {exit: result.exit});
 }
