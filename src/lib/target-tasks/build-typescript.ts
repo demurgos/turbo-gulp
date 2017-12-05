@@ -3,6 +3,7 @@ import { Gulp } from "gulp";
 import * as gulpRename from "gulp-rename";
 import * as gulpSourceMaps from "gulp-sourcemaps";
 import * as gulpTypescript from "gulp-typescript";
+import { Incident } from "incident";
 import * as merge from "merge2";
 import { posix as posixPath } from "path";
 import { CompilerOptionsJson } from "../options/tsc";
@@ -22,13 +23,15 @@ function hashTypescriptError(error: gulpTypescript.reporter.TypeScriptError): Ty
   });
 }
 
-class UniqueReporter implements gulpTypescript.reporter.Reporter {
-  private baseReporter: gulpTypescript.reporter.Reporter;
-  private reported: Set<TypescriptErrorHash>;
+class TypescriptReporter implements gulpTypescript.reporter.Reporter {
+  readonly throwOnError: boolean;
+  private readonly baseReporter: gulpTypescript.reporter.Reporter;
+  private readonly reported: Set<TypescriptErrorHash>;
 
-  constructor() {
+  constructor(throwOnError: boolean) {
     this.baseReporter = gulpTypescript.reporter.defaultReporter();
     this.reported = new Set();
+    this.throwOnError = throwOnError;
   }
 
   error(error: gulpTypescript.reporter.TypeScriptError, typescript: any): void {
@@ -42,16 +45,17 @@ class UniqueReporter implements gulpTypescript.reporter.Reporter {
 
   finish(compilerResult: gulpTypescript.reporter.CompilationResult): void {
     this.baseReporter.finish!(compilerResult);
-    // if (hasError(compilerResult)) {
-    //   throw new gulpUtil.PluginError(
-    //     "gulp-typescript",
-    //     Error("Typescript: Compilation with `strict` option emitted some errors. See report for details"),
-    //   );
-    // }
+    if (this.throwOnError && this.reported.size > 0) {
+      throw Incident("TypescriptError");
+    }
   }
 }
 
-export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): TaskFunction {
+export function getBuildTypescriptTask(
+  gulp: Gulp,
+  options: TypescriptConfig,
+  throwOnError: boolean = true,
+): TaskFunction {
   const resolved: ResolvedTsLocations = resolveTsLocations(options);
   const tscOptions: CompilerOptionsJson = {
     ...options.tscOptions,
@@ -75,7 +79,7 @@ export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): T
       dts: NodeJS.ReadableStream;
     }
 
-    const reporter: UniqueReporter = new UniqueReporter();
+    const reporter: TypescriptReporter = new TypescriptReporter(throwOnError);
     // TODO: update type definitions of `gulp-sourcemaps`
     const writeSourceMapsOptions: gulpSourceMaps.WriteOptions = <any> {
       sourceRoot: (file: any /* VinylFile */): string => {
@@ -111,7 +115,7 @@ export function getBuildTypescriptTask(gulp: Gulp, options: TypescriptConfig): T
 
 export function getBuildTypescriptWatchTask(gulp: Gulp, options: TypescriptConfig): () => FSWatcher {
   return (): FSWatcher => {
-    const buildTask: TaskFunction = getBuildTypescriptTask(gulp, options);
+    const buildTask: TaskFunction = getBuildTypescriptTask(gulp, options, false);
     const resolved: ResolvedTsLocations = resolveTsLocations(options);
     return gulp.watch(resolved.absScripts, {cwd: options.srcDir}, buildTask) as FSWatcher;
   };

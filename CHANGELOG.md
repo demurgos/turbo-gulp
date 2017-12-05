@@ -2,6 +2,7 @@
 
 - **[Fix]** Exit with non-zero code if command tested with coverage fails
 - **[Fix]** Solve duplicated error message when using the `run` mocha task.
+- **[Fix]** Exit with non-zero code when building scripts fails.
 
 ## 0.15.7 (2017-11-29)
 
