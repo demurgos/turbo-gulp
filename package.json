@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@types/del": "^3.0.0",
-    "@types/fs-extra": "^4.0.3",
+    "@types/fs-extra": "^5.0.0",
     "@types/gulp": "^4.0.5",
     "@types/gulp-rename": "0.0.33",
     "@types/gulp-sourcemaps": "0.0.32",
@@ -46,7 +46,7 @@
     "@types/tmp": "0.0.33",
     "async-done": "^1.2.3",
     "del": "^3.0.0",
-    "fs-extra": "^4.0.2",
+    "fs-extra": "^5.0.0",
     "gulp-mocha": "^4.3.1",
     "gulp-pug": "^3.3.0",
     "gulp-rename": "^1.2.2",
