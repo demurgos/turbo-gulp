@@ -91,7 +91,7 @@
     "chai-as-promised": "^7.0.0",
     "codecov": "^3.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-cli": "^1.4.0",
+    "gulp-cli": "^2.0.0",
     "minimist": "^1.2.0",
     "pre-commit": "^1.2.2",
     "ts-node": "^4.0.2",
