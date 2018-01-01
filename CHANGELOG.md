@@ -1,3 +1,7 @@
+## Next
+
+- **[Fix]** Drop dependency on deprecated `gulp-util`
+
 ## 0.15.8 (2017-12-05)
 
 - **[Fix]** Exit with non-zero code if command tested with coverage fails

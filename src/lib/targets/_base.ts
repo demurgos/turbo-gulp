@@ -1,10 +1,10 @@
 import { existsSync, FSWatcher } from "fs";
 import { Gulp, TaskFunction } from "gulp";
-import * as gulpUtil from "gulp-util";
 import { Minimatch } from "minimatch";
 import { posix as posixPath } from "path";
 import { Readable as ReadableStream } from "stream";
 import * as typescript from "typescript";
+import * as Vinyl from "vinyl";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson } from "../options/tsc";
@@ -266,9 +266,7 @@ export function addTask(gulp: Gulp, displayName: string, task: TaskFunction): Ta
 export function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableStream {
   const src: ReadableStream = new ReadableStream({objectMode: true});
   src._read = function () {
-    this.push(new gulpUtil.File({
-      cwd: "",
-      base: "",
+    this.push(new Vinyl({
       path: filename,
       contents: data,
     }));

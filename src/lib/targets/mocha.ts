@@ -41,26 +41,10 @@
 /** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
 
 import { Gulp, TaskFunction } from "gulp";
-import * as gulpUtil from "gulp-util";
 import { posix as posixPath } from "path";
-import { Readable as ReadableStream } from "stream";
 import * as mocha from "../task-generators/mocha";
 import * as nyc from "../task-generators/nyc";
 import { BaseTasks, nameTask, registerBaseTasks, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
-
-function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableStream {
-  const src: ReadableStream = new ReadableStream({objectMode: true});
-  src._read = function () {
-    this.push(new gulpUtil.File({
-      cwd: "",
-      base: "",
-      path: filename,
-      contents: data,
-    }));
-    this.push(null);
-  };
-  return src;
-}
 
 /**
  * Represents a test build using Mocha, it runs with Node.

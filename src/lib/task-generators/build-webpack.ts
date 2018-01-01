@@ -6,11 +6,12 @@
 
 /** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
 
+import * as fancyLog from "fancy-log";
 import { FSWatcher } from "fs";
 import { Gulp } from "gulp";
-import { log as gulpLog, PluginError } from "gulp-util";
 import { Minimatch } from "minimatch";
 import { posix as path, resolve as sysResolvePath } from "path";
+import * as PluginError from "plugin-error";
 import * as webpack from "webpack";
 import * as webpackMerge from "webpack-merge";
 import * as webpackStream from "webpack-stream";
@@ -138,7 +139,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
           if (<any> err) {
             throw new PluginError("_build:webpack", err);
           }
-          gulpLog("[_build:webpack]", stats.toString({colors: true}));
+          fancyLog("[_build:webpack]", stats.toString({colors: true}));
         }),
       )
       .pipe(gulp.dest(options.buildDir));

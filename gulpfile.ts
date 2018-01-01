@@ -88,3 +88,4 @@ buildTools.projectTasks.registerAll(gulp, project);
 
 gulp.task("all:tsconfig.json", gulp.parallel("lib:tsconfig.json", "test:tsconfig.json"));
 gulp.task("dist", libTasks.dist);
+gulp.task("default", libTasks.dist);
