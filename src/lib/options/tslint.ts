@@ -194,7 +194,7 @@ export const DEFAULT_UNTYPED_TSLINT_RULES: TslintConfiguration.RawRulesConfig = 
   // Flags throwing plain strings or concatenations of strings.
   "no-string-throw": true,
   // Disallows importing any submodule.
-  "no-submodule-imports": true,
+  "no-submodule-imports": false,
   // Disallows falling through case statements.
   "no-switch-case-fall-through": true,
   // Disallows unnecessary references to `this`.

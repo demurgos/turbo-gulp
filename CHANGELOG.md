@@ -1,5 +1,6 @@
 ## Next
 
+- **[Fix]** Allow deep module imports in default Tslint rules
 - **[Fix]** Drop dependency on deprecated `gulp-util`
 
 ## 0.15.8 (2017-12-05)
