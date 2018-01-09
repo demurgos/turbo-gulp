@@ -1,4 +1,4 @@
-## Next
+## 0.16.0 (2017-01-09)
 
 - **[Breaking change]** Enable `allowSyntheticDefaultImports` and `esModuleInterop` by default
 - **[Fix]** Allow deep module imports in default Tslint rules
