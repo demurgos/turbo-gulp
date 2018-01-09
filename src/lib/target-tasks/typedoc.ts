@@ -24,7 +24,8 @@ export function getTypedocTask(gulp: Gulp, tsConfig: TypescriptConfig, options: 
   const task: TaskFunction = function () {
     return gulp
       .src(resolved.absScripts, {base: tsConfig.srcDir})
-      .pipe(gulpTypedoc({
+      // TODO(demurgos): Remove cast once rogierschouten/gulp-typedoc#24 is merged
+      .pipe(gulpTypedoc(<any> {
         // TypeScript options (see typescript docs)
         module: "commonjs",
         target: "es2017",

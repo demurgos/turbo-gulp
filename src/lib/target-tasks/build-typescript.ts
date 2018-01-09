@@ -106,7 +106,7 @@ export function getBuildTypescriptTask(
       }
     }
 
-    return merge([dtsStream, jsStream, mjsStream].filter(x => x !== undefined))
+    return merge([dtsStream, jsStream, mjsStream].filter(x => x !== undefined) as NodeJS.ReadableStream[])
       .pipe(gulp.dest(options.buildDir));
   };
   task.displayName = "_build:scripts";

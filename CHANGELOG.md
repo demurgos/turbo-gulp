@@ -3,6 +3,7 @@
 - **[Breaking change]** Enable `allowSyntheticDefaultImports` and `esModuleInterop` by default
 - **[Fix]** Allow deep module imports in default Tslint rules
 - **[Fix]** Drop dependency on deprecated `gulp-util`
+- **[Internal]** Replace most custom typings by types from `@types`
 
 ## 0.15.8 (2017-12-05)
 

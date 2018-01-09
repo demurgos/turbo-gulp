@@ -1,11 +1,11 @@
-/* tslint:disable */
+// tslint:disable
 declare module "async-done" {
-  import {Stream} from "stream";
-  import {EventEmitter} from "events";
-  import {ChildProcess} from "child_process";
+  import { Stream } from "stream";
+  import { EventEmitter } from "events";
+  import { ChildProcess } from "child_process";
 
   namespace asyncDone {
-    // TODO: Use stricter signaturew
+    // TODO: Use stricter signature
     type Done<R> = (error?: Error | null, result?: R) => void;
 
     // TODO: Add rx.js observable
