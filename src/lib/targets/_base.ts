@@ -4,7 +4,7 @@ import { Minimatch } from "minimatch";
 import { posix as posixPath } from "path";
 import { Readable as ReadableStream } from "stream";
 import * as typescript from "typescript";
-import * as Vinyl from "vinyl";
+import Vinyl from "vinyl";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson } from "../options/tsc";

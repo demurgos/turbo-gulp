@@ -6,15 +6,15 @@
 
 /** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
 
-import * as fancyLog from "fancy-log";
+import fancyLog from "fancy-log";
 import { FSWatcher } from "fs";
 import { Gulp } from "gulp";
 import { Minimatch } from "minimatch";
 import { posix as path, resolve as sysResolvePath } from "path";
-import * as PluginError from "plugin-error";
-import * as webpack from "webpack";
-import * as webpackMerge from "webpack-merge";
-import * as webpackStream from "webpack-stream";
+import PluginError from "plugin-error";
+import webpack from "webpack";
+import webpackMerge from "webpack-merge";
+import webpackStream from "webpack-stream";
 import { TaskFunction } from "../utils/gulp-task-function";
 import * as matcher from "../utils/matcher";
 

@@ -1,6 +1,6 @@
 export {CompilerOptions} from "typescript";
 
-/* tslint:disable:max-line-length */
+// tslint:disable:max-line-length
 /**
  * JSON variant of the compiler options, as found in `tsconfig.json`.
  *
@@ -8,7 +8,7 @@ export {CompilerOptions} from "typescript";
  * @see https://github.com/Microsoft/TypeScript/blob/5a64556e4becb41ac33441a79562361df2bf793b/src/compiler/commandLineParser.ts#L11
  */
 
-/* tslint:enable */
+// tslint:enable
 export interface CompilerOptionsJson {
   allowJs?: boolean;
   allowSyntheticDefaultImports?: boolean;
@@ -24,6 +24,7 @@ export interface CompilerOptionsJson {
   downlevelIteration?: boolean;
   emitBOM?: boolean;
   emitDecoratorMetadata?: boolean;
+  esModuleInterop?: boolean;
   experimentalDecorators?: boolean;
   forceConsistentCasingInFileNames?: boolean;
   importHelpers?: boolean;
@@ -77,7 +78,7 @@ export interface CompilerOptionsJson {
 
 export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
   allowJs: false,
-  allowSyntheticDefaultImports: false,
+  allowSyntheticDefaultImports: true,
   allowUnreachableCode: false,
   allowUnusedLabels: false,
   alwaysStrict: true,
@@ -90,6 +91,7 @@ export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
   downlevelIteration: false,
   emitBOM: false,
   emitDecoratorMetadata: true,
+  esModuleInterop: true,
   experimentalDecorators: true,
   forceConsistentCasingInFileNames: true,
   importHelpers: false,

@@ -1,4 +1,4 @@
-import * as _asyncDone from "async-done";
+import _asyncDone from "async-done";
 
 export async function asyncDone(fn: _asyncDone.AsyncTask): Promise<any> {
   return new Promise((resolve, reject) => {

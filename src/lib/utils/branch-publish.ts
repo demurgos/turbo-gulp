@@ -1,4 +1,4 @@
-import * as del from "del";
+import del from "del";
 import { copy } from "fs-extra";
 import * as posixPath from "path";
 import {dir as tmpDir } from "tmp";

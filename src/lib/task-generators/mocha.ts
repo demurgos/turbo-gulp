@@ -1,5 +1,5 @@
 import { Gulp } from "gulp";
-import * as gulpMocha from "gulp-mocha";
+import gulpMocha from "gulp-mocha";
 import { Incident } from "incident";
 import { Minimatch } from "minimatch";
 import { toPosix } from "../project";

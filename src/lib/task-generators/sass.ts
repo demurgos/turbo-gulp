@@ -1,6 +1,6 @@
 import { FSWatcher } from "fs";
 import { Gulp } from "gulp";
-import * as gulpSass from "gulp-sass";
+import gulpSass from "gulp-sass";
 import * as gulpSourceMaps from "gulp-sourcemaps";
 import { Minimatch } from "minimatch";
 import { TaskFunction } from "../utils/gulp-task-function";

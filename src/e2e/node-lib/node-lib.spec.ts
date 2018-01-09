@@ -1,5 +1,5 @@
-import * as chai from "chai";
-import * as chaiAsPromised from "chai-as-promised";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { posix as path } from "path";
 import { toPosix } from "../../lib/project";
 import { execFile, ExecFileError, ExecFileResult, readText, writeText } from "../../lib/utils/node-async";
@@ -76,7 +76,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
     });
 
     it(
-      "should output a tsconfig.json file in src/lib",
+      "should output the expected tsconfig.json file in src/lib",
       async function (this: Mocha.ITestCallbackContext): Promise<void> {
         const [actual, expected]: [string, string] = <[string, string]> await Promise.all([
           readText(path.join(PROJECT_ROOT, "src/lib/tsconfig.json")),

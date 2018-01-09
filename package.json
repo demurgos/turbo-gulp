@@ -14,7 +14,7 @@
   "homepage": "https://demurgos.github.io/turbo-gulp",
   "scripts": {
     "prepare": "gulp all:tsconfig.json && gulp :tslint.json && gulp dist",
-    "pretest": "gulp :lint && gulp lib:build",
+    "pretest": "gulp lib:build",
     "test": "gulp test",
     "prepublishOnly": "npm test",
     "lint": "gulp :lint:fix"
@@ -57,7 +57,7 @@
     "gulp-tslint": "^8.1.2",
     "gulp-typedoc": "^2.1.1",
     "gulp-typescript": "^3.2.3",
-    "incident": "^3.0.0",
+    "incident": "^3.1.0",
     "json-loader": "^0.5.7",
     "merge2": "^1.2.0",
     "minimatch": "^3.0.4",
@@ -71,7 +71,7 @@
     "tslint": "^5.8.0",
     "typedoc": "^0.9.0",
     "typedoc-plugin-external-module-name": "^1.0.10",
-    "typescript": "^2.6.1",
+    "typescript": "2.7.0-dev.20180109",
     "vinyl": "^2.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^2.0.0",

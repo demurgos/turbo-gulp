@@ -1,5 +1,6 @@
 ## Next
 
+- **[Breaking change]** Enable `allowSyntheticDefaultImports` and `esModuleInterop` by default
 - **[Fix]** Allow deep module imports in default Tslint rules
 - **[Fix]** Drop dependency on deprecated `gulp-util`
 

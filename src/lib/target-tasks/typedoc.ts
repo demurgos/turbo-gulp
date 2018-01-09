@@ -1,5 +1,5 @@
 import { Gulp } from "gulp";
-import * as gulpTypedoc from "gulp-typedoc";
+import gulpTypedoc from "gulp-typedoc";
 import { CompilerOptionsJson } from "../options/tsc";
 import { AbsPosixPath } from "../types";
 import { TaskFunction } from "../utils/gulp-task-function";

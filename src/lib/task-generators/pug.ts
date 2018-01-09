@@ -1,6 +1,6 @@
 import { FSWatcher } from "fs";
 import { Gulp } from "gulp";
-import * as gulpPug from "gulp-pug";
+import gulpPug from "gulp-pug";
 import { Minimatch } from "minimatch";
 import { TaskFunction } from "../utils/gulp-task-function";
 import { asString, join } from "../utils/matcher";

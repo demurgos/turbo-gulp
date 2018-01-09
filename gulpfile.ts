@@ -41,6 +41,8 @@ const lib: buildTools.LibTarget = {
   customTypingsDir: "src/custom-typings",
   tscOptions: {
     skipLibCheck: true,
+    allowSyntheticDefaultImports: true,
+    esModuleInterop: true,
   },
   typedoc: {
     dir: "typedoc",
@@ -68,6 +70,8 @@ const test: buildTools.MochaTarget = {
   customTypingsDir: "src/custom-typings",
   tscOptions: {
     skipLibCheck: true,
+    allowSyntheticDefaultImports: true,
+    esModuleInterop: true,
   },
   copy: [
     {

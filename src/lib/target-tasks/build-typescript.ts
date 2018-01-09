@@ -1,10 +1,10 @@
 import { FSWatcher } from "fs";
 import { Gulp } from "gulp";
-import * as gulpRename from "gulp-rename";
-import * as gulpSourceMaps from "gulp-sourcemaps";
-import * as gulpTypescript from "gulp-typescript";
+import gulpRename from "gulp-rename";
+import gulpSourceMaps from "gulp-sourcemaps";
+import gulpTypescript from "gulp-typescript";
 import { Incident } from "incident";
-import * as merge from "merge2";
+import merge from "merge2";
 import { posix as posixPath } from "path";
 import { CompilerOptionsJson } from "../options/tsc";
 import { OutModules } from "../options/typescript";
