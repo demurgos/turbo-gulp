@@ -2303,7 +2303,7 @@ gulp-tslint@^8.1.2:
     map-stream "~0.0.7"
     through "~2.3.8"
 
-gulp-typedoc@^2.1.1:
+gulp-typedoc@^2.1.1, gulp-typedoc@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/gulp-typedoc/-/gulp-typedoc-2.2.0.tgz#5b9a0dc54f895fbd09ad0ef4340c70bae50a5ac0"
   dependencies:
