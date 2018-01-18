@@ -65,7 +65,7 @@
     "json-loader": "^0.5.7",
     "merge2": "^1.2.0",
     "minimatch": "^3.0.4",
-    "mocha": "^4.0.1",
+    "mocha": "^5.0.0",
     "nyc": "^11.3.0",
     "orchestrator": "^0.3.8",
     "plugin-error": "^1.0.0",
