@@ -42,6 +42,7 @@
 
 import { Gulp, TaskFunction } from "gulp";
 import { posix as posixPath } from "path";
+import { OutModules } from "../";
 import * as mocha from "../task-generators/mocha";
 import * as nyc from "../task-generators/nyc";
 import { BaseTasks, nameTask, registerBaseTasks, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
@@ -71,6 +72,8 @@ function resolveMochaTarget(target: MochaTarget): ResolvedMochaTarget {
 export interface MochaTasks extends BaseTasks {
   start: TaskFunction;
   run: TaskFunction;
+  runCjs?: TaskFunction;
+  runEsm?: TaskFunction;
   coverage: TaskFunction;
 }
 
@@ -85,14 +88,33 @@ export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): Moch
   const result: MochaTasks = <MochaTasks> registerBaseTasks(gulp, targetOptions);
 
   const testOptions: mocha.MochaOptions = {
+    rootDir: target.project.absRoot,
     testDir: target.buildDir,
   };
 
+  const runTasks: TaskFunction[] = [];
+  if (target.outModules === OutModules.Js || target.outModules === OutModules.Both) {
+    const runCjs: TaskFunction = nameTask(
+      `${target.name}:run:cjs`,
+      mocha.generateTask(gulp, testOptions),
+    );
+    result.runCjs = runCjs;
+    runTasks.push(runCjs);
+  }
+  if (target.outModules === OutModules.Mjs || target.outModules === OutModules.Both) {
+    const runEsm: TaskFunction = nameTask(
+      `${target.name}:run:esm`,
+      mocha.generateTask(gulp, {...testOptions, mjs: true}),
+    );
+    result.runEsm = runEsm;
+    runTasks.push(runEsm);
+  }
+
   // run
-  result.run = nameTask(`${target.name}:run`, mocha.generateTask(gulp, testOptions));
+  result.run = nameTask(`${target.name}:run`, gulp.series(runTasks));
 
   const coverageOptions: nyc.NycOptions = {
-    test: testOptions,
+    test: {...testOptions, mjs: target.outModules !== OutModules.Js},
     rootDir: target.project.absRoot,
     reportDir: posixPath.join(target.project.absRoot, "coverage"),
     tempDir: posixPath.join(target.project.absRoot, ".nyc_output"),

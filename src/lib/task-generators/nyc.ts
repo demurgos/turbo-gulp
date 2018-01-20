@@ -1,9 +1,10 @@
 import { Gulp } from "gulp";
 import { AbsPosixPath } from "../types";
 import { TaskFunction } from "../utils/gulp-task-function";
+import { getCommand as getMochaCommand } from "../utils/mocha";
 import * as nyc from "../utils/nyc";
 import { NycReporter } from "../utils/nyc";
-import { getCommand, MochaOptions } from "./mocha";
+import { MochaOptions, resolveMochaOptions } from "./mocha";
 
 export interface NycOptions {
   test: MochaOptions;
@@ -14,7 +15,7 @@ export interface NycOptions {
 }
 
 export function generateTask(gulp: Gulp, options: NycOptions): TaskFunction {
-  const testCommand: string[] = getCommand(options.test, true);
+  const testCommand: string[] = getMochaCommand(resolveMochaOptions(options.test));
   const cwd: AbsPosixPath = options.rootDir;
 
   const task: TaskFunction = async function (): Promise<void> {

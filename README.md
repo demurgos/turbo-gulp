@@ -22,13 +22,24 @@ The main features are:
 - Typedoc generation
 - Assets management: copy resources, build Pug templates, build Sass stylesheets
 
-## Quick start
+## Installation
 
 Install the library as a dev-dependency:
 
 ```shell
 npm install -D turbo-gulp
 ```
+
+Builds of the master branch are also regularly released using the `next` tag:
+
+```shell
+npm install -D turbo-gulp@next
+```
+
+## Quick start
+
+**TODO**: Add better guide to configure repo and Travis CI, code coverage and codecov integrations.
+For the moment, take a look at this reference project: [Incident](https://github.com/demurgos/incident).
 
 Then use it in your Gulp file, here is an example:
 

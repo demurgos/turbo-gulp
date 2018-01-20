@@ -1,3 +1,9 @@
+## Next (2017-01-20)
+
+- **[Feature]** Support `mocha` tests on `.mjs` files (using `@std/esm`). Enabled by default
+  if `outModules` is configured to emit `.mjs`. **You currently need to add
+  `"@std/esm": {"esm": "cjs"}` to your `package.json`.**
+
 ## 0.16.0 (2017-01-09)
 
 - **[Breaking change]** Enable `allowSyntheticDefaultImports` and `esModuleInterop` by default
