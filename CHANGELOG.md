@@ -1,4 +1,4 @@
-## Next (2017-01-20)
+## 0.16.1 (2017-01-20)
 
 - **[Feature]** Support `mocha` tests on `.mjs` files (using `@std/esm`). Enabled by default
   if `outModules` is configured to emit `.mjs`. **You currently need to add

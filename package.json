@@ -1,6 +1,6 @@
 {
   "name": "turbo-gulp",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Gulp tasks to boost high-quality projects.",
   "author": "Charles Samborski <demurgos@demurgos.net> (https://demurgos.net)",
   "license": "MIT",
