@@ -328,7 +328,10 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
   // typedoc
   if (target.typedoc !== undefined) {
     const typedocOptions: TypedocOptions = target.typedoc;
-    result.typedoc = nameTask(`${target.name}:typedoc`, getTypedocTask(gulp, tsOptions, typedocOptions));
+    result.typedoc = nameTask(
+      `${target.name}:typedoc`,
+      gulp.series([result.tsconfigJson, getTypedocTask(gulp, tsOptions, typedocOptions)]),
+    );
 
     // typedoc:deploy
     if (typedocOptions.deploy !== undefined) {

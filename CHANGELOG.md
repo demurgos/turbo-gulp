@@ -1,3 +1,7 @@
+## Next
+
+- **[Fix]** Fis Typedoc generation: use `tsconfig.json` generated for the lib.
+
 ## 0.16.1 (2017-01-20)
 
 - **[Feature]** Support `mocha` tests on `.mjs` files (using `@std/esm`). Enabled by default
