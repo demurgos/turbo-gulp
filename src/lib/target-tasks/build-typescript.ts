@@ -95,8 +95,8 @@ export function getBuildTypescriptTask(
       const mjsOptions: CompilerOptionsJson = {...tscOptions, module: "es2015"};
       const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(mjsOptions, reporter));
       mjsStream = compiledStream.js
-        .pipe(gulpRename({extname: ".mjs"}))
-        .pipe(gulpSourceMaps.write(writeSourceMapsOptions));
+        .pipe(gulpSourceMaps.write(writeSourceMapsOptions))
+        .pipe(gulpRename({extname: ".mjs"}));
       dtsStream = compiledStream.dts;
       if (options.outModules === OutModules.Both) {
         jsStream = srcStream

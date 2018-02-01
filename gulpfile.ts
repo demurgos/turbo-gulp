@@ -1,15 +1,14 @@
 import * as buildTools from "turbo-gulp"; // Going meta
 // import * as buildTools from "./build/lib/index";
 
-import * as gulp from "gulp";
-import * as minimist from "minimist";
-import { ParsedArgs } from "minimist";
+import gulp from "gulp";
+import minimist from "minimist";
 
 interface Options {
   devDist?: string;
 }
 
-const options: Options & ParsedArgs = minimist(process.argv.slice(2), {
+const options: Options & minimist.ParsedArgs = minimist(process.argv.slice(2), {
   string: ["devDist"],
   default: {devDist: undefined},
   alias: {devDist: "dev-dist"},
@@ -29,6 +28,7 @@ const lib: buildTools.LibTarget = {
   srcDir: "src/lib",
   scripts: ["**/*.ts"],
   mainModule: "index",
+  outModules: buildTools.OutModules.Both,
   dist: {
     packageJsonMap: (old: buildTools.PackageJson): buildTools.PackageJson => {
       const version: string = options.devDist !== undefined ? `${old.version}-build.${options.devDist}` : old.version;
@@ -41,8 +41,6 @@ const lib: buildTools.LibTarget = {
   customTypingsDir: "src/custom-typings",
   tscOptions: {
     skipLibCheck: true,
-    allowSyntheticDefaultImports: true,
-    esModuleInterop: true,
   },
   typedoc: {
     dir: "typedoc",
@@ -71,8 +69,6 @@ const test: buildTools.MochaTarget = {
   outModules: buildTools.OutModules.Both,
   tscOptions: {
     skipLibCheck: true,
-    allowSyntheticDefaultImports: true,
-    esModuleInterop: true,
   },
   copy: [
     {

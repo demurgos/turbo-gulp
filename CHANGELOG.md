@@ -1,6 +1,7 @@
 ## Next
 
-- **[Fix]** Fis Typedoc generation: use `tsconfig.json` generated for the lib.
+- **[Fix]** Fix Typedoc generation: use `tsconfig.json` generated for the lib.
+- **[Fix]** Write source map for `.mjs` files
 
 ## 0.16.1 (2017-01-20)
 
