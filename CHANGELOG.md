@@ -1,4 +1,4 @@
-## Next
+## 0.16.2 (2017-02-07)
 
 - **[Fix]** Fix Typedoc generation: use `tsconfig.json` generated for the lib.
 - **[Fix]** Write source map for `.mjs` files
