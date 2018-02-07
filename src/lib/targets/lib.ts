@@ -69,7 +69,7 @@
 
 import { Gulp, TaskFunction } from "gulp";
 import { Minimatch } from "minimatch";
-import { posix as posixPath } from "path";
+import path from "path";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CompilerOptionsJson } from "../options/tsc";
@@ -195,7 +195,12 @@ export interface ResolvedDistOptions extends DistOptions {
   readonly distDir: AbsPosixPath;
 
   /**
-   * Copy the sources from `target.srcDir` to `target.dist.distDir`, and custom typings to `_custom-typings`.
+   * Depending on the value:
+   * - `false`: Do not copy the source `.ts` files
+   * - `true`: Copy the source `.ts` file from `target.srcDir` to `${target.dist.distDir}/_src`. The custom typings are
+   *   copied to `_custom-typings`.
+   *
+   * Default: `true`.
    */
   readonly copySrc: boolean;
 
@@ -256,7 +261,7 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
   let typedoc: ResolvedTypedocOptions | undefined = undefined;
   if (target.typedoc !== undefined) {
     typedoc = {
-      dir: posixPath.join(base.project.absRoot, target.typedoc.dir),
+      dir: path.posix.join(base.project.absRoot, target.typedoc.dir),
       name: target.typedoc.name,
       deploy: target.typedoc.deploy,
     };
@@ -266,7 +271,7 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
   if (target.dist === undefined || target.dist === false) {
     dist = false;
   } else {
-    const defaultDistDir: AbsPosixPath = posixPath.join(base.project.absDistDir, target.name);
+    const defaultDistDir: AbsPosixPath = path.posix.join(base.project.absDistDir, target.name);
     const defaultPackageJsonMap: (pkg: PackageJson) => PackageJson = pkg => pkg;
     const defaultCopy: (dest: AbsPosixPath) => CopyOptions[] = (dest: AbsPosixPath) => [{
       files: ["./*.md"],
@@ -357,25 +362,25 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
     let customTypingsDir: AbsPosixPath | null = target.customTypingsDir;
     // dist:copy:scripts
     if (target.dist.copySrc) {
-      srcDir = dist.distDir;
+      srcDir = path.posix.join(dist.distDir, "_src");
       copyTasks.push(nameTask(
         `${target.name}:dist:copy:scripts`,
         (): NodeJS.ReadableStream => {
           return gulp
             .src([...target.scripts], {base: target.srcDir})
-            .pipe(gulp.dest(dist.distDir));
+            .pipe(gulp.dest(srcDir));
         },
       ));
       // dist:copy:custom-typings
       if (target.customTypingsDir !== null) {
         const srcCustomTypingsDir: AbsPosixPath = target.customTypingsDir;
-        const destCustomTypingsDir: AbsPosixPath = posixPath.join(dist.distDir, "_custom-typings");
+        const destCustomTypingsDir: AbsPosixPath = path.posix.join(dist.distDir, "_custom-typings");
         customTypingsDir = destCustomTypingsDir;
         copyTasks.push(nameTask(
           `${target.name}:dist:copy:custom-typings`,
           (): NodeJS.ReadableStream => {
             return gulp
-              .src([posixPath.join(srcCustomTypingsDir, "**/*.d.ts")], {base: srcCustomTypingsDir})
+              .src([path.posix.join(srcCustomTypingsDir, "**/*.d.ts")], {base: srcCustomTypingsDir})
               .pipe(gulp.dest(destCustomTypingsDir!));
           },
         ));
@@ -408,7 +413,7 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
 
     // Resolve tsconfig for `dist`
     const tsconfigJson: AbsPosixPath | null = target.tsconfigJson !== null ?
-      posixPath.join(dist.distDir, "tsconfig.json") :
+      path.posix.join(srcDir, "tsconfig.json") :
       null;
     let scripts: string[] = [];
     if (srcDir !== target.srcDir) {
