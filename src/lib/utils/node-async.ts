@@ -1,13 +1,8 @@
-import {
-  ChildProcess,
-  execFile as _execFile,
-  ExecFileOptions as _ExecFileOptions,
-  spawn as _spawn,
-} from "child_process";
-import * as fs from "fs";
+import childProcess from "child_process";
+import fs from "fs";
 import { Incident } from "incident";
-import { PassThrough, Transform as TransformStream } from "stream";
-import { promisify } from "util";
+import stream from "stream";
+import util from "util";
 
 export interface ExecFileOptions {
   cwd?: string;
@@ -65,8 +60,8 @@ export class ExecFileError extends Incident<ExecFileErrorData, "ExecFileError", 
   }
 }
 
-const _readFile: (filename: string, encoding: string) => Promise<string> = <any> promisify(fs.readFile);
-const _writeFile: (filename: string, data: any) => Promise<any> = <any> promisify(fs.writeFile);
+const _readFile: (filename: string, encoding: string) => Promise<string> = util.promisify(fs.readFile);
+const _writeFile: (filename: string, data: any) => Promise<any> = util.promisify(fs.writeFile);
 
 export async function readText(file: string): Promise<string> {
   return _readFile(file, "utf8");
@@ -78,9 +73,9 @@ export async function writeText(file: string, text: string): Promise<void> {
 
 export async function execFile(file: string, args: string[], options?: ExecFileOptions): Promise<ExecFileResult> {
   return new Promise<ExecFileResult>((resolve, reject) => {
-    const normalizedOptions: _ExecFileOptions & {encoding: string} = {...options, encoding: "buffer"};
+    const normalizedOptions: childProcess.ExecFileOptions & {encoding: string} = {...options, encoding: "buffer"};
 
-    _execFile(
+    childProcess.execFile(
       file,
       args,
       normalizedOptions,
@@ -142,7 +137,7 @@ export interface SignalExit {
 }
 
 export class SpawnedProcess {
-  readonly process: ChildProcess;
+  readonly process: childProcess.ChildProcess;
 
   private readonly stdoutChunks: Buffer[];
   private readonly stderrChunks: Buffer[];
@@ -155,15 +150,15 @@ export class SpawnedProcess {
 
     const detached: boolean = options.detached !== undefined ? options.detached : false;
 
-    this.process = _spawn(
+    this.process = childProcess.spawn(
       file,
       args,
       {stdio: [process.stdin, "pipe", "pipe"], cwd: options.cwd, env: options.env, detached},
     );
 
-    const stdout: TransformStream = new PassThrough();
+    const stdout: stream.Transform = new stream.PassThrough();
     this.process.stdout.pipe(stdout);
-    const stderr: TransformStream = new PassThrough();
+    const stderr: stream.Transform = new stream.PassThrough();
     this.process.stderr.pipe(stderr);
     if (options.stdio === "inherit") {
       stdout.pipe(process.stdout);

@@ -58,7 +58,7 @@ export function getCommandArgs(options: GetCommandArgsOptions): string[] {
     result.push("--colors");
   }
   if (options.mjs) {
-    result.push("--require", "@std/esm");
+    result.push("--require", "esm");
   }
   result.push("--", ...sources.specs);
   return result;

@@ -52,7 +52,7 @@ export async function run(options: RunOptions): Promise<void> {
     if (result.exit.code === 0) {
       return;
     }
-    throw Incident("CoverageError");
+    throw Incident("CoverageError", {args});
   }
   throw new Incident("UnexpectedExitValue", {exit: result.exit});
 }

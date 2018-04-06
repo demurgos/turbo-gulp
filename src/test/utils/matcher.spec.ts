@@ -1,5 +1,5 @@
-import { assert } from "chai";
-import { Minimatch } from "minimatch";
+import chai from "chai";
+import minimatch from "minimatch";
 import * as matcher from "../../lib/utils/matcher";
 
 describe("matcher.asString", function () {
@@ -14,8 +14,8 @@ describe("matcher.asString", function () {
 
   for (const pattern of data) {
     it(`should preserve the pattern ${JSON.stringify(pattern)}`, function () {
-      const actual: string = matcher.asString(new Minimatch(pattern));
-      assert.equal(actual, pattern);
+      const actual: string = matcher.asString(new minimatch.Minimatch(pattern));
+      chai.assert.equal(actual, pattern);
     });
   }
 });

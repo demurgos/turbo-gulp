@@ -1,13 +1,13 @@
-import { IMinimatch, Minimatch } from "minimatch";
-import {posix as path } from "path";
+import minimatch from "minimatch";
+import path from "path";
 
-export function join(prefix: string, matcher: IMinimatch): IMinimatch {
-  let result: IMinimatch;
+export function join(prefix: string, matcher: minimatch.IMinimatch): minimatch.IMinimatch {
+  let result: minimatch.IMinimatch;
 
-  if (matcher.comment || path.isAbsolute(matcher.pattern)) {
-    result = new Minimatch(matcher.pattern);
+  if (matcher.comment || path.posix.isAbsolute(matcher.pattern)) {
+    result = new minimatch.Minimatch(matcher.pattern);
   } else {
-    result = new Minimatch(path.join(prefix, matcher.pattern), matcher.options);
+    result = new minimatch.Minimatch(path.posix.join(prefix, matcher.pattern), matcher.options);
   }
 
   result.negate = matcher.negate;
@@ -15,13 +15,13 @@ export function join(prefix: string, matcher: IMinimatch): IMinimatch {
   return result;
 }
 
-export function relative(from: string, matcher: IMinimatch): IMinimatch {
-  let result: IMinimatch;
+export function relative(from: string, matcher: minimatch.IMinimatch): minimatch.IMinimatch {
+  let result: minimatch.IMinimatch;
 
   if (matcher.comment) {
-    result = new Minimatch(matcher.pattern);
+    result = new minimatch.Minimatch(matcher.pattern);
   } else {
-    result = new Minimatch(path.relative(from, matcher.pattern), matcher.options);
+    result = new minimatch.Minimatch(path.posix.relative(from, matcher.pattern), matcher.options);
   }
 
   result.negate = matcher.negate;
@@ -29,6 +29,6 @@ export function relative(from: string, matcher: IMinimatch): IMinimatch {
   return result;
 }
 
-export function asString(matcher: IMinimatch): string {
+export function asString(matcher: minimatch.IMinimatch): string {
   return (matcher.negate ? "!" : "") + matcher.pattern;
 }

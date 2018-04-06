@@ -1,21 +1,21 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { posix as path } from "path";
+import path from "path";
 import { toPosix } from "../../lib/project";
 import { execFile, ExecFileError, ExecFileResult, readText, writeText } from "../../lib/utils/node-async";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 
-const PROJECT_ROOT: string = path.join(toPosix(__dirname), "project");
-const RESOURCES_ROOT: string = path.join(toPosix(__dirname), "test-resources");
+const PROJECT_ROOT: string = path.posix.join(toPosix(__dirname), "project");
+const RESOURCES_ROOT: string = path.posix.join(toPosix(__dirname), "test-resources");
 
 describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
   before("Install npm dependencies", async function (this: Mocha.IHookCallbackContext) {
     this.timeout(5 * 60 * 1000);
     const buildToolsPath: string = "../../../lib/index";
     await writeText(
-      path.join(PROJECT_ROOT, "local-turbo-gulp.js"),
+      path.posix.join(PROJECT_ROOT, "local-turbo-gulp.js"),
       `module.exports = require(${JSON.stringify(buildToolsPath)});\n`,
     );
     await execFile("npm", ["prune"], {cwd: PROJECT_ROOT});
@@ -79,8 +79,8 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
       "should output the expected tsconfig.json file in src/lib",
       async function (this: Mocha.ITestCallbackContext): Promise<void> {
         const [actual, expected]: [string, string] = <[string, string]> await Promise.all([
-          readText(path.join(PROJECT_ROOT, "src/lib/tsconfig.json")),
-          readText(path.join(RESOURCES_ROOT, "lib._tsconfig.json")),
+          readText(path.posix.join(PROJECT_ROOT, "src/lib/tsconfig.json")),
+          readText(path.posix.join(RESOURCES_ROOT, "lib._tsconfig.json")),
         ]);
         assert.equal(actual, expected);
       },

@@ -6,7 +6,7 @@
 
 /** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
 
-import { posix as posixPath, resolve as resolveSysPath } from "path";
+import path from "path";
 import { TslintOptions } from "./options/tslint";
 import { DEFAULT_PROJECT_TS_OPTIONS, TypescriptOptions } from "./options/typescript";
 import { AbsPosixPath, PosixPath, RelPosixPath, SysPath } from "./types";
@@ -116,8 +116,8 @@ export const DEFAULT_PROJECT: Project = {
  * @param path System-dependent path.
  * @return Normalized POSIX path.
  */
-export function toPosix(path: SysPath): PosixPath {
-  return path.replace(/\\/g, "/");
+export function toPosix(sysPath: SysPath): PosixPath {
+  return sysPath.replace(/\\/g, "/");
 }
 
 /**
@@ -130,11 +130,11 @@ export function toPosix(path: SysPath): PosixPath {
  * @return Project configuration with resolved paths.
  */
 export function resolveProject(project: Project): ResolvedProject {
-  const absRoot: AbsPosixPath = toPosix(resolveSysPath(project.root));
-  const absPackageJson: AbsPosixPath = toPosix(resolveSysPath(project.packageJson));
-  const absSrcDir: AbsPosixPath = posixPath.join(absRoot, project.srcDir);
-  const absBuildDir: AbsPosixPath = posixPath.join(absRoot, project.buildDir);
-  const absDistDir: AbsPosixPath = posixPath.join(absRoot, project.distDir);
+  const absRoot: AbsPosixPath = toPosix(path.resolve(project.root));
+  const absPackageJson: AbsPosixPath = toPosix(path.resolve(project.packageJson));
+  const absSrcDir: AbsPosixPath = path.posix.join(absRoot, project.srcDir);
+  const absBuildDir: AbsPosixPath = path.posix.join(absRoot, project.buildDir);
+  const absDistDir: AbsPosixPath = path.posix.join(absRoot, project.distDir);
   return {...project, absRoot, absPackageJson, absSrcDir, absBuildDir, absDistDir};
 }
 
