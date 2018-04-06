@@ -82,7 +82,7 @@ export function generateTask(gulp: Gulp, options: Options): TaskFunction {
       extensions: [".js", ".json"],
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.component\.js$/,
           loaders: ["angular2-template-loader"],

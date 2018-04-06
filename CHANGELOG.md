@@ -1,6 +1,6 @@
 ## Next
 
-- **[Internal]** Fix greenkeeper lockfile support.
+- **[Breaking change]** Update dependencies. Use `esm` instead of `@std/esm`, update Typescript to `2.8.1`.
 
 ## 0.16.2 (2017-02-07)
 
