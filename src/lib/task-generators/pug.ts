@@ -14,7 +14,7 @@ export interface Options {
   /**
    * Base-directory for copy
    */
-    from: string;
+  from: string;
 
   /**
    * Target directory
