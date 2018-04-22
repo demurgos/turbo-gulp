@@ -3,12 +3,13 @@ import chaiAsPromised from "chai-as-promised";
 import path from "path";
 import { toPosix } from "../../lib/project";
 import { execFile, ExecFileError, ExecFileResult, readText, writeText } from "../../lib/utils/node-async";
+import meta from "./meta.js";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 
-const PROJECT_ROOT: string = path.posix.join(toPosix(__dirname), "project");
-const RESOURCES_ROOT: string = path.posix.join(toPosix(__dirname), "test-resources");
+const PROJECT_ROOT: string = path.posix.join(toPosix(meta.dirname), "project");
+const RESOURCES_ROOT: string = path.posix.join(toPosix(meta.dirname), "test-resources");
 
 describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
   before("Install npm dependencies", async function (this: Mocha.IHookCallbackContext) {

@@ -1,6 +1,6 @@
 ## Next
 
-- **[Breaking change]** Update dependencies. Use `esm` instead of `@std/esm`, update Typescript to `2.8.1`.
+- **[Breaking change]** Update dependencies. Use `esm` instead of `@std/esm`, update Typescript to `2.8.3`.
 
 ## 0.16.2 (2017-02-07)
 

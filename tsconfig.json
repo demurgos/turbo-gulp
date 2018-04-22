@@ -55,5 +55,8 @@
       "src/lib/custom-typings",
       "node_modules/@types"
     ]
-  }
+  },
+  "files": [
+    "gulpfile.ts"
+  ]
 }
