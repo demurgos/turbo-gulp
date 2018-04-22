@@ -1,13 +1,14 @@
 import { Incident } from "incident";
+import { toPosix } from "../project";
 import { AbsPosixPath } from "../types";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
-const nycBin: string = require.resolve("nyc/bin/nyc.js");
+const NYC_BIN: AbsPosixPath = toPosix(require.resolve("nyc/bin/nyc.js"));
 
-export async function execNyc(cmd: string | null, args: string[] = [], options?: SpawnOptions): Promise<SpawnResult> {
+export async function execNyc(args: string[], options?: SpawnOptions): Promise<SpawnResult> {
   return new SpawnedProcess(
-    nycBin,
-    cmd === null ? args : [cmd, ...args],
+    "node",
+    [NYC_BIN, ...args],
     {stdio: "pipe", ...options},
   ).toPromise();
 }
@@ -21,7 +22,7 @@ export interface ReportOptions {
 export async function report(options: ReportOptions): Promise<void> {
   const args: string[] = ["--reporter", "lcov"];
   args.push("--temp-directory", options.tempDirectory);
-  await execNyc("report", args);
+  await execNyc(["report", ...args]);
 }
 
 export interface RunOptions {
@@ -47,7 +48,7 @@ export async function run(options: RunOptions): Promise<void> {
   }
   args.push("--", ...options.command);
 
-  const result: SpawnResult = await execNyc(null, args, {cwd: options.cwd, stdio: "inherit"});
+  const result: SpawnResult = await execNyc(args, {cwd: options.cwd, stdio: "inherit"});
   if (result.exit.type === "code") {
     if (result.exit.code === 0) {
       return;

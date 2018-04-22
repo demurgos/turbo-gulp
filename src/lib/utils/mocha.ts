@@ -1,7 +1,7 @@
 import { Incident } from "incident";
 import { IMinimatch, Minimatch } from "minimatch";
 import { toPosix } from "../project";
-import { MochaOptions, MochaReporter, ResolvedMochaOptions, resolveMochaOptions } from "../task-generators/mocha";
+import { MochaReporter } from "../task-generators/mocha";
 import { AbsPosixPath } from "../types";
 import * as matcher from "./matcher";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
@@ -10,8 +10,8 @@ const MOCHA_BIN: AbsPosixPath = toPosix(require.resolve("mocha/bin/mocha"));
 
 export async function execMocha(args: string[] = [], options?: SpawnOptions): Promise<SpawnResult> {
   return new SpawnedProcess(
-    MOCHA_BIN,
-    args,
+    "node",
+    [MOCHA_BIN, ...args],
     {stdio: "pipe", ...options},
   ).toPromise();
 }
