@@ -1,8 +1,8 @@
-## Next
+## 0.17.1 (2017-05-03)
 
 - **[Fix]** Update dependencies, remove `std/esm` warning.
 
-## 0.17.0 (2017-02-22)
+## 0.17.0 (2017-04-22)
 
 - **[Breaking change]** Update dependencies. Use `esm` instead of `@std/esm`, update Typescript to `2.8.3`.
 - **[Fix]** Fix Node processes spawn on Windows (Mocha, Nyc)
