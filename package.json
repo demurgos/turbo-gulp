@@ -25,7 +25,6 @@
     ]
   },
   "dependencies": {
-    "@std/esm": "^0.26.0",
     "@types/del": "^3.0.1",
     "@types/fancy-log": "^1.3.0",
     "@types/fs-extra": "^5.0.2",
@@ -42,7 +41,7 @@
     "del": "^3.0.0",
     "esm": "^3.0.22",
     "fancy-log": "^1.3.2",
-    "fs-extra": "^5.0.0",
+    "fs-extra": "^6.0.0",
     "gulp-mocha": "^5.0.0",
     "gulp-pug": "^4.0.1",
     "gulp-rename": "^1.2.2",
@@ -79,7 +78,7 @@
     "@types/gulp-sass": "^0.0.31",
     "@types/minimist": "^1.2.0",
     "@types/mocha": "^5.2.0",
-    "@types/node": "^9.6.6",
+    "@types/node": "^10.0.3",
     "@types/npm": "^2.0.29",
     "@types/webpack": "^4.1.3",
     "@types/webpack-merge": "^4.1.3",
@@ -107,10 +106,7 @@
       ".mjs"
     ]
   },
-  "@std/esm": {
-    "esm": "cjs"
-  },
   "esm": {
-    "esm": "cjs"
+    "mode": "strict"
   }
 }
