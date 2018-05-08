@@ -1,8 +1,5 @@
-import * as webpack from "webpack";
 import { CleanOptions } from "./options/clean";
 import { CopyOptions } from "./options/copy";
-import { PugOptions } from "./options/pug";
-import { SassOptions } from "./options/sass";
 import { TypescriptOptions } from "./options/typescript";
 
 /**
@@ -47,10 +44,6 @@ export interface Target {
    */
   copy?: CopyOptions[];
 
-  pug?: PugOptions[];
-
-  sass?: SassOptions[];
-
   /**
    * Description of the files to clean, **relative to `project.root`**.
    *
@@ -64,48 +57,3 @@ export interface Target {
    */
   clean?: CleanOptions;
 }
-
-export interface WebpackTarget extends Target {
-  /**
-   * Directory to store webpack files during the build, relative to
-   * `project.buildDir`.
-   */
-  webpackDir: string;
-
-  /**
-   * The name of tha main module (name of the file without the extension),
-   * relative to `project.srcDir`. It is the entry point of the application.
-   */
-  mainModule: string;
-
-  webpackOptions?: {
-    webpack?: typeof webpack;
-    configuration?: webpack.Configuration;
-  };
-}
-
-/**
- * Preconfigured "webpack" configuration for an Angular Universal client.
- */
-export const ANGULAR_CLIENT_TARGET: WebpackTarget = {
-  name: "client",
-  targetDir: "server/static",
-  webpackDir: "client.webpack",
-  scripts: ["client/**/*.ts", "app/**/*.ts", "lib/**/*.ts", "!**/*.spec.ts"],
-  typeRoots: ["custom-typings", "../typings/globals", "../typings/modules", "../node_modules/@types"],
-  mainModule: "client/main",
-  pug: [{name: "app", src: "app", dest: "app"}],
-  sass: [{name: "app", src: "app", dest: "app"}],
-  typescript: {
-    tsconfigJson: ["client/tsconfig.json"],
-  },
-  clean: {
-    dirs: [
-      "build/client.webpack",
-    ],
-    files: [
-      "build/server/static/main.js",
-      "dist/server/static/main.js",
-    ],
-  },
-};

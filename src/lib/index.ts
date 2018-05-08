@@ -1,12 +1,9 @@
 import * as projectTasks from "./project-tasks/index";
-import * as taskGenerators from "./task-generators/index";
 
-export { projectTasks, taskGenerators };
+export { projectTasks };
 
 export { CleanOptions } from "./options/clean";
 export { CopyOptions } from "./options/copy";
-export { PugOptions } from "./options/pug";
-export { SassOptions } from "./options/sass";
 export { DEV_TSC_OPTIONS, PROD_TSC_OPTIONS, CompilerOptionsJson } from "./options/tsc";
 export {
   DEFAULT_TYPED_TSLINT_CONFIG,
@@ -18,9 +15,7 @@ export {
 export { OutModules, TypescriptOptions } from "./options/typescript";
 export { DEFAULT_PROJECT, Project } from "./project";
 export {
-  ANGULAR_CLIENT_TARGET,
   Target,
-  WebpackTarget,
 } from "./targets";
 export { generateLibTasks, LibTarget, registerLibTasks } from "./targets/lib";
 export { generateMochaTasks, MochaTarget, registerMochaTasks } from "./targets/mocha";

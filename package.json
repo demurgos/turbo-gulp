@@ -43,9 +43,7 @@
     "fancy-log": "^1.3.2",
     "fs-extra": "^6.0.0",
     "gulp-mocha": "^5.0.0",
-    "gulp-pug": "^4.0.1",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-tslint": "^8.1.3",
     "gulp-typedoc": "^2.2.0",
@@ -67,22 +65,15 @@
     "typescript": "^2.8.3",
     "vinyl": "^2.1.0",
     "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0",
-    "webpack": "^4.8.1",
-    "webpack-merge": "^4.1.2",
-    "webpack-stream": "^4.0.3"
+    "vinyl-source-stream": "^2.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.3",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/gulp-sass": "^0.0.31",
     "@types/minimist": "^1.2.0",
     "@types/mocha": "^5.2.0",
     "@types/node": "^10.0.4",
     "@types/npm": "^2.0.29",
-    "@types/webpack": "^4.1.3",
-    "@types/webpack-merge": "^4.1.3",
-    "@types/webpack-stream": "^3.2.10",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.0.0",
@@ -91,7 +82,7 @@
     "minimist": "^1.2.0",
     "pre-commit": "^1.2.2",
     "ts-node": "^6.0.3",
-    "turbo-gulp": "^0.17.1"
+    "turbo-gulp": "latest"
   },
   "nyc": {
     "include": [

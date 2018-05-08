@@ -1,3 +1,7 @@
+## Next
+
+- **[Breaking change]** Drop support for Pug, Sass, Angular & Webpack
+
 ## 0.17.1 (2017-05-03)
 
 - **[Fix]** Update dependencies, remove `std/esm` warning.

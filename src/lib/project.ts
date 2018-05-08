@@ -113,7 +113,7 @@ export const DEFAULT_PROJECT: Project = {
 /**
  * Normalizes a system-dependent path to a POSIX path.
  *
- * @param path System-dependent path.
+ * @param sysPath System-dependent path.
  * @return Normalized POSIX path.
  */
 export function toPosix(sysPath: SysPath): PosixPath {
