@@ -1,7 +1,7 @@
 import { posix as posixPath } from "path";
+import { TaskFunction } from "undertaker";
 import { CompilerOptionsJson } from "../options/tsc";
 import { AbsPosixPath, RelPosixPath } from "../types";
-import { TaskFunction } from "../utils/gulp-task-function";
 import { writeJsonFile } from "../utils/project";
 import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 

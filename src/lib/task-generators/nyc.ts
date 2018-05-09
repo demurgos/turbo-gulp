@@ -1,6 +1,5 @@
-import { Gulp } from "gulp";
+import { TaskFunction } from "undertaker";
 import { AbsPosixPath } from "../types";
-import { TaskFunction } from "../utils/gulp-task-function";
 import { getCommand as getMochaCommand } from "../utils/mocha";
 import * as nyc from "../utils/nyc";
 import { NycReporter } from "../utils/nyc";
@@ -14,7 +13,7 @@ export interface NycOptions {
   reporters: NycReporter[];
 }
 
-export function generateTask(gulp: Gulp, options: NycOptions): TaskFunction {
+export function generateTask(options: NycOptions): TaskFunction {
   const testCommand: string[] = getMochaCommand(resolveMochaOptions(options.test));
   const cwd: AbsPosixPath = options.rootDir;
 

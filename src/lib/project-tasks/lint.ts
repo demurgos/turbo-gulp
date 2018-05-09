@@ -1,5 +1,4 @@
 import { existsSync as fileExistsSync, readFileSync } from "fs";
-import { Gulp } from "gulp";
 import { default as gulpTslint, PluginOptions as GulpTslintOptions } from "gulp-tslint";
 import { IMinimatch, Minimatch } from "minimatch";
 import { posix as path } from "path";
@@ -15,6 +14,8 @@ import {
   Program,
   sys as tsSys,
 } from "typescript";
+import Undertaker from "undertaker";
+import vinylFs from "vinyl-fs";
 import { DEFAULT_TYPED_TSLINT_CONFIG } from "../options/tslint";
 import { Project } from "../project";
 import * as matcher from "../utils/matcher";
@@ -73,7 +74,7 @@ function createTsProgram(tsconfigJson: any, basePath: string): Program {
   return createProgram(parsed.fileNames, parsed.options, host);
 }
 
-export function registerTask(gulp: Gulp, project: Project) {
+export function registerTask(taker: Undertaker, project: Project) {
   type TslintRawConfig = TslintConfiguration.RawConfigFile;
   type TslintConfig = TslintConfiguration.IConfigurationFile;
 
@@ -108,8 +109,8 @@ export function registerTask(gulp: Gulp, project: Project) {
 
   const sources: Sources = getSources(project);
 
-  gulp.task(taskName, function () {
-    return gulp.src(sources.sources, {base: sources.baseDir})
+  taker.task(taskName, function () {
+    return vinylFs.src(sources.sources, {base: sources.baseDir})
       .pipe(gulpTslint(options))
       .pipe(gulpTslint.report({
         summarizeFailureOutput: true,

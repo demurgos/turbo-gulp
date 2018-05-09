@@ -1,4 +1,4 @@
-import { Gulp } from "gulp";
+import Undertaker from "undertaker";
 import { Project } from "../project";
 import * as bumpMajor from "./bump-major";
 import * as bumpMinor from "./bump-minor";
@@ -8,16 +8,16 @@ import * as lintFix from "./lint-fix";
 import * as tsconfigJson from "./tsconfig-json";
 import * as tslintJson from "./tslint-json";
 
-export function registerAll(gulp: Gulp, project: Project) {
-  bumpMajor.registerTask(gulp, project);
-  bumpMinor.registerTask(gulp, project);
-  bumpPatch.registerTask(gulp, project);
-  lint.registerTask(gulp, project);
-  lintFix.registerTask(gulp, project);
+export function registerAll(taker: Undertaker, project: Project) {
+  bumpMajor.registerTask(taker, project);
+  bumpMinor.registerTask(taker, project);
+  bumpPatch.registerTask(taker, project);
+  lint.registerTask(taker, project);
+  lintFix.registerTask(taker, project);
   if (project.typescript !== undefined && project.typescript.tsconfigJson !== undefined) {
-    tsconfigJson.registerTask(gulp, project);
+    tsconfigJson.registerTask(taker, project);
   }
-  tslintJson.registerTask(gulp, project);
+  tslintJson.registerTask(taker, project);
 }
 
 export {

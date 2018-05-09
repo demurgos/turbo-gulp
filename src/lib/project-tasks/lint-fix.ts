@@ -1,8 +1,9 @@
-import { Gulp } from "gulp";
-import {default as gulpTslint, PluginOptions as GulpTslintOptions } from "gulp-tslint";
+import { default as gulpTslint, PluginOptions as GulpTslintOptions } from "gulp-tslint";
 import { IMinimatch, Minimatch } from "minimatch";
-import {posix as path } from "path";
+import { posix as path } from "path";
 import * as tslint from "tslint";
+import Undertaker from "undertaker";
+import vinylFs from "vinyl-fs";
 import { DEFAULT_UNTYPED_TSLINT_CONFIG } from "../options/tslint";
 import { Project } from "../project";
 import * as matcher from "../utils/matcher";
@@ -44,7 +45,7 @@ export function getSources(project: Project): Sources {
   return {baseDir, sources};
 }
 
-export function registerTask(gulp: Gulp, project: Project) {
+export function registerTask(taker: Undertaker, project: Project) {
   type TslintRawConfig = tslint.Configuration.RawConfigFile;
   type TslintConfig = tslint.Configuration.IConfigurationFile;
 
@@ -76,8 +77,8 @@ export function registerTask(gulp: Gulp, project: Project) {
 
   const sources: Sources = getSources(project);
 
-  gulp.task(taskName, function () {
-    return gulp.src(sources.sources, {base: sources.baseDir})
+  taker.task(taskName, function () {
+    return vinylFs.src(sources.sources, {base: sources.baseDir})
       .pipe(gulpTslint(options))
       .pipe(gulpTslint.report({
         summarizeFailureOutput: true,

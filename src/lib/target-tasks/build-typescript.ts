@@ -1,14 +1,15 @@
 import { FSWatcher } from "fs";
-import { Gulp } from "gulp";
+import globWatcher from "glob-watcher";
 import gulpRename from "gulp-rename";
 import gulpSourceMaps from "gulp-sourcemaps";
 import gulpTypescript from "gulp-typescript";
 import { Incident } from "incident";
 import merge from "merge2";
 import { posix as posixPath } from "path";
+import { TaskFunction } from "undertaker";
+import vinylFs from "vinyl-fs";
 import { CompilerOptionsJson } from "../options/tsc";
 import { OutModules } from "../options/typescript";
-import { TaskFunction } from "../utils/gulp-task-function";
 import { deleteUndefinedProperties } from "../utils/utils";
 import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 
@@ -52,7 +53,6 @@ class TypescriptReporter implements gulpTypescript.reporter.Reporter {
 }
 
 export function getBuildTypescriptTask(
-  gulp: Gulp,
   options: TypescriptConfig,
   throwOnError: boolean = true,
 ): TaskFunction {
@@ -70,7 +70,7 @@ export function getBuildTypescriptTask(
     let jsStream: NodeJS.ReadableStream | undefined;
     let dtsStream: NodeJS.ReadableStream | undefined;
 
-    const srcStream: NodeJS.ReadableStream = gulp
+    const srcStream: NodeJS.ReadableStream = vinylFs
       .src(resolved.absScripts, {base: options.srcDir})
       .pipe(gulpSourceMaps.init());
 
@@ -107,20 +107,20 @@ export function getBuildTypescriptTask(
     }
 
     return merge([dtsStream, jsStream, mjsStream].filter(x => x !== undefined) as NodeJS.ReadableStream[])
-      .pipe(gulp.dest(options.buildDir));
+      .pipe(vinylFs.dest(options.buildDir));
   };
   task.displayName = "_build:scripts";
   return task;
 }
 
-export function getBuildTypescriptWatchTask(gulp: Gulp, options: TypescriptConfig): () => FSWatcher {
+export function getBuildTypescriptWatchTask(options: TypescriptConfig): () => FSWatcher {
   return (): FSWatcher => {
-    const buildTask: TaskFunction = getBuildTypescriptTask(gulp, options, false);
+    const buildTask: TaskFunction = getBuildTypescriptTask(options, false);
     const resolved: ResolvedTsLocations = resolveTsLocations(options);
-    return gulp.watch(resolved.absScripts, {cwd: options.srcDir}, buildTask) as FSWatcher;
+    return globWatcher(resolved.absScripts, {cwd: options.srcDir}, buildTask) as FSWatcher;
   };
 }
 
-export function getBuildTypescriptWatcher(gulp: Gulp, options: TypescriptConfig): FSWatcher {
-  return getBuildTypescriptWatchTask(gulp, options)();
+export function getBuildTypescriptWatcher(options: TypescriptConfig): FSWatcher {
+  return getBuildTypescriptWatchTask(options)();
 }

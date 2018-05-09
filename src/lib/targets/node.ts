@@ -1,6 +1,7 @@
 import { spawn } from "child_process";
-import { Gulp, TaskFunction } from "gulp";
 import { posix as posixPath } from "path";
+import Undertaker from "undertaker";
+import UndertakerRegistry from "undertaker-registry";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CompilerOptionsJson } from "../options/tsc";
@@ -68,19 +69,19 @@ function resolveLibTarget(target: NodeTarget): ResolvedNodeTarget {
 }
 
 export interface NodeTasks extends BaseTasks {
-  run: TaskFunction;
-  start: TaskFunction;
+  run: Undertaker.TaskFunction;
+  start: Undertaker.TaskFunction;
 }
 
 /**
  * Generates and registers gulp tasks for the provided node target.
  *
- * @param gulp Gulp instance used to generate tasks manipulating files.
+ * @param taker Undertaker (or Gulp) registry used to generate tasks.
  * @param targetOptions Target configuration.
  */
-export function generateNodeTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTasks {
+export function generateNodeTasks(taker: Undertaker, targetOptions: NodeTarget): NodeTasks {
   const target: ResolvedNodeTarget = resolveLibTarget(targetOptions);
-  const result: NodeTasks = <NodeTasks> registerBaseTasks(gulp, targetOptions);
+  const result: NodeTasks = <NodeTasks> registerBaseTasks(taker, targetOptions);
 
   const absMain: AbsPosixPath = posixPath.join(target.buildDir, `${target.mainModule}.js`);
 
@@ -94,13 +95,13 @@ export function generateNodeTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTa
   });
 
   // start
-  const startTasks: TaskFunction[] = [];
+  const startTasks: Undertaker.TaskFunction[] = [];
   if (result.clean !== undefined) {
     startTasks.push(result.clean);
   }
   startTasks.push(result.build);
   startTasks.push(result.run);
-  result.start = nameTask(target.name, gulp.series(startTasks));
+  result.start = nameTask(target.name, taker.series(startTasks));
 
   return result;
 }
@@ -108,16 +109,29 @@ export function generateNodeTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTa
 /**
  * Generates and registers gulp tasks for the provided node target.
  *
- * @param gulp Gulp instance where the tasks will be registered.
+ * @param taker Undertaker (or Gulp) instance where the tasks will be registered.
  * @param targetOptions Target configuration.
  */
-export function registerNodeTasks(gulp: Gulp, targetOptions: NodeTarget): NodeTasks {
-  const tasks: NodeTasks = generateNodeTasks(gulp, targetOptions);
+export function registerNodeTasks(taker: Undertaker, targetOptions: NodeTarget): NodeTasks {
+  const tasks: NodeTasks = generateNodeTasks(taker, targetOptions);
   for (const key in tasks) {
-    const task: TaskFunction | undefined = (<any> tasks)[key];
+    const task: Undertaker.TaskFunction | undefined = (<any> tasks)[key];
     if (task !== undefined) {
-      gulp.task(task);
+      taker.task(task);
     }
   }
   return tasks;
+}
+
+export class NodeRegistry extends UndertakerRegistry {
+  private readonly options: NodeTarget;
+
+  constructor(options: NodeTarget) {
+    super();
+    this.options = options;
+  }
+
+  init(taker: Undertaker): void {
+    registerNodeTasks(taker, this.options);
+  }
 }

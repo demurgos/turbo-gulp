@@ -4,6 +4,8 @@ import * as buildTools from "turbo-gulp"; // Going meta
 import gulp from "gulp";
 import minimist from "minimist";
 
+gulp.registry()
+
 interface Options {
   devDist?: string;
 }

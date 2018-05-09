@@ -1,8 +1,7 @@
-import { Gulp } from "gulp";
-import {posix as posixPath } from "path";
+import { posix as posixPath } from "path";
+import { default as Undertaker, TaskFunction } from "undertaker";
 import { CompilerOptionsJson, DEFAULT_PROJECT_TSC_OPTIONS, mergeTscOptionsJson } from "../options/tsc";
 import { Project } from "../project";
-import { TaskFunction } from "../utils/gulp-task-function";
 import { writeJsonFile } from "../utils/project";
 
 export interface Options {
@@ -17,7 +16,7 @@ export interface Options {
   readonly compilerOptions?: CompilerOptionsJson;
 }
 
-export function generateTask(gulp: Gulp, options: Options): TaskFunction {
+export function generateTask(options: Options): TaskFunction {
   const compilerOptions: CompilerOptionsJson = mergeTscOptionsJson(
     DEFAULT_PROJECT_TSC_OPTIONS,
     options.compilerOptions,
@@ -35,7 +34,7 @@ export function getTaskName(): string {
   return ":tsconfig.json";
 }
 
-export function registerTask(gulp: Gulp, project: Project): TaskFunction {
+export function registerTask(taker: Undertaker, project: Project): TaskFunction {
   if (project.typescript === undefined || project.typescript.tsconfigJson === undefined) {
     throw new Error("Cannot register project tsconfigJson task, missing required properties options");
   }
@@ -45,13 +44,13 @@ export function registerTask(gulp: Gulp, project: Project): TaskFunction {
   for (const tsconfigPath of project.typescript.tsconfigJson) {
     const tsconfigJson: string = posixPath.join(project.root, tsconfigPath);
     const compilerOptions: CompilerOptionsJson | undefined = project.typescript.compilerOptions;
-    const subTask: TaskFunction = generateTask(gulp, {tsconfigJson, compilerOptions});
+    const subTask: TaskFunction = generateTask({tsconfigJson, compilerOptions});
     subTask.displayName = `_tsconfig.json:${tsconfigPath}`;
     subTasks.push(subTask);
   }
 
-  const mainTask: TaskFunction = gulp.parallel(...subTasks);
+  const mainTask: TaskFunction = taker.parallel(...subTasks);
   mainTask.displayName = getTaskName();
-  gulp.task(mainTask.displayName, mainTask);
+  taker.task(mainTask.displayName, mainTask);
   return mainTask;
 }

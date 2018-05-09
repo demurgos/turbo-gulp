@@ -1,6 +1,5 @@
-import { Gulp } from "gulp";
+import { TaskFunction } from "undertaker";
 import { AbsPosixPath } from "../types";
-import { TaskFunction } from "../utils/gulp-task-function";
 import * as mocha from "../utils/mocha";
 
 export type MochaReporter = "spec";
@@ -29,7 +28,7 @@ export function resolveMochaOptions(options: MochaOptions): ResolvedMochaOptions
   return {reporter: "spec", mjs: false, colors: true, ...options};
 }
 
-export function generateTask(gulp: Gulp, options: MochaOptions): TaskFunction {
+export function generateTask(options: MochaOptions): TaskFunction {
   const resolved: ResolvedMochaOptions = resolveMochaOptions(options);
 
   const task: TaskFunction = async function (): Promise<void> {

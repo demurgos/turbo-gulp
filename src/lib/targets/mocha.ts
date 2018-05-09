@@ -40,12 +40,14 @@
 
 /** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
 
-import { Gulp, TaskFunction } from "gulp";
 import { posix as posixPath } from "path";
+import Undertaker from "undertaker";
+import { TaskFunction } from "undertaker";
+import UndertakerRegistry from "undertaker-registry";
 import { OutModules } from "../";
 import * as mocha from "../task-generators/mocha";
 import * as nyc from "../task-generators/nyc";
-import { BaseTasks, nameTask, registerBaseTasks, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
+import { BaseTasks, generateBaseTasks, nameTask, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
 
 /**
  * Represents a test build using Mocha, it runs with Node.
@@ -80,12 +82,12 @@ export interface MochaTasks extends BaseTasks {
 /**
  * Generates gulp tasks for the provided Mocha target.
  *
- * @param gulp Gulp instance used to generate tasks manipulating files.
+ * @param taker Undertaker (or Gulp) registry used to generate tasks.
  * @param targetOptions Target configuration.
  */
-export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
+export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget): MochaTasks {
   const target: ResolvedMochaTarget = resolveMochaTarget(targetOptions);
-  const result: MochaTasks = <MochaTasks> registerBaseTasks(gulp, targetOptions);
+  const result: MochaTasks = <MochaTasks> generateBaseTasks(taker, targetOptions);
 
   const testOptions: mocha.MochaOptions = {
     rootDir: target.project.absRoot,
@@ -96,7 +98,7 @@ export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): Moch
   if (target.outModules === OutModules.Js || target.outModules === OutModules.Both) {
     const runCjs: TaskFunction = nameTask(
       `${target.name}:run:cjs`,
-      mocha.generateTask(gulp, testOptions),
+      mocha.generateTask(testOptions),
     );
     result.runCjs = runCjs;
     runTasks.push(runCjs);
@@ -104,14 +106,14 @@ export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): Moch
   if (target.outModules === OutModules.Mjs || target.outModules === OutModules.Both) {
     const runEsm: TaskFunction = nameTask(
       `${target.name}:run:esm`,
-      mocha.generateTask(gulp, {...testOptions, mjs: true}),
+      mocha.generateTask({...testOptions, mjs: true}),
     );
     result.runEsm = runEsm;
     runTasks.push(runEsm);
   }
 
   // run
-  result.run = nameTask(`${target.name}:run`, gulp.series(runTasks));
+  result.run = nameTask(`${target.name}:run`, taker.series(runTasks));
 
   const coverageOptions: nyc.NycOptions = {
     test: {...testOptions, mjs: target.outModules !== OutModules.Js},
@@ -122,7 +124,7 @@ export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): Moch
   };
 
   // coverage
-  result.coverage = nameTask(`${target.name}:coverage`, nyc.generateTask(gulp, coverageOptions));
+  result.coverage = nameTask(`${target.name}:coverage`, nyc.generateTask(coverageOptions));
 
   // start
   const startTasks: TaskFunction[] = [];
@@ -131,7 +133,7 @@ export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): Moch
   }
   startTasks.push(result.build);
   startTasks.push(result.coverage);
-  result.start = nameTask(target.name, gulp.series(startTasks));
+  result.start = nameTask(target.name, taker.series(startTasks));
 
   return result;
 }
@@ -139,16 +141,29 @@ export function generateMochaTasks(gulp: Gulp, targetOptions: MochaTarget): Moch
 /**
  * Generates and registers gulp tasks for the provided Mocha target.
  *
- * @param gulp Gulp instance where the tasks will be registered.
+ * @param taker Undertaker (or Gulp) instance where the tasks will be registered.
  * @param targetOptions Target configuration.
  */
-export function registerMochaTasks(gulp: Gulp, targetOptions: MochaTarget): MochaTasks {
-  const tasks: MochaTasks = generateMochaTasks(gulp, targetOptions);
+export function registerMochaTasks(taker: Undertaker, targetOptions: MochaTarget): MochaTasks {
+  const tasks: MochaTasks = generateMochaTasks(taker, targetOptions);
   for (const key in tasks) {
     const task: TaskFunction | undefined = (<any> tasks)[key];
     if (task !== undefined) {
-      gulp.task(task);
+      taker.task(task);
     }
   }
   return tasks;
+}
+
+export class MochaRegistry extends UndertakerRegistry {
+  private readonly options: MochaTarget;
+
+  constructor(options: MochaTarget) {
+    super();
+    this.options = options;
+  }
+
+  init(taker: Undertaker): void {
+    registerMochaTasks(taker, this.options);
+  }
 }

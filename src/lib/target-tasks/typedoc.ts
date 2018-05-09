@@ -1,7 +1,7 @@
-import { Gulp } from "gulp";
 import gulpTypedoc from "gulp-typedoc";
+import { TaskFunction } from "undertaker";
+import vinylFs from "vinyl-fs";
 import { AbsPosixPath } from "../types";
-import { TaskFunction } from "../utils/gulp-task-function";
 import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 
 export interface TypedocOptions {
@@ -9,11 +9,11 @@ export interface TypedocOptions {
   name: string;
 }
 
-export function getTypedocTask(gulp: Gulp, tsConfig: TypescriptConfig, options: TypedocOptions): TaskFunction {
+export function getTypedocTask(tsConfig: TypescriptConfig, options: TypedocOptions): TaskFunction {
   const resolved: ResolvedTsLocations = resolveTsLocations(tsConfig);
 
   const task: TaskFunction = function () {
-    return gulp
+    return vinylFs
       .src(resolved.absScripts, {base: tsConfig.srcDir})
       // TODO(demurgos): Fix gulp typedoc: add missing `tsconfig` key?
       .pipe(gulpTypedoc(<any> {

@@ -1,7 +1,10 @@
 // Sample gulpfile
 const gulp = require("gulp");
 const typescript = require("typescript");
-const buildTools = require("./local-turbo-gulp");
+const buildTools = require("turbo-gulp");
+const {registerLibTasks} = require("turbo-gulp/targets/lib");
+const {registerMochaTasks} = require("turbo-gulp/targets/mocha");
+const {registerNodeTasks} = require("turbo-gulp/targets/node");
 
 const project = {
   root: __dirname,
@@ -65,9 +68,9 @@ const main = {
   },
 };
 
-buildTools.registerLibTasks(gulp, lib);
-buildTools.registerMochaTasks(gulp, test);
-buildTools.registerNodeTasks(gulp, main);
+registerLibTasks(gulp, lib);
+registerMochaTasks(gulp, test);
+registerNodeTasks(gulp, main);
 
 buildTools.projectTasks.registerAll(gulp, project);
 

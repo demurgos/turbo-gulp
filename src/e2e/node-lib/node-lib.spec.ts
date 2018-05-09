@@ -1,8 +1,9 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import fs from "fs/promises";
 import path from "path";
 import { toPosix } from "../../lib/project";
-import { execFile, ExecFileError, ExecFileResult, readText, writeText } from "../../lib/utils/node-async";
+import { execFile, ExecFileError, ExecFileResult, readText } from "../../lib/utils/node-async";
 import meta from "./meta.js";
 
 chai.use(chaiAsPromised);
@@ -14,13 +15,8 @@ const RESOURCES_ROOT: string = path.posix.join(toPosix(meta.dirname), "test-reso
 describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
   before("Install npm dependencies", async function (this: Mocha.IHookCallbackContext) {
     this.timeout(5 * 60 * 1000);
-    const buildToolsPath: string = "../../../lib/index";
-    await writeText(
-      path.posix.join(PROJECT_ROOT, "local-turbo-gulp.js"),
-      `module.exports = require(${JSON.stringify(buildToolsPath)});\n`,
-    );
-    await execFile("npm", ["prune"], {cwd: PROJECT_ROOT});
-    await execFile("npm", ["install"], {cwd: PROJECT_ROOT});
+    await execFile("yarn", ["install"], {cwd: PROJECT_ROOT});
+    await fs.symlink("../../../../lib", path.posix.join(PROJECT_ROOT, "node_modules", "turbo-gulp"), "dir");
   });
 
   describe("tasks", async function (this: Mocha.ISuiteCallbackContext): Promise<void> {
@@ -47,7 +43,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
     it("should output runnable typescript files", async function (this: Mocha.ITestCallbackContext): Promise<void> {
       const result: ExecFileResult = await execFile("node", ["build/lib/hello-world.js"], {cwd: PROJECT_ROOT});
 
-      const actualOutput: string = result.stdout.toString("utf8");
+      const actualOutput: string = result.stdout.toString("UTF-8");
       const expectedOutput: string = "Hello, World!\n";
 
       assert.equal(actualOutput, expectedOutput);
@@ -63,7 +59,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
     it("should output runnable typescript files", async function (this: Mocha.ITestCallbackContext): Promise<void> {
       const result: ExecFileResult = await execFile("node", ["dist/lib/hello-world.js"], {cwd: PROJECT_ROOT});
 
-      const actualOutput: string = result.stdout.toString("utf8");
+      const actualOutput: string = result.stdout.toString("UTF-8");
       const expectedOutput: string = "Hello, World!\n";
 
       assert.equal(actualOutput, expectedOutput);

@@ -67,9 +67,11 @@
 
 /** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
 
-import { Gulp, TaskFunction } from "gulp";
 import { Minimatch } from "minimatch";
 import path from "path";
+import Undertaker from "undertaker";
+import UndertakerRegistry from "undertaker-registry";
+import vinylFs from "vinyl-fs";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CompilerOptionsJson } from "../options/tsc";
@@ -301,23 +303,23 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
 }
 
 export interface LibTasks extends BaseTasks {
-  typedoc?: TaskFunction;
-  typedocDeploy?: TaskFunction;
-  dist?: TaskFunction;
-  distCopy?: TaskFunction;
-  distPublish?: TaskFunction;
-  distPackageJson?: TaskFunction;
+  typedoc?: Undertaker.TaskFunction;
+  typedocDeploy?: Undertaker.TaskFunction;
+  dist?: Undertaker.TaskFunction;
+  distCopy?: Undertaker.TaskFunction;
+  distPublish?: Undertaker.TaskFunction;
+  distPackageJson?: Undertaker.TaskFunction;
 }
 
 /**
  * Generates gulp tasks for the provided lib target.
  *
- * @param gulp Gulp instance used to generate tasks manipulating files.
+ * @param taker Undertaker (or Gulp) registry used to generate tasks.
  * @param targetOptions Target configuration.
  */
-export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks {
+export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): LibTasks {
   const target: ResolvedLibTarget = resolveLibTarget(targetOptions);
-  const result: LibTasks = <LibTasks> generateBaseTasks(gulp, targetOptions);
+  const result: LibTasks = <LibTasks> generateBaseTasks(taker, targetOptions);
 
   const tsOptions: TypescriptConfig = {
     tscOptions: target.tscOptions,
@@ -333,9 +335,10 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
   // typedoc
   if (target.typedoc !== undefined) {
     const typedocOptions: TypedocOptions = target.typedoc;
+    const typedocTask: Undertaker.TaskFunction = getTypedocTask(tsOptions, typedocOptions);
     result.typedoc = nameTask(
       `${target.name}:typedoc`,
-      gulp.series([result.tsconfigJson, getTypedocTask(gulp, tsOptions, typedocOptions)]),
+      result.tsconfigJson !== undefined ? taker.series([result.tsconfigJson, typedocTask]) : typedocTask,
     );
 
     // typedoc:deploy
@@ -347,15 +350,18 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
         return branchPublish({...deploy, dir: typedocOptions.dir, commitMessage});
       }
 
-      result.typedocDeploy = nameTask(`${target.name}:typedoc:deploy`, gulp.series(result.typedoc!, deployTypedocTask));
+      result.typedocDeploy = nameTask(
+        `${target.name}:typedoc:deploy`,
+        taker.series(result.typedoc!, deployTypedocTask),
+      );
     }
   }
 
   // dist
   if (target.dist !== false) {
     const dist: ResolvedDistOptions = target.dist;
-    const distTasks: TaskFunction[] = [];
-    const copyTasks: TaskFunction[] = [];
+    const distTasks: Undertaker.TaskFunction[] = [];
+    const copyTasks: Undertaker.TaskFunction[] = [];
 
     // Locations for compilation: default to the original sources but compile the copied files if copySrc is used
     let srcDir: AbsPosixPath = target.srcDir;
@@ -366,9 +372,9 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
       copyTasks.push(nameTask(
         `${target.name}:dist:copy:scripts`,
         (): NodeJS.ReadableStream => {
-          return gulp
+          return vinylFs
             .src([...target.scripts], {base: target.srcDir})
-            .pipe(gulp.dest(srcDir));
+            .pipe(vinylFs.dest(srcDir));
         },
       ));
       // dist:copy:custom-typings
@@ -379,17 +385,17 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
         copyTasks.push(nameTask(
           `${target.name}:dist:copy:custom-typings`,
           (): NodeJS.ReadableStream => {
-            return gulp
+            return vinylFs
               .src([path.posix.join(srcCustomTypingsDir, "**/*.d.ts")], {base: srcCustomTypingsDir})
-              .pipe(gulp.dest(destCustomTypingsDir!));
+              .pipe(vinylFs.dest(destCustomTypingsDir!));
           },
         ));
       }
 
       // dist:copy:dist
       if (target.dist.copy !== undefined) {
-        const [copyBaseTask, copyBaseWatchTask]: [TaskFunction, TaskFunction] = getCopy(
-          gulp,
+        const [copyBaseTask, copyBaseWatchTask]: [Undertaker.TaskFunction, Undertaker.TaskFunction] = getCopy(
+          taker,
           target.project.absRoot,
           target.dist.distDir,
           target.dist.copy,
@@ -400,8 +406,8 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
 
     // dist:copy:lib
     if (target.copy !== undefined) {
-      const [copyBaseTask, copyBaseWatchTask]: [TaskFunction, TaskFunction] = getCopy(
-        gulp,
+      const [copyBaseTask, copyBaseWatchTask]: [Undertaker.TaskFunction, Undertaker.TaskFunction] = getCopy(
+        taker,
         target.srcDir,
         target.dist.distDir,
         target.copy,
@@ -409,7 +415,7 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
       copyTasks.push(nameTask(`${target.name}:dist:copy:lib`, copyBaseTask));
     }
 
-    result.distCopy = nameTask(`${target.name}:dist:copy`, gulp.parallel(copyTasks));
+    result.distCopy = nameTask(`${target.name}:dist:copy`, taker.parallel(copyTasks));
 
     // Resolve tsconfig for `dist`
     const tsconfigJson: AbsPosixPath | null = target.tsconfigJson !== null ?
@@ -440,7 +446,7 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
     // dist:scripts
     distTasks.push(nameTask(
       `${target.name}:dist:scripts`,
-      gulp.series(result.distCopy, getBuildTypescriptTask(gulp, tsOptions)),
+      taker.series(result.distCopy, getBuildTypescriptTask(tsOptions)),
     ));
 
     // dist:package.json
@@ -455,29 +461,29 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
         pkg = dist.packageJsonMap(pkg);
 
         return gulpBufferSrc("package.json", Buffer.from(JSON.stringify(pkg, null, 2)))
-          .pipe(gulp.dest(dist.distDir));
+          .pipe(vinylFs.dest(dist.distDir));
       }
 
       result.distPackageJson = nameTask(`${target.name}:dist:package.json`, distPackageJsonTask);
       distTasks.push(result.distPackageJson);
     }
 
-    const distTask: TaskFunction = result.clean !== undefined ?
-      gulp.series(result.clean, gulp.parallel(distTasks)) :
-      gulp.parallel(distTasks);
+    const distTask: Undertaker.TaskFunction = result.clean !== undefined ?
+      taker.series(result.clean, taker.parallel(distTasks)) :
+      taker.parallel(distTasks);
     result.dist = nameTask(`${target.name}:dist`, distTask);
 
     if (dist.npmPublish !== undefined) {
       const npmPublishOptions: NpmPublishOptions = dist.npmPublish;
-      const npmPublishTask: TaskFunction = async (): Promise<void> => {
+      const npmPublishTask: Undertaker.TaskFunction = async (): Promise<void> => {
         return npmPublish({
           ...npmPublishOptions,
           directory: dist.distDir,
         });
       };
       npmPublishTask.displayName = `${target.name}:dist:publish`;
-      gulp.task(npmPublishTask);
-      result.distPublish = nameTask(`${target.name}:dist:publish`, gulp.series(distTask, npmPublishTask));
+      taker.task(npmPublishTask);
+      result.distPublish = nameTask(`${target.name}:dist:publish`, taker.series(distTask, npmPublishTask));
     }
   }
 
@@ -487,16 +493,29 @@ export function generateLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks
 /**
  * Generates and registers gulp tasks for the provided lib target.
  *
- * @param gulp Gulp instance where the tasks will be registered.
+ * @param taker Undertaker (or Gulp) instance where the tasks will be registered.
  * @param targetOptions Target configuration.
  */
-export function registerLibTasks(gulp: Gulp, targetOptions: LibTarget): LibTasks {
-  const tasks: LibTasks = generateLibTasks(gulp, targetOptions);
+export function registerLibTasks(taker: Undertaker, targetOptions: LibTarget): LibTasks {
+  const tasks: LibTasks = generateLibTasks(taker, targetOptions);
   for (const key in tasks) {
-    const task: TaskFunction | undefined = (<any> tasks)[key];
+    const task: Undertaker.TaskFunction | undefined = (<any> tasks)[key];
     if (task !== undefined) {
-      gulp.task(task);
+      taker.task(task);
     }
   }
   return tasks;
+}
+
+export class LibRegistry extends UndertakerRegistry {
+  private readonly options: LibTarget;
+
+  constructor(options: LibTarget) {
+    super();
+    this.options = options;
+  }
+
+  init(taker: Undertaker): void {
+    registerLibTasks(taker, this.options);
+  }
 }

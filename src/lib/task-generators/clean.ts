@@ -1,8 +1,7 @@
 import del from "del";
-import { Gulp } from "gulp";
 import { Minimatch } from "minimatch";
-import {posix as path } from "path";
-import { TaskFunction } from "../utils/gulp-task-function";
+import { posix as path } from "path";
+import { TaskFunction } from "undertaker";
 import * as matcher from "../utils/matcher";
 
 export interface CleanOptions {
@@ -46,7 +45,7 @@ function getFiles(options: CleanOptions): string[] {
 /**
  * Generate a task to clean files
  */
-export function generateTask(gulp: Gulp, options: CleanOptions): TaskFunction {
+export function generateTask(options: CleanOptions): TaskFunction {
   return async function () {
     return del(getFiles(options));
   };

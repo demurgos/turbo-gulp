@@ -1,6 +1,7 @@
 ## Next
 
 - **[Breaking change]** Drop support for Pug, Sass, Angular & Webpack
+- **[Feature]** Expose custom registries for each target.
 - **[Internal]** Fix continuous deployment script (stop confusing PRs to master
   with push to master)
 

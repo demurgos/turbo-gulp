@@ -1,9 +1,9 @@
 import { existsSync, FSWatcher } from "fs";
-import { Gulp, TaskFunction } from "gulp";
 import { Minimatch } from "minimatch";
 import { posix as posixPath } from "path";
 import { Readable as ReadableStream } from "stream";
 import * as typescript from "typescript";
+import Undertaker from "undertaker";
 import Vinyl from "vinyl";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
@@ -18,24 +18,24 @@ import * as copy from "../task-generators/copy";
 import { AbsPosixPath, RelPosixPath } from "../types";
 import * as matcher from "../utils/matcher";
 
-export type WatchTaskFunction = (TaskFunction & (() => FSWatcher));
+export type WatchTaskFunction = (Undertaker.TaskFunction & (() => FSWatcher));
 
 /**
  * Generate a copy task (and the corresponding watch task) for the copy operations described by `copyOptions`
  *
- * @param gulp Gulp instance to use for utility methods.
+ * @param taker Undertaker (or Gulp) instance used to define parallel tasks.
  * @param srcDir Base directory for source resolution.
  * @param targetDir Base directory for target (build) resolution.
  * @param copyOptions Simple copy operations to apply for this copy task.
  * @return A tuple with the task function and corresponding watch task function.
  */
 export function getCopy(
-  gulp: Gulp,
+  taker: Undertaker,
   srcDir: string,
   targetDir: string,
   copyOptions: Iterable<CopyOptions>,
-): [TaskFunction, TaskFunction] {
-  const tasks: TaskFunction[] = [];
+): [Undertaker.TaskFunction, Undertaker.TaskFunction] {
+  const tasks: Undertaker.TaskFunction[] = [];
   const watchTasks: WatchTaskFunction[] = [];
   for (const options of copyOptions) {
     const from: string = options.src === undefined ? srcDir : posixPath.join(srcDir, options.src);
@@ -43,12 +43,12 @@ export function getCopy(
     const to: string = options.dest === undefined ? targetDir : posixPath.join(targetDir, options.dest);
 
     const completeOptions: copy.Options = {from, files, to};
-    tasks.push(copy.generateTask(gulp, completeOptions));
-    watchTasks.push(() => copy.watch(gulp, completeOptions));
+    tasks.push(copy.generateTask(completeOptions));
+    watchTasks.push(() => copy.watch(completeOptions));
   }
 
-  const task: TaskFunction = gulp.parallel(tasks);
-  const watch: TaskFunction = gulp.parallel(watchTasks);
+  const task: Undertaker.TaskFunction = taker.parallel(tasks);
+  const watch: Undertaker.TaskFunction = taker.parallel(watchTasks);
   return [task, watch];
 }
 
@@ -247,16 +247,20 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
  * @param task The task function to name.
  * @return The input task, with its `displayName` property set to `name`.
  */
-export function nameTask<T extends TaskFunction>(name: string, task: T): T & {displayName: string} {
+export function nameTask<T extends Undertaker.TaskFunction>(name: string, task: T): T & {displayName: string} {
   task.displayName = name;
   return <T & {displayName: string}> task;
 }
 
 /**
- * Name a task function and register it to the provided gulp instance.
+ * Name a task function and register it to the provided Undertaker (or Gulp) instance.
  */
-export function addTask(gulp: Gulp, displayName: string, task: TaskFunction): TaskFunction {
-  gulp.task(nameTask(displayName, task));
+export function addTask(
+  taker: Undertaker,
+  displayName: string,
+  task: Undertaker.TaskFunction,
+): Undertaker.TaskFunction {
+  taker.task(nameTask(displayName, task));
   return task;
 }
 
@@ -279,21 +283,21 @@ export function gulpBufferSrc(filename: string, data: Buffer): NodeJS.ReadableSt
  * Base tasks available for every target.
  */
 export interface BaseTasks {
-  buildScripts: TaskFunction;
-  buildCopy?: TaskFunction;
-  build: TaskFunction;
-  watch?: TaskFunction;
-  clean?: TaskFunction;
-  tsconfigJson?: TaskFunction;
+  buildScripts: Undertaker.TaskFunction;
+  buildCopy?: Undertaker.TaskFunction;
+  build: Undertaker.TaskFunction;
+  watch?: Undertaker.TaskFunction;
+  clean?: Undertaker.TaskFunction;
+  tsconfigJson?: Undertaker.TaskFunction;
 }
 
 /**
  * Generates gulp tasks available for every target (base tasks).
  *
- * @param gulp Gulp instance used to generate tasks manipulating files.
+ * @param taker Undertaker (or Gulp) registry used to generate tasks.
  * @param targetOptions Target configuration.
  */
-export function generateBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTasks {
+export function generateBaseTasks(taker: Undertaker, targetOptions: TargetBase): BaseTasks {
   const target: ResolvedTargetBase = resolveTargetBase(targetOptions);
 
   const result: BaseTasks = <any> {};
@@ -310,16 +314,16 @@ export function generateBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
     outModules: target.outModules,
   };
 
-  const watchTasks: TaskFunction[] = [];
+  const watchTasks: Undertaker.TaskFunction[] = [];
 
   // build:scripts
-  result.buildScripts = nameTask(`${target.name}:build:scripts`, getBuildTypescriptTask(gulp, tsOptions));
-  watchTasks.push(nameTask(`${target.name}:watch:scripts`, getBuildTypescriptWatchTask(gulp, tsOptions)));
+  result.buildScripts = nameTask(`${target.name}:build:scripts`, getBuildTypescriptTask(tsOptions));
+  watchTasks.push(nameTask(`${target.name}:watch:scripts`, getBuildTypescriptWatchTask(tsOptions)));
 
   // build:copy
   if (target.copy !== undefined) {
-    const [copyTask, copyWatchTask]: [TaskFunction, TaskFunction] = getCopy(
-      gulp,
+    const [copyTask, copyWatchTask]: [Undertaker.TaskFunction, Undertaker.TaskFunction] = getCopy(
+      taker,
       target.srcDir,
       target.buildDir,
       target.copy,
@@ -329,12 +333,12 @@ export function generateBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
   }
 
   // build
-  const buildTasks: TaskFunction[] = [result.buildScripts];
+  const buildTasks: Undertaker.TaskFunction[] = [result.buildScripts];
   if (result.buildCopy !== undefined) {
     buildTasks.push(result.buildCopy);
   }
-  result.build = nameTask(`${target.name}:build`, gulp.parallel(buildTasks));
-  result.watch = nameTask(`${target.name}:watch`, gulp.series(result.build, gulp.parallel(watchTasks)));
+  result.build = nameTask(`${target.name}:build`, taker.parallel(buildTasks));
+  result.watch = nameTask(`${target.name}:watch`, taker.series(result.build, taker.parallel(watchTasks)));
 
   // clean
   if (target.clean !== undefined) {
@@ -343,7 +347,7 @@ export function generateBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
       dirs: target.clean.dirs,
       files: target.clean.files,
     };
-    result.clean = nameTask(`${target.name}:clean`, generateCleanTask(gulp, cleanOptions));
+    result.clean = nameTask(`${target.name}:clean`, generateCleanTask(cleanOptions));
   }
 
   // tsconfig.json
@@ -357,15 +361,15 @@ export function generateBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTa
 /**
  * Generates and registers gulp tasks available for every target (base tasks).
  *
- * @param gulp Gulp instance where the tasks will be registered.
+ * @param taker Undertaker (or Gulp) instance where the tasks will be registered.
  * @param targetOptions Target configuration.
  */
-export function registerBaseTasks(gulp: Gulp, targetOptions: TargetBase): BaseTasks {
-  const tasks: BaseTasks = generateBaseTasks(gulp, targetOptions);
+export function registerBaseTasks(taker: Undertaker, targetOptions: TargetBase): BaseTasks {
+  const tasks: BaseTasks = generateBaseTasks(taker, targetOptions);
   for (const key in tasks) {
-    const task: TaskFunction | undefined = (<any> tasks)[key];
+    const task: Undertaker.TaskFunction | undefined = (<any> tasks)[key];
     if (task !== undefined) {
-      gulp.task(task);
+      taker.task(task);
     }
   }
   return tasks;
