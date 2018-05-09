@@ -1,7 +1,7 @@
 import del from "del";
 import { copy } from "fs-extra";
 import * as posixPath from "path";
-import {dir as tmpDir } from "tmp";
+import { dir as tmpDir } from "tmp";
 import { toPosix } from "../project";
 import { AbsPosixPath } from "../types";
 import { gitAdd, gitClone as gitClone, gitCommit, gitPush } from "./git";

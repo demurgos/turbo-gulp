@@ -1,1 +1,1 @@
-export {Polynomial} from "./polynomial";
+export { Polynomial } from "./polynomial";

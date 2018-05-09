@@ -1,4 +1,4 @@
-export {CompilerOptions} from "typescript";
+export { CompilerOptions } from "typescript";
 
 // tslint:disable:max-line-length
 /**

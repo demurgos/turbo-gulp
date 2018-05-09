@@ -41,8 +41,7 @@
 /** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
 
 import { posix as posixPath } from "path";
-import Undertaker from "undertaker";
-import { TaskFunction } from "undertaker";
+import Undertaker, { TaskFunction } from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
 import { OutModules } from "../";
 import * as mocha from "../task-generators/mocha";

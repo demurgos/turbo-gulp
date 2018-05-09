@@ -16,7 +16,7 @@ export async function streamToPromise(stream: NodeJS.ReadableStream): Promise<vo
 
 export function deleteUndefinedProperties(obj: any): void {
   for (const key in obj) {
-    if (obj[key] ===  undefined) {
+    if (obj[key] === undefined) {
       delete obj[key];
     }
   }

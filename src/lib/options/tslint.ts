@@ -1,4 +1,4 @@
-import {Configuration as TslintConfiguration } from "tslint";
+import { Configuration as TslintConfiguration } from "tslint";
 
 export interface TslintOptions {
   /**
