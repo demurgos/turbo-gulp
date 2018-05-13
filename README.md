@@ -15,12 +15,13 @@ I solved it by centralizing most of logic for the tasks I need in this package. 
 configuration, the defaults use a sensible directory structure for Node projects.
 
 The main features are:
-- Support for multiple targets in a single project (for example `lib` and `demo`)
+- Support for multiple targets in a single project (for example `lib` and `example`)
 - Typescript builds, with support for custom typings, watch mode and custom compiler options
 - Tslint verification with type information
 - Mocha unit tests
+- Code coverage with `nyc`
 - Typedoc generation
-- Assets management: copy resources, build Pug templates, build Sass stylesheets
+- Assets management: copy resources
 
 ## Installation
 

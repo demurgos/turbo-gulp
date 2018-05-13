@@ -9,7 +9,7 @@ export { CompilerOptions } from "typescript";
  */
 
 // tslint:enable
-export interface CompilerOptionsJson {
+export interface TscOptions {
   allowJs?: boolean;
   allowSyntheticDefaultImports?: boolean;
   allowUnreachableCode?: boolean;
@@ -76,7 +76,11 @@ export interface CompilerOptionsJson {
   typeRoots?: string[];
 }
 
-export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
+export interface CustomTscOptions extends TscOptions {
+  mjsModule?: "es2015" | "esnext";
+}
+
+export const DEFAULT_TSC_OPTIONS: CustomTscOptions = {
   allowJs: false,
   allowSyntheticDefaultImports: true,
   allowUnreachableCode: false,
@@ -103,6 +107,7 @@ export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
   locale: "en-us",
   mapRoot: undefined,
   maxNodeModuleJsDepth: undefined,
+  mjsModule: "esnext",
   module: "commonjs",
   moduleResolution: "node",
   newLine: "lf",
@@ -116,21 +121,21 @@ export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
   noImplicitThis: true,
   noStrictGenericChecks: false,
   noUnusedLocals: true,
-  noUnusedParameters: false,
+  noUnusedParameters: true,
   noImplicitUseStrict: false,
   noLib: false,
   noResolve: false,
   outDir: undefined,
   outFile: undefined,
   paths: undefined,
-  preserveConstEnums: false,
+  preserveConstEnums: true,
   project: undefined,
   reactNamespace: undefined,
   jsxFactory: undefined,
   removeComments: false,
   rootDir: undefined,
   rootDirs: undefined,
-  skipLibCheck: true,
+  skipLibCheck: false,
   sourceMap: true,
   sourceRoot: undefined,
   strict: true,
@@ -143,25 +148,19 @@ export const DEFAULT_PROJECT_TSC_OPTIONS: CompilerOptionsJson = {
   typeRoots: undefined,
 };
 
-export const PROD_TSC_OPTIONS: CompilerOptionsJson = {
-  ...DEFAULT_PROJECT_TSC_OPTIONS,
+export const PROD_TSC_OPTIONS: CustomTscOptions = {
+  ...DEFAULT_TSC_OPTIONS,
   declaration: true,
-  module: "commonjs",
-  removeComments: false,
-  skipLibCheck: false,
 };
 
-export const DEV_TSC_OPTIONS: CompilerOptionsJson = {
-  ...PROD_TSC_OPTIONS,
-  noUnusedLocals: false,
-  preserveConstEnums: true,
-  removeComments: false,
-  sourceMap: true,
+export const DEV_TSC_OPTIONS: CustomTscOptions = {
+  ...DEFAULT_TSC_OPTIONS,
+  declaration: false,
 };
 
 /**
  * Merges two typescript compiler options.
- * The options of `extra` overide the options of `base`.
+ * The options of `extra` override the options of `base`.
  * It does not mutate the arguments.
  * If `extra` is undefined, returns a shallow copy of `base`.
  *
@@ -169,9 +168,10 @@ export const DEV_TSC_OPTIONS: CompilerOptionsJson = {
  * @param extra Additional options
  * @return The merged TSC options
  */
-export function mergeTscOptionsJson(
-  base: CompilerOptionsJson,
-  extra?: CompilerOptionsJson,
-): CompilerOptionsJson {
+export function mergeTscOptions(base: CustomTscOptions, extra?: CustomTscOptions): CustomTscOptions {
   return {...base, ...extra};
+}
+
+export function toStandardTscOptions(customOptions: CustomTscOptions): TscOptions {
+  return mergeTscOptions({...customOptions, mjsModule: undefined});
 }

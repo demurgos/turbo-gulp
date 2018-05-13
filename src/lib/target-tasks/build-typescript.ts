@@ -1,19 +1,19 @@
-import { FSWatcher } from "fs";
+import fs from "fs";
 import globWatcher from "glob-watcher";
 import gulpRename from "gulp-rename";
 import gulpSourceMaps from "gulp-sourcemaps";
 import gulpTypescript from "gulp-typescript";
 import { Incident } from "incident";
 import merge from "merge2";
-import { posix as posixPath } from "path";
+import path from "path";
+import { Tagged } from "ts-tagged";
 import { TaskFunction } from "undertaker";
 import vinylFs from "vinyl-fs";
-import { CompilerOptionsJson } from "../options/tsc";
-import { OutModules } from "../options/typescript";
+import { CustomTscOptions, toStandardTscOptions, TscOptions } from "../options/tsc";
 import { deleteUndefinedProperties } from "../utils/utils";
 import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 
-type TypescriptErrorHash = string;
+type TypescriptErrorHash = Tagged<string, "TypescriptErrorHash">;
 
 function hashTypescriptError(error: gulpTypescript.reporter.TypeScriptError): TypescriptErrorHash {
   return JSON.stringify({
@@ -57,13 +57,13 @@ export function getBuildTypescriptTask(
   throwOnError: boolean = true,
 ): TaskFunction {
   const resolved: ResolvedTsLocations = resolveTsLocations(options);
-  const tscOptions: CompilerOptionsJson = {
+  const customTscOptions: CustomTscOptions = {
     ...options.tscOptions,
     rootDir: resolved.rootDir,
     outDir: resolved.outDir,
     typeRoots: resolved.typeRoots,
   };
-  deleteUndefinedProperties(tscOptions);
+  deleteUndefinedProperties(customTscOptions);
 
   const task: TaskFunction = function () {
     let mjsStream: NodeJS.ReadableStream | undefined;
@@ -83,22 +83,24 @@ export function getBuildTypescriptTask(
     // TODO: update type definitions of `gulp-sourcemaps`
     const writeSourceMapsOptions: gulpSourceMaps.WriteOptions = <any> {
       sourceRoot: (file: any /* VinylFile */): string => {
-        return posixPath.relative(posixPath.dirname(file.relative), "");
+        return path.posix.relative(path.posix.dirname(file.relative), "");
       },
     };
-    if (options.outModules === OutModules.Js) {
+    if (customTscOptions.mjsModule === undefined) {
+      const tscOptions: TscOptions = toStandardTscOptions(customTscOptions);
       const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(tscOptions, reporter));
       jsStream = compiledStream.js
         .pipe(gulpSourceMaps.write(writeSourceMapsOptions));
       dtsStream = compiledStream.dts;
     } else { // Mjs or Both
-      const mjsOptions: CompilerOptionsJson = {...tscOptions, module: "es2015"};
-      const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(mjsOptions, reporter));
+      const tscOptions: TscOptions = toStandardTscOptions(customTscOptions);
+      const mjsTscOptions: TscOptions = {...tscOptions, module: customTscOptions.mjsModule};
+      const compiledStream: CompiledStream = srcStream.pipe(gulpTypescript(mjsTscOptions, reporter));
       mjsStream = compiledStream.js
         .pipe(gulpSourceMaps.write(writeSourceMapsOptions))
         .pipe(gulpRename({extname: ".mjs"}));
       dtsStream = compiledStream.dts;
-      if (options.outModules === OutModules.Both) {
+      if (tscOptions.module !== undefined) {
         jsStream = srcStream
           .pipe(gulpTypescript(tscOptions, reporter))
           .js
@@ -113,14 +115,14 @@ export function getBuildTypescriptTask(
   return task;
 }
 
-export function getBuildTypescriptWatchTask(options: TypescriptConfig): () => FSWatcher {
-  return (): FSWatcher => {
+export function getBuildTypescriptWatchTask(options: TypescriptConfig): () => fs.FSWatcher {
+  return (): fs.FSWatcher => {
     const buildTask: TaskFunction = getBuildTypescriptTask(options, false);
     const resolved: ResolvedTsLocations = resolveTsLocations(options);
-    return globWatcher(resolved.absScripts, {cwd: options.srcDir}, buildTask) as FSWatcher;
+    return globWatcher(resolved.absScripts, {cwd: options.srcDir}, buildTask) as fs.FSWatcher;
   };
 }
 
-export function getBuildTypescriptWatcher(options: TypescriptConfig): FSWatcher {
+export function getBuildTypescriptWatcher(options: TypescriptConfig): fs.FSWatcher {
   return getBuildTypescriptWatchTask(options)();
 }

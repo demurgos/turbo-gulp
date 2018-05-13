@@ -7,8 +7,7 @@ import Undertaker from "undertaker";
 import Vinyl from "vinyl";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
-import { CompilerOptionsJson, DEV_TSC_OPTIONS, mergeTscOptionsJson } from "../options/tsc";
-import { OutModules } from "../options/typescript";
+import { CustomTscOptions, DEV_TSC_OPTIONS, mergeTscOptions, TscOptions } from "../options/tsc";
 import { Project, ResolvedProject, resolveProject } from "../project";
 import { TypescriptConfig } from "../target-tasks/_typescript";
 import { getBuildTypescriptTask, getBuildTypescriptWatchTask } from "../target-tasks/build-typescript";
@@ -86,34 +85,20 @@ export interface TargetBase {
   /**
    * Directory containing custom typings, relative to `project.rootDir`.
    * Custom typings are typings that are not available on `@types`.
-   * `null` means that you don't use custom typings.
-   * The default value will be `join(target.srcDir, "custom-typings")` if it exists (sync test), else `null`.
    */
-  customTypingsDir?: RelPosixPath | null;
+  customTypingsDir?: RelPosixPath;
 
   /**
    * Overrides for the options of the Typescript compiler.
    */
-  tscOptions?: CompilerOptionsJson;
-
-  /**
-   * Output modules.
-   *
-   * - `Js`: Use the compiler options to emit `*.js` files.
-   * - `Mjs`: Enforce `es2015` modules and emit `*.mjs` files.
-   * - `Both`: Emit both `*.js` files using the compiler options and `*.mjs` using `es2015`.
-   *
-   * Default: `Js`
-   */
-  outModules?: OutModules;
+  tscOptions?: TscOptions;
 
   /**
    * Path to the `tsconfig.json` file for this target, relative to `project.rootDir`.
-   * Use `null` to not generate a `tsconfig.json` task.
    *
    * The default value is `join(target.srcDir, "tsconfig.json")`.
    */
-  tsconfigJson?: RelPosixPath | null;
+  tsconfigJson?: RelPosixPath;
 
   /**
    * Override default dependencies or provide optional dependencies.
@@ -128,7 +113,7 @@ export interface TargetBase {
   copy?: CopyOptions[];
 
   /**
-   * Minimatch patterns to clean the files create during the `build` and `dist` tasks, relative to `project.root`.
+   * Minimatch patterns to clean the files created during the `build` and `dist` tasks, relative to `project.root`.
    *
    * Default:
    * {
@@ -144,7 +129,9 @@ export interface TargetBase {
 /**
  * Library with fully resolved paths and dependencies.
  */
-export interface ResolvedTargetBase extends TargetBase {
+export interface ResolvedTargetBase {
+  readonly name: string;
+
   readonly project: ResolvedProject;
 
   readonly srcDir: AbsPosixPath;
@@ -153,17 +140,15 @@ export interface ResolvedTargetBase extends TargetBase {
 
   readonly scripts: Iterable<string>;
 
-  readonly customTypingsDir: AbsPosixPath | null;
+  readonly customTypingsDir?: AbsPosixPath;
 
-  readonly tscOptions: CompilerOptionsJson;
+  readonly tscOptions: CustomTscOptions;
 
-  readonly outModules: OutModules;
-
-  readonly tsconfigJson: AbsPosixPath | null;
+  readonly tsconfigJson: AbsPosixPath;
 
   readonly dependencies: ResolvedBaseDependencies;
 
-  readonly copy?: CopyOptions[];
+  readonly copy?: ReadonlyArray<CopyOptions>;
 
   readonly clean?: CleanOptions;
 }
@@ -205,19 +190,14 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
     }
   }
 
-  const defaultCustomTypingsDir: AbsPosixPath = posixPath.join(srcDir, "custom-typings");
+  const customTypingsDir: AbsPosixPath | undefined = target.customTypingsDir !== undefined
+    ? posixPath.join(project.absRoot, target.customTypingsDir)
+    : undefined;
+  const tscOptions: TscOptions = mergeTscOptions(DEV_TSC_OPTIONS, target.tscOptions);
 
-  const customTypingsDir: AbsPosixPath | null = target.customTypingsDir !== undefined ?
-    (target.customTypingsDir !== null ? posixPath.join(project.absRoot, target.customTypingsDir) : null) :
-    (existsSync(defaultCustomTypingsDir) ? defaultCustomTypingsDir : null);
-
-  const tscOptions: CompilerOptionsJson = mergeTscOptionsJson(DEV_TSC_OPTIONS, target.tscOptions);
-
-  const outModules: OutModules = target.outModules !== undefined ? target.outModules : OutModules.Js;
-
-  const tsconfigJson: AbsPosixPath | null = target.tsconfigJson !== undefined ?
-    (target.tsconfigJson !== null ? posixPath.join(project.absRoot, target.tsconfigJson) : null) :
-    posixPath.join(srcDir, "tsconfig.json");
+  const tsconfigJson: AbsPosixPath = target.tsconfigJson !== undefined
+    ? posixPath.join(project.absRoot, target.tsconfigJson)
+    : posixPath.join(srcDir, "tsconfig.json");
 
   const dependencies: ResolvedBaseDependencies = {typescript};
   if (target.dependencies !== undefined) {
@@ -232,7 +212,6 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
     scripts,
     customTypingsDir,
     tscOptions,
-    outModules,
     tsconfigJson,
     dependencies,
     copy: target.copy,
@@ -311,7 +290,6 @@ export function generateBaseTasks(taker: Undertaker, targetOptions: TargetBase):
     buildDir: target.buildDir,
     srcDir: target.srcDir,
     scripts: target.scripts,
-    outModules: target.outModules,
   };
 
   const watchTasks: Undertaker.TaskFunction[] = [];

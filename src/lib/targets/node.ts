@@ -4,8 +4,7 @@ import Undertaker from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
-import { CompilerOptionsJson } from "../options/tsc";
-import { OutModules } from "../options/typescript";
+import { TscOptions } from "../options/tsc";
 import { ResolvedProject } from "../project";
 import { AbsPosixPath, RelPosixPath } from "../types";
 import {
@@ -33,7 +32,13 @@ export interface NodeTarget extends TargetBase {
 /**
  * Node target with fully resolved paths and dependencies.
  */
-interface ResolvedNodeTarget extends NodeTarget, ResolvedTargetBase {
+interface ResolvedNodeTarget extends ResolvedTargetBase {
+  /**
+   * Relative path for the main module (entry point of the lib) WITHOUT EXTENSION, relative to `project.srcDir`.
+   * Default: `"index"`.
+   */
+  readonly mainModule: RelPosixPath;
+
   readonly project: ResolvedProject;
 
   readonly srcDir: AbsPosixPath;
@@ -42,17 +47,15 @@ interface ResolvedNodeTarget extends NodeTarget, ResolvedTargetBase {
 
   readonly scripts: Iterable<string>;
 
-  readonly customTypingsDir: AbsPosixPath | null;
+  readonly customTypingsDir?: AbsPosixPath;
 
-  readonly tscOptions: CompilerOptionsJson;
+  readonly tscOptions: TscOptions;
 
-  readonly outModules: OutModules;
-
-  readonly tsconfigJson: AbsPosixPath | null;
+  readonly tsconfigJson: AbsPosixPath;
 
   readonly dependencies: ResolvedBaseDependencies;
 
-  readonly copy?: CopyOptions[];
+  readonly copy?: ReadonlyArray<CopyOptions>;
 
   readonly clean?: CleanOptions;
 }

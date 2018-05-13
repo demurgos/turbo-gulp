@@ -3,7 +3,7 @@ import { toPosix } from "../project";
 import { AbsPosixPath } from "../types";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
-const NYC_BIN: AbsPosixPath = toPosix(require.resolve("nyc/bin/nyc.js"));
+const NYC_BIN: AbsPosixPath = toPosix(require.resolve("nyc/bin/nyc.js")) as AbsPosixPath;
 
 export async function execNyc(args: string[], options?: SpawnOptions): Promise<SpawnResult> {
   return new SpawnedProcess(

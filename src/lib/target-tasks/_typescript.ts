@@ -1,19 +1,20 @@
 import { IMinimatch, Minimatch } from "minimatch";
 import { posix as posixPath } from "path";
-import { CompilerOptionsJson } from "../options/tsc";
-import { OutModules } from "../options/typescript";
+import { CustomTscOptions } from "../options/tsc";
 import { AbsPosixPath, RelPosixPath } from "../types";
 import * as matcher from "../utils/matcher";
 
 export interface TypescriptConfig {
-  readonly tscOptions: CompilerOptionsJson;
-  readonly tsconfigJson: AbsPosixPath | null;
-  readonly customTypingsDir: AbsPosixPath | null;
+  readonly tscOptions: CustomTscOptions;
+  /**
+   * `null`: Do not generate `tsconfig.json` task
+   */
+  readonly tsconfigJson: AbsPosixPath;
+  readonly customTypingsDir?: AbsPosixPath;
   readonly packageJson: AbsPosixPath;
   readonly buildDir: AbsPosixPath;
   readonly srcDir: AbsPosixPath;
   readonly scripts: Iterable<string>;
-  readonly outModules: OutModules;
 }
 
 export interface ResolvedTsLocations {
@@ -30,17 +31,17 @@ export interface ResolvedTsLocations {
   /**
    * Root directory containing the sources, relative to `tsconfigJsonDir`.
    */
-  readonly rootDir: RelPosixPath;
+  readonly rootDir: AbsPosixPath;
 
   /**
    * If the typeRoots are not just `@types`, an array of type root directories, relative to `tsconfigJsonDir`.
    */
-  readonly typeRoots: RelPosixPath[] | undefined;
+  readonly typeRoots: AbsPosixPath[] | undefined;
 
   /**
    * Directory containing the build, relative to `tsconfigJsonDir`
    */
-  readonly outDir: RelPosixPath;
+  readonly outDir: AbsPosixPath;
 
   /**
    * Patterns matching scripts to include, relative to `rootDir`.
@@ -59,16 +60,14 @@ export interface ResolvedTsLocations {
 }
 
 export function resolveTsLocations(options: TypescriptConfig): ResolvedTsLocations {
-  const tsconfigJson: AbsPosixPath = options.tsconfigJson !== null ?
-    options.tsconfigJson :
-    posixPath.join(options.srcDir, "tsconfig.json");
+  const tsconfigJson: AbsPosixPath = options.tsconfigJson;
   const tsconfigJsonDir: AbsPosixPath = posixPath.dirname(tsconfigJson);
 
   const rootDir: AbsPosixPath = options.srcDir;
 
   let typeRoots: AbsPosixPath[] | undefined = undefined;
-  if (options.customTypingsDir !== null) {
-    const atTypesDir: RelPosixPath = posixPath.join(posixPath.dirname(options.packageJson), "node_modules", "@types");
+  if (options.customTypingsDir !== undefined) {
+    const atTypesDir: AbsPosixPath = posixPath.join(posixPath.dirname(options.packageJson), "node_modules", "@types");
     typeRoots = [atTypesDir, options.customTypingsDir];
   }
   const outDir: AbsPosixPath = options.buildDir;

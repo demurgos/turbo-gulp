@@ -43,7 +43,6 @@
 import { posix as posixPath } from "path";
 import Undertaker, { TaskFunction } from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
-import { OutModules } from "../";
 import * as mocha from "../task-generators/mocha";
 import * as nyc from "../task-generators/nyc";
 import { BaseTasks, generateBaseTasks, nameTask, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
@@ -94,7 +93,7 @@ export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget
   };
 
   const runTasks: TaskFunction[] = [];
-  if (target.outModules === OutModules.Js || target.outModules === OutModules.Both) {
+  if (!(target.tscOptions.module === undefined && target.tscOptions.mjsModule !== undefined)) {
     const runCjs: TaskFunction = nameTask(
       `${target.name}:run:cjs`,
       mocha.generateTask(testOptions),
@@ -102,7 +101,7 @@ export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget
     result.runCjs = runCjs;
     runTasks.push(runCjs);
   }
-  if (target.outModules === OutModules.Mjs || target.outModules === OutModules.Both) {
+  if (target.tscOptions.mjsModule !== undefined) {
     const runEsm: TaskFunction = nameTask(
       `${target.name}:run:esm`,
       mocha.generateTask({...testOptions, mjs: true}),
@@ -115,7 +114,7 @@ export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget
   result.run = nameTask(`${target.name}:run`, taker.series(runTasks));
 
   const coverageOptions: nyc.NycOptions = {
-    test: {...testOptions, mjs: target.outModules !== OutModules.Js},
+    test: {...testOptions, mjs: target.tscOptions.mjsModule !== undefined},
     rootDir: target.project.absRoot,
     reportDir: posixPath.join(target.project.absRoot, "coverage"),
     tempDir: posixPath.join(target.project.absRoot, ".nyc_output"),

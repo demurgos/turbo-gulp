@@ -74,8 +74,7 @@ import UndertakerRegistry from "undertaker-registry";
 import vinylFs from "vinyl-fs";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
-import { CompilerOptionsJson } from "../options/tsc";
-import { OutModules } from "../options/typescript";
+import { TscOptions } from "../options/tsc";
 import { ResolvedProject } from "../project";
 import { TypescriptConfig } from "../target-tasks/_typescript";
 import { getBuildTypescriptTask } from "../target-tasks/build-typescript";
@@ -127,9 +126,9 @@ export interface LibTarget extends TargetBase {
 }
 
 /**
- * Library with fully resolved paths and dependencies.
+ * Library target with fully resolved paths and dependencies.
  */
-interface ResolvedLibTarget extends LibTarget, ResolvedTargetBase {
+interface ResolvedLibTarget extends ResolvedTargetBase {
   readonly project: ResolvedProject;
 
   readonly srcDir: AbsPosixPath;
@@ -138,22 +137,19 @@ interface ResolvedLibTarget extends LibTarget, ResolvedTargetBase {
 
   readonly scripts: Iterable<string>;
 
-  readonly customTypingsDir: AbsPosixPath | null;
+  readonly customTypingsDir?: AbsPosixPath;
 
-  readonly tscOptions: CompilerOptionsJson;
+  readonly tscOptions: TscOptions;
 
-  /**
-   * TODO
-   */
-  readonly outModules: OutModules;
+  readonly tsconfigJson: AbsPosixPath;
 
-  readonly tsconfigJson: AbsPosixPath | null;
+  readonly mainModule: RelPosixPath;
 
   readonly typedoc?: ResolvedTypedocOptions;
 
   readonly dependencies: ResolvedBaseDependencies;
 
-  readonly copy?: CopyOptions[];
+  readonly copy?: ReadonlyArray<CopyOptions>;
 
   readonly clean?: CleanOptions;
 
@@ -163,7 +159,9 @@ interface ResolvedLibTarget extends LibTarget, ResolvedTargetBase {
 export interface DistOptions {
   /**
    * Directory used where the distribution builds will be written.
-   * Default: `project.distDir`
+   *
+   * Relative to `project.root`
+   * Default: `join(project.distDir, target.name)`
    */
   readonly distDir?: RelPosixPath;
 
@@ -190,7 +188,7 @@ export interface DistOptions {
   packageJsonMap?(old: PackageJson): PackageJson;
 }
 
-export interface ResolvedDistOptions extends DistOptions {
+export interface ResolvedDistOptions {
   /**
    * Directory used for distribution builds.
    */
@@ -207,9 +205,21 @@ export interface ResolvedDistOptions extends DistOptions {
   readonly copySrc: boolean;
 
   /**
+   * Copy operations to perform when distributing the package.
+   * The default copies the Markdown files at the project root (so you get `README.md`, `LICENSE.md`, ...).
+   *
+   * The base values are:
+   * - `src`: `project.root`
+   * - `dest`: `dist.distDir`
+   */
+  readonly copy?: CopyOptions[];
+
+  readonly npmPublish?: NpmPublishOptions;
+
+  /**
    * Optional function to apply when copying the `package.json` file to the dist directory.
    */
-  packageJsonMap(old: PackageJson): PackageJson;
+  packageJsonMap?(old: PackageJson): PackageJson;
 }
 
 export interface TypedocOptions {
@@ -225,8 +235,12 @@ export interface TypedocOptions {
   readonly deploy?: GitDeployOptions;
 }
 
-export interface ResolvedTypedocOptions extends TypedocOptions {
+export interface ResolvedTypedocOptions {
   readonly dir: AbsPosixPath;
+
+  readonly name: string;
+
+  readonly deploy?: GitDeployOptions;
 }
 
 export interface NpmPublishOptions {
@@ -288,7 +302,9 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
         copy: defaultCopy(defaultDistDir),
       };
     } else {
-      const distDir: AbsPosixPath = target.dist.distDir !== undefined ? target.dist.distDir : defaultDistDir;
+      const distDir: AbsPosixPath = target.dist.distDir !== undefined
+        ? path.posix.join(base.project.absRoot, target.dist.distDir)
+        : defaultDistDir;
       dist = {
         distDir,
         packageJsonMap: target.dist.packageJsonMap !== undefined ? target.dist.packageJsonMap : defaultPackageJsonMap,
@@ -329,12 +345,11 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
     buildDir: target.buildDir,
     srcDir: target.srcDir,
     scripts: target.scripts,
-    outModules: target.outModules,
   };
 
   // typedoc
   if (target.typedoc !== undefined) {
-    const typedocOptions: TypedocOptions = target.typedoc;
+    const typedocOptions: ResolvedTypedocOptions = target.typedoc;
     const typedocTask: Undertaker.TaskFunction = getTypedocTask(tsOptions, typedocOptions);
     result.typedoc = nameTask(
       `${target.name}:typedoc`,
@@ -365,7 +380,7 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
 
     // Locations for compilation: default to the original sources but compile the copied files if copySrc is used
     let srcDir: AbsPosixPath = target.srcDir;
-    let customTypingsDir: AbsPosixPath | null = target.customTypingsDir;
+    let customTypingsDir: AbsPosixPath | undefined = target.customTypingsDir;
     // dist:copy:scripts
     if (target.dist.copySrc) {
       srcDir = path.posix.join(dist.distDir, "_src");
@@ -378,7 +393,7 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
         },
       ));
       // dist:copy:custom-typings
-      if (target.customTypingsDir !== null) {
+      if (target.customTypingsDir !== undefined) {
         const srcCustomTypingsDir: AbsPosixPath = target.customTypingsDir;
         const destCustomTypingsDir: AbsPosixPath = path.posix.join(dist.distDir, "_custom-typings");
         customTypingsDir = destCustomTypingsDir;
@@ -418,9 +433,7 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
     result.distCopy = nameTask(`${target.name}:dist:copy`, taker.parallel(copyTasks));
 
     // Resolve tsconfig for `dist`
-    const tsconfigJson: AbsPosixPath | null = target.tsconfigJson !== null ?
-      path.posix.join(srcDir, "tsconfig.json") :
-      null;
+    const tsconfigJson: AbsPosixPath = path.posix.join(srcDir, "tsconfig.json");
     let scripts: string[] = [];
     if (srcDir !== target.srcDir) {
       for (const script of target.scripts) {
@@ -440,7 +453,6 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
       buildDir: dist.distDir,
       srcDir,
       scripts,
-      outModules: target.outModules,
     };
 
     // dist:scripts
@@ -458,7 +470,9 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
           pkg.types = `${target.mainModule}.d.ts`;
         }
         pkg.gitHead = await getHeadHash();
-        pkg = dist.packageJsonMap(pkg);
+        if (dist.packageJsonMap !== undefined) {
+          pkg = dist.packageJsonMap(pkg);
+        }
 
         return gulpBufferSrc("package.json", Buffer.from(JSON.stringify(pkg, null, 2)))
           .pipe(vinylFs.dest(dist.distDir));

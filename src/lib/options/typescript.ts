@@ -1,11 +1,5 @@
 import * as ts from "typescript";
-import { CompilerOptionsJson, DEFAULT_PROJECT_TSC_OPTIONS, mergeTscOptionsJson } from "./tsc";
-
-export enum OutModules {
-  Js,
-  Mjs,
-  Both,
-}
+import { CustomTscOptions, DEFAULT_TSC_OPTIONS, mergeTscOptions, TscOptions } from "./tsc";
 
 /**
  * Typescript options, can be applied both to the project or for specific targets.
@@ -33,7 +27,7 @@ export interface TypescriptOptions {
    *
    * Merge rule: Shallow merge (`actual = {...default, ...project, ...target}`).
    */
-  compilerOptions?: CompilerOptionsJson;
+  tscOptions?: CustomTscOptions;
 
   /**
    * A list of paths where you should generate a `tsconfig.json` file.
@@ -41,20 +35,9 @@ export interface TypescriptOptions {
    * If used in a project: relative to `project.root`
    * If used in a target: relative to `project.src`.
    *
-   * Merge rule: Last write win (no array merge).
+   * Merge rule: Last write win.
    */
   tsconfigJson?: string[];
-
-  /**
-   * Output modules.
-   *
-   * - `Default`: Use the compiler options to emit `*.js` files.
-   * - `Mjs`: Enforce `es2015` modules and emit `*.mjs` files.
-   * - `Both`: Emit both `*.js` files using the compiler options and `*.mjs` using `es2015`.
-   *
-   * Default: `Js`
-   */
-  outModules?: OutModules;
 }
 
 /**
@@ -81,9 +64,9 @@ export interface CompleteTypescriptOptions extends TypescriptOptions {
    * Override the default compiler options.
    * These options are passed to `gulp-typescript` and used when emiting `tsconfig.json` files.
    *
-   * Merge rule: Shallow merge (`actual = {...default, ...project, ...target}`).
+   * Merge rule: Shallow merge.
    */
-  compilerOptions: CompilerOptionsJson;
+  tscOptions: CustomTscOptions;
 
   /**
    * A list of paths where you should generate a `tsconfig.json` file.
@@ -91,45 +74,33 @@ export interface CompleteTypescriptOptions extends TypescriptOptions {
    * If used in a project: relative to `project.root`
    * If used in a target: relative to `project.src`.
    *
-   * Merge rule: Last write win (no array merge).
+   * Merge rule: Last write win.
    */
   tsconfigJson: string[];
-
-  /**
-   * Output modules.
-   *
-   * - `Default`: Use the compiler options to emit `*.js` files.
-   * - `Mjs`: Enforce `es2015` modules and emit `*.mjs` files.
-   * - `Both`: Emit both `*.js` files using the compiler options and `*.mjs` using `es2015`.
-   *
-   * Merge rule: Last write win
-   */
-  outModules: OutModules;
 }
 
-export const DEFAULT_PROJECT_TS_OPTIONS: TypescriptOptions = {
-  compilerOptions: DEFAULT_PROJECT_TSC_OPTIONS,
+export const DEFAULT_TYPESCRIPT_OPTIONS: TypescriptOptions = {
+  tscOptions: DEFAULT_TSC_OPTIONS,
   tsconfigJson: ["tsconfig.json"],
-  outModules: OutModules.Js,
 };
 
 export function mergeTypescriptOptions(
   base: TypescriptOptions,
   extra?: TypescriptOptions,
 ): TypescriptOptions {
-  let compilerOptions: CompilerOptionsJson | undefined;
-  if (extra !== undefined && extra.compilerOptions !== undefined) {
-    if (base.compilerOptions !== undefined) {
-      compilerOptions = mergeTscOptionsJson(base.compilerOptions, extra.compilerOptions);
+  let tscOptions: TscOptions | undefined;
+  if (extra !== undefined && extra.tscOptions !== undefined) {
+    if (base.tscOptions !== undefined) {
+      tscOptions = mergeTscOptions(base.tscOptions, extra.tscOptions);
     } else {
-      compilerOptions = extra.compilerOptions;
+      tscOptions = extra.tscOptions;
     }
   } else {
-    if (base.compilerOptions !== undefined) {
-      compilerOptions = base.compilerOptions;
+    if (base.tscOptions !== undefined) {
+      tscOptions = base.tscOptions;
     } else {
-      compilerOptions = undefined;
+      tscOptions = undefined;
     }
   }
-  return {...base, ...extra, compilerOptions};
+  return {...base, ...extra, tscOptions};
 }

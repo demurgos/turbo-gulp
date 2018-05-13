@@ -64,12 +64,7 @@ function createTsProgram(tsconfigJson: any, basePath: string): Program {
     fileExists: fileExistsSync,
     readFile: (path: string) => readFileSync(path, "utf8"),
   };
-  const parsed: ParsedCommandLine = parseJsonConfigFileContent(
-    tsconfigJson,
-    parseConfigHost,
-    basePath,
-    {noEmit: true},
-  );
+  const parsed: ParsedCommandLine = parseJsonConfigFileContent(tsconfigJson, parseConfigHost, basePath, {noEmit: true});
   const host: CompilerHost = createCompilerHost(parsed.options, true);
   return createProgram(parsed.fileNames, parsed.options, host);
 }
@@ -112,8 +107,6 @@ export function registerTask(taker: Undertaker, project: Project) {
   taker.task(taskName, function () {
     return vinylFs.src(sources.sources, {base: sources.baseDir})
       .pipe(gulpTslint(options))
-      .pipe(gulpTslint.report({
-        summarizeFailureOutput: true,
-      }));
+      .pipe(gulpTslint.report({summarizeFailureOutput: true}));
   });
 }

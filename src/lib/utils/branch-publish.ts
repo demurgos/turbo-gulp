@@ -1,9 +1,9 @@
 import del from "del";
 import { copy } from "fs-extra";
-import * as posixPath from "path";
-import { dir as tmpDir } from "tmp";
+import * as path from "path";
+import tmp from "tmp";
 import { toPosix } from "../project";
-import { AbsPosixPath } from "../types";
+import { AbsPosixPath, OsPath } from "../types";
 import { gitAdd, gitClone as gitClone, gitCommit, gitPush } from "./git";
 
 /**
@@ -11,13 +11,13 @@ import { gitAdd, gitClone as gitClone, gitCommit, gitPush } from "./git";
  */
 async function withTmpDir(executor: (path: AbsPosixPath) => Promise<void>): Promise<void> {
   return new Promise<void>((resolve, reject): void => {
-    tmpDir({unsafeCleanup: true}, async (err: Error | null, path: string, done: (cb: any) => void): Promise<void> => {
+    tmp.dir({unsafeCleanup: true}, async (err: Error | null, dir: OsPath, done: (cb: any) => void): Promise<void> => {
       if (err !== null) {
         reject(err);
         return;
       }
       try {
-        await executor(toPosix(path));
+        await executor(toPosix(dir) as AbsPosixPath);
         done(() => {
           resolve();
         });
@@ -60,9 +60,9 @@ export interface BranchPublishOptions {
 export async function branchPublish(options: BranchPublishOptions): Promise<void> {
   return withTmpDir(async (tmpDirPath: AbsPosixPath): Promise<void> => {
     console.log(`Using temporary directory: ${tmpDirPath}`);
-    const localPath: AbsPosixPath = posixPath.join(tmpDirPath, "repo");
+    const localPath: AbsPosixPath = path.posix.join(tmpDirPath, "repo");
     await gitClone({branch: options.branch, depth: 1, repository: options.repository, directory: localPath});
-    await del([posixPath.join(localPath, "**", "*"), `!${posixPath.join(localPath, ".git")}`], {force: true});
+    await del([path.posix.join(localPath, "**", "*"), `!${path.posix.join(localPath, ".git")}`], {force: true});
     await copy(options.dir, localPath);
     await gitAdd({repository: localPath, paths: ["."]});
     await gitCommit({

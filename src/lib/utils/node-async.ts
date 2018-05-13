@@ -64,7 +64,7 @@ const _readFile: (filename: string, encoding: string) => Promise<string> = util.
 const _writeFile: (filename: string, data: any) => Promise<any> = util.promisify(fs.writeFile);
 
 export async function readText(file: string): Promise<string> {
-  return _readFile(file, "utf8");
+  return _readFile(file, "UTF-8");
 }
 
 export async function writeText(file: string, text: string): Promise<void> {

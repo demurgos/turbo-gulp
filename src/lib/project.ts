@@ -8,8 +8,8 @@
 
 import path from "path";
 import { TslintOptions } from "./options/tslint";
-import { DEFAULT_PROJECT_TS_OPTIONS, TypescriptOptions } from "./options/typescript";
-import { AbsPosixPath, PosixPath, RelPosixPath, SysPath } from "./types";
+import { DEFAULT_TYPESCRIPT_OPTIONS, TypescriptOptions } from "./options/typescript";
+import { AbsPosixPath, OsPath, PosixPath, RelPosixPath } from "./types";
 
 /**
  * Project-wide options.
@@ -23,7 +23,7 @@ export interface Project {
    *
    * **This should be the only absolute path in the configuration.**
    */
-  readonly root: SysPath;
+  readonly root: OsPath;
 
   /**
    * Path to the `package.json` file, relative to `root`.
@@ -107,7 +107,7 @@ export const DEFAULT_PROJECT: Project = {
   tslint: {
     tslintJson: "tslint.json",
   },
-  typescript: DEFAULT_PROJECT_TS_OPTIONS,
+  typescript: DEFAULT_TYPESCRIPT_OPTIONS,
 };
 
 /**
@@ -116,7 +116,7 @@ export const DEFAULT_PROJECT: Project = {
  * @param sysPath System-dependent path.
  * @return Normalized POSIX path.
  */
-export function toPosix(sysPath: SysPath): PosixPath {
+export function toPosix(sysPath: OsPath): PosixPath {
   return sysPath.replace(/\\/g, "/");
 }
 
@@ -130,8 +130,8 @@ export function toPosix(sysPath: SysPath): PosixPath {
  * @return Project configuration with resolved paths.
  */
 export function resolveProject(project: Project): ResolvedProject {
-  const absRoot: AbsPosixPath = toPosix(path.resolve(project.root));
-  const absPackageJson: AbsPosixPath = toPosix(path.resolve(project.packageJson));
+  const absRoot: AbsPosixPath = toPosix(path.resolve(project.root)) as AbsPosixPath;
+  const absPackageJson: AbsPosixPath = toPosix(path.resolve(project.packageJson)) as AbsPosixPath;
   const absSrcDir: AbsPosixPath = path.posix.join(absRoot, project.srcDir);
   const absBuildDir: AbsPosixPath = path.posix.join(absRoot, project.buildDir);
   const absDistDir: AbsPosixPath = path.posix.join(absRoot, project.distDir);

@@ -6,7 +6,7 @@ import { AbsPosixPath } from "../types";
 import * as matcher from "./matcher";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
-const MOCHA_BIN: AbsPosixPath = toPosix(require.resolve("mocha/bin/mocha"));
+const MOCHA_BIN: AbsPosixPath = toPosix(require.resolve("mocha/bin/mocha")) as AbsPosixPath;
 
 export async function execMocha(args: string[] = [], options?: SpawnOptions): Promise<SpawnResult> {
   return new SpawnedProcess(

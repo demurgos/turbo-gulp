@@ -1,7 +1,8 @@
-import { posix as path } from "path";
+import path from "path";
 import Undertaker from "undertaker";
 import { DEFAULT_UNTYPED_TSLINT_CONFIG } from "../options/tslint";
 import { Project } from "../project";
+import { AbsPosixPath } from "../types";
 import { writeJsonFile } from "../utils/project";
 
 export function generateTask(project: Project): Undertaker.TaskFunction {
@@ -11,7 +12,7 @@ export function generateTask(project: Project): Undertaker.TaskFunction {
   } else {
     relativePath = "tslint.json";
   }
-  const absolutePath: string = path.join(project.root, relativePath);
+  const absolutePath: AbsPosixPath = path.posix.join(project.root, relativePath);
 
   return async function () {
     return writeJsonFile(absolutePath, DEFAULT_UNTYPED_TSLINT_CONFIG);

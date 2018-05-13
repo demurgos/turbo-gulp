@@ -1,6 +1,12 @@
 import { posix as posixPath } from "path";
 import { default as Undertaker, TaskFunction } from "undertaker";
-import { CompilerOptionsJson, DEFAULT_PROJECT_TSC_OPTIONS, mergeTscOptionsJson } from "../options/tsc";
+import {
+  CustomTscOptions,
+  DEFAULT_TSC_OPTIONS,
+  mergeTscOptions,
+  toStandardTscOptions,
+  TscOptions,
+} from "../options/tsc";
 import { Project } from "../project";
 import { writeJsonFile } from "../utils/project";
 
@@ -12,15 +18,14 @@ export interface Options {
 
   /**
    * The compiler options to apply, merged with the default project compiler options.
+   *
+   * Custom compiler options (such as `mjsModule`) will be removed.
    */
-  readonly compilerOptions?: CompilerOptionsJson;
+  readonly tscOptions?: CustomTscOptions;
 }
 
 export function generateTask(options: Options): TaskFunction {
-  const compilerOptions: CompilerOptionsJson = mergeTscOptionsJson(
-    DEFAULT_PROJECT_TSC_OPTIONS,
-    options.compilerOptions,
-  );
+  const compilerOptions: TscOptions = toStandardTscOptions(mergeTscOptions(DEFAULT_TSC_OPTIONS, options.tscOptions));
 
   const task: TaskFunction = async function () {
     return writeJsonFile(options.tsconfigJson, {compilerOptions});
@@ -43,8 +48,8 @@ export function registerTask(taker: Undertaker, project: Project): TaskFunction 
 
   for (const tsconfigPath of project.typescript.tsconfigJson) {
     const tsconfigJson: string = posixPath.join(project.root, tsconfigPath);
-    const compilerOptions: CompilerOptionsJson | undefined = project.typescript.compilerOptions;
-    const subTask: TaskFunction = generateTask({tsconfigJson, compilerOptions});
+    const tscOptions: TscOptions | undefined = project.typescript.tscOptions;
+    const subTask: TaskFunction = generateTask({tsconfigJson, tscOptions});
     subTask.displayName = `_tsconfig.json:${tsconfigPath}`;
     subTasks.push(subTask);
   }
