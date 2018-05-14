@@ -38,7 +38,7 @@
  * @module targets/mocha
  */
 
-/** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import { posix as posixPath } from "path";
 import Undertaker, { TaskFunction } from "undertaker";

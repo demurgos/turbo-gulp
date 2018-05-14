@@ -65,7 +65,7 @@
  * @module targets/lib
  */
 
-/** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import { Minimatch } from "minimatch";
 import path from "path";

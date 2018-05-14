@@ -4,7 +4,7 @@
  * @module project
  */
 
-/** (Placeholder comment, see christopherthielen/typedoc-plugin-external-module-name#6) */
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import path from "path";
 import { TslintOptions } from "./options/tslint";

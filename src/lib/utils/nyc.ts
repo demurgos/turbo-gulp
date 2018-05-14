@@ -1,8 +1,19 @@
+/**
+ * Helpers to run NYC.
+ *
+ * @module utils/mocha
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { Incident } from "incident";
 import { toPosix } from "../project";
 import { AbsPosixPath } from "../types";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
+/**
+ * Absolute path to the NYC CLI script.
+ */
 const NYC_BIN: AbsPosixPath = toPosix(require.resolve("nyc/bin/nyc.js")) as AbsPosixPath;
 
 export async function execNyc(args: string[], options?: SpawnOptions): Promise<SpawnResult> {

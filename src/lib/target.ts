@@ -1,3 +1,9 @@
+/**
+ * @module target
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { CleanOptions } from "./options/clean";
 import { CopyOptions } from "./options/copy";
 import { TypescriptOptions } from "./options/typescript";

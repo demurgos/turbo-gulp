@@ -1,3 +1,11 @@
+/**
+ * Helpers to spawn processes and manipulate them as promises.
+ *
+ * @module utils/node-async
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import childProcess from "child_process";
 import fs from "fs";
 import { Incident } from "incident";
@@ -40,8 +48,16 @@ export interface ExecFileErrorData {
   stderr: Buffer;
 }
 
+/**
+ * Normalizes the provided argument to a `Buffer`.
+ *
+ * If it already is a buffer, return it as-is. Otherwise it is a string, build a Buffer from it using UTF-8 encoding.
+ *
+ * @param val Value to normalize.
+ * @return Normalized `Buffer` value.
+ */
 function asBuffer(val: string | Buffer): Buffer {
-  return val instanceof Buffer ? val : new Buffer(val, "utf8");
+  return val instanceof Buffer ? val : new Buffer(val, "UTF-8");
 }
 
 export class ExecFileError extends Incident<ExecFileErrorData, "ExecFileError", Error> {
@@ -127,13 +143,13 @@ export interface SpawnResult {
 export type Exit = SignalExit | CodeExit;
 
 export interface CodeExit {
-  type: "code";
-  code: number;
+  readonly type: "code";
+  readonly code: number;
 }
 
 export interface SignalExit {
-  type: "signal";
-  signal: string;
+  readonly type: "signal";
+  readonly signal: string;
 }
 
 export class SpawnedProcess {

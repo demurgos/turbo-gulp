@@ -1,3 +1,14 @@
+/**
+ * Main entry point of `turbo-gulp`.
+ *
+ * Note that some values or types are not available on the main entry point but have to be imported directly
+ * from the corresponding module.
+ *
+ * @module index
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import * as projectTasks from "./project-tasks/index";
 
 export { projectTasks };

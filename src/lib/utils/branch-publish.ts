@@ -1,13 +1,21 @@
+/**
+ * @module utils/branch-publish
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import del from "del";
-import { copy } from "fs-extra";
-import * as path from "path";
+import fs from "fs-extra";
+import path from "path";
 import tmp from "tmp";
 import { toPosix } from "../project";
 import { AbsPosixPath, OsPath } from "../types";
 import { gitAdd, gitClone as gitClone, gitCommit, gitPush } from "./git";
 
 /**
- * Run executor inside a tmp directory. Clean the directory once executor is done.
+ * Runs `executor` with a temporary directory.
+ *
+ * The temporary directory is cleaned automatically at the end.
  */
 async function withTmpDir(executor: (path: AbsPosixPath) => Promise<void>): Promise<void> {
   return new Promise<void>((resolve, reject): void => {
@@ -30,6 +38,9 @@ async function withTmpDir(executor: (path: AbsPosixPath) => Promise<void>): Prom
   });
 }
 
+/**
+ * Options for the [[branchPublish]] function.
+ */
 export interface BranchPublishOptions {
   /**
    * Directory to publish
@@ -57,13 +68,19 @@ export interface BranchPublishOptions {
   commitAuthor?: string;
 }
 
+/**
+ * Commits a directory as the content of a branch and pushes it to a remote repository.
+ *
+ * @param options
+ * @return Promise resolved once the commit is pushed.
+ */
 export async function branchPublish(options: BranchPublishOptions): Promise<void> {
   return withTmpDir(async (tmpDirPath: AbsPosixPath): Promise<void> => {
     console.log(`Using temporary directory: ${tmpDirPath}`);
     const localPath: AbsPosixPath = path.posix.join(tmpDirPath, "repo");
     await gitClone({branch: options.branch, depth: 1, repository: options.repository, directory: localPath});
     await del([path.posix.join(localPath, "**", "*"), `!${path.posix.join(localPath, ".git")}`], {force: true});
-    await copy(options.dir, localPath);
+    await fs.copy(options.dir, localPath);
     await gitAdd({repository: localPath, paths: ["."]});
     await gitCommit({
       repository: localPath,
