@@ -339,7 +339,7 @@ export const DEFAULT_UNTYPED_TSLINT_RULES: TslintConfiguration.RawRulesConfig = 
     },
   ],
   // Makes sure result of `typeof` is compared to correct string values.
-  "typeof-compare": true,
+  "typeof-compare": false,
   // Warns for any two overloads that could be unified into one by using a union or an optional/rest parameter.
   "unified-signatures": true,
   // Enforces use of the `isNaN()` function to check for NaN references instead of a comparison
@@ -403,7 +403,7 @@ export const DEFAULT_TYPED_TSLINT_RULES: TslintConfiguration.RawRulesConfig = {
   // Disallows unused imports, variables, functions and private class members.
   "no-unused-variable": false,
   // Disallows usage of variables before their declaration.
-  "no-use-before-declare": true,
+  "no-use-before-declare": false,
   // Requires expressions of type void to appear in statement position.
   "no-void-expression": true,
   // Requires any function or method that returns a promise to be marked async.

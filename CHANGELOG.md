@@ -3,6 +3,7 @@
 - **[Breaking change]** Replace `OutModules` enum by custom compiler option `mjsModule`.
 - **[Breaking change]** Drop support for Pug, Sass, Angular & Webpack.
 - **[Feature]** Expose custom registries for each target.
+- **[Fix]** Disable deprecated TsLint rules from the default config
 - **[Internal]** Fix continuous deployment script (stop confusing PRs to master
   with push to master)
 
