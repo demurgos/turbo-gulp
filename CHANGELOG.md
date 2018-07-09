@@ -8,6 +8,7 @@
 - **[Internal]** Fix continuous deployment script (stop confusing PRs to master
   with push to master)
 - **[Internal]** Update dependencies
+- **[Internal]** Fix deprecated Mocha types.
 
 ## 0.17.1 (2017-05-03)
 
