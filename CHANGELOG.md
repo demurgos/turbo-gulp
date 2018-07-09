@@ -4,6 +4,7 @@
 - **[Breaking change]** Drop support for Pug, Sass, Angular & Webpack.
 - **[Feature]** Expose custom registries for each target.
 - **[Fix]** Disable deprecated TsLint rules from the default config
+- **[Fix]** Remove use of experimental `fs/promises` module.
 - **[Internal]** Fix continuous deployment script (stop confusing PRs to master
   with push to master)
 - **[Internal]** Update dependencies

@@ -1,6 +1,6 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import fs from "fs/promises";
+import fs from "fs";
 import path from "path";
 import { toPosix } from "../../lib/project";
 import { execFile, ExecFileError, ExecFileResult, readText } from "../../lib/utils/node-async";
@@ -16,7 +16,7 @@ describe("Project node-lib", function (this: Mocha.ISuiteCallbackContext) {
   before("Install npm dependencies", async function (this: Mocha.IHookCallbackContext) {
     this.timeout(5 * 60 * 1000);
     await execFile("yarn", ["install"], {cwd: PROJECT_ROOT});
-    await fs.symlink("../../../../lib", path.posix.join(PROJECT_ROOT, "node_modules", "turbo-gulp"), "dir");
+    await fs.promises.symlink("../../../../lib", path.posix.join(PROJECT_ROOT, "node_modules", "turbo-gulp"), "dir");
   });
 
   describe("tasks", async function (this: Mocha.ISuiteCallbackContext): Promise<void> {
