@@ -1,6 +1,8 @@
 ## Next
 
 - **[Breaking change]** Drop support for Pug, Sass, Angular & Webpack
+- **[Internal]** Fix continuous deployment script (stop confusing PRs to master
+  with push to master)
 
 ## 0.17.1 (2017-05-03)
 

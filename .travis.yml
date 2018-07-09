@@ -16,7 +16,6 @@ before_script:
 
 script:
 - npm test
-- echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 - ./tools/continuous-deployment.travis.sh
 - node node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov
 - node node_modules/.bin/codecov
