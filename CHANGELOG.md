@@ -6,6 +6,7 @@
 - **[Fix]** Disable deprecated TsLint rules from the default config
 - **[Internal]** Fix continuous deployment script (stop confusing PRs to master
   with push to master)
+- **[Internal]** Update dependencies
 
 ## 0.17.1 (2017-05-03)
 
