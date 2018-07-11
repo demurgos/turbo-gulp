@@ -96,9 +96,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#compileroptions" class="tsd-kind-icon">compiler<wbr>Options</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#outmodules" class="tsd-kind-icon">out<wbr>Modules</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#strict" class="tsd-kind-icon">strict</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#tscoptions" class="tsd-kind-icon">tsc<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#tsconfigjson" class="tsd-kind-icon">tsconfig<wbr>Json</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_options_typescript_.typescriptoptions.html#typescript" class="tsd-kind-icon">typescript</a></li>
 							</ul>
@@ -109,50 +108,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="compileroptions" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> compiler<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">compiler<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="_options_tsc_.compileroptionsjson.html" class="tsd-signature-type">CompilerOptionsJson</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/options/typescript.ts#L36">options/typescript.ts:36</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Override the default compiler options.
-							These options are passed to <code>gulp-typescript</code> and used when emiting <code>tsconfig.json</code> files.</p>
-						</div>
-						<p>Merge rule: Shallow merge (<code>actual = {...default, ...project, ...target}</code>).</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="outmodules" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> out<wbr>Modules</h3>
-					<div class="tsd-signature tsd-kind-icon">out<wbr>Modules<span class="tsd-signature-symbol">:</span> <a href="../enums/_options_typescript_.outmodules.html" class="tsd-signature-type">OutModules</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/options/typescript.ts#L57">options/typescript.ts:57</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Output modules.</p>
-						</div>
-						<ul>
-							<li><code>Default</code>: Use the compiler options to emit <code>*.js</code> files.</li>
-							<li><code>Mjs</code>: Enforce <code>es2015</code> modules and emit <code>*.mjs</code> files.</li>
-							<li><code>Both</code>: Emit both <code>*.js</code> files using the compiler options and <code>*.mjs</code> using <code>es2015</code>.</li>
-						</ul>
-						<p>Default: <code>Js</code></p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="strict" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> strict</h3>
 					<div class="tsd-signature tsd-kind-icon">strict<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/options/typescript.ts#L28">options/typescript.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/options/typescript.ts#L22">options/typescript.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -165,12 +126,29 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="tscoptions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tsc<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">tsc<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="_options_tsc_.customtscoptions.html" class="tsd-signature-type">CustomTscOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/options/typescript.ts#L30">options/typescript.ts:30</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Override the default compiler options.
+							These options are passed to <code>gulp-typescript</code> and used when emiting <code>tsconfig.json</code> files.</p>
+						</div>
+						<p>Merge rule: Shallow merge (<code>actual = {...default, ...project, ...target}</code>).</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="tsconfigjson" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tsconfig<wbr>Json</h3>
 					<div class="tsd-signature tsd-kind-icon">tsconfig<wbr>Json<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/options/typescript.ts#L46">options/typescript.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/options/typescript.ts#L40">options/typescript.ts:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -179,7 +157,7 @@
 						</div>
 						<p>If used in a project: relative to <code>project.root</code>
 						If used in a target: relative to <code>project.src</code>.</p>
-						<p>Merge rule: Last write win (no array merge).</p>
+						<p>Merge rule: Last write win.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -188,7 +166,7 @@
 					<div class="tsd-signature tsd-kind-icon">typescript<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ts</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/options/typescript.ts#L19">options/typescript.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/options/typescript.ts#L13">options/typescript.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -213,9 +191,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
-						<a href="../enums/_options_typescript_.outmodules.html" class="tsd-kind-icon">Out<wbr>Modules</a>
-					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_options_typescript_.completetypescriptoptions.html" class="tsd-kind-icon">Complete<wbr>Typescript<wbr>Options</a>
 					</li>
@@ -225,13 +200,10 @@
 						<a href="_options_typescript_.typescriptoptions.html" class="tsd-kind-icon">Typescript<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_options_typescript_.typescriptoptions.html#compileroptions" class="tsd-kind-icon">compiler<wbr>Options</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_options_typescript_.typescriptoptions.html#outmodules" class="tsd-kind-icon">out<wbr>Modules</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_options_typescript_.typescriptoptions.html#strict" class="tsd-kind-icon">strict</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_options_typescript_.typescriptoptions.html#tscoptions" class="tsd-kind-icon">tsc<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_options_typescript_.typescriptoptions.html#tsconfigjson" class="tsd-kind-icon">tsconfig<wbr>Json</a>
@@ -247,7 +219,7 @@
 						<a href="../modules/_options_typescript_.html#mergetypescriptoptions" class="tsd-kind-icon">merge<wbr>Typescript<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
-						<a href="../modules/_options_typescript_.html#default_project_ts_options" class="tsd-kind-icon">DEFAULT_<wbr>PROJECT_<wbr>TS_<wbr>OPTIONS</a>
+						<a href="../modules/_options_typescript_.html#default_typescript_options" class="tsd-kind-icon">DEFAULT_<wbr>TYPESCRIPT_<wbr>OPTIONS</a>
 					</li>
 				</ul>
 			</nav>

@@ -71,6 +71,12 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/_targets_node_.noderegistry.html" class="tsd-kind-icon">Node<wbr>Registry</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_targets_node_.nodetarget.html" class="tsd-kind-icon">Node<wbr>Target</a></li>
@@ -95,13 +101,13 @@
 					<a name="generatenodetasks" class="tsd-anchor"></a>
 					<h3>generate<wbr>Node<wbr>Tasks</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Node<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_node_.nodetarget.html" class="tsd-signature-type">NodeTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_node_.nodetasks.html" class="tsd-signature-type">NodeTasks</a></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Node<wbr>Tasks<span class="tsd-signature-symbol">(</span>taker<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Undertaker</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_node_.nodetarget.html" class="tsd-signature-type">NodeTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_node_.nodetasks.html" class="tsd-signature-type">NodeTasks</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/node.ts#L81">targets/node.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/node.ts#L85">targets/node.ts:85</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -112,9 +118,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>gulp: <span class="tsd-signature-type">Gulp</span></h5>
+									<h5>taker: <span class="tsd-signature-type">Undertaker</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Gulp instance used to generate tasks manipulating files.</p>
+										<p>Undertaker (or Gulp) registry used to generate tasks.</p>
 									</div>
 								</li>
 								<li>
@@ -132,13 +138,13 @@
 					<a name="registernodetasks" class="tsd-anchor"></a>
 					<h3>register<wbr>Node<wbr>Tasks</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">register<wbr>Node<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_node_.nodetarget.html" class="tsd-signature-type">NodeTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_node_.nodetasks.html" class="tsd-signature-type">NodeTasks</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Node<wbr>Tasks<span class="tsd-signature-symbol">(</span>taker<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Undertaker</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_node_.nodetarget.html" class="tsd-signature-type">NodeTarget</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets_node_.nodetasks.html" class="tsd-signature-type">NodeTasks</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/node.ts#L114">targets/node.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/node.ts#L118">targets/node.ts:118</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -149,9 +155,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>gulp: <span class="tsd-signature-type">Gulp</span></h5>
+									<h5>taker: <span class="tsd-signature-type">Undertaker</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Gulp instance where the tasks will be registered.</p>
+										<p>Undertaker (or Gulp) instance where the tasks will be registered.</p>
 									</div>
 								</li>
 								<li>
@@ -175,7 +181,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/node.ts#L65">targets/node.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/node.ts#L69">targets/node.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -212,6 +218,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_targets_node_.noderegistry.html" class="tsd-kind-icon">Node<wbr>Registry</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_targets_node_.nodetarget.html" class="tsd-kind-icon">Node<wbr>Target</a>
 					</li>

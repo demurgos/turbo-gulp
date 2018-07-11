@@ -109,7 +109,7 @@
 					<div class="tsd-signature tsd-kind-icon">Watch<wbr>Task<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TaskFunction</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/_base.ts#L21">targets/_base.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/_base.ts#L20">targets/_base.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -120,24 +120,24 @@
 					<a name="addtask" class="tsd-anchor"></a>
 					<h3>add<wbr>Task</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Task<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, displayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, task<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TaskFunction</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TaskFunction</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Task<span class="tsd-signature-symbol">(</span>taker<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Undertaker</span>, displayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, task<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TaskFunction</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TaskFunction</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/_base.ts#L258">targets/_base.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/_base.ts#L237">targets/_base.ts:237</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Name a task function and register it to the provided gulp instance.</p>
+									<p>Name a task function and register it to the provided Undertaker (or Gulp) instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>gulp: <span class="tsd-signature-type">Gulp</span></h5>
+									<h5>taker: <span class="tsd-signature-type">Undertaker</span></h5>
 								</li>
 								<li>
 									<h5>displayName: <span class="tsd-signature-type">string</span></h5>
@@ -154,13 +154,13 @@
 					<a name="generatebasetasks" class="tsd-anchor"></a>
 					<h3>generate<wbr>Base<wbr>Tasks</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Base<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets__base_.targetbase.html" class="tsd-signature-type">TargetBase</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets__base_.basetasks.html" class="tsd-signature-type">BaseTasks</a></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Base<wbr>Tasks<span class="tsd-signature-symbol">(</span>taker<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Undertaker</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets__base_.targetbase.html" class="tsd-signature-type">TargetBase</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets__base_.basetasks.html" class="tsd-signature-type">BaseTasks</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/_base.ts#L296">targets/_base.ts:296</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/_base.ts#L279">targets/_base.ts:279</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -171,9 +171,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>gulp: <span class="tsd-signature-type">Gulp</span></h5>
+									<h5>taker: <span class="tsd-signature-type">Undertaker</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Gulp instance used to generate tasks manipulating files.</p>
+										<p>Undertaker (or Gulp) registry used to generate tasks.</p>
 									</div>
 								</li>
 								<li>
@@ -191,13 +191,13 @@
 					<a name="getcopy" class="tsd-anchor"></a>
 					<h3>get<wbr>Copy</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Copy<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, srcDir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, targetDir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, copyOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_options_copy_.copyoptions.html" class="tsd-signature-type">CopyOptions</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">TaskFunction</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TaskFunction</span><span class="tsd-signature-symbol">]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Copy<span class="tsd-signature-symbol">(</span>taker<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Undertaker</span>, srcDir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, targetDir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, copyOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_options_copy_.copyoptions.html" class="tsd-signature-type">CopyOptions</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">TaskFunction</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TaskFunction</span><span class="tsd-signature-symbol">]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/_base.ts#L32">targets/_base.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/_base.ts#L31">targets/_base.ts:31</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -208,9 +208,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>gulp: <span class="tsd-signature-type">Gulp</span></h5>
+									<h5>taker: <span class="tsd-signature-type">Undertaker</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Gulp instance to use for utility methods.</p>
+										<p>Undertaker (or Gulp) instance used to define parallel tasks.</p>
 									</div>
 								</li>
 								<li>
@@ -247,7 +247,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/_base.ts#L266">targets/_base.ts:266</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/_base.ts#L249">targets/_base.ts:249</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -278,7 +278,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/_base.ts#L250">targets/_base.ts:250</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/_base.ts#L229">targets/_base.ts:229</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -319,13 +319,13 @@
 					<a name="registerbasetasks" class="tsd-anchor"></a>
 					<h3>register<wbr>Base<wbr>Tasks</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">register<wbr>Base<wbr>Tasks<span class="tsd-signature-symbol">(</span>gulp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Gulp</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets__base_.targetbase.html" class="tsd-signature-type">TargetBase</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets__base_.basetasks.html" class="tsd-signature-type">BaseTasks</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Base<wbr>Tasks<span class="tsd-signature-symbol">(</span>taker<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Undertaker</span>, targetOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets__base_.targetbase.html" class="tsd-signature-type">TargetBase</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_targets__base_.basetasks.html" class="tsd-signature-type">BaseTasks</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/_base.ts#L363">targets/_base.ts:363</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/_base.ts#L345">targets/_base.ts:345</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -336,9 +336,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>gulp: <span class="tsd-signature-type">Gulp</span></h5>
+									<h5>taker: <span class="tsd-signature-type">Undertaker</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Gulp instance where the tasks will be registered.</p>
+										<p>Undertaker (or Gulp) instance where the tasks will be registered.</p>
 									</div>
 								</li>
 								<li>
@@ -362,7 +362,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/750b989/src/lib/targets/_base.ts#L188">targets/_base.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1fb14c/src/lib/targets/_base.ts#L173">targets/_base.ts:173</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
