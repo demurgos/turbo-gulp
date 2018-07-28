@@ -7,25 +7,23 @@ export type MochaReporter = "spec";
 export interface MochaOptions {
   rootDir: AbsPosixPath;
   testDir: AbsPosixPath;
-  reporter?: MochaReporter;
-  /**
-   * Test `.spec.mjs` files instead of `.spec.js` (mixed is not supported)
-   * Default: `false`
-   */
-  mjs?: boolean;
+  glob: string;
+  experimentalModules?: boolean;
   colors?: boolean;
+  reporter?: MochaReporter;
 }
 
 export interface ResolvedMochaOptions {
   rootDir: AbsPosixPath;
   testDir: AbsPosixPath;
-  reporter: MochaReporter;
-  mjs: boolean;
+  glob: string;
+  experimentalModules: boolean;
   colors: boolean;
+  reporter: MochaReporter;
 }
 
 export function resolveMochaOptions(options: MochaOptions): ResolvedMochaOptions {
-  return {reporter: "spec", mjs: false, colors: true, ...options};
+  return {experimentalModules: false, colors: false, reporter: "spec", ...options};
 }
 
 export function generateTask(options: MochaOptions): TaskFunction {
@@ -35,9 +33,10 @@ export function generateTask(options: MochaOptions): TaskFunction {
     return mocha.run({
       cwd: resolved.rootDir,
       testDir: resolved.testDir,
+      glob: resolved.glob,
+      experimentalModules: resolved.experimentalModules,
+      colors: resolved.colors,
       reporter: resolved.reporter,
-      colors: true,
-      mjs: resolved.mjs,
     });
   };
   task.displayName = getTaskName();

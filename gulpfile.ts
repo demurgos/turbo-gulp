@@ -1,7 +1,10 @@
-// import * as buildTools from "turbo-gulp"; // Going meta
 import * as buildTools from "turbo-gulp";
 import { LibTarget, registerLibTasks } from "turbo-gulp/targets/lib";
 import { MochaTarget, registerMochaTasks } from "turbo-gulp/targets/mocha";
+
+// import * as buildTools from "./build/lib/index";
+// import { LibTarget, registerLibTasks } from "./build/lib/targets/lib";
+// import { MochaTarget, registerMochaTasks } from "./build/lib/targets/mocha";
 
 import gulp from "gulp";
 import minimist from "minimist";
@@ -30,7 +33,6 @@ const lib: LibTarget = {
   srcDir: "src/lib",
   scripts: ["**/*.ts"],
   mainModule: "index",
-  // outModules: buildTools.OutModules.Both,
   dist: {
     packageJsonMap: (old: buildTools.PackageJson): buildTools.PackageJson => {
       const version: string = options.devDist !== undefined ? `${old.version}-build.${options.devDist}` : old.version;
@@ -69,7 +71,6 @@ const test: MochaTarget = {
   srcDir: "src",
   scripts: ["test/**/*.ts", "lib/**/*.ts", "e2e/*/*.ts"],
   customTypingsDir: "src/custom-typings",
-  // outModules: buildTools.OutModules.Both,
   tscOptions: {
     skipLibCheck: true,
   },

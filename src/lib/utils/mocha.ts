@@ -23,14 +23,21 @@ const MOCHA_BIN: AbsPosixPath = toPosix(require.resolve("mocha/bin/mocha")) as A
  * Runs the Mocha CLI with the provided arguments.
  *
  * @param args Array of CLI arguments.
+ * @param experimentalModules Use `--experimental-modules`.
  * @param options Extra options for the spawned process.
  * @return Promise for the execution result.
  */
-export async function execMocha(args: string[] = [], options?: SpawnOptions): Promise<SpawnResult> {
+export async function execMocha(
+  args: string[] = [],
+  experimentalModules: boolean = false,
+  options?: SpawnOptions,
+): Promise<SpawnResult> {
+  // tslint:disable-next-line:typedef
+  const env = experimentalModules ? {...process.env, NODE_OPTIONS: "--experimental-modules"} : undefined;
   return new SpawnedProcess(
     "node",
     [MOCHA_BIN, ...args],
-    {stdio: "pipe", ...options},
+    {stdio: "pipe", env, ...options},
   ).toPromise();
 }
 
@@ -54,12 +61,12 @@ export interface Sources {
 /**
  * Resolve locations of the Mocha spec files.
  *
- * @param options Resolution options. It `mjs` is `true`, resolve `*.spec.mjs` files else `*.spec.js` from `testDir`.
+ * @param baseDir Base directory to resolve the patterns.
+ * @param specPattern Minimatch pattern for the spec files.
  * @return Resolved locations.
  */
-export function getSources(options: {mjs: boolean; testDir: AbsPosixPath}): Sources {
-  const baseDir: AbsPosixPath = options.testDir;
-  const glob: IMinimatch = new Minimatch(options.mjs ? "**/*.spec.mjs" : "**/*.spec.js");
+export function getSources(baseDir: AbsPosixPath, specPattern: string): Sources {
+  const glob: IMinimatch = new Minimatch(specPattern);
   const specs: string = matcher.asString(matcher.join(baseDir, glob));
 
   return {
@@ -98,10 +105,14 @@ export interface GetCommandArgsOptions {
   colors: boolean;
 
   /**
-   * If `mjs` is true, use `*.spec.mjs` files and require the `esm` loader.
-   * Otherwise, use `*.spec.js` files.
+   * Glob matching the spec files.
    */
-  mjs: boolean;
+  glob: string;
+
+  /**
+   * Pass the `--experimental-modules` flag to Node.
+   */
+  experimentalModules: boolean;
 }
 
 /**
@@ -111,15 +122,17 @@ export interface GetCommandArgsOptions {
  * @return The corresponding list of command line arguments.
  */
 export function getCommandArgs(options: GetCommandArgsOptions): string[] {
-  const sources: Sources = getSources(options);
+  const sources: Sources = getSources(options.testDir, options.glob);
   const result: string[] = [];
   result.push("--ui", "bdd");
   result.push("--reporter", options.reporter);
   if (options.colors) {
     result.push("--colors");
   }
-  if (options.mjs) {
-    result.push("--require", "esm");
+  if (options.experimentalModules) {
+    // TODO: use mocha cli flag instead of NODE_OPTIONS once available (see mochajs/mocha#3438)
+    // result.push("--experimental-modules");
+    result.push("--delay");
   }
   result.push("--", ...sources.specs);
   return result;
@@ -140,20 +153,25 @@ export interface RunOptions {
   testDir: AbsPosixPath;
 
   /**
-   * Mocha reporter used to display the test results.
+   * Glob matching the spec files.
+   * Relative to `testDir`.
    */
-  reporter: MochaReporter;
+  glob: string;
 
   /**
-   * If `mjs` is true, use `*.spec.mjs` files and require the `esm` loader.
-   * Otherwise, use `*.spec.js` files.
+   * Use the `--experimental-modules` flag to run the tests.
    */
-  mjs: boolean;
+  experimentalModules: boolean;
 
   /**
    * Enable colored terminal output.
    */
   colors: boolean;
+
+  /**
+   * Mocha reporter used to display the test results.
+   */
+  reporter: MochaReporter;
 }
 
 /**
@@ -166,7 +184,7 @@ export interface RunOptions {
 export async function run(options: RunOptions): Promise<void> {
   const args: string[] = getCommandArgs(options);
 
-  const result: SpawnResult = await execMocha(args, {cwd: options.cwd, stdio: "inherit"});
+  const result: SpawnResult = await execMocha(args, options.experimentalModules, {cwd: options.cwd, stdio: "inherit"});
   if (result.exit.type === "code") {
     if (result.exit.code === 0) {
       return;

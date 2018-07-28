@@ -43,7 +43,10 @@
 import { posix as posixPath } from "path";
 import Undertaker, { TaskFunction } from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
+import { hasJsOutput, hasMjsOutput } from "../options/tsc";
 import * as mocha from "../task-generators/mocha";
+import { MochaOptions, MochaReporter } from "../task-generators/mocha";
+import { generateMochaMainTask } from "../task-generators/mocha-main";
 import * as nyc from "../task-generators/nyc";
 import { BaseTasks, generateBaseTasks, nameTask, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
 
@@ -51,12 +54,42 @@ import { BaseTasks, generateBaseTasks, nameTask, ResolvedTargetBase, resolveTarg
  * Represents a test build using Mocha, it runs with Node.
  */
 export interface MochaTarget extends TargetBase {
+  /**
+   * Controls the Mocha entry points.
+   *
+   * The default value is `true`.
+   *
+   * - If `false`, the glob patterns for the entry points are passed to mocha
+   *   directly.
+   * - If `true`, an the files are globbed at build time to generate an entry
+   *   point.
+   *   - If `.mjs` files are emitted, a `test.esm.js` is generated.
+   *     It contains an async IIFE. Each test file is mapped to
+   *     `await import(/* file *\/);`.
+   *   - If `*.js` files are emitted, a `test.cjs.js` is generated.
+   *     It contains an IIFE. Each test file is mapped to
+   *     `require(/* file *\/);`.
+   *
+   * - If `.mjs` files are emitted, use `*.spec.mjs`
+   * - If `.js` files are emitted, use `*.spec.js`
+   * - If both `.js` & `.mjs` files are emitted, TODO: explanation (default to mjs but add task to run cjs manually)
+   */
+  generateTestMain?: boolean;
+
+  /**
+   * Mocha test reporter to use.
+   *
+   * Default: `"spec"`
+   */
+  testReporter?: MochaReporter;
 }
 
 /**
  * Mocha target with fully resolved paths and dependencies.
  */
 interface ResolvedMochaTarget extends ResolvedTargetBase {
+  generateTestMain: boolean;
+  testReporter: MochaReporter;
 }
 
 /**
@@ -66,7 +99,9 @@ interface ResolvedMochaTarget extends ResolvedTargetBase {
  * @return Resolved target.
  */
 function resolveMochaTarget(target: MochaTarget): ResolvedMochaTarget {
-  return resolveTargetBase(target);
+  const base: ResolvedTargetBase = resolveTargetBase(target);
+  const generateTestMain: boolean = target.generateTestMain !== undefined ? target.generateTestMain : true;
+  return {...base, generateTestMain, testReporter: "spec"};
 }
 
 export interface MochaTasks extends BaseTasks {
@@ -87,34 +122,71 @@ export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget
   const target: ResolvedMochaTarget = resolveMochaTarget(targetOptions);
   const result: MochaTasks = <MochaTasks> generateBaseTasks(taker, targetOptions);
 
-  const testOptions: mocha.MochaOptions = {
+  let cjsSpecGlob: undefined | string = hasJsOutput(target.tscOptions) ? "**/*.spec.js" : undefined;
+  let esmSpecGlob: undefined | string = hasMjsOutput(target.tscOptions) ? "**/*.spec.mjs" : undefined;
+
+  if (target.generateTestMain) {
+    const buildBase: TaskFunction = nameTask(`${target.name}:build:base`, result.build);
+    const mochaMains: TaskFunction[] = [];
+
+    if (cjsSpecGlob !== undefined) {
+      const mochaMain: string = "test.cjs.js";
+      mochaMains.push(nameTask(`${target.name}:build:main:cjs`, generateMochaMainTask({
+        sources: cjsSpecGlob,
+        base: target.buildDir,
+        target: mochaMain,
+        mode: "cjs",
+      })));
+      cjsSpecGlob = mochaMain;
+    }
+    if (esmSpecGlob !== undefined) {
+      const mochaMain: string = "test.esm.js";
+      mochaMains.push(nameTask(`${target.name}:build:main:esm`, generateMochaMainTask({
+        sources: esmSpecGlob,
+        base: target.buildDir,
+        target: mochaMain,
+        mode: "esm",
+      })));
+      esmSpecGlob = mochaMain;
+    }
+
+    const buildMochaMain: TaskFunction = nameTask(`${target.name}:build:main`, taker.parallel(mochaMains));
+    result.build = nameTask(`${target.name}:build`, taker.series([buildBase, buildMochaMain]));
+    result.watch = undefined;
+  }
+
+  // tslint:disable-next-line:typedef
+  const mochaOptionsBase = {
     rootDir: target.project.absRoot,
     testDir: target.buildDir,
+    colors: true,
+    reporter: target.testReporter,
   };
 
   const runTasks: TaskFunction[] = [];
-  if (!(target.tscOptions.module === undefined && target.tscOptions.mjsModule !== undefined)) {
-    const runCjs: TaskFunction = nameTask(
-      `${target.name}:run:cjs`,
-      mocha.generateTask(testOptions),
-    );
-    result.runCjs = runCjs;
-    runTasks.push(runCjs);
+
+  // Will use the `run:cjs` with fallback to `run:esm`
+  let testOptions: MochaOptions | undefined = undefined;
+
+  if (esmSpecGlob !== undefined) {
+    testOptions = {...mochaOptionsBase, glob: esmSpecGlob, experimentalModules: true};
+    result.runEsm = nameTask(`${target.name}:run:esm`, mocha.generateTask(testOptions));
+    runTasks.push(result.runEsm);
   }
-  if (target.tscOptions.mjsModule !== undefined) {
-    const runEsm: TaskFunction = nameTask(
-      `${target.name}:run:esm`,
-      mocha.generateTask({...testOptions, mjs: true}),
-    );
-    result.runEsm = runEsm;
-    runTasks.push(runEsm);
+  if (cjsSpecGlob !== undefined) {
+    testOptions = {...mochaOptionsBase, glob: cjsSpecGlob};
+    result.runCjs = nameTask(`${target.name}:run:cjs`, mocha.generateTask(testOptions));
+    runTasks.push(result.runCjs);
+  }
+  if (testOptions === undefined) {
+    throw new Error("AssertionFailed: Expected `testOptions` to be defined");
   }
 
   // run
   result.run = nameTask(`${target.name}:run`, taker.series(runTasks));
 
   const coverageOptions: nyc.NycOptions = {
-    test: {...testOptions, mjs: target.tscOptions.mjsModule !== undefined},
+    test: testOptions,
     rootDir: target.project.absRoot,
     reportDir: posixPath.join(target.project.absRoot, "coverage"),
     tempDir: posixPath.join(target.project.absRoot, ".nyc_output"),
