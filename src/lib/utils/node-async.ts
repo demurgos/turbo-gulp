@@ -57,7 +57,7 @@ export interface ExecFileErrorData {
  * @return Normalized `Buffer` value.
  */
 function asBuffer(val: string | Buffer): Buffer {
-  return val instanceof Buffer ? val : new Buffer(val, "UTF-8");
+  return val instanceof Buffer ? val : Buffer.from(val, "UTF-8");
 }
 
 export class ExecFileError extends Incident<ExecFileErrorData, "ExecFileError", Error> {
@@ -203,7 +203,12 @@ export class SpawnedProcess {
         const [stdout, stderr]: [Buffer, Buffer] = this.getBuffers();
         resolve({stdout, stderr, exit: this.exit});
       } else {
+        this.process.once("error", (err: Error) => {
+          this.process.removeAllListeners();
+          reject(err);
+        });
         this.process.once("exit", (code: number | null, signal: string | null): void => {
+          this.process.removeAllListeners();
           let exit: Exit;
           if (code !== null) {
             exit = {type: "code", code};

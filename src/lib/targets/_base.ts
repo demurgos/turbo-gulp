@@ -1,4 +1,4 @@
-import { existsSync, FSWatcher } from "fs";
+import { FSWatcher } from "fs";
 import { Minimatch } from "minimatch";
 import { posix as posixPath } from "path";
 import { Readable as ReadableStream } from "stream";

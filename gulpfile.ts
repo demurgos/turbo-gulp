@@ -1,10 +1,10 @@
-import * as buildTools from "turbo-gulp"; // Going meta
-// import * as buildTools from "./build/lib/index";
+// import * as buildTools from "turbo-gulp"; // Going meta
+import * as buildTools from "turbo-gulp";
+import { LibTarget, registerLibTasks } from "turbo-gulp/targets/lib";
+import { MochaTarget, registerMochaTasks } from "turbo-gulp/targets/mocha";
 
 import gulp from "gulp";
 import minimist from "minimist";
-
-gulp.registry()
 
 interface Options {
   devDist?: string;
@@ -24,13 +24,13 @@ const project: buildTools.Project = {
   srcDir: "src",
 };
 
-const lib: buildTools.LibTarget = {
+const lib: LibTarget = {
   project,
   name: "lib",
   srcDir: "src/lib",
   scripts: ["**/*.ts"],
   mainModule: "index",
-  outModules: buildTools.OutModules.Both,
+  // outModules: buildTools.OutModules.Both,
   dist: {
     packageJsonMap: (old: buildTools.PackageJson): buildTools.PackageJson => {
       const version: string = options.devDist !== undefined ? `${old.version}-build.${options.devDist}` : old.version;
@@ -62,16 +62,17 @@ const lib: buildTools.LibTarget = {
   },
 };
 
-const test: buildTools.MochaTarget = {
+const test: MochaTarget = {
   project,
   name: "test",
   srcDir: "src",
   scripts: ["test/**/*.ts", "lib/**/*.ts", "e2e/*/*.ts"],
   customTypingsDir: "src/custom-typings",
-  outModules: buildTools.OutModules.Both,
+  // outModules: buildTools.OutModules.Both,
   tscOptions: {
     skipLibCheck: true,
   },
+  // generateTestMain: true,
   copy: [
     {
       src: "e2e",
@@ -85,8 +86,8 @@ const test: buildTools.MochaTarget = {
   },
 };
 
-const libTasks: any = buildTools.registerLibTasks(gulp, lib);
-buildTools.registerMochaTasks(gulp, test);
+const libTasks: any = registerLibTasks(gulp, lib);
+registerMochaTasks(gulp, test);
 buildTools.projectTasks.registerAll(gulp, project);
 
 gulp.task("all:tsconfig.json", gulp.parallel("lib:tsconfig.json", "test:tsconfig.json"));

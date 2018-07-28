@@ -10,7 +10,6 @@ import { Tagged } from "ts-tagged";
 import { TaskFunction } from "undertaker";
 import vinylFs from "vinyl-fs";
 import { CustomTscOptions, toStandardTscOptions, TscOptions } from "../options/tsc";
-import { deleteUndefinedProperties } from "../utils/utils";
 import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 
 type TypescriptErrorHash = Tagged<string, "TypescriptErrorHash">;
@@ -63,7 +62,6 @@ export function getBuildTypescriptTask(
     outDir: resolved.outDir,
     typeRoots: resolved.typeRoots,
   };
-  deleteUndefinedProperties(customTscOptions);
 
   const task: TaskFunction = function () {
     let mjsStream: NodeJS.ReadableStream | undefined;

@@ -74,5 +74,5 @@ export function relative(from: PosixPath, matcher: minimatch.IMinimatch): minima
  * @return String corresponding to `matcher`.
  */
 export function asString(matcher: minimatch.IMinimatch): string {
-  return (matcher.negate ? "!" : "") + matcher.pattern;
+  return matcher.negate ? `!${matcher.pattern}` : matcher.pattern;
 }

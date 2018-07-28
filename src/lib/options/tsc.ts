@@ -1,3 +1,5 @@
+import { deleteUndefinedProperties } from "../utils/utils";
+
 export { CompilerOptions } from "typescript";
 
 // tslint:disable:max-line-length
@@ -172,6 +174,34 @@ export function mergeTscOptions(base: CustomTscOptions, extra?: CustomTscOptions
   return {...base, ...extra};
 }
 
+/**
+ * Returns a shallow copy of `customOptions` where the custom and undefined options are removed.
+ *
+ * @param customOptions Base tsc options to standardize.
+ * @return Standardized options.
+ */
 export function toStandardTscOptions(customOptions: CustomTscOptions): TscOptions {
-  return mergeTscOptions({...customOptions, mjsModule: undefined});
+  const result: TscOptions = mergeTscOptions(customOptions, {mjsModule: undefined});
+  deleteUndefinedProperties(result);
+  return result;
+}
+
+/**
+ * Returns a boolean indicating if `.js` files will be emitted.
+ *
+ * @param customOptions Options to check.
+ * @return Boolean indicating if `.js` files will be emitted.
+ */
+export function hasJsOutput(customOptions: CustomTscOptions): boolean {
+  return customOptions.mjsModule === undefined || customOptions.module !== undefined;
+}
+
+/**
+ * Returns a boolean indicating if `.mjs` files will be emitted.
+ *
+ * @param customOptions Options to check.
+ * @return Boolean indicating if `.mjs` files will be emitted.
+ */
+export function hasMjsOutput(customOptions: CustomTscOptions): boolean {
+  return customOptions.mjsModule !== undefined;
 }

@@ -1,7 +1,7 @@
 import { IMinimatch, Minimatch } from "minimatch";
 import { posix as posixPath } from "path";
 import { CustomTscOptions } from "../options/tsc";
-import { AbsPosixPath, RelPosixPath } from "../types";
+import { AbsPosixPath } from "../types";
 import * as matcher from "../utils/matcher";
 
 export interface TypescriptConfig {

@@ -289,7 +289,7 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
   } else {
     const defaultDistDir: AbsPosixPath = path.posix.join(base.project.absDistDir, target.name);
     const defaultPackageJsonMap: (pkg: PackageJson) => PackageJson = pkg => pkg;
-    const defaultCopy: (dest: AbsPosixPath) => CopyOptions[] = (dest: AbsPosixPath) => [{
+    const defaultCopy: (dest: AbsPosixPath) => CopyOptions[] = (_: AbsPosixPath) => [{
       files: ["./*.md"],
     }];
 
@@ -409,24 +409,28 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
 
       // dist:copy:dist
       if (target.dist.copy !== undefined) {
-        const [copyBaseTask, copyBaseWatchTask]: [Undertaker.TaskFunction, Undertaker.TaskFunction] = getCopy(
+        const [copyBaseTask, _]: [Undertaker.TaskFunction, Undertaker.TaskFunction] = getCopy(
           taker,
           target.project.absRoot,
           target.dist.distDir,
           target.dist.copy,
         );
+        // tslint:disable-next-line:no-unused-expression
+        void _; // TODO: Properly unused var error
         copyTasks.push(nameTask(`${target.name}:dist:copy:dist`, copyBaseTask));
       }
     }
 
     // dist:copy:lib
     if (target.copy !== undefined) {
-      const [copyBaseTask, copyBaseWatchTask]: [Undertaker.TaskFunction, Undertaker.TaskFunction] = getCopy(
+      const [copyBaseTask, _]: [Undertaker.TaskFunction, Undertaker.TaskFunction] = getCopy(
         taker,
         target.srcDir,
         target.dist.distDir,
         target.copy,
       );
+      // tslint:disable-next-line:no-unused-expression
+      void _; // TODO: Properly unused var error
       copyTasks.push(nameTask(`${target.name}:dist:copy:lib`, copyBaseTask));
     }
 
