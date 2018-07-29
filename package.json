@@ -88,7 +88,7 @@
     "minimist": "^1.2.0",
     "pre-commit": "^1.2.2",
     "ts-node": "^7.0.0",
-    "turbo-gulp": "next"
+    "turbo-gulp": "0.17.1-build.529"
   },
   "nyc": {
     "include": [

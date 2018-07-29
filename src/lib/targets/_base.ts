@@ -7,7 +7,7 @@ import Undertaker from "undertaker";
 import Vinyl from "vinyl";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
-import { CustomTscOptions, DEV_TSC_OPTIONS, mergeTscOptions, TscOptions } from "../options/tsc";
+import { CustomTscOptions, DEFAULT_TSC_OPTIONS, mergeTscOptions, TscOptions } from "../options/tsc";
 import { Project, ResolvedProject, resolveProject } from "../project";
 import { TypescriptConfig } from "../target-tasks/_typescript";
 import { getBuildTypescriptTask, getBuildTypescriptWatchTask } from "../target-tasks/build-typescript";
@@ -91,7 +91,7 @@ export interface TargetBase {
   /**
    * Overrides for the options of the Typescript compiler.
    */
-  tscOptions?: TscOptions;
+  tscOptions?: CustomTscOptions;
 
   /**
    * Path to the `tsconfig.json` file for this target, relative to `project.rootDir`.
@@ -193,7 +193,7 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
   const customTypingsDir: AbsPosixPath | undefined = target.customTypingsDir !== undefined
     ? posixPath.join(project.absRoot, target.customTypingsDir)
     : undefined;
-  const tscOptions: TscOptions = mergeTscOptions(DEV_TSC_OPTIONS, target.tscOptions);
+  const tscOptions: TscOptions = mergeTscOptions(DEFAULT_TSC_OPTIONS, target.tscOptions);
 
   const tsconfigJson: AbsPosixPath = target.tsconfigJson !== undefined
     ? posixPath.join(project.absRoot, target.tsconfigJson)

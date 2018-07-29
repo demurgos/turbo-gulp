@@ -150,16 +150,6 @@ export const DEFAULT_TSC_OPTIONS: CustomTscOptions = {
   typeRoots: undefined,
 };
 
-export const PROD_TSC_OPTIONS: CustomTscOptions = {
-  ...DEFAULT_TSC_OPTIONS,
-  declaration: true,
-};
-
-export const DEV_TSC_OPTIONS: CustomTscOptions = {
-  ...DEFAULT_TSC_OPTIONS,
-  declaration: false,
-};
-
 /**
  * Merges two typescript compiler options.
  * The options of `extra` override the options of `base`.

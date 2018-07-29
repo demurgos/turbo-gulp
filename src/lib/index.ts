@@ -15,7 +15,7 @@ export { projectTasks };
 
 export { CleanOptions } from "./options/clean";
 export { CopyOptions } from "./options/copy";
-export { DEV_TSC_OPTIONS, PROD_TSC_OPTIONS, TscOptions } from "./options/tsc";
+export { DEFAULT_TSC_OPTIONS, TscOptions } from "./options/tsc";
 export {
   DEFAULT_TYPED_TSLINT_CONFIG,
   DEFAULT_TYPED_TSLINT_RULES,

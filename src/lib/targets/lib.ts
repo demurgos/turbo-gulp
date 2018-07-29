@@ -74,7 +74,7 @@ import UndertakerRegistry from "undertaker-registry";
 import vinylFs from "vinyl-fs";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
-import { TscOptions } from "../options/tsc";
+import { CustomTscOptions, mergeTscOptions, TscOptions } from "../options/tsc";
 import { ResolvedProject } from "../project";
 import { TypescriptConfig } from "../target-tasks/_typescript";
 import { getBuildTypescriptTask } from "../target-tasks/build-typescript";
@@ -158,6 +158,16 @@ interface ResolvedLibTarget extends ResolvedTargetBase {
 
 export interface DistOptions {
   /**
+   * Compiler options for dist builds.
+   *
+   * The resolved options with be the result of merging the simple build options (base) with
+   * the dist options (override).
+   *
+   * The default value is `{declaration: true}`.
+   */
+  readonly tscOptions?: CustomTscOptions;
+
+  /**
    * Directory used where the distribution builds will be written.
    *
    * Relative to `project.root`
@@ -189,6 +199,11 @@ export interface DistOptions {
 }
 
 export interface ResolvedDistOptions {
+  /**
+   * Compiler options for dist builds.
+   */
+  readonly tscOptions: CustomTscOptions;
+
   /**
    * Directory used for distribution builds.
    */
@@ -293,8 +308,11 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
       files: ["./*.md"],
     }];
 
+    const defaultDistTscOptions: TscOptions = {declaration: true};
+
     if (target.dist === true) { // `true` literal
       dist = {
+        tscOptions: mergeTscOptions(base.tscOptions, defaultDistTscOptions),
         distDir: defaultDistDir,
         packageJsonMap: defaultPackageJsonMap,
         npmPublish: {},
@@ -306,6 +324,10 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
         ? path.posix.join(base.project.absRoot, target.dist.distDir)
         : defaultDistDir;
       dist = {
+        tscOptions: mergeTscOptions(
+          base.tscOptions,
+          target.dist.tscOptions !== undefined ? target.dist.tscOptions : defaultDistTscOptions,
+        ),
         distDir,
         packageJsonMap: target.dist.packageJsonMap !== undefined ? target.dist.packageJsonMap : defaultPackageJsonMap,
         npmPublish: target.dist.npmPublish,
@@ -450,7 +472,7 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
     }
 
     const tsOptions: TypescriptConfig = {
-      tscOptions: target.tscOptions,
+      tscOptions: target.dist.tscOptions,
       tsconfigJson,
       customTypingsDir,
       packageJson: target.project.absPackageJson,

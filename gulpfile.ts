@@ -42,6 +42,7 @@ const lib: LibTarget = {
   },
   customTypingsDir: "src/custom-typings",
   tscOptions: {
+    declaration: true,
     skipLibCheck: true,
   },
   typedoc: {
