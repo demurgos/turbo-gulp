@@ -44,10 +44,11 @@ import { posix as posixPath } from "path";
 import Undertaker, { TaskFunction } from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
 import { hasJsOutput, hasMjsOutput } from "../options/tsc";
+import { CoverageOptions, generateTask as generateCoverageTask } from "../task-generators/coverage";
 import * as mocha from "../task-generators/mocha";
 import { MochaOptions, MochaReporter } from "../task-generators/mocha";
 import { generateMochaMainTask } from "../task-generators/mocha-main";
-import * as nyc from "../task-generators/nyc";
+import { NycReporter } from "../utils/coverage";
 import { BaseTasks, generateBaseTasks, nameTask, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
 
 /**
@@ -109,7 +110,8 @@ export interface MochaTasks extends BaseTasks {
   run: TaskFunction;
   runCjs?: TaskFunction;
   runEsm?: TaskFunction;
-  coverage: TaskFunction;
+  coverageCjs?: TaskFunction;
+  coverageEsm?: TaskFunction;
 }
 
 /**
@@ -165,36 +167,32 @@ export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget
 
   const runTasks: TaskFunction[] = [];
 
-  // Will use the `run:cjs` with fallback to `run:esm`
-  let testOptions: MochaOptions | undefined = undefined;
+  // tslint:disable-next-line:typedef
+  const coverageOptionsBase = {
+    rootDir: target.project.absRoot,
+    reportDir: posixPath.join(target.project.absRoot, "coverage"),
+    tempDir: posixPath.join(target.project.absRoot, ".coverage"),
+    reporters: ["text", "lcovonly", "html"] as NycReporter[],
+    colors: true,
+  };
 
   if (esmSpecGlob !== undefined) {
-    testOptions = {...mochaOptionsBase, glob: esmSpecGlob, experimentalModules: true};
+    const testOptions: MochaOptions = {...mochaOptionsBase, glob: esmSpecGlob, experimentalModules: true};
     result.runEsm = nameTask(`${target.name}:run:esm`, mocha.generateTask(testOptions));
     runTasks.push(result.runEsm);
+    const coverageOptions: CoverageOptions = {...coverageOptionsBase, test: testOptions};
+    result.coverageEsm = nameTask(`${target.name}:coverage:esm`, generateCoverageTask(coverageOptions));
   }
   if (cjsSpecGlob !== undefined) {
-    testOptions = {...mochaOptionsBase, glob: cjsSpecGlob};
+    const testOptions: MochaOptions = {...mochaOptionsBase, glob: cjsSpecGlob};
     result.runCjs = nameTask(`${target.name}:run:cjs`, mocha.generateTask(testOptions));
     runTasks.push(result.runCjs);
-  }
-  if (testOptions === undefined) {
-    throw new Error("AssertionFailed: Expected `testOptions` to be defined");
+    const coverageOptions: CoverageOptions = {...coverageOptionsBase, test: testOptions};
+    result.coverageCjs = nameTask(`${target.name}:coverage:cjs`, generateCoverageTask(coverageOptions));
   }
 
   // run
   result.run = nameTask(`${target.name}:run`, taker.series(runTasks));
-
-  const coverageOptions: nyc.NycOptions = {
-    test: testOptions,
-    rootDir: target.project.absRoot,
-    reportDir: posixPath.join(target.project.absRoot, "coverage"),
-    tempDir: posixPath.join(target.project.absRoot, ".nyc_output"),
-    reporters: ["text", "lcovonly", "html"],
-  };
-
-  // coverage
-  result.coverage = nameTask(`${target.name}:coverage`, nyc.generateTask(coverageOptions));
 
   // start
   const startTasks: TaskFunction[] = [];
@@ -202,7 +200,17 @@ export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget
     startTasks.push(result.clean);
   }
   startTasks.push(result.build);
-  startTasks.push(result.coverage);
+
+  let defaultCoverage: TaskFunction;
+  if (result.coverageEsm !== undefined) {
+    defaultCoverage = result.coverageEsm;
+  } else if (result.coverageCjs !== undefined) {
+    defaultCoverage = result.coverageCjs;
+  } else {
+    throw new Error("AssertionFailed: Expected either CJS or ESM coverage task to be defined.");
+  }
+
+  startTasks.push(defaultCoverage);
   result.start = nameTask(target.name, taker.series(startTasks));
 
   return result;

@@ -19,7 +19,7 @@ The main features are:
 - Typescript builds, with support for custom typings, watch mode and custom compiler options
 - Tslint verification with type information
 - Mocha unit tests
-- Code coverage with `nyc`
+- Code coverage with `c8`
 - Typedoc generation
 - Assets management: copy resources
 

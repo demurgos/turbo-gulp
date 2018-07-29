@@ -16,7 +16,13 @@ describe("Project node-lib", function (this: Mocha.Suite) {
   before("Install npm dependencies", async function (this: Mocha.Context) {
     this.timeout(5 * 60 * 1000);
     await execFile("yarn", ["install"], {cwd: PROJECT_ROOT});
-    await fs.promises.symlink("../../../../lib", path.posix.join(PROJECT_ROOT, "node_modules", "turbo-gulp"), "dir");
+    try {
+      await fs.promises.symlink("../../../../lib", path.posix.join(PROJECT_ROOT, "node_modules", "turbo-gulp"), "dir");
+    } catch (err) {
+      if (err.code !== "EEXIST") {
+        throw err;
+      }
+    }
   });
 
   describe("tasks", async function (this: Mocha.Suite): Promise<void> {

@@ -1,7 +1,7 @@
 /**
- * Helpers to run NYC.
+ * Helpers to run test coverage using c8.
  *
- * @module utils/mocha
+ * @module utils/coverage
  */
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
@@ -12,29 +12,25 @@ import { AbsPosixPath } from "../types";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
 /**
- * Absolute path to the NYC CLI script.
+ * Absolute path to the `c8` CLI script.
  */
-const NYC_BIN: AbsPosixPath = toPosix(require.resolve("nyc/bin/nyc.js")) as AbsPosixPath;
+const C8_BIN: AbsPosixPath = toPosix(require.resolve("c8/bin/c8.js")) as AbsPosixPath;
 
-export async function execNyc(args: string[], options?: SpawnOptions): Promise<SpawnResult> {
+export async function execC8(
+  args: string[],
+  experimentalModules: boolean = false,
+  options?: SpawnOptions,
+): Promise<SpawnResult> {
+  // tslint:disable-next-line:typedef
+  const env = experimentalModules ? {...process.env, NODE_OPTIONS: "--experimental-modules"} : undefined;
   return new SpawnedProcess(
     "node",
-    [NYC_BIN, ...args],
-    {stdio: "pipe", ...options},
+    [C8_BIN, ...args],
+    {stdio: "pipe", env, ...options},
   ).toPromise();
 }
 
 export type NycReporter = "text" | "text-lcov" | "lcovonly" | "html";
-
-export interface ReportOptions {
-  tempDirectory: AbsPosixPath;
-}
-
-export async function report(options: ReportOptions): Promise<void> {
-  const args: string[] = ["--reporter", "lcov"];
-  args.push("--temp-directory", options.tempDirectory);
-  await execNyc(["report", ...args]);
-}
 
 export interface RunOptions {
   cwd: AbsPosixPath;
@@ -44,6 +40,11 @@ export interface RunOptions {
   tempDir: AbsPosixPath;
   include?: string[];
   colors?: boolean;
+
+  /**
+   * Use `--experimental-modules`. Default:  false`.
+   */
+  experimentalModules?: boolean;
 }
 
 export async function run(options: RunOptions): Promise<void> {
@@ -59,7 +60,8 @@ export async function run(options: RunOptions): Promise<void> {
   }
   args.push("--", ...options.command);
 
-  const result: SpawnResult = await execNyc(args, {cwd: options.cwd, stdio: "inherit"});
+  const experimentalModules: boolean = options.experimentalModules || false;
+  const result: SpawnResult = await execC8(args, experimentalModules, {cwd: options.cwd, stdio: "inherit"});
   if (result.exit.type === "code") {
     if (result.exit.code === 0) {
       return;
