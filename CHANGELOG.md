@@ -1,4 +1,4 @@
-## Next
+## 0.18.0 (2018-12-02)
 
 - **[Breaking change]** Replace `OutModules` enum by custom compiler option `mjsModule`.
 - **[Breaking change]** Drop support for Pug, Sass, Angular & Webpack.
@@ -15,29 +15,29 @@
 - **[Internal]** Fix deprecated Mocha types.
 - **[Internal]** Fix CI build type detection.
 
-## 0.17.1 (2017-05-03)
+## 0.17.1 (2018-05-03)
 
 - **[Fix]** Update dependencies, remove `std/esm` warning.
 
-## 0.17.0 (2017-04-22)
+## 0.17.0 (2018-04-22)
 
 - **[Breaking change]** Update dependencies. Use `esm` instead of `@std/esm`, update Typescript to `2.8.3`.
 - **[Fix]** Fix Node processes spawn on Windows (Mocha, Nyc)
 
-## 0.16.2 (2017-02-07)
+## 0.16.2 (2018-02-07)
 
 - **[Fix]** Fix Typedoc generation: use `tsconfig.json` generated for the lib.
 - **[Fix]** Write source map for `.mjs` files
 - **[Fix]** Copy sources to `_src` when publishing a lib (#87).
 - **[Internal]** Restore continuous deployment of documentation.
 
-## 0.16.1 (2017-01-20)
+## 0.16.1 (2018-01-20)
 
 - **[Feature]** Support `mocha` tests on `.mjs` files (using `@std/esm`). Enabled by default
   if `outModules` is configured to emit `.mjs`. **You currently need to add
   `"@std/esm": {"esm": "cjs"}` to your `package.json`.**
 
-## 0.16.0 (2017-01-09)
+## 0.16.0 (2018-01-09)
 
 - **[Breaking change]** Enable `allowSyntheticDefaultImports` and `esModuleInterop` by default
 - **[Fix]** Allow deep module imports in default Tslint rules
