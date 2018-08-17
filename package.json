@@ -60,7 +60,7 @@
     "tmp": "^0.0.33",
     "ts-tagged": "^1.0.0",
     "tslint": "^5.10.0",
-    "typedoc": "^0.11.1",
+    "typedoc": "^0.12.0",
     "typedoc-plugin-external-module-name": "^1.1.1",
     "typescript": "^2.9.2",
     "undertaker": "^1.2.0",
