@@ -6,6 +6,7 @@
 - **[Feature]** Add `dist.tscOptions` for `lib` target to override options for
   distribution builds.
 - **[Feature]** Native ESM tests with mocha.
+- **[Feature]** Use [c88](https://github.com/demurgos/c88) for code coverage.
 - **[Fix]** Disable deprecated TsLint rules from the default config
 - **[Fix]** Remove use of experimental `fs/promises` module.
 - **[Internal]** Fix continuous deployment script (stop confusing PRs to master

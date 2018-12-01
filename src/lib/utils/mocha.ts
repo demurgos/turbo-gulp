@@ -130,8 +130,7 @@ export function getCommandArgs(options: GetCommandArgsOptions): string[] {
     result.push("--colors");
   }
   if (options.experimentalModules) {
-    // TODO: use mocha cli flag instead of NODE_OPTIONS once available (see mochajs/mocha#3438)
-    // result.push("--experimental-modules");
+    result.push("--experimental-modules");
     result.push("--delay");
   }
   result.push("--", ...sources.specs);

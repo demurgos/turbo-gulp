@@ -18,8 +18,8 @@ before_script:
 script:
 - npm test
 - ./tools/continuous-deployment.travis.sh
-- cp coverage/lcov.info coverage.lcov
-- node node_modules/.bin/codecov
+# - cp coverage/lcov.info coverage.lcov
+# - node node_modules/.bin/codecov
 
 after_script:
 - greenkeeper-lockfile-upload

@@ -48,7 +48,7 @@ import { CoverageOptions, generateTask as generateCoverageTask } from "../task-g
 import * as mocha from "../task-generators/mocha";
 import { MochaOptions, MochaReporter } from "../task-generators/mocha";
 import { generateMochaMainTask } from "../task-generators/mocha-main";
-import { NycReporter } from "../utils/coverage";
+import { C88Reporter } from "../utils/coverage";
 import { BaseTasks, generateBaseTasks, nameTask, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
 
 /**
@@ -172,7 +172,7 @@ export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget
     rootDir: target.project.absRoot,
     reportDir: posixPath.join(target.project.absRoot, "coverage"),
     tempDir: posixPath.join(target.project.absRoot, ".coverage"),
-    reporters: ["text", "lcovonly", "html"] as NycReporter[],
+    reporters: ["text", "lcov-file", "html"] as C88Reporter[],
     colors: true,
   };
 

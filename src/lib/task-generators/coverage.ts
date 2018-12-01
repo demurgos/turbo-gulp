@@ -1,6 +1,6 @@
 import { TaskFunction } from "undertaker";
 import { AbsPosixPath } from "../types";
-import { NycReporter, run as runCoverage } from "../utils/coverage";
+import { C88Reporter, run as runCoverage } from "../utils/coverage";
 import { getCommand as getMochaCommand } from "../utils/mocha";
 import { MochaOptions, resolveMochaOptions } from "./mocha";
 
@@ -9,7 +9,7 @@ export interface CoverageOptions {
   rootDir: AbsPosixPath;
   tempDir: AbsPosixPath;
   reportDir: AbsPosixPath;
-  reporters: NycReporter[];
+  reporters: C88Reporter[];
   colors: boolean;
 }
 

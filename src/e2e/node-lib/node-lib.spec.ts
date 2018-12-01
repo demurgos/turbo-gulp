@@ -25,7 +25,7 @@ describe("Project node-lib", function (this: Mocha.Suite) {
     }
   });
 
-  describe("tasks", async function (this: Mocha.Suite): Promise<void> {
+  describe("tasks", function (this: Mocha.Suite): void {
     it("should return an error when the task is unknown", async function (this: Mocha.Context) {
       this.timeout(60 * 1000);
       const result: Promise<ExecFileResult> = execFile("gulp", [":unknown-task"], {cwd: PROJECT_ROOT});
@@ -33,14 +33,14 @@ describe("Project node-lib", function (this: Mocha.Suite) {
     });
   });
 
-  describe(":lint", async function (this: Mocha.Suite): Promise<void> {
+  describe(":lint", function (this: Mocha.Suite): void {
     it("should not report any error", async function (this: Mocha.Context) {
       this.timeout(60 * 1000);
       await execFile("gulp", [":lint"], {cwd: PROJECT_ROOT});
     });
   });
 
-  describe("lib:build", async function (this: Mocha.Suite): Promise<void> {
+  describe("lib:build", function (this: Mocha.Suite): void {
     before("Run `gulp lib:build`", async function (this: Mocha.Context) {
       this.timeout(60 * 1000);
       await execFile("gulp", ["lib:build"], {cwd: PROJECT_ROOT});
@@ -56,7 +56,7 @@ describe("Project node-lib", function (this: Mocha.Suite) {
     });
   });
 
-  describe("lib:dist", async function (this: Mocha.Suite): Promise<void> {
+  describe("lib:dist", function (this: Mocha.Suite): void {
     before("Run `gulp lib:dist`", async function (this: Mocha.Context) {
       this.timeout(60 * 1000);
       await execFile("gulp", ["lib:dist"], {cwd: PROJECT_ROOT});
@@ -72,7 +72,7 @@ describe("Project node-lib", function (this: Mocha.Suite) {
     });
   });
 
-  describe("lib:tsconfig.json", async function (this: Mocha.Suite): Promise<void> {
+  describe("lib:tsconfig.json", function (this: Mocha.Suite): void {
     before("Run `gulp lib:tsconfig.json`", async function (this: Mocha.Context) {
       this.timeout(60 * 1000);
       await execFile("gulp", ["lib:tsconfig.json"], {cwd: PROJECT_ROOT});
@@ -90,7 +90,7 @@ describe("Project node-lib", function (this: Mocha.Suite) {
     );
   });
 
-  describe("lib:test", async function (this: Mocha.Suite): Promise<void> {
+  describe("lib:test", function (this: Mocha.Suite): void {
     it("should not report any error", async function (this: Mocha.Context) {
       this.timeout(60 * 1000);
       await execFile("gulp", ["test"], {cwd: PROJECT_ROOT});

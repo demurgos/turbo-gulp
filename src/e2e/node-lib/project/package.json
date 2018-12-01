@@ -5,7 +5,7 @@
   "private": true,
   "main": "dist/lib/lib/index.js",
   "scripts": {
-    "test": "gulp :lint && gulp lib-test:clean && gulp lib-test",
+    "test": "gulp :lint && gulp test:clean && gulp test",
     "prepublishOnly": "npm test && gulp lib:dist"
   },
   "license": "MIT",
@@ -17,5 +17,11 @@
     "chai": "^4.1.2",
     "gulp": "^4.0.0",
     "gulp-cli": "^2.0.1"
+  },
+  "c88": {
+    "match": [
+      "build/test/lib/*.{js,mjs}",
+      "build/test/lib/**/*.{js,mjs}"
+    ]
   }
 }
