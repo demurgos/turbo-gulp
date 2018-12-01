@@ -13,6 +13,7 @@
   with push to master)
 - **[Internal]** Update dependencies
 - **[Internal]** Fix deprecated Mocha types.
+- **[Internal]** Fix CI build type detection.
 
 ## 0.17.1 (2017-05-03)
 
