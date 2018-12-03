@@ -31,7 +31,7 @@ MAIN_REPO="demurgos/turbo-gulp"
 # Deploy only on merge commit to this branch
 MAIN_BRANCH="master"
 # Id in the name of the key and iv files
-TRAVIS_ENCRYPTION_ID="ef64885c8df9"
+TRAVIS_ENCRYPTION_ID="9e3250f8ceda"
 
 ###############################################################################
 # Get information about the current build                                     #
