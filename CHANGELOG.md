@@ -1,3 +1,7 @@
+## Next
+
+- **[Fix]** TsLint: Ignore void expressions in arrow functions.
+
 ## 0.18.0 (2018-12-02)
 
 - **[Breaking change]** Replace `OutModules` enum by custom compiler option `mjsModule`.

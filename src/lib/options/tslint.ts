@@ -405,7 +405,7 @@ export const DEFAULT_TYPED_TSLINT_RULES: TslintConfiguration.RawRulesConfig = {
   // Disallows usage of variables before their declaration.
   "no-use-before-declare": false,
   // Requires expressions of type void to appear in statement position.
-  "no-void-expression": true,
+  "no-void-expression": [true, "ignore-arrow-function-shorthand"],
   // Requires any function or method that returns a promise to be marked async.
   "promise-function-async": true,
   // When adding two variables, operands must both be of type number or of type string.
