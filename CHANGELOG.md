@@ -1,6 +1,7 @@
 ## Next
 
 - **[Fix]** TsLint: Ignore void expressions in arrow functions.
+- **[Internal]** Update CI script to better support shallow repositories.
 
 ## 0.18.0 (2018-12-02)
 

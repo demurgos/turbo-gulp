@@ -64,7 +64,11 @@ if [[ "${CI_BUILD_TYPE}" == "tag" ]]; then
   # Revert `--single-branch` (caused by `--depth`)
   git config remote.origin.fetch refs/heads/*:refs/remotes/origin/*
   # Fetch all (TODO: Only fetch the last commits of the deployment branch)
-  git fetch --quiet --unshallow --tags
+  if [[ $(git rev-parse --is-shallow-repository) == "true" ]]; then
+    git fetch --quiet --unshallow --tags
+  else
+    git fetch --quiet --tags
+  fi
   # List the tags on the deployment branch (ignore errors), use grep to perform an exact match and test if the match returns the tag
   IS_GIT_HEAD_TAG_ON_MAIN_BRANCH="$(! (git tag --merged "origin/${MAIN_BRANCH}" 2> /dev/null || true) | grep --quiet --fixed-strings --line-regexp "${GIT_HEAD_TAG}" && echo "false" || echo "true")"
 fi
