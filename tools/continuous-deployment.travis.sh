@@ -26,7 +26,7 @@ set -e
 
 # Space out deploys by at least this interval, 1day == 86400sec
 DEPLOY_INTERVAL=86400
-# Deploy only on merge commit to this branch
+# Deploy only on merge commit to this repo
 MAIN_REPO="demurgos/turbo-gulp"
 # Deploy only on merge commit to this branch
 MAIN_BRANCH="master"
