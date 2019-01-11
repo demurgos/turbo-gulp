@@ -1,4 +1,4 @@
-## Next
+## 0.18.1 (2019-01-11)
 
 - **[Fix]** TsLint: Ignore void expressions in arrow functions.
 - **[Fix]** Update dependencies.
