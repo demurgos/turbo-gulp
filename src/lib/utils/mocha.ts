@@ -136,7 +136,7 @@ export function getCommandArgs(options: GetCommandArgsOptions): string[] {
     result.push("--es-module-specifier-resolution=node");
     result.push("--delay");
   }
-  result.push("--", ...sources.specs);
+  result.push(...sources.specs);
   return result;
 }
 
