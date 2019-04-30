@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>UndertakerRegistry | Web Build Tools</title>
+	<title>RequireAllOptions | Web Build Tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,22 +56,129 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_targets_node_.html">&quot;targets/node&quot;</a>
+					<a href="../modules/_require_all_.html">&quot;require-all&quot;</a>
 				</li>
 				<li>
-					<a href="../classes/_targets_node_.noderegistry.html">NodeRegistry</a>
-				</li>
-				<li>
-					<a href="_targets_node_.noderegistry.undertakerregistry.html">UndertakerRegistry</a>
+					<a href="_require_all_.requirealloptions.html">RequireAllOptions</a>
 				</li>
 			</ul>
-			<h1>Module UndertakerRegistry</h1>
+			<h1>Interface RequireAllOptions</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">RequireAllOptions</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_require_all_.requirealloptions.html#base" class="tsd-kind-icon">base</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_require_all_.requirealloptions.html#mode" class="tsd-kind-icon">mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_require_all_.requirealloptions.html#sources" class="tsd-kind-icon">sources</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_require_all_.requirealloptions.html#suffix" class="tsd-kind-icon">suffix</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_require_all_.requirealloptions.html#target" class="tsd-kind-icon">target</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="base" class="tsd-anchor"></a>
+					<h3>base</h3>
+					<div class="tsd-signature tsd-kind-icon">base<span class="tsd-signature-symbol">:</span> <a href="../modules/types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/require-all.ts#L20">require-all.ts:20</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Base directory for wildstar <code>**</code> expansion.</p>
+						</div>
+						<p>Absolute POSIX path.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="mode" class="tsd-anchor"></a>
+					<h3>mode</h3>
+					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"cjs"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"esm"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/require-all.ts#L34">require-all.ts:34</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Output mode.</p>
+							<ul>
+								<li><code>&quot;cjs&quot;</code> means to use a sequence of <code>require(...)</code>.</li>
+								<li><code>&quot;esm&quot;</code> means to use a sequence of <code>await import(...)</code></li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="sources" class="tsd-anchor"></a>
+					<h3>sources</h3>
+					<div class="tsd-signature tsd-kind-icon">sources<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/require-all.ts#L13">require-all.ts:13</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p><code>glob</code> patterns matching the files to select.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="suffix" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> suffix</h3>
+					<div class="tsd-signature tsd-kind-icon">suffix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/require-all.ts#L40">require-all.ts:40</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Optional source text to add in the IIFE after all the dependencies were
+							required.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="target" class="tsd-anchor"></a>
+					<h3>target</h3>
+					<div class="tsd-signature tsd-kind-icon">target<span class="tsd-signature-symbol">:</span> <a href="../modules/types.html#relposixpath" class="tsd-signature-type">RelPosixPath</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/require-all.ts#L27">require-all.ts:27</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Target file where the result will be written.</p>
+						</div>
+						<p>Relative POSIX path, resolved from <code>.base</code>.</p>
+					</div>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
@@ -79,10 +186,43 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_require_all_.html">"require-<wbr>all"</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_require_all_.requirealloptions.html" class="tsd-kind-icon">Require<wbr>All<wbr>Options</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_require_all_.requirealloptions.html#base" class="tsd-kind-icon">base</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_require_all_.requirealloptions.html#mode" class="tsd-kind-icon">mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_require_all_.requirealloptions.html#sources" class="tsd-kind-icon">sources</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_require_all_.requirealloptions.html#suffix" class="tsd-kind-icon">suffix</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_require_all_.requirealloptions.html#target" class="tsd-kind-icon">target</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_require_all_.html#generatesourcetext" class="tsd-kind-icon">generate<wbr>Source<wbr>Text</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="../modules/_require_all_.html#requireall" class="tsd-kind-icon">require<wbr>All</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

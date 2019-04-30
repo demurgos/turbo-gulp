@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Options used to run Mocha,</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -85,12 +92,11 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#colors" class="tsd-kind-icon">colors</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#command" class="tsd-kind-icon">command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#cwd" class="tsd-kind-icon">cwd</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#include" class="tsd-kind-icon">include</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#reportdir" class="tsd-kind-icon">report<wbr>Dir</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#reporters" class="tsd-kind-icon">reporters</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#tempdir" class="tsd-kind-icon">temp<wbr>Dir</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#experimentalmodules" class="tsd-kind-icon">experimental<wbr>Modules</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#glob" class="tsd-kind-icon">glob</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#reporter" class="tsd-kind-icon">reporter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.runoptions.html#testdir" class="tsd-kind-icon">test<wbr>Dir</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,23 +106,18 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="colors" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> colors</h3>
-					<div class="tsd-signature tsd-kind-icon">colors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></div>
+					<h3>colors</h3>
+					<div class="tsd-signature tsd-kind-icon">colors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/nyc.ts#L46">utils/nyc.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L171">utils/mocha.ts:171</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="command" class="tsd-anchor"></a>
-					<h3>command</h3>
-					<div class="tsd-signature tsd-kind-icon">command<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/nyc.ts#L41">utils/nyc.ts:41</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Enable colored terminal output.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="cwd" class="tsd-anchor"></a>
@@ -124,49 +125,75 @@
 					<div class="tsd-signature tsd-kind-icon">cwd<span class="tsd-signature-symbol">:</span> <a href="../modules/types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/nyc.ts#L40">utils/nyc.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L150">utils/mocha.ts:150</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Current working directory for the Mocha execution.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="include" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> include</h3>
-					<div class="tsd-signature tsd-kind-icon">include<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="experimentalmodules" class="tsd-anchor"></a>
+					<h3>experimental<wbr>Modules</h3>
+					<div class="tsd-signature tsd-kind-icon">experimental<wbr>Modules<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/nyc.ts#L45">utils/nyc.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L166">utils/mocha.ts:166</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Use the <code>--experimental-modules</code> flag to run the tests.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="reportdir" class="tsd-anchor"></a>
-					<h3>report<wbr>Dir</h3>
-					<div class="tsd-signature tsd-kind-icon">report<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
+					<a name="glob" class="tsd-anchor"></a>
+					<h3>glob</h3>
+					<div class="tsd-signature tsd-kind-icon">glob<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/nyc.ts#L43">utils/nyc.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L161">utils/mocha.ts:161</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Glob matching the spec files.
+							Relative to <code>testDir</code>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="reporters" class="tsd-anchor"></a>
-					<h3>reporters</h3>
-					<div class="tsd-signature tsd-kind-icon">reporters<span class="tsd-signature-symbol">:</span> <a href="../modules/utils_mocha.html#nycreporter" class="tsd-signature-type">NycReporter</a><span class="tsd-signature-symbol">[]</span></div>
+					<a name="reporter" class="tsd-anchor"></a>
+					<h3>reporter</h3>
+					<div class="tsd-signature tsd-kind-icon">reporter<span class="tsd-signature-symbol">:</span> <a href="../modules/_task_generators_mocha_.html#mochareporter" class="tsd-signature-type">MochaReporter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/nyc.ts#L42">utils/nyc.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L176">utils/mocha.ts:176</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Mocha reporter used to display the test results.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="tempdir" class="tsd-anchor"></a>
-					<h3>temp<wbr>Dir</h3>
-					<div class="tsd-signature tsd-kind-icon">temp<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
+					<a name="testdir" class="tsd-anchor"></a>
+					<h3>test<wbr>Dir</h3>
+					<div class="tsd-signature tsd-kind-icon">test<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/nyc.ts#L44">utils/nyc.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L155">utils/mocha.ts:155</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Directory containing the spec files.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -186,9 +213,6 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="utils_mocha.getcommandargsoptions.html" class="tsd-kind-icon">Get<wbr>Command<wbr>Args<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="utils_mocha.reportoptions.html" class="tsd-kind-icon">Report<wbr>Options</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
@@ -198,47 +222,32 @@
 								<a href="utils_mocha.runoptions.html#colors" class="tsd-kind-icon">colors</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="utils_mocha.runoptions.html#command" class="tsd-kind-icon">command</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="utils_mocha.runoptions.html#cwd" class="tsd-kind-icon">cwd</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="utils_mocha.runoptions.html#include" class="tsd-kind-icon">include</a>
+								<a href="utils_mocha.runoptions.html#experimentalmodules" class="tsd-kind-icon">experimental<wbr>Modules</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="utils_mocha.runoptions.html#reportdir" class="tsd-kind-icon">report<wbr>Dir</a>
+								<a href="utils_mocha.runoptions.html#glob" class="tsd-kind-icon">glob</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="utils_mocha.runoptions.html#reporters" class="tsd-kind-icon">reporters</a>
+								<a href="utils_mocha.runoptions.html#reporter" class="tsd-kind-icon">reporter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="utils_mocha.runoptions.html#tempdir" class="tsd-kind-icon">temp<wbr>Dir</a>
+								<a href="utils_mocha.runoptions.html#testdir" class="tsd-kind-icon">test<wbr>Dir</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="utils_mocha.runoptions-1.html" class="tsd-kind-icon">Run<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="utils_mocha.sources.html" class="tsd-kind-icon">Sources</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#nycreporter" class="tsd-kind-icon">Nyc<wbr>Reporter</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../modules/utils_mocha.html#mocha_bin" class="tsd-kind-icon">MOCHA_<wbr>BIN</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/utils_mocha.html#nyc_bin" class="tsd-kind-icon">NYC_<wbr>BIN</a>
-					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/utils_mocha.html#execmocha" class="tsd-kind-icon">exec<wbr>Mocha</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#execnyc" class="tsd-kind-icon">exec<wbr>Nyc</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/utils_mocha.html#getcommand" class="tsd-kind-icon">get<wbr>Command</a>
@@ -250,13 +259,7 @@
 						<a href="../modules/utils_mocha.html#getsources" class="tsd-kind-icon">get<wbr>Sources</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#report" class="tsd-kind-icon">report</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/utils_mocha.html#run" class="tsd-kind-icon">run</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#run-1" class="tsd-kind-icon">run</a>
 					</li>
 				</ul>
 			</nav>

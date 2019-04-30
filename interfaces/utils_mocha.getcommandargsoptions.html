@@ -92,7 +92,8 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.getcommandargsoptions.html#colors" class="tsd-kind-icon">colors</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.getcommandargsoptions.html#mjs" class="tsd-kind-icon">mjs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.getcommandargsoptions.html#experimentalmodules" class="tsd-kind-icon">experimental<wbr>Modules</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.getcommandargsoptions.html#glob" class="tsd-kind-icon">glob</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.getcommandargsoptions.html#reporter" class="tsd-kind-icon">reporter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.getcommandargsoptions.html#testdir" class="tsd-kind-icon">test<wbr>Dir</a></li>
 							</ul>
@@ -108,7 +109,7 @@
 					<div class="tsd-signature tsd-kind-icon">colors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/mocha.ts#L98">utils/mocha.ts:98</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L107">utils/mocha.ts:107</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -118,18 +119,32 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="mjs" class="tsd-anchor"></a>
-					<h3>mjs</h3>
-					<div class="tsd-signature tsd-kind-icon">mjs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="experimentalmodules" class="tsd-anchor"></a>
+					<h3>experimental<wbr>Modules</h3>
+					<div class="tsd-signature tsd-kind-icon">experimental<wbr>Modules<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/mocha.ts#L104">utils/mocha.ts:104</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L117">utils/mocha.ts:117</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>If <code>mjs</code> is true, use <code>*.spec.mjs</code> files and require the <code>esm</code> loader.
-							Otherwise, use <code>*.spec.js</code> files.</p>
+							<p>Pass the <code>--experimental-modules</code> flag to Node.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="glob" class="tsd-anchor"></a>
+					<h3>glob</h3>
+					<div class="tsd-signature tsd-kind-icon">glob<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L112">utils/mocha.ts:112</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Glob matching the spec files.</p>
 						</div>
 					</div>
 				</section>
@@ -139,7 +154,7 @@
 					<div class="tsd-signature tsd-kind-icon">reporter<span class="tsd-signature-symbol">:</span> <a href="../modules/_task_generators_mocha_.html#mochareporter" class="tsd-signature-type">MochaReporter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/mocha.ts#L93">utils/mocha.ts:93</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L102">utils/mocha.ts:102</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -154,7 +169,7 @@
 					<div class="tsd-signature tsd-kind-icon">test<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/mocha.ts#L88">utils/mocha.ts:88</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/utils/mocha.ts#L97">utils/mocha.ts:97</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -187,7 +202,10 @@
 								<a href="utils_mocha.getcommandargsoptions.html#colors" class="tsd-kind-icon">colors</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="utils_mocha.getcommandargsoptions.html#mjs" class="tsd-kind-icon">mjs</a>
+								<a href="utils_mocha.getcommandargsoptions.html#experimentalmodules" class="tsd-kind-icon">experimental<wbr>Modules</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="utils_mocha.getcommandargsoptions.html#glob" class="tsd-kind-icon">glob</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="utils_mocha.getcommandargsoptions.html#reporter" class="tsd-kind-icon">reporter</a>
@@ -200,31 +218,16 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="utils_mocha.reportoptions.html" class="tsd-kind-icon">Report<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="utils_mocha.runoptions.html" class="tsd-kind-icon">Run<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="utils_mocha.runoptions-1.html" class="tsd-kind-icon">Run<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="utils_mocha.sources.html" class="tsd-kind-icon">Sources</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#nycreporter" class="tsd-kind-icon">Nyc<wbr>Reporter</a>
-					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="../modules/utils_mocha.html#mocha_bin" class="tsd-kind-icon">MOCHA_<wbr>BIN</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/utils_mocha.html#nyc_bin" class="tsd-kind-icon">NYC_<wbr>BIN</a>
-					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/utils_mocha.html#execmocha" class="tsd-kind-icon">exec<wbr>Mocha</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#execnyc" class="tsd-kind-icon">exec<wbr>Nyc</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/utils_mocha.html#getcommand" class="tsd-kind-icon">get<wbr>Command</a>
@@ -236,13 +239,7 @@
 						<a href="../modules/utils_mocha.html#getsources" class="tsd-kind-icon">get<wbr>Sources</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#report" class="tsd-kind-icon">report</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/utils_mocha.html#run" class="tsd-kind-icon">run</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#run-1" class="tsd-kind-icon">run</a>
 					</li>
 				</ul>
 			</nav>

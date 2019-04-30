@@ -88,6 +88,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.distoptions.html#copysrc" class="tsd-kind-icon">copy<wbr>Src</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.distoptions.html#distdir" class="tsd-kind-icon">dist<wbr>Dir</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.distoptions.html#npmpublish" class="tsd-kind-icon">npm<wbr>Publish</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_lib.distoptions.html#tscoptions" class="tsd-kind-icon">tsc<wbr>Options</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -107,7 +108,7 @@
 					<div class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">:</span> <a href="_options_copy_.copyoptions.html" class="tsd-signature-type">CopyOptions</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/targets/lib.ts#L181">targets/lib.ts:181</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/targets/lib.ts#L191">targets/lib.ts:191</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -125,10 +126,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="copysrc" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy<wbr>Src</h3>
-					<div class="tsd-signature tsd-kind-icon">copy<wbr>Src<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></div>
+					<div class="tsd-signature tsd-kind-icon">copy<wbr>Src<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/targets/lib.ts#L171">targets/lib.ts:171</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/targets/lib.ts#L181">targets/lib.ts:181</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -143,7 +144,7 @@
 					<div class="tsd-signature tsd-kind-icon">dist<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../modules/types.html#relposixpath" class="tsd-signature-type">RelPosixPath</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/targets/lib.ts#L166">targets/lib.ts:166</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/targets/lib.ts#L176">targets/lib.ts:176</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -160,9 +161,27 @@
 					<div class="tsd-signature tsd-kind-icon">npm<wbr>Publish<span class="tsd-signature-symbol">:</span> <a href="targets_lib.npmpublishoptions.html" class="tsd-signature-type">NpmPublishOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/targets/lib.ts#L183">targets/lib.ts:183</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/targets/lib.ts#L193">targets/lib.ts:193</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="tscoptions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tsc<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">tsc<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="_options_tsc_.customtscoptions.html" class="tsd-signature-type">CustomTscOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/targets/lib.ts#L168">targets/lib.ts:168</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Compiler options for dist builds.</p>
+						</div>
+						<p>The resolved options with be the result of merging the simple build options (base) with
+						the dist options (override).</p>
+						<p>The default value is <code>{declaration: true}</code>.</p>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -177,7 +196,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/targets/lib.ts#L188">targets/lib.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/targets/lib.ts#L198">targets/lib.ts:198</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -229,6 +248,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="targets_lib.distoptions.html#npmpublish" class="tsd-kind-icon">npm<wbr>Publish</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="targets_lib.distoptions.html#tscoptions" class="tsd-kind-icon">tsc<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="targets_lib.distoptions.html#packagejsonmap" class="tsd-kind-icon">package<wbr>Json<wbr>Map</a>

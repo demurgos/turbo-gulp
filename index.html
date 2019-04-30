@@ -81,22 +81,20 @@
 					<li>Typescript builds, with support for custom typings, watch mode and custom compiler options</li>
 					<li>Tslint verification with type information</li>
 					<li>Mocha unit tests</li>
-					<li>Code coverage with <code>nyc</code></li>
+					<li>Code coverage with <code>c8</code></li>
 					<li>Typedoc generation</li>
 					<li>Assets management: copy resources</li>
 				</ul>
 				<h2 id="installation">Installation</h2>
 				<p>Install the library as a dev-dependency:</p>
-				<pre><code class="lang-shell">npm install -D turbo-gulp
-</code></pre>
+				<pre><code class="language-shell">npm install -D turbo-gulp</code></pre>
 				<p>Builds of the master branch are also regularly released using the <code>next</code> tag:</p>
-				<pre><code class="lang-shell">npm install -D turbo-gulp@next
-</code></pre>
+				<pre><code class="language-shell">npm install -D turbo-gulp@next</code></pre>
 				<h2 id="quick-start">Quick start</h2>
 				<p><strong>TODO</strong>: Add better guide to configure repo and Travis CI, code coverage and codecov integrations.
 				For the moment, take a look at this reference project: <a href="https://github.com/demurgos/incident">Incident</a>.</p>
 				<p>Then use it in your Gulp file, here is an example:</p>
-				<pre><code class="lang-typescript"><span class="hljs-comment">// Import the build tools and the gulp instance for this project</span>
+				<pre><code class="language-typescript"><span class="hljs-comment">// Import the build tools and the gulp instance for this project</span>
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> buildTools <span class="hljs-keyword">from</span> <span class="hljs-string">"turbo-gulp"</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> gulp <span class="hljs-keyword">from</span> <span class="hljs-string">"gulp"</span>;
 
@@ -141,13 +139,12 @@
 <span class="hljs-comment">// Generate and register project-wide tasks</span>
 buildTools.projectTasks.registerAll(gulp, project);
 <span class="hljs-comment">// Generate and register the tasks for the lib target</span>
-buildTools.registerLibTasks(gulp, lib);
-</code></pre>
+buildTools.registerLibTasks(gulp, lib);</code></pre>
 				<p>You can then start using the tasks, for example <code>gulp lib:build</code>. Use <code>gulp --tasks</code> to list all the tasks.
 				Check the documentation for the list of available tasks and configuration.</p>
 				<h2 id="recommended-project-layout">Recommended project layout</h2>
 				<p>Here </p>
-				<pre><code class="lang-text">.
+				<pre><code class="language-text">.
 ├── build/          # Development builds
 ├── dist/           # Distributed files (this goes to npm)
 ├── docs/           # Custom documentation for the library
@@ -161,8 +158,7 @@ buildTools.registerLibTasks(gulp, lib);
 ├── README.md       # Projects presentation
 ├── package.json    # Project&#39;s metadata
 ├── tsconfig.ts     # Default TS config file, used for the gulp file and to help the IDE
-└── gulpfile.ts     # Definition of Gulp tasks
-</code></pre>
+└── gulpfile.ts     # Definition of Gulp tasks</code></pre>
 				<h2 id="usage">Usage</h2>
 				<p>The build tools use the following hierarchy:</p>
 				<ul>
@@ -229,6 +225,9 @@ buildTools.registerLibTasks(gulp, lib);
 						<a href="modules/_project_tasks_tslint_json_.html">"project-<wbr>tasks/tslint-<wbr>json"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_require_all_.html">"require-<wbr>all"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_target_tasks__typescript_.html">"target-<wbr>tasks/_<wbr>typescript"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -253,10 +252,13 @@ buildTools.registerLibTasks(gulp, lib);
 						<a href="modules/_task_generators_copy_.html">"task-<wbr>generators/copy"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_task_generators_coverage_.html">"task-<wbr>generators/coverage"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_task_generators_mocha_.html">"task-<wbr>generators/mocha"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_task_generators_nyc_.html">"task-<wbr>generators/nyc"</a>
+						<a href="modules/_task_generators_mocha_main_.html">"task-<wbr>generators/mocha-<wbr>main"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_utils_git_.html">"utils/git"</a>
@@ -287,6 +289,9 @@ buildTools.registerLibTasks(gulp, lib);
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/utils_branch_publish.html">utils/branch-<wbr>publish</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/utils_coverage.html">utils/coverage</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/utils_matcher.html">utils/matcher</a>

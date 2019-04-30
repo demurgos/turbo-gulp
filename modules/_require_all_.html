@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ReportOptions | Web Build Tools</title>
+	<title>&quot;require-all&quot; | Web Build Tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,51 +56,103 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/utils_mocha.html">utils/mocha</a>
-				</li>
-				<li>
-					<a href="utils_mocha.reportoptions.html">ReportOptions</a>
+					<a href="_require_all_.html">&quot;require-all&quot;</a>
 				</li>
 			</ul>
-			<h1>Interface ReportOptions</h1>
+			<h1>External module &quot;require-all&quot;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">ReportOptions</span>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_mocha.reportoptions.html#tempdirectory" class="tsd-kind-icon">temp<wbr>Directory</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_require_all_.requirealloptions.html" class="tsd-kind-icon">Require<wbr>All<wbr>Options</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_require_all_.html#generatesourcetext" class="tsd-kind-icon">generate<wbr>Source<wbr>Text</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_require_all_.html#requireall" class="tsd-kind-icon">require<wbr>All</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="tempdirectory" class="tsd-anchor"></a>
-					<h3>temp<wbr>Directory</h3>
-					<div class="tsd-signature tsd-kind-icon">temp<wbr>Directory<span class="tsd-signature-symbol">:</span> <a href="../modules/types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/57aaaa5/src/lib/utils/nyc.ts#L30">utils/nyc.ts:30</a></li>
-						</ul>
-					</aside>
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="generatesourcetext" class="tsd-anchor"></a>
+					<h3>generate<wbr>Source<wbr>Text</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Source<wbr>Text<span class="tsd-signature-symbol">(</span>specifiers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">"esm"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cjs"</span>, suffix<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/require-all.ts#L80">require-all.ts:80</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates the source text to import all the specifiers.</p>
+								</div>
+								<p>The imports are wrapped in an IIFE.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>specifiers: <span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Sequence of specifiers to import.</p>
+									</div>
+								</li>
+								<li>
+									<h5>mode: <span class="tsd-signature-type">"esm"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cjs"</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p><code>&quot;cjs&quot;</code> to use a sequence of <code>require(...)</code>, <code>&quot;esm&quot;</code> to
+										use <code>await import(...)</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> suffix: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>Source text for the module body.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="requireall" class="tsd-anchor"></a>
+					<h3>require<wbr>All</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">require<wbr>All<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_require_all_.requirealloptions.html" class="tsd-signature-type">RequireAllOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/require-all.ts#L43">require-all.ts:43</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <a href="../interfaces/_require_all_.requirealloptions.html" class="tsd-signature-type">RequireAllOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -111,68 +163,20 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/utils_mocha.html">utils/mocha</a>
+						<a href="_require_all_.html">"require-<wbr>all"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="utils_mocha.getcommandargsoptions.html" class="tsd-kind-icon">Get<wbr>Command<wbr>Args<wbr>Options</a>
+						<a href="../interfaces/_require_all_.requirealloptions.html" class="tsd-kind-icon">Require<wbr>All<wbr>Options</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="utils_mocha.reportoptions.html" class="tsd-kind-icon">Report<wbr>Options</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="utils_mocha.reportoptions.html#tempdirectory" class="tsd-kind-icon">temp<wbr>Directory</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="utils_mocha.runoptions.html" class="tsd-kind-icon">Run<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="utils_mocha.runoptions-1.html" class="tsd-kind-icon">Run<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="utils_mocha.sources.html" class="tsd-kind-icon">Sources</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#nycreporter" class="tsd-kind-icon">Nyc<wbr>Reporter</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/utils_mocha.html#mocha_bin" class="tsd-kind-icon">MOCHA_<wbr>BIN</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/utils_mocha.html#nyc_bin" class="tsd-kind-icon">NYC_<wbr>BIN</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_require_all_.html#generatesourcetext" class="tsd-kind-icon">generate<wbr>Source<wbr>Text</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#execmocha" class="tsd-kind-icon">exec<wbr>Mocha</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#execnyc" class="tsd-kind-icon">exec<wbr>Nyc</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#getcommand" class="tsd-kind-icon">get<wbr>Command</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#getcommandargs" class="tsd-kind-icon">get<wbr>Command<wbr>Args</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#getsources" class="tsd-kind-icon">get<wbr>Sources</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#report" class="tsd-kind-icon">report</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#run" class="tsd-kind-icon">run</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/utils_mocha.html#run-1" class="tsd-kind-icon">run</a>
+						<a href="_require_all_.html#requireall" class="tsd-kind-icon">require<wbr>All</a>
 					</li>
 				</ul>
 			</nav>
