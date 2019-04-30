@@ -202,10 +202,10 @@ export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget
   startTasks.push(result.build);
 
   let defaultCoverage: TaskFunction;
-  if (result.coverageEsm !== undefined) {
-    defaultCoverage = result.coverageEsm;
-  } else if (result.coverageCjs !== undefined) {
+  if (result.coverageCjs !== undefined) {
     defaultCoverage = result.coverageCjs;
+  } else if (result.coverageEsm !== undefined) {
+    defaultCoverage = result.coverageEsm;
   } else {
     throw new Error("AssertionFailed: Expected either CJS or ESM coverage task to be defined.");
   }

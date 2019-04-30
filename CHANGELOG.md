@@ -2,6 +2,7 @@
 
 - **[Fix]** TsLint: Ignore void expressions in arrow functions.
 - **[Fix]** Update dependencies.
+- **[Fix]** Default to CJS for tests, ESM is not ready yet.
 - **[Internal]** Update CI script to better support shallow repositories.
 
 ## 0.18.0 (2018-12-02)
