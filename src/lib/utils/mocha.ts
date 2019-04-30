@@ -33,11 +33,13 @@ export async function execMocha(
   options?: SpawnOptions,
 ): Promise<SpawnResult> {
   // tslint:disable-next-line:typedef
-  const env = experimentalModules ? {...process.env, NODE_OPTIONS: "--experimental-modules"} : undefined;
+  if (experimentalModules) {
+    args.unshift("--experimental-modules", "--es-module-specifier-resolution=node");
+  }
   return new SpawnedProcess(
     "node",
     [MOCHA_BIN, ...args],
-    {stdio: "pipe", env, ...options},
+    {stdio: "pipe", ...options},
   ).toPromise();
 }
 
@@ -131,6 +133,7 @@ export function getCommandArgs(options: GetCommandArgsOptions): string[] {
   }
   if (options.experimentalModules) {
     result.push("--experimental-modules");
+    result.push("--es-module-specifier-resolution=node");
     result.push("--delay");
   }
   result.push("--", ...sources.specs);
