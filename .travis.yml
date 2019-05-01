@@ -4,16 +4,15 @@ notifications:
   email: false
 
 node_js:
-- 12
+  - 12
 
 before_install:
-- export PATH="$(yarn bin):${PATH}"
+  - export PATH="$(yarn bin):${PATH}"
 
 script:
-- echo "Skipping tests"
-# - npm test
+  - npm test
 
 after_script:
-#- cp coverage/lcov.info coverage.lcov
-#- node node_modules/.bin/codecov
-- ./tools/continuous-deployment.travis.sh
+  - cp coverage/lcov.info coverage.lcov
+  - node node_modules/.bin/codecov
+  - ./tools/continuous-deployment.travis.sh
