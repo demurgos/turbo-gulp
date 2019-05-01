@@ -74,7 +74,7 @@
 					<p>In the following list of tasks, <code>{target}</code> represents the name of the target as defined by the <code>name</code> property
 						of the target options.
 					The <em>lib</em> target provides the following tasks:</p>
-					<h2 id="-target-build">{target}:build</h2>
+					<h2 id="targetbuild">{target}:build</h2>
 					<p>Performs a full build of the library to the build directory, used for development.
 					This copies the static assets and compiles the scripts.</p>
 					<p>The following sub-tasks are available:</p>
@@ -83,11 +83,11 @@
 						<li><code>{target}:build:script</code>: Only compile the scripts</li>
 					</ul>
 					<p>For distribution builds, use <code>{target:dist}</code></p>
-					<h2 id="-target-watch">{target}:watch</h2>
+					<h2 id="targetwatch">{target}:watch</h2>
 					<p>Watch the files and run incremental builds on change.
 						This useful during development to get build errors reported immediately or accelerate the code/test cycle.
 					You can combine it with <em>Nodemon</em> to continuously restart your Node process when changing the source.</p>
-					<h2 id="-target-dist">{target}:dist</h2>
+					<h2 id="targetdist">{target}:dist</h2>
 					<p>Performs a full build of the library to the dist directory, used for distribution (ie. publication to <em>npm</em>).
 						This build creates a fully autonomous directory with its own <code>package.json</code>, source code, license file, etc.
 						This allows to use a different structure for distribution rather than structure of the repo, the main benefit is
@@ -104,14 +104,14 @@
 						<li><code>{target}:dist:package.json</code>: Copy (and eventually transform) the root <code>package.json</code> to the build directory.</li>
 					</ul>
 					<p>For development builds, use <code>{target:build}</code>.</p>
-					<h2 id="-target-typedoc">{target}:typedoc</h2>
+					<h2 id="targettypedoc">{target}:typedoc</h2>
 					<p>Generate <em>Typedoc</em> documentation.</p>
-					<h2 id="-target-typedoc-deploy">{target}:typedoc:deploy</h2>
+					<h2 id="targettypedocdeploy">{target}:typedoc:deploy</h2>
 					<p>Deploy the <em>Typedoc</em> documentation using <em>git</em>. This can be used to easily deploy the documentation to the
 					<code>gh-pages</code> branch.</p>
-					<h2 id="-target-clean">{target}:clean</h2>
+					<h2 id="targetclean">{target}:clean</h2>
 					<p>Remove both the build and dist directories corresponding to this target.</p>
-					<h2 id="-target-tsconfig-json">{target}:tsconfig.json</h2>
+					<h2 id="targettsconfigjson">{target}:tsconfig.json</h2>
 					<p>Emit a <code>tsconfig.json</code> file corresponding to the configuration for this target. This allows to compile it using
 					the command line <code>tsc</code> program. This is also useful for IDE to auto-detect the configuration of the project.</p>
 				</div>
@@ -163,7 +163,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/targets/lib.ts#L358">targets/lib.ts:358</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/aeebfb7/src/lib/targets/lib.ts#L358">targets/lib.ts:358</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -200,7 +200,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/targets/lib.ts#L539">targets/lib.ts:539</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/aeebfb7/src/lib/targets/lib.ts#L539">targets/lib.ts:539</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -237,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/9098cd5/src/lib/targets/lib.ts#L289">targets/lib.ts:289</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/aeebfb7/src/lib/targets/lib.ts#L289">targets/lib.ts:289</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -330,6 +330,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -378,7 +379,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
