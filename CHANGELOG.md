@@ -1,3 +1,7 @@
+# Next
+
+- **[Fix]** Update to `c88@0.3.1` (use `node-inspector-server` instead of `spawn-wrap`).
+
 # 0.19.0 (2018-05-01)
 
 - **[Breaking Change]** Require Node 12 to fix coverage issues.
