@@ -253,9 +253,9 @@
     "@types/istanbul-lib-report" "*"
 
 "@types/lodash@^4.14.123":
-  version "4.14.123"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.123.tgz#39be5d211478c8dd3bdae98ee75bb7efe4abfe4d"
-  integrity sha512-pQvPkc4Nltyx7G1Ww45OjVqUsJP4UsZm+GWJpigXgkikZqJgRm4c48g027o6tdgubWHwFRF15iFd+Y4Pmqv6+Q==
+  version "4.14.125"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.125.tgz#b5fa71f3080a2136ba2702c390ffe528ec1e3980"
+  integrity sha512-s29jU/MIOSddXeji0TSZPJjf0agnfJYpWeKlr79BbtXlfuYamGVyCNQA2IRi5/plaQiNSxMmNGdvFbdtMMJ3nw==
 
 "@types/marked@^0.6.0":
   version "0.6.5"
@@ -777,7 +777,7 @@ builtin-modules@^1.1.1:
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
   integrity sha1-Jw8HbFpywC9bZaR9+Uxf46J4iS8=
 
-c88@^0.3.0, c88@^0.3.1:
+c88@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/c88/-/c88-0.3.1.tgz#e5e9fd73877bf9dd1dd4e17ae2613f3011f373b1"
   integrity sha512-D00DPrymGQXWjLx0q22LERglcw9bMJRBXPlt6uuYBda69HeTkBc7eVgtFPIy1w7OQI4RHIVQZZjqYpJLnxuJDA==
@@ -975,14 +975,14 @@ code-point-at@^1.0.0:
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
 codecov@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/codecov/-/codecov-3.3.0.tgz#7bf337b3f7b0474606b5c31c56dd9e44e395e15d"
-  integrity sha512-S70c3Eg9SixumOvxaKE/yKUxb9ihu/uebD9iPO2IR73IdP4i6ZzjXEULj3d0HeyWPr0DqBfDkjNBWxURjVO5hw==
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/codecov/-/codecov-3.4.0.tgz#7d16d9d82b0ce20efe5dbf66245a9740779ff61b"
+  integrity sha512-+vtyL1B11MWiRIBaPnsIALKKpLFck9m6QdyI20ZnG8WqLG2cxwCTW9x/LbG4Ht8b81equZWw5xLcr+0BIvmdJQ==
   dependencies:
     argv "^0.0.2"
     ignore-walk "^3.0.1"
-    js-yaml "^3.12.0"
-    teeny-request "^3.7.0"
+    js-yaml "^3.13.0"
+    teeny-request "^3.11.3"
     urlgrey "^0.4.4"
 
 collection-map@^1.0.0:
@@ -1795,10 +1795,22 @@ glob@7.1.2:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@7.1.3, glob@^7.0.0, glob@^7.0.3, glob@^7.1.1, glob@^7.1.3:
+glob@7.1.3:
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1"
   integrity sha512-vcfuiIxogLV4DlGBHIUOwI0IbrJ8HWPc4MU7HzviGeNho/UJDfi6B5p3sHeWIQ0KGIU0Jpxi5ZHxemQfLkkAwQ==
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.0.4"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
+
+glob@^7.0.0, glob@^7.0.3, glob@^7.1.1, glob@^7.1.3:
+  version "7.1.4"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.4.tgz#aa608a2f6c577ad357e1ae5a5c26d9a8d1969255"
+  integrity sha512-hkLPepehmnKk41pUGm3sYxoFs/umurYfYJCerbXEyFIWcAzvpipAgVkBqqT9RBKMGjnq6kMuyYwha6csxbiM1A==
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
@@ -2427,7 +2439,7 @@ js-tokens@^4.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@3.13.1, js-yaml@^3.12.0, js-yaml@^3.13.0:
+js-yaml@3.13.1, js-yaml@^3.13.0:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
@@ -3621,9 +3633,9 @@ rimraf@^2.6.1, rimraf@^2.6.3:
     glob "^7.1.3"
 
 rxjs@^6.5.1:
-  version "6.5.1"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.1.tgz#f7a005a9386361921b8524f38f54cbf80e5d08f4"
-  integrity sha512-y0j31WJc83wPu31vS1VlAFW5JGrnGC+j+TtGAa1fRQphy48+fDYiDmX8tjGloToEsMkxnouOg/1IzXGKkJnZMg==
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7"
+  integrity sha512-HUb7j3kvb7p7eCUHE3FqjoDsC1xfZQ4AHFWfTKSpZ+sAhhz5X1WX0ZuUqWbzB2QhSLp3DoLUG+hMdEDKqWo2Zg==
   dependencies:
     tslib "^1.9.0"
 
@@ -4023,7 +4035,7 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-teeny-request@^3.7.0:
+teeny-request@^3.11.3:
   version "3.11.3"
   resolved "https://registry.yarnpkg.com/teeny-request/-/teeny-request-3.11.3.tgz#335c629f7645e5d6599362df2f3230c4cbc23a55"
   integrity sha512-CKncqSF7sH6p4rzCgkb/z/Pcos5efl0DmolzvlqRQUNcpRIruOhY9+T1FsIlyEbfWd7MsFpodROOwHYh2BaXzw==
@@ -4195,12 +4207,13 @@ tsutils@^2.29.0:
     tslib "^1.8.1"
 
 turbo-gulp@next:
-  version "0.18.0-build.650"
-  resolved "https://registry.yarnpkg.com/turbo-gulp/-/turbo-gulp-0.18.0-build.650.tgz#473ab895224b16024d77409eb39e280b07b0e5c3"
-  integrity sha512-16HpXaLGnHd+2x1KvI4hDt7M/4v8ric7x964eSpbY+wA1LIiuADtWCcfjzOXHFNOqGQPVjA9gxWBEmeTc/rwYA==
+  version "0.19.0-build.659"
+  resolved "https://registry.yarnpkg.com/turbo-gulp/-/turbo-gulp-0.19.0-build.659.tgz#d31d77c785d5c47a1d7d68366b2644f34df60bdc"
+  integrity sha512-X5H3pO9gRrA13rWtnY5t7eWq5CkotWBaMehhzmnHGT5fKJxFRYiZGXlAqEsjH/F/toYfJCUmYsqErrhjaxIojQ==
   dependencies:
     "@types/fancy-log" "^1.3.1"
     "@types/fs-extra" "^5.0.5"
+    "@types/glob-watcher" "^5.0.0"
     "@types/gulp-rename" "^0.0.33"
     "@types/gulp-sourcemaps" "^0.0.32"
     "@types/istanbul-lib-report" "^1.1.1"
@@ -4213,7 +4226,7 @@ turbo-gulp@next:
     "@types/vinyl" "^2.0.3"
     "@types/vinyl-fs" "^2.4.11"
     async-done "^1.3.1"
-    c88 "^0.3.0"
+    c88 "^0.3.1"
     del "^4.1.1"
     fancy-log "^1.3.3"
     fs-extra "^7.0.1"
@@ -4298,9 +4311,9 @@ typescript@3.3.x:
   integrity sha512-jjOcCZvpkl2+z7JFn0yBOoLQyLoIkNZAs/fYJkUG6VKy6zLPHJGfQJYFHzibB6GJaF/8QrcECtlQ5cpvRHSMEA==
 
 typescript@^3.5.0-dev.20190430:
-  version "3.5.0-dev.20190507"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.0-dev.20190507.tgz#ef9d803d996766ba9316b1def134cd0eda330460"
-  integrity sha512-ovjIiPk+noNC5vKDZKs3cfFCyPodL/WJumHoDI0G5GACYwa+IlpngRGcF5U+vNzwXdPW1T1qkVaIDyzqpGWOqA==
+  version "3.5.0-dev.20190509"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.0-dev.20190509.tgz#28ae52fe31c6d3bd7b95d974c96ae0fe84fc54d6"
+  integrity sha512-jbpXSKOn7BOgAo3/B+4Y5SXf8xTQyqnOeZWZJC2oEhvOJmStwQCRmurzivoZt7yx1oMG7ilhOjFgKtkOaJ1Q4g==
 
 uglify-js@^3.1.4:
   version "3.5.11"
@@ -4402,9 +4415,9 @@ uuid@^3.3.2:
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
 v8flags@^3.0.1:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-3.1.2.tgz#fc5cd0c227428181e6c29b2992e4f8f1da5e0c9f"
-  integrity sha512-MtivA7GF24yMPte9Rp/BWGCYQNaUj86zeYxV/x2RRJMKagImbbv3u8iJC57lNhWLPcGLJmHcHmFWkNsplbbLWw==
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-3.1.3.tgz#fc9dc23521ca20c5433f81cc4eb9b3033bb105d8"
+  integrity sha512-amh9CCg3ZxkzQ48Mhcb8iX7xpAfYJgePHxWMQCBWECpOSqJUXgY26ncA61UTV0BkPqfhcy6mzwCIoP4ygxpW8w==
   dependencies:
     homedir-polyfill "^1.0.1"
 
