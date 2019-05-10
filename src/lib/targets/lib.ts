@@ -32,17 +32,20 @@
  * This build also allows you to remap the `package.json`, for example to set the version dynamically.
  *
  * The following sub-tasks are available:
- * - `{target}:dist:publish`: Publish the package to an _npm_ registry (it honors the `registry` option, to publish
- *   to private _npm_ registries such as _Verdaccio_). It uses the authentication token of the current user, this
- *   token is in `~/.npmrc`. For CI, you can use the following command to set the token the registry `npm.example.com`.
- *   (for the official registry, use `//registry.npmjs.org`):
- *   ```
- *   echo "//npm.example.com/:_authToken=\"${NPM_TOKEN}\"" > ~/.npmrc
- *   ```
  * - `{target}:dist:copy-src`: Only copy the source files to the build directory.
  * - `{target}:dist:package.json`: Copy (and eventually transform) the root `package.json` to the build directory.
  *
  * For development builds, use `{target:build}`.
+ *
+ * ##{target}:publish
+ *
+ * Publish the package to an _npm_ registry (it honors the `registry` option, to publish
+ * to private _npm_ registries such as _Verdaccio_). It uses the authentication token of the current user, this
+ * token is in `~/.npmrc`. For CI, you can use the following command to set the token the registry `npm.example.com`.
+ * (for the official registry, use `//registry.npmjs.org`):
+ * ```
+ * echo "//npm.example.com/:_authToken=\"${NPM_TOKEN}\"" > ~/.npmrc
+ * ```
  *
  * ## {target}:typedoc
  *
@@ -345,7 +348,7 @@ export interface LibTasks extends BaseTasks {
   typedocDeploy?: Undertaker.TaskFunction;
   dist?: Undertaker.TaskFunction;
   distCopy?: Undertaker.TaskFunction;
-  distPublish?: Undertaker.TaskFunction;
+  publish?: Undertaker.TaskFunction;
   distPackageJson?: Undertaker.TaskFunction;
 }
 
@@ -521,9 +524,9 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
           directory: dist.distDir,
         });
       };
-      npmPublishTask.displayName = `${target.name}:dist:publish`;
+      npmPublishTask.displayName = `${target.name}:publish`;
       taker.task(npmPublishTask);
-      result.distPublish = nameTask(`${target.name}:dist:publish`, taker.series(distTask, npmPublishTask));
+      result.publish = nameTask(`${target.name}:publish`, taker.series(distTask, npmPublishTask));
     }
   }
 
