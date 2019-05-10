@@ -1,4 +1,6 @@
 /**
+ * Helpers to publish packages using the npm CLI.
+ *
  * @module utils/npm-publish
  */
 

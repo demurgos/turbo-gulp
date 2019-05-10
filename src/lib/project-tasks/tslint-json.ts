@@ -1,3 +1,12 @@
+/**
+ * This module defines the `tslint-json` project task.
+ *
+ * @module project-tasks/tslint-json
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import path from "path";
 import Undertaker from "undertaker";
 import { DEFAULT_UNTYPED_TSLINT_CONFIG } from "../options/tslint";
@@ -20,7 +29,7 @@ export function generateTask(project: Project): Undertaker.TaskFunction {
 }
 
 export function getTaskName(): string {
-  return ":tslint.json";
+  return "tslint.json";
 }
 
 export function registerTask(taker: Undertaker, project: Project): Undertaker.TaskFunction {

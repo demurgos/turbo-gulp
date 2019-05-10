@@ -5,7 +5,7 @@
   "private": true,
   "main": "dist/lib/lib/index.js",
   "scripts": {
-    "test": "gulp :lint && gulp test:clean && gulp test",
+    "test": "gulp lint && gulp test:clean && gulp test",
     "prepublishOnly": "npm test && gulp lib:dist"
   },
   "license": "MIT",

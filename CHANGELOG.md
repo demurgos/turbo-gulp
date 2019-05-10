@@ -1,6 +1,9 @@
 # Next
 
+- **[Breaking change]** Remove `:` prefix from project tasks. For example, `:lint` is now simply `lint`.
+- **[Breaking change]** Rename `:lint:fix` to `format`.
 - **[Fix]** Update to `c88@0.3.1` (use `node-inspector-server` instead of `spawn-wrap`).
+- **[Fix]** Ensure all modules are documented.
 
 # 0.19.0 (2018-05-01)
 

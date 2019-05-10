@@ -1,3 +1,12 @@
+/**
+ * This module defines configuration for the typescript compilation tasks.
+ *
+ * @module options/clean
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { deleteUndefinedProperties } from "../utils/utils";
 
 export { CompilerOptions } from "typescript";

@@ -1,4 +1,6 @@
 /**
+ * Various helpers around `package.json`, versions and tags.
+ *
  * @module utils/project
  */
 

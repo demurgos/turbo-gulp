@@ -1,3 +1,12 @@
+/**
+ * This module defines configuration for the general Typescript tasks (e.g. compilation and lint).
+ *
+ * @module options/clean
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import * as ts from "typescript";
 import { CustomTscOptions, DEFAULT_TSC_OPTIONS, mergeTscOptions, TscOptions } from "./tsc";
 

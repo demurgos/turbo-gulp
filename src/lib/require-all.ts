@@ -1,3 +1,15 @@
+/**
+ * This module defines the `requireAll` function and its options.
+ *
+ * The goal of this function is to generate scripts that statically require or
+ * import a list of dependencies.
+ *
+ * @module require-all
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import fs from "fs";
 import glob from "glob";
 import { Minimatch } from "minimatch";
@@ -75,6 +87,7 @@ export async function requireAll(options: RequireAllOptions): Promise<void> {
  * @param specifiers Sequence of specifiers to import.
  * @param mode `"cjs"` to use a sequence of `require(...)`, `"esm"` to
  *              use `await import(...)`.
+ * @param suffix Raw source text to execute after all the imports are completed.
  * @return Source text for the module body.
  */
 function generateSourceText(specifiers: ReadonlyArray<string>, mode: "esm" | "cjs", suffix?: string): string {

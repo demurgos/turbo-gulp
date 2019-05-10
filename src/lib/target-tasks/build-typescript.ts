@@ -1,3 +1,12 @@
+/**
+ * This module generates Typescript compilation tasks.
+ *
+ * @module target-tasks/build-typescript
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import fs from "fs";
 import globWatcher from "glob-watcher";
 import gulpRename from "gulp-rename";
@@ -10,7 +19,7 @@ import { Tagged } from "ts-tagged";
 import { TaskFunction } from "undertaker";
 import vinylFs from "vinyl-fs";
 import { CustomTscOptions, toStandardTscOptions, TscOptions } from "../options/tsc";
-import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
+import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "../typescript";
 
 type TypescriptErrorHash = Tagged<string, "TypescriptErrorHash">;
 

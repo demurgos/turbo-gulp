@@ -1,3 +1,12 @@
+/**
+ * This module defines the `format` project task.
+ *
+ * @module project-tasks/format
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { default as gulpTslint, PluginOptions as GulpTslintOptions } from "gulp-tslint";
 import { IMinimatch, Minimatch } from "minimatch";
 import { posix as path } from "path";
@@ -8,7 +17,7 @@ import { DEFAULT_UNTYPED_TSLINT_CONFIG } from "../options/tslint";
 import { Project } from "../project";
 import * as matcher from "../utils/matcher";
 
-export const taskName: string = ":lint:fix";
+export const taskName: string = "format";
 
 /**
  * Sources to use when compiling TS code

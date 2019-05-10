@@ -1,14 +1,19 @@
+/**
+ * This module defines extended Typescript options shared by multiple targets.
+ *
+ * @module typescript
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { IMinimatch, Minimatch } from "minimatch";
 import { posix as posixPath } from "path";
-import { CustomTscOptions } from "../options/tsc";
-import { AbsPosixPath } from "../types";
-import * as matcher from "../utils/matcher";
+import { CustomTscOptions } from "./options/tsc";
+import { AbsPosixPath } from "./types";
+import * as matcher from "./utils/matcher";
 
 export interface TypescriptConfig {
   readonly tscOptions: CustomTscOptions;
-  /**
-   * `null`: Do not generate `tsconfig.json` task
-   */
   readonly tsconfigJson: AbsPosixPath;
   readonly customTypingsDir?: AbsPosixPath;
   readonly packageJson: AbsPosixPath;

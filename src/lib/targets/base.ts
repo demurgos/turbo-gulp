@@ -1,3 +1,13 @@
+/**
+ * This module defines the base target. Other targets extend it. It is an
+ * internal target and should not be used by consumers.
+ *
+ * @module targets/base
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { FSWatcher } from "fs";
 import { Minimatch } from "minimatch";
 import { posix as posixPath } from "path";
@@ -9,12 +19,12 @@ import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CustomTscOptions, DEFAULT_TSC_OPTIONS, mergeTscOptions, TscOptions } from "../options/tsc";
 import { Project, ResolvedProject, resolveProject } from "../project";
-import { TypescriptConfig } from "../target-tasks/_typescript";
 import { getBuildTypescriptTask, getBuildTypescriptWatchTask } from "../target-tasks/build-typescript";
+import { CleanOptions as _CleanOptions, generateTask as generateCleanTask } from "../target-tasks/clean";
+import * as copy from "../target-tasks/copy";
 import { getTsconfigJsonTask } from "../target-tasks/tsconfig-json";
-import { CleanOptions as _CleanOptions, generateTask as generateCleanTask } from "../task-generators/clean";
-import * as copy from "../task-generators/copy";
 import { AbsPosixPath, RelPosixPath } from "../types";
+import { TypescriptConfig } from "../typescript";
 import * as matcher from "../utils/matcher";
 
 export type WatchTaskFunction = (Undertaker.TaskFunction & (() => FSWatcher));

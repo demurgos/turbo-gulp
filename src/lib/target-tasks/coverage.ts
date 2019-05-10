@@ -1,3 +1,12 @@
+/**
+ * This module generates tasks to run tests with coverage.
+ *
+ * @module target-tasks/coverage
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { TaskFunction } from "undertaker";
 import { AbsPosixPath } from "../types";
 import { C88Reporter, run as runCoverage } from "../utils/coverage";

@@ -1,3 +1,12 @@
+/**
+ * This module generates tasks to run mocha tests.
+ *
+ * @module target-tasks/mocha
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { TaskFunction } from "undertaker";
 import { AbsPosixPath } from "../types";
 import * as mocha from "../utils/mocha";

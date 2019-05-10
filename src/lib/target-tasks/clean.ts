@@ -1,3 +1,12 @@
+/**
+ * This module generates clean-up tasks.
+ *
+ * @module target-tasks/clean
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import del from "del";
 import { Minimatch } from "minimatch";
 import { posix as path } from "path";

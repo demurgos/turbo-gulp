@@ -1,3 +1,27 @@
+/**
+ * This module defines the _node_ target type used to build runnable Node applications.
+ *
+ * In the following list of tasks, `{target}` represents the name of the target as defined by the `name` property
+ * of the target options.
+ * The _lib_ target provides the following tasks:
+ *
+ * ## {target}
+ *
+ * Build and run the target.
+ *
+ * ## {target}:build
+ *
+ * Performs a full build of the application to the build directory.
+ *
+ * ## {target}:run
+ *
+ * Run the the Node application (without building it).
+ *
+ * @module targets/node
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { spawn } from "child_process";
 import { posix as posixPath } from "path";
 import Undertaker from "undertaker";
@@ -15,7 +39,7 @@ import {
   ResolvedTargetBase,
   resolveTargetBase,
   TargetBase,
-} from "./_base";
+} from "./base";
 
 /**
  * Represents a Node program.
@@ -84,7 +108,7 @@ export interface NodeTasks extends BaseTasks {
  */
 export function generateNodeTasks(taker: Undertaker, targetOptions: NodeTarget): NodeTasks {
   const target: ResolvedNodeTarget = resolveLibTarget(targetOptions);
-  const result: NodeTasks = <NodeTasks> registerBaseTasks(taker, targetOptions);
+  const result: NodeTasks = registerBaseTasks(taker, targetOptions) as NodeTasks;
 
   const absMain: AbsPosixPath = posixPath.join(target.buildDir, `${target.mainModule}.js`);
 
@@ -118,7 +142,7 @@ export function generateNodeTasks(taker: Undertaker, targetOptions: NodeTarget):
 export function registerNodeTasks(taker: Undertaker, targetOptions: NodeTarget): NodeTasks {
   const tasks: NodeTasks = generateNodeTasks(taker, targetOptions);
   for (const key in tasks) {
-    const task: Undertaker.TaskFunction | undefined = (<any> tasks)[key];
+    const task: Undertaker.TaskFunction | undefined = (tasks as any)[key];
     if (task !== undefined) {
       taker.task(task);
     }

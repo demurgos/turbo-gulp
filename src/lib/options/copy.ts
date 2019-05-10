@@ -1,4 +1,13 @@
 /**
+ * This module defines configuration for the copy tasks.
+ *
+ * @module options/clean
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
+/**
  * CopyOptions describes a copy operation required to build a target.
  */
 export interface CopyOptions {

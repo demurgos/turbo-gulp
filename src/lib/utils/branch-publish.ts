@@ -13,11 +13,11 @@ import { AbsPosixPath, OsPath } from "../types";
 import { gitAdd, gitClone as gitClone, gitCommit, gitPush } from "./git";
 
 /**
- * Runs `executor` with a temporary directory.
+ * Runs `handler` with a temporary directory.
  *
  * The temporary directory is cleaned automatically at the end.
  */
-async function withTmpDir(executor: (path: AbsPosixPath) => Promise<void>): Promise<void> {
+async function withTmpDir(handler: (path: AbsPosixPath) => Promise<void>): Promise<void> {
   return new Promise<void>((resolve, reject): void => {
     tmp.dir({unsafeCleanup: true}, async (err: Error | null, dir: OsPath, done: (cb: any) => void): Promise<void> => {
       if (err !== null) {
@@ -25,7 +25,7 @@ async function withTmpDir(executor: (path: AbsPosixPath) => Promise<void>): Prom
         return;
       }
       try {
-        await executor(toPosix(dir) as AbsPosixPath);
+        await handler(toPosix(dir) as AbsPosixPath);
         done(() => {
           resolve();
         });

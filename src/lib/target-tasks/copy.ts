@@ -1,3 +1,12 @@
+/**
+ * This module generates copy tasks.
+ *
+ * @module target-tasks/copy
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { FSWatcher } from "fs";
 import globWatcher from "glob-watcher";
 import { Minimatch } from "minimatch";

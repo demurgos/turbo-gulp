@@ -9,7 +9,7 @@
 import { Incident } from "incident";
 import { IMinimatch, Minimatch } from "minimatch";
 import { toPosix } from "../project";
-import { MochaReporter } from "../task-generators/mocha";
+import { MochaReporter } from "../target-tasks/mocha";
 import { AbsPosixPath } from "../types";
 import * as matcher from "./matcher";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";

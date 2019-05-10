@@ -76,10 +76,10 @@ import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { CustomTscOptions, mergeTscOptions, TscOptions } from "../options/tsc";
 import { ResolvedProject } from "../project";
-import { TypescriptConfig } from "../target-tasks/_typescript";
 import { getBuildTypescriptTask } from "../target-tasks/build-typescript";
 import { getTypedocTask } from "../target-tasks/typedoc";
 import { AbsPosixPath, RelPosixPath } from "../types";
+import { TypescriptConfig } from "../typescript";
 import { branchPublish } from "../utils/branch-publish";
 import { getHeadHash } from "../utils/git";
 import * as matcher from "../utils/matcher";
@@ -95,7 +95,7 @@ import {
   ResolvedTargetBase,
   resolveTargetBase,
   TargetBase,
-} from "./_base";
+} from "./base";
 
 /**
  * Represents a Typescript library.

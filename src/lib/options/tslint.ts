@@ -1,3 +1,12 @@
+/**
+ * This module defines configuration for the lint and format tasks.
+ *
+ * @module options/clean
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { Configuration as TslintConfiguration } from "tslint";
 
 export interface TslintOptions {

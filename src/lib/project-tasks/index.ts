@@ -1,10 +1,20 @@
+/**
+ * This module re-exports all the project tasks and provides a function to
+ * register all the tasks at once.
+ *
+ * @module project-tasks/index
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import Undertaker from "undertaker";
 import { Project } from "../project";
 import * as bumpMajor from "./bump-major";
 import * as bumpMinor from "./bump-minor";
 import * as bumpPatch from "./bump-patch";
+import * as lintFix from "./format";
 import * as lint from "./lint";
-import * as lintFix from "./lint-fix";
 import * as tsconfigJson from "./tsconfig-json";
 import * as tslintJson from "./tslint-json";
 

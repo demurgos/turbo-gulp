@@ -1,3 +1,12 @@
+/**
+ * This module defines the `lint` project task.
+ *
+ * @module project-tasks/lint
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { existsSync as fileExistsSync, readFileSync } from "fs";
 import { default as gulpTslint, PluginOptions as GulpTslintOptions } from "gulp-tslint";
 import { IMinimatch, Minimatch } from "minimatch";
@@ -20,7 +29,7 @@ import { DEFAULT_TYPED_TSLINT_CONFIG } from "../options/tslint";
 import { Project } from "../project";
 import * as matcher from "../utils/matcher";
 
-export const taskName: string = ":lint";
+export const taskName: string = "lint";
 
 /**
  * Sources to use when compiling TS code

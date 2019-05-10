@@ -44,12 +44,12 @@ import { posix as posixPath } from "path";
 import Undertaker, { TaskFunction } from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
 import { hasJsOutput, hasMjsOutput } from "../options/tsc";
-import { CoverageOptions, generateTask as generateCoverageTask } from "../task-generators/coverage";
-import * as mocha from "../task-generators/mocha";
-import { MochaOptions, MochaReporter } from "../task-generators/mocha";
-import { generateMochaMainTask } from "../task-generators/mocha-main";
+import { CoverageOptions, generateTask as generateCoverageTask } from "../target-tasks/coverage";
+import * as mocha from "../target-tasks/mocha";
+import { MochaOptions, MochaReporter } from "../target-tasks/mocha";
+import { generateMochaMainTask } from "../target-tasks/mocha-main";
 import { C88Reporter } from "../utils/coverage";
-import { BaseTasks, generateBaseTasks, nameTask, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./_base";
+import { BaseTasks, generateBaseTasks, nameTask, ResolvedTargetBase, resolveTargetBase, TargetBase } from "./base";
 
 /**
  * Represents a test build using Mocha, it runs with Node.

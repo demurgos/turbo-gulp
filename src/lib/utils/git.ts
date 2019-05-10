@@ -1,3 +1,14 @@
+/**
+ * Git commands using the Git CLI.
+ *
+ * This module provides some Git commands by wrapping the CLI. It runs the commands by generating
+ * the CLI options and spawning a sub-process.
+ *
+ * @module utils/git
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { Incident } from "incident";
 import { AbsPosixPath } from "../types";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
@@ -62,7 +73,11 @@ export async function gitClone(options: GitCloneOptions): Promise<void> {
   args.push(options.repository, options.directory);
   const result: SpawnResult = await execGit("clone", args);
   if (result.exit.type === "code" && result.exit.code !== 0) {
-    throw new Incident("GitClone", {options, result}, result.stderr.toString("utf8"));
+    const msg: string = result.stderr.toString("utf8");
+    if (options.branch !== undefined && msg.startsWith(`fatal: Remote branch ${options.branch} not found`)) {
+      throw new Incident("GitCloneRemoteBranchNotFound", {options, branch: options.branch}, msg);
+    }
+    throw new Incident("GitClone", {options, result}, msg);
   }
 }
 

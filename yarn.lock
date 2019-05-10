@@ -175,6 +175,13 @@
     "@types/glob" "*"
     "@types/node" "*"
 
+"@types/glob-watcher@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/glob-watcher/-/glob-watcher-5.0.0.tgz#cfd63a8547c8e5c2d81fdac9552fd83f32c6f819"
+  integrity sha512-UZRHIRfTpcymeWQM6knz7SIHkYNNFZGn+3ybomdEyuEO0RpUHjRm5ro7ALL7MjYWI+W5Xn3VgVEl7atzlavVpw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/glob@*", "@types/glob@^7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@types/glob/-/glob-7.1.1.tgz#aa59a1c6e3fbc421e07ccd31a944c30eba521575"
@@ -4291,9 +4298,9 @@ typescript@3.3.x:
   integrity sha512-jjOcCZvpkl2+z7JFn0yBOoLQyLoIkNZAs/fYJkUG6VKy6zLPHJGfQJYFHzibB6GJaF/8QrcECtlQ5cpvRHSMEA==
 
 typescript@^3.5.0-dev.20190430:
-  version "3.5.0-dev.20190504"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.0-dev.20190504.tgz#3e2da4806d0660bdbdbd429a62a682e3687eb658"
-  integrity sha512-MjGaVe9BOFLSUAi+Tz3dDohOElCgQPZHFW7CnXXaFDo+BWdYhrOyJSMm4VbGRzSAXrmiZ2MNBsWp63veuYgAOw==
+  version "3.5.0-dev.20190507"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.0-dev.20190507.tgz#ef9d803d996766ba9316b1def134cd0eda330460"
+  integrity sha512-ovjIiPk+noNC5vKDZKs3cfFCyPodL/WJumHoDI0G5GACYwa+IlpngRGcF5U+vNzwXdPW1T1qkVaIDyzqpGWOqA==
 
 uglify-js@^3.1.4:
   version "3.5.11"

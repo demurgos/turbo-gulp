@@ -1,9 +1,18 @@
+/**
+ * This module generates tasks to eject `tsconfig.json` files.
+ *
+ * @module target-tasks/tsconfig-json
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import path from "path";
 import undertaker from "undertaker";
 import { toStandardTscOptions, TscOptions } from "../options/tsc";
 import { AbsPosixPath, RelPosixPath } from "../types";
+import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "../typescript";
 import { writeJsonFile } from "../utils/project";
-import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "./_typescript";
 
 export function getTsconfigJsonTask(options: TypescriptConfig): undertaker.TaskFunction {
   const resolved: ResolvedTsLocations = resolveTsLocations(options);

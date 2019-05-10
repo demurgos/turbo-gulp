@@ -1,3 +1,12 @@
+/**
+ * This module defines the `tsconfig-json` project task.
+ *
+ * @module project-tasks/tsconfig-json
+ * @internal
+ */
+
+/** (Placeholder comment, see TypeStrong/typedoc#603) */
+
 import { posix as posixPath } from "path";
 import { default as Undertaker, TaskFunction } from "undertaker";
 import {
@@ -36,7 +45,7 @@ export function generateTask(options: Options): TaskFunction {
 }
 
 export function getTaskName(): string {
-  return ":tsconfig.json";
+  return "tsconfig.json";
 }
 
 export function registerTask(taker: Undertaker, project: Project): TaskFunction {

@@ -33,10 +33,10 @@ describe("Project node-lib", function (this: Mocha.Suite) {
     });
   });
 
-  describe(":lint", function (this: Mocha.Suite): void {
+  describe("lint", function (this: Mocha.Suite): void {
     it("should not report any error", async function (this: Mocha.Context) {
       this.timeout(60 * 1000);
-      await execFile("gulp", [":lint"], {cwd: PROJECT_ROOT});
+      await execFile("gulp", ["lint"], {cwd: PROJECT_ROOT});
     });
   });
 
