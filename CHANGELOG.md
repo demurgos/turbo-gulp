@@ -1,4 +1,4 @@
-# Next
+# 0.20.0 (2018-05-10)
 
 - **[Breaking change]** Remove `:` prefix from project tasks. For example, `:lint` is now simply `lint`.
 - **[Breaking change]** Rename `:lint:fix` to `format`.
