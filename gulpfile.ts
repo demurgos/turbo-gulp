@@ -10,9 +10,8 @@ interface Options {
 }
 
 const options: Options & minimist.ParsedArgs = minimist(process.argv.slice(2), {
-  string: ["devDist"],
-  default: {devDist: undefined},
-  alias: {devDist: "dev-dist"},
+  string: ["next"],
+  default: {next: undefined},
 });
 
 const project: Project = {
@@ -31,7 +30,7 @@ const lib: LibTarget = {
   mainModule: "index",
   dist: {
     packageJsonMap: (old: buildTools.PackageJson): buildTools.PackageJson => {
-      const version: string = options.devDist !== undefined ? `${old.version}-build.${options.devDist}` : old.version;
+      const version: string = options.next !== undefined ? `${old.version}-build.${options.next}` : old.version;
       return <any> {...old, version, scripts: undefined, private: false};
     },
     npmPublish: {

@@ -162,7 +162,7 @@ echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 if [[ ${CI_BUILD_TYPE} == "tag" ]]; then
   gulp lib:dist:publish
 else
-  gulp lib:dist:publish --dev-dist ${BUILD_ID}
+  gulp lib:publish --next ${BUILD_ID}
 fi
 
 echo "Successfully deployed to npm"

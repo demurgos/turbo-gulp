@@ -5,6 +5,7 @@
 - **[Breaking change]** Rename `<lib>:dist:publish` to `<lib>:publish`.
 - **[Fix]** Update to `c88@0.3.1` (use `node-inspector-server` instead of `spawn-wrap`).
 - **[Fix]** Ensure all modules are documented.
+- **[Internal]** Rename pre-release flag: from `--dev-dist` to `--next`.
 
 # 0.19.0 (2018-05-01)
 
