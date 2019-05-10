@@ -96,15 +96,16 @@
 					This build also allows you to remap the <code>package.json</code>, for example to set the version dynamically.</p>
 					<p>The following sub-tasks are available:</p>
 					<ul>
-						<li><code>{target}:dist:publish</code>: Publish the package to an <em>npm</em> registry (it honors the <code>registry</code> option, to publish
-							to private <em>npm</em> registries such as <em>Verdaccio</em>). It uses the authentication token of the current user, this
-							token is in <code>~/.npmrc</code>. For CI, you can use the following command to set the token the registry <code>npm.example.com</code>.
-						(for the official registry, use <code>//registry.npmjs.org</code>):<pre><code><span class="hljs-built_in">echo</span> <span class="hljs-string">"//npm.example.com/:_authToken=\"<span class="hljs-variable">${NPM_TOKEN}</span>\""</span> &gt; ~/.npmrc</code></pre></li>
 						<li><code>{target}:dist:copy-src</code>: Only copy the source files to the build directory.</li>
 						<li><code>{target}:dist:package.json</code>: Copy (and eventually transform) the root <code>package.json</code> to the build directory.</li>
 					</ul>
 					<p>For development builds, use <code>{target:build}</code>.</p>
-					<h2 id="targettypedoc">{target}:typedoc</h2>
+					<p>##{target}:publish</p>
+					<p>Publish the package to an <em>npm</em> registry (it honors the <code>registry</code> option, to publish
+						to private <em>npm</em> registries such as <em>Verdaccio</em>). It uses the authentication token of the current user, this
+						token is in <code>~/.npmrc</code>. For CI, you can use the following command to set the token the registry <code>npm.example.com</code>.
+					(for the official registry, use <code>//registry.npmjs.org</code>):</p>
+					<pre><code><span class="hljs-built_in">echo</span> <span class="hljs-string">"//npm.example.com/:_authToken=\"<span class="hljs-variable">${NPM_TOKEN}</span>\""</span> &gt; ~/.npmrc</code></pre><h2 id="targettypedoc">{target}:typedoc</h2>
 					<p>Generate <em>Typedoc</em> documentation.</p>
 					<h2 id="targettypedocdeploy">{target}:typedoc:deploy</h2>
 					<p>Deploy the <em>Typedoc</em> documentation using <em>git</em>. This can be used to easily deploy the documentation to the
@@ -163,7 +164,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/79cb4fa/src/lib/targets/lib.ts#L358">targets/lib.ts:358</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1e1aca/src/lib/targets/lib.ts#L361">targets/lib.ts:361</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -200,7 +201,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/79cb4fa/src/lib/targets/lib.ts#L539">targets/lib.ts:539</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1e1aca/src/lib/targets/lib.ts#L542">targets/lib.ts:542</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -237,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/79cb4fa/src/lib/targets/lib.ts#L289">targets/lib.ts:289</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/f1e1aca/src/lib/targets/lib.ts#L292">targets/lib.ts:292</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
