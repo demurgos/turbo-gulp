@@ -37,7 +37,7 @@ export async function execMocha(
     args.unshift("--experimental-modules", "--es-module-specifier-resolution=node");
   }
   return new SpawnedProcess(
-    "node",
+    process.execPath,
     [MOCHA_BIN, ...args],
     {stdio: "pipe", ...options},
   ).toPromise();
@@ -84,7 +84,7 @@ export function getSources(baseDir: AbsPosixPath, specPattern: string): Sources 
  * @return Command line arguments
  */
 export function getCommand(options: GetCommandArgsOptions): string[] {
-  return [MOCHA_BIN, ...getCommandArgs(options)];
+  return [process.execPath, MOCHA_BIN, ...getCommandArgs(options)];
 }
 
 /**

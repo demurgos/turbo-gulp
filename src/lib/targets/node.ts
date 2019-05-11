@@ -115,7 +115,7 @@ export function generateNodeTasks(taker: Undertaker, targetOptions: NodeTarget):
   // run
   result.run = nameTask(`${target.name}:run`, () => {
     return spawn(
-      "node",
+      process.execPath,
       [absMain, ...process.argv.splice(1)],
       {stdio: "inherit"},
     );

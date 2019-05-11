@@ -1,3 +1,8 @@
+# Next
+
+- **[Fix]** Fix Windows support for coverage.
+- **[Internal]** Enable CI for Windows.
+
 # 0.20.0 (2018-05-10)
 
 - **[Breaking change]** Remove `:` prefix from project tasks. For example, `:lint` is now simply `lint`.

@@ -6,6 +6,9 @@ notifications:
 node_js:
   - 12
 
+os:
+  - linux
+
 before_install:
   - export PATH="$(yarn bin):${PATH}"
 
