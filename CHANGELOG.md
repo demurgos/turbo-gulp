@@ -1,7 +1,6 @@
-# Next
+# 0.20.1 (2018-05-11)
 
 - **[Fix]** Fix Windows support for coverage.
-- **[Internal]** Enable CI for Windows.
 
 # 0.20.0 (2018-05-10)
 
