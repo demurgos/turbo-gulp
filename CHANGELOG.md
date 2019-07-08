@@ -1,3 +1,7 @@
+# Next
+
+- **[Fix]** Update dependencies.
+
 # 0.20.1 (2018-05-11)
 
 - **[Fix]** Fix Windows support for coverage.

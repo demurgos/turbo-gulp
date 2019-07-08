@@ -57,7 +57,7 @@ export interface ExecFileErrorData {
  * @return Normalized `Buffer` value.
  */
 function asBuffer(val: string | Buffer): Buffer {
-  return val instanceof Buffer ? val : Buffer.from(val, "UTF-8");
+  return val instanceof Buffer ? val : Buffer.from(val, "utf8");
 }
 
 export class ExecFileError extends Incident<ExecFileErrorData, "ExecFileError", Error> {
@@ -173,9 +173,9 @@ export class SpawnedProcess {
     );
 
     const stdout: stream.Transform = new stream.PassThrough();
-    this.process.stdout.pipe(stdout);
+    this.process.stdout!.pipe(stdout);
     const stderr: stream.Transform = new stream.PassThrough();
-    this.process.stderr.pipe(stderr);
+    this.process.stderr!.pipe(stderr);
     if (options.stdio === "inherit") {
       stdout.pipe(process.stdout);
       stderr.pipe(process.stderr);
