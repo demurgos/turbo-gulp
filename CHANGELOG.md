@@ -1,3 +1,7 @@
+# Next
+
+- **[Internal]** Migrate CI to `travis.com`.
+
 # 0.20.2 (2019-10-21)
 
 - **[Fix]** Update dependencies.

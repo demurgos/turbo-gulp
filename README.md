@@ -2,11 +2,10 @@
 
 Gulp tasks to boost high-quality projects.
 
-[![npm](https://img.shields.io/npm/v/turbo-gulp.svg?maxAge=2592000)](https://www.npmjs.com/package/turbo-gulp)
+[![npm](https://img.shields.io/npm/v/turbo-gulp.svg)](https://www.npmjs.com/package/turbo-gulp)
 [![GitHub repository](https://img.shields.io/badge/Github-demurgos%2Fturbo--gulp-blue.svg)](https://github.com/demurgos/turbo-gulp)
-[![Build status](https://img.shields.io/travis/demurgos/turbo-gulp/master.svg?maxAge=2592000)](https://travis-ci.org/demurgos/turbo-gulp)
+[![Build status](https://img.shields.io/travis/com/demurgos/turbo-gulp/master.svg)](https://travis-ci.org/demurgos/turbo-gulp)
 [![Codecov](https://codecov.io/gh/demurgos/turbo-gulp/branch/master/graph/badge.svg)](https://codecov.io/gh/demurgos/turbo-gulp)
-[![Greenkeeper badge](https://badges.greenkeeper.io/demurgos/turbo-gulp.svg)](https://greenkeeper.io/)
 
 This package was known as `demurgos-web-build-tools` before `v0.15.2` (2017-11-09).
 
