@@ -1,12 +1,12 @@
-# Next
+# 0.20.2 (2019-10-21)
 
 - **[Fix]** Update dependencies.
 
-# 0.20.1 (2018-05-11)
+# 0.20.1 (2019-05-11)
 
 - **[Fix]** Fix Windows support for coverage.
 
-# 0.20.0 (2018-05-10)
+# 0.20.0 (2019-05-10)
 
 - **[Breaking change]** Remove `:` prefix from project tasks. For example, `:lint` is now simply `lint`.
 - **[Breaking change]** Rename `:lint:fix` to `format`.
@@ -15,7 +15,7 @@
 - **[Fix]** Ensure all modules are documented.
 - **[Internal]** Rename pre-release flag: from `--dev-dist` to `--next`.
 
-# 0.19.0 (2018-05-01)
+# 0.19.0 (2019-05-01)
 
 - **[Breaking Change]** Require Node 12 to fix coverage issues.
 - **[Fix]** TsLint: Ignore void expressions in arrow functions.
