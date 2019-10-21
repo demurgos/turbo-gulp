@@ -74,7 +74,9 @@
 					<p>In the following list of tasks, <code>{target}</code> represents the name of the target as defined by the <code>name</code> property
 						of the target options.
 					The <em>lib</em> target provides the following tasks:</p>
-					<h2 id="targetbuild">{target}:build</h2>
+					<a href="#targetbuild" id="targetbuild" style="color: inherit; text-decoration: none;">
+						<h2>{target}:build</h2>
+					</a>
 					<p>Performs a full build of the library to the build directory, used for development.
 					This copies the static assets and compiles the scripts.</p>
 					<p>The following sub-tasks are available:</p>
@@ -83,11 +85,15 @@
 						<li><code>{target}:build:script</code>: Only compile the scripts</li>
 					</ul>
 					<p>For distribution builds, use <code>{target:dist}</code></p>
-					<h2 id="targetwatch">{target}:watch</h2>
+					<a href="#targetwatch" id="targetwatch" style="color: inherit; text-decoration: none;">
+						<h2>{target}:watch</h2>
+					</a>
 					<p>Watch the files and run incremental builds on change.
 						This useful during development to get build errors reported immediately or accelerate the code/test cycle.
 					You can combine it with <em>Nodemon</em> to continuously restart your Node process when changing the source.</p>
-					<h2 id="targetdist">{target}:dist</h2>
+					<a href="#targetdist" id="targetdist" style="color: inherit; text-decoration: none;">
+						<h2>{target}:dist</h2>
+					</a>
 					<p>Performs a full build of the library to the dist directory, used for distribution (ie. publication to <em>npm</em>).
 						This build creates a fully autonomous directory with its own <code>package.json</code>, source code, license file, etc.
 						This allows to use a different structure for distribution rather than structure of the repo, the main benefit is
@@ -105,14 +111,23 @@
 						to private <em>npm</em> registries such as <em>Verdaccio</em>). It uses the authentication token of the current user, this
 						token is in <code>~/.npmrc</code>. For CI, you can use the following command to set the token the registry <code>npm.example.com</code>.
 					(for the official registry, use <code>//registry.npmjs.org</code>):</p>
-					<pre><code><span class="hljs-built_in">echo</span> <span class="hljs-string">"//npm.example.com/:_authToken=\"<span class="hljs-variable">${NPM_TOKEN}</span>\""</span> &gt; ~/.npmrc</code></pre><h2 id="targettypedoc">{target}:typedoc</h2>
+					<pre><code><span class="hljs-built_in">echo</span> <span class="hljs-string">"//npm.example.com/:_authToken=\"<span class="hljs-variable">${NPM_TOKEN}</span>\""</span> &gt; ~/.npmrc</code></pre>
+					<a href="#targettypedoc" id="targettypedoc" style="color: inherit; text-decoration: none;">
+						<h2>{target}:typedoc</h2>
+					</a>
 					<p>Generate <em>Typedoc</em> documentation.</p>
-					<h2 id="targettypedocdeploy">{target}:typedoc:deploy</h2>
+					<a href="#targettypedocdeploy" id="targettypedocdeploy" style="color: inherit; text-decoration: none;">
+						<h2>{target}:typedoc:deploy</h2>
+					</a>
 					<p>Deploy the <em>Typedoc</em> documentation using <em>git</em>. This can be used to easily deploy the documentation to the
 					<code>gh-pages</code> branch.</p>
-					<h2 id="targetclean">{target}:clean</h2>
+					<a href="#targetclean" id="targetclean" style="color: inherit; text-decoration: none;">
+						<h2>{target}:clean</h2>
+					</a>
 					<p>Remove both the build and dist directories corresponding to this target.</p>
-					<h2 id="targettsconfigjson">{target}:tsconfig.json</h2>
+					<a href="#targettsconfigjson" id="targettsconfigjson" style="color: inherit; text-decoration: none;">
+						<h2>{target}:tsconfig.json</h2>
+					</a>
 					<p>Emit a <code>tsconfig.json</code> file corresponding to the configuration for this target. This allows to compile it using
 					the command line <code>tsc</code> program. This is also useful for IDE to auto-detect the configuration of the project.</p>
 				</div>
@@ -164,7 +179,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/65a11a0/src/lib/targets/lib.ts#L361">targets/lib.ts:361</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/targets/lib.ts#L361">targets/lib.ts:361</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -201,7 +216,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/65a11a0/src/lib/targets/lib.ts#L542">targets/lib.ts:542</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/targets/lib.ts#L542">targets/lib.ts:542</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -238,7 +253,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/65a11a0/src/lib/targets/lib.ts#L292">targets/lib.ts:292</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/targets/lib.ts#L292">targets/lib.ts:292</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
