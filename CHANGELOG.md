@@ -1,6 +1,7 @@
 # Next
 
 - **[Internal]** Migrate CI to `travis.com`.
+- **[Internal]** Fix continuous deployment script.
 
 # 0.20.2 (2019-10-21)
 
@@ -149,7 +150,7 @@ This is the last version released as `demurgos-web-build-tools`.
 - **[Feature]** Add `mocha` target to run tests in `spec.ts` files.
 - **[Feature]** Add `node` target to build and run top-level Node applications.
 - **[Feature]** Provide `generateNodeTasks`, `generateLibTasks` and `generateMochaTasks` functions.
-  They create the tasks but do not register them. 
+  They create the tasks but do not register them.
 - **[Fix]** Run `clean` before `dist`, if defined.
 - **[Fix]** Run `dist` before `publish`.
 

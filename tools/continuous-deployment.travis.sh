@@ -160,7 +160,7 @@ echo ""
 echo "Deploying to npm..."
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 if [[ ${CI_BUILD_TYPE} == "tag" ]]; then
-  gulp lib:dist:publish
+  gulp lib:publish
 else
   gulp lib:publish --next ${BUILD_ID}
 fi
