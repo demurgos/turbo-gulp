@@ -1,5 +1,6 @@
 # Next
 
+- **[Breaking change]** Require Node 13.2.
 - **[Internal]** Migrate CI to `travis.com`.
 - **[Internal]** Fix continuous deployment script.
 
