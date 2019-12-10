@@ -109,10 +109,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 					<a name="mocha_bin" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> MOCHA_<wbr>BIN</h3>
-					<div class="tsd-signature tsd-kind-icon">MOCHA_<wbr>BIN<span class="tsd-signature-symbol">:</span> <a href="types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a><span class="tsd-signature-symbol"> =&nbsp;toPosix(require.resolve(&quot;mocha/bin/mocha&quot;)) as AbsPosixPath</span></div>
+					<div class="tsd-signature tsd-kind-icon">MOCHA_<wbr>BIN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Furi</span><span class="tsd-signature-symbol"> =&nbsp;new Furi(fromSysPath(require.resolve(&quot;mocha/bin/mocha&quot;)))</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/utils/mocha.ts#L20">utils/mocha.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/utils/mocha.ts#L18">src/lib/utils/mocha.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/utils/mocha.ts#L30">utils/mocha.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/utils/mocha.ts#L28">src/lib/utils/mocha.ts:28</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -178,7 +178,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/utils/mocha.ts#L86">utils/mocha.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/utils/mocha.ts#L83">src/lib/utils/mocha.ts:83</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -210,7 +210,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/utils/mocha.ts#L126">utils/mocha.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/utils/mocha.ts#L123">src/lib/utils/mocha.ts:123</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -236,13 +236,13 @@
 					<a name="getsources" class="tsd-anchor"></a>
 					<h3>get<wbr>Sources</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Sources<span class="tsd-signature-symbol">(</span>baseDir<span class="tsd-signature-symbol">: </span><a href="types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a>, specPattern<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/utils_mocha.sources.html" class="tsd-signature-type">Sources</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Sources<span class="tsd-signature-symbol">(</span>baseDir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Furi</span>, specPattern<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/utils_mocha.sources.html" class="tsd-signature-type">Sources</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/utils/mocha.ts#L70">utils/mocha.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/utils/mocha.ts#L68">src/lib/utils/mocha.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -253,7 +253,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>baseDir: <a href="types.html#absposixpath" class="tsd-signature-type">AbsPosixPath</a></h5>
+									<h5>baseDir: <span class="tsd-signature-type">Furi</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Base directory to resolve the patterns.</p>
 									</div>
@@ -280,7 +280,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/utils/mocha.ts#L186">utils/mocha.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/utils/mocha.ts#L183">src/lib/utils/mocha.ts:183</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

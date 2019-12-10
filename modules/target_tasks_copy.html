@@ -85,6 +85,7 @@
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/target_tasks_copy.options.html" class="tsd-kind-icon">Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/target_tasks_copy.resolvedcopyoptions.html" class="tsd-kind-icon">Resolved<wbr>Copy<wbr>Options</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -105,19 +106,19 @@
 					<a name="copy" class="tsd-anchor"></a>
 					<h3>copy</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/target_tasks_copy.options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadableStream</span></li>
+						<li class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/target_tasks_copy.resolvedcopyoptions.html" class="tsd-signature-type">ResolvedCopyOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadableStream</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/target-tasks/copy.ts#L41">target-tasks/copy.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/target-tasks/copy.ts#L59">src/lib/target-tasks/copy.ts:59</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>options: <a href="../interfaces/target_tasks_copy.options.html" class="tsd-signature-type">Options</a></h5>
+									<h5>options: <a href="../interfaces/target_tasks_copy.resolvedcopyoptions.html" class="tsd-signature-type">ResolvedCopyOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReadableStream</span></h4>
@@ -128,13 +129,13 @@
 					<a name="generatetask" class="tsd-anchor"></a>
 					<h3>generate<wbr>Task</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Task<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/target_tasks_copy.options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TaskFunction</span></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Task<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/target_tasks_copy.resolvedcopyoptions.html" class="tsd-signature-type">ResolvedCopyOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TaskFunction</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/target-tasks/copy.ts#L50">target-tasks/copy.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/target-tasks/copy.ts#L68">src/lib/target-tasks/copy.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -145,7 +146,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>options: <a href="../interfaces/target_tasks_copy.options.html" class="tsd-signature-type">Options</a></h5>
+									<h5>options: <a href="../interfaces/target_tasks_copy.resolvedcopyoptions.html" class="tsd-signature-type">ResolvedCopyOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TaskFunction</span></h4>
@@ -162,12 +163,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/target-tasks/copy.ts#L37">target-tasks/copy.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/target-tasks/copy.ts#L55">src/lib/target-tasks/copy.ts:55</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Return a list of sources, prefixed by &quot;from&quot;</p>
+									<p>Returns a list of sources, prefixed by &quot;from&quot;</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -179,7 +180,7 @@
 											<h5>files<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 										</li>
 										<li class="tsd-parameter">
-											<h5>from<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+											<h5>from<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Furi</span></h5>
 										</li>
 									</ul>
 								</li>
@@ -192,19 +193,19 @@
 					<a name="watch" class="tsd-anchor"></a>
 					<h3>watch</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">watch<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/target_tasks_copy.options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FSWatcher</span></li>
+						<li class="tsd-signature tsd-kind-icon">watch<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/target_tasks_copy.resolvedcopyoptions.html" class="tsd-signature-type">ResolvedCopyOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FSWatcher</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/target-tasks/copy.ts#L58">target-tasks/copy.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/target-tasks/copy.ts#L76">src/lib/target-tasks/copy.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>options: <a href="../interfaces/target_tasks_copy.options.html" class="tsd-signature-type">Options</a></h5>
+									<h5>options: <a href="../interfaces/target_tasks_copy.resolvedcopyoptions.html" class="tsd-signature-type">ResolvedCopyOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">FSWatcher</span></h4>
@@ -228,6 +229,9 @@
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/target_tasks_copy.options.html" class="tsd-kind-icon">Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/target_tasks_copy.resolvedcopyoptions.html" class="tsd-kind-icon">Resolved<wbr>Copy<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="target_tasks_copy.html#copy" class="tsd-kind-icon">copy</a>

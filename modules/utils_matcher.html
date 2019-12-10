@@ -78,11 +78,16 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/utils_matcher.matcheruri.html" class="tsd-kind-icon">Matcher<wbr>Uri</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="utils_matcher.html#asstring" class="tsd-kind-icon">as<wbr>String</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="utils_matcher.html#join" class="tsd-kind-icon">join</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="utils_matcher.html#relative" class="tsd-kind-icon">relative</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,7 +105,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/utils/matcher.ts#L76">utils/matcher.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/utils/matcher.ts#L100">src/lib/utils/matcher.ts:100</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -126,13 +131,13 @@
 					<a name="join" class="tsd-anchor"></a>
 					<h3>join</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">join<span class="tsd-signature-symbol">(</span>prefix<span class="tsd-signature-symbol">: </span><a href="types.html#posixpath" class="tsd-signature-type">PosixPath</a>, matcher<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">minimatch.IMinimatch</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">minimatch.IMinimatch</span></li>
+						<li class="tsd-signature tsd-kind-icon">join<span class="tsd-signature-symbol">(</span>prefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, matcher<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">minimatch.IMinimatch</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">minimatch.IMinimatch</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/utils/matcher.ts#L31">utils/matcher.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/utils/matcher.ts#L80">src/lib/utils/matcher.ts:80</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -148,7 +153,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>prefix: <a href="types.html#posixpath" class="tsd-signature-type">PosixPath</a></h5>
+									<h5>prefix: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Left side of the join, must be a POSIX path (relative or absolute)</p>
 									</div>
@@ -162,46 +167,6 @@
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">minimatch.IMinimatch</span></h4>
 							<p>New Minimatch pattern resulting from joining <code>prefix</code> with <code>matcher</code>.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="relative" class="tsd-anchor"></a>
-					<h3>relative</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">relative<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="types.html#posixpath" class="tsd-signature-type">PosixPath</a>, matcher<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">minimatch.IMinimatch</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">minimatch.IMinimatch</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/35f2666/src/lib/utils/matcher.ts#L56">utils/matcher.ts:56</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Computes an equivalent Minimatch pattern relative to the provided directory.</p>
-								</div>
-								<p>Similar to Node&#39;s <code>path.relative</code>.</p>
-								<p>If the Minimatch pattern is a comment, returns a copy.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>from: <a href="types.html#posixpath" class="tsd-signature-type">PosixPath</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>POSIX path (relative or absolute) from where the new pattern is computed</p>
-									</div>
-								</li>
-								<li>
-									<h5>matcher: <span class="tsd-signature-type">minimatch.IMinimatch</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Parsed Minimatch pattern.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">minimatch.IMinimatch</span></h4>
-							<p>New Minimatch pattern relative to <code>from</code></p>
 						</li>
 					</ul>
 				</section>
@@ -220,14 +185,14 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/utils_matcher.matcheruri.html" class="tsd-kind-icon">Matcher<wbr>Uri</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="utils_matcher.html#asstring" class="tsd-kind-icon">as<wbr>String</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="utils_matcher.html#join" class="tsd-kind-icon">join</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="utils_matcher.html#relative" class="tsd-kind-icon">relative</a>
 					</li>
 				</ul>
 			</nav>
