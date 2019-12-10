@@ -195,6 +195,11 @@ export interface DistOptions {
   readonly npmPublish?: NpmPublishOptions;
 
   /**
+   * External task to run after `{target}:dist`
+   */
+  readonly afterDist?: Undertaker.TaskFunction;
+
+  /**
    * Optional function to apply when copying the `package.json` file to the dist directory.
    */
   packageJsonMap?(old: PackageJson): PackageJson;
@@ -232,6 +237,11 @@ export interface ResolvedDistOptions {
   readonly copy?: CopyOptions[];
 
   readonly npmPublish?: NpmPublishOptions;
+
+  /**
+   * External task to run after `{target}:dist`
+   */
+  readonly afterDist?: Undertaker.TaskFunction;
 
   /**
    * Optional function to apply when copying the `package.json` file to the dist directory.
@@ -335,6 +345,7 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
         npmPublish: target.dist.npmPublish,
         copySrc: target.dist.copySrc !== undefined ? target.dist.copySrc : true,
         copy: defaultCopy(distDir),
+        afterDist: target.dist.afterDist,
       };
     }
   }
@@ -399,7 +410,7 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
   // dist
   if (target.dist !== false) {
     const dist: ResolvedDistOptions = target.dist;
-    const distTasks: Undertaker.TaskFunction[] = [];
+    const parDistTasks: Undertaker.TaskFunction[] = [];
     const copyTasks: Undertaker.TaskFunction[] = [];
 
     // Locations for compilation: default to the original sources but compile the copied files if copySrc is used
@@ -487,7 +498,7 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
     };
 
     // dist:scripts
-    distTasks.push(nameTask(
+    parDistTasks.push(nameTask(
       `${target.name}:dist:scripts`,
       taker.series(result.distCopy, getBuildTypescriptTask(tsOptions)),
     ));
@@ -510,12 +521,19 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
       }
 
       result.distPackageJson = nameTask(`${target.name}:dist:package.json`, distPackageJsonTask);
-      distTasks.push(result.distPackageJson);
+      parDistTasks.push(result.distPackageJson);
     }
 
-    const distTask: Undertaker.TaskFunction = result.clean !== undefined ?
-      taker.series(result.clean, taker.parallel(distTasks)) :
-      taker.parallel(distTasks);
+    const seqDistTasks: Undertaker.TaskFunction[] = [];
+    if (result.clean !== undefined) {
+      seqDistTasks.push(result.clean);
+    }
+    seqDistTasks.push(taker.parallel(parDistTasks));
+    if (dist.afterDist !== undefined) {
+      seqDistTasks.push(dist.afterDist);
+    }
+
+    const distTask: Undertaker.TaskFunction = taker.series(seqDistTasks);
     result.dist = nameTask(`${target.name}:dist`, distTask);
 
     if (dist.npmPublish !== undefined) {

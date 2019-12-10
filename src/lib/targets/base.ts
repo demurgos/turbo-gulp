@@ -12,7 +12,7 @@ import { FSWatcher } from "fs";
 import { Furi, join as furiJoin } from "furi";
 import { Readable as ReadableStream } from "stream";
 import * as typescript from "typescript";
-import Undertaker from "undertaker";
+import Undertaker, { TaskFunction } from "undertaker";
 import Vinyl from "vinyl";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
@@ -92,6 +92,11 @@ export interface TargetBase {
   scripts?: Iterable<string>;
 
   /**
+   * External task to run after `{target}:build`
+   */
+  afterBuild?: TaskFunction;
+
+  /**
    * Directory containing custom typings, relative to `project.rootDir`.
    * Custom typings are typings that are not available on `@types`.
    */
@@ -148,6 +153,11 @@ export interface ResolvedTargetBase {
   readonly buildDir: Furi;
 
   readonly scripts: Iterable<MatcherUri>;
+
+  /**
+   * External task to run after `{target}:build`
+   */
+  readonly afterBuild?: Undertaker.TaskFunction;
 
   readonly customTypingsDir?: Furi;
 
@@ -219,6 +229,7 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
     srcDir,
     buildDir,
     scripts,
+    afterBuild: target.afterBuild,
     customTypingsDir,
     tscOptions,
     tsconfigJson,
@@ -320,11 +331,15 @@ export function generateBaseTasks(taker: Undertaker, targetOptions: TargetBase):
   }
 
   // build
-  const buildTasks: Undertaker.TaskFunction[] = [result.buildScripts];
+  const parBuildTasks: Undertaker.TaskFunction[] = [result.buildScripts];
   if (result.buildCopy !== undefined) {
-    buildTasks.push(result.buildCopy);
+    parBuildTasks.push(result.buildCopy);
   }
-  result.build = nameTask(`${target.name}:build`, taker.parallel(buildTasks));
+  const seqBuildTasks: Undertaker.TaskFunction[] = [taker.parallel(parBuildTasks)];
+  if (targetOptions.afterBuild !== undefined) {
+    seqBuildTasks.push(targetOptions.afterBuild);
+  }
+  result.build = nameTask(`${target.name}:build`, taker.series(seqBuildTasks));
   result.watch = nameTask(`${target.name}:watch`, taker.series(result.build, taker.parallel(watchTasks)));
 
   // clean

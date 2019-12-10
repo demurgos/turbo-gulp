@@ -1,3 +1,7 @@
+# Next
+
+- **[Feature]** Add `afterBuild` and `afterDist` options.
+
 # 0.21.0 (2019-12-10)
 
 - **[Breaking change]** Require Node 13.2.
