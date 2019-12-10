@@ -1,4 +1,4 @@
-# Next
+# 0.21.0 (2019-12-10)
 
 - **[Breaking change]** Require Node 13.2.
 - **[Breaking change]** Use file URI to represent paths.
