@@ -102,6 +102,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_base.resolvedtargetbase.html#afterbuild" class="tsd-kind-icon">after<wbr>Build</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_base.resolvedtargetbase.html#builddir" class="tsd-kind-icon">build<wbr>Dir</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_base.resolvedtargetbase.html#clean" class="tsd-kind-icon">clean</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="targets_base.resolvedtargetbase.html#copy" class="tsd-kind-icon">copy</a></li>
@@ -121,12 +122,27 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="afterbuild" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> after<wbr>Build</h3>
+					<div class="tsd-signature tsd-kind-icon">after<wbr>Build<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Undertaker.TaskFunction</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L160">src/lib/targets/base.ts:160</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>External task to run after <code>{target}:build</code></p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="builddir" class="tsd-anchor"></a>
 					<h3>build<wbr>Dir</h3>
 					<div class="tsd-signature tsd-kind-icon">build<wbr>Dir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Furi</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L148">src/lib/targets/base.ts:148</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L153">src/lib/targets/base.ts:153</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,7 +152,7 @@
 					<div class="tsd-signature tsd-kind-icon">clean<span class="tsd-signature-symbol">:</span> <a href="options_clean.cleanoptions.html" class="tsd-signature-type">CleanOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L162">src/lib/targets/base.ts:162</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L172">src/lib/targets/base.ts:172</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -146,7 +162,7 @@
 					<div class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReadonlyArray</span><span class="tsd-signature-symbol">&lt;</span><a href="options_clean.copyoptions.html" class="tsd-signature-type">CopyOptions</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L160">src/lib/targets/base.ts:160</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L170">src/lib/targets/base.ts:170</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -156,7 +172,7 @@
 					<div class="tsd-signature tsd-kind-icon">custom<wbr>Typings<wbr>Dir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Furi</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L152">src/lib/targets/base.ts:152</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L162">src/lib/targets/base.ts:162</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -166,7 +182,7 @@
 					<div class="tsd-signature tsd-kind-icon">dependencies<span class="tsd-signature-symbol">:</span> <a href="targets_base.resolvedbasedependencies.html" class="tsd-signature-type">ResolvedBaseDependencies</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L158">src/lib/targets/base.ts:158</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L168">src/lib/targets/base.ts:168</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L142">src/lib/targets/base.ts:142</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L147">src/lib/targets/base.ts:147</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -186,7 +202,7 @@
 					<div class="tsd-signature tsd-kind-icon">project<span class="tsd-signature-symbol">:</span> <a href="project.resolvedproject.html" class="tsd-signature-type">ResolvedProject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L144">src/lib/targets/base.ts:144</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L149">src/lib/targets/base.ts:149</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -196,7 +212,7 @@
 					<div class="tsd-signature tsd-kind-icon">scripts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/utils_matcher.matcheruri.html" class="tsd-signature-type">MatcherUri</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L150">src/lib/targets/base.ts:150</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L155">src/lib/targets/base.ts:155</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,7 +222,7 @@
 					<div class="tsd-signature tsd-kind-icon">src<wbr>Dir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Furi</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L146">src/lib/targets/base.ts:146</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L151">src/lib/targets/base.ts:151</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -216,7 +232,7 @@
 					<div class="tsd-signature tsd-kind-icon">tsc<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="options_clean.customtscoptions.html" class="tsd-signature-type">CustomTscOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L154">src/lib/targets/base.ts:154</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L164">src/lib/targets/base.ts:164</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -226,7 +242,7 @@
 					<div class="tsd-signature tsd-kind-icon">tsconfig<wbr>Json<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Furi</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/ef18201/src/lib/targets/base.ts#L156">src/lib/targets/base.ts:156</a></li>
+							<li>Defined in <a href="https://github.com/demurgos/turbo-gulp/blob/bf55820/src/lib/targets/base.ts#L166">src/lib/targets/base.ts:166</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -259,6 +275,9 @@
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="targets_base.resolvedtargetbase.html" class="tsd-kind-icon">Resolved<wbr>Target<wbr>Base</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="targets_base.resolvedtargetbase.html#afterbuild" class="tsd-kind-icon">after<wbr>Build</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="targets_base.resolvedtargetbase.html#builddir" class="tsd-kind-icon">build<wbr>Dir</a>
 							</li>
