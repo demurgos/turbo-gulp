@@ -6,10 +6,12 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
+import { Furi, join as furiJoin } from "furi";
 import path from "path";
+import { pathToFileURL, URL } from "url";
 import { TslintOptions } from "./options/tslint";
 import { DEFAULT_TYPESCRIPT_OPTIONS, TypescriptOptions } from "./options/typescript";
-import { AbsPosixPath, OsPath, PosixPath, RelPosixPath } from "./types";
+import { OsPath, RelPosixPath } from "./types";
 
 /**
  * Project-wide options.
@@ -23,7 +25,7 @@ export interface Project {
    *
    * **This should be the only absolute path in the configuration.**
    */
-  readonly root: OsPath;
+  readonly root: Furi | OsPath;
 
   /**
    * Path to the `package.json` file, relative to `root`.
@@ -71,27 +73,27 @@ export interface ResolvedProject extends Project {
   /**
    * Absolute POSIX path for the root directory.
    */
-  readonly absRoot: AbsPosixPath;
+  readonly absRoot: Furi;
 
   /**
    * Absolute path to the `package.json` file.
    */
-  readonly absPackageJson: AbsPosixPath;
+  readonly absPackageJson: Furi;
 
   /**
    * Absolute path to the `build` dir, for development builds.
    */
-  readonly absBuildDir: AbsPosixPath;
+  readonly absBuildDir: Furi;
 
   /**
    * Absolute path to the directory containing distribution-ready files.
    */
-  readonly absDistDir: AbsPosixPath;
+  readonly absDistDir: Furi;
 
   /**
    * Absolute path to the sources dir.
    */
-  readonly absSrcDir: AbsPosixPath;
+  readonly absSrcDir: Furi;
 }
 
 /**
@@ -111,16 +113,6 @@ export const DEFAULT_PROJECT: Project = {
 };
 
 /**
- * Normalizes a system-dependent path to a POSIX path.
- *
- * @param sysPath System-dependent path.
- * @return Normalized POSIX path.
- */
-export function toPosix(sysPath: OsPath): PosixPath {
-  return sysPath.replace(/\\/g, "/");
-}
-
-/**
  * Resolve absolute paths for project locations.
  * This creates a shallow copy of the project configuration.
  * If the project was already resolved, it will compute the resolved values again anyway so you it
@@ -130,11 +122,12 @@ export function toPosix(sysPath: OsPath): PosixPath {
  * @return Project configuration with resolved paths.
  */
 export function resolveProject(project: Project): ResolvedProject {
-  const absRoot: AbsPosixPath = toPosix(path.resolve(project.root)) as AbsPosixPath;
-  const absPackageJson: AbsPosixPath = toPosix(path.resolve(project.packageJson)) as AbsPosixPath;
-  const absSrcDir: AbsPosixPath = path.posix.join(absRoot, project.srcDir);
-  const absBuildDir: AbsPosixPath = path.posix.join(absRoot, project.buildDir);
-  const absDistDir: AbsPosixPath = path.posix.join(absRoot, project.distDir);
+  const rootUrl: URL = project.root instanceof URL ? project.root : pathToFileURL(path.resolve(project.root));
+  const absRoot: Furi = new Furi(rootUrl.toString());
+  const absPackageJson: Furi = furiJoin(absRoot, [project.packageJson]);
+  const absSrcDir: Furi = furiJoin(absRoot, [project.srcDir]);
+  const absBuildDir: Furi = furiJoin(absRoot, [project.buildDir]);
+  const absDistDir: Furi = furiJoin(absRoot, [project.distDir]);
   return {...project, absRoot, absPackageJson, absSrcDir, absBuildDir, absDistDir};
 }
 

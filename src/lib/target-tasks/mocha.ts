@@ -7,15 +7,15 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
+import { Furi } from "furi";
 import { TaskFunction } from "undertaker";
-import { AbsPosixPath } from "../types";
 import * as mocha from "../utils/mocha";
 
 export type MochaReporter = "spec";
 
 export interface MochaOptions {
-  rootDir: AbsPosixPath;
-  testDir: AbsPosixPath;
+  rootDir: Furi;
+  testDir: Furi;
   glob: string;
   experimentalModules?: boolean;
   colors?: boolean;
@@ -23,8 +23,8 @@ export interface MochaOptions {
 }
 
 export interface ResolvedMochaOptions {
-  rootDir: AbsPosixPath;
-  testDir: AbsPosixPath;
+  rootDir: Furi;
+  testDir: Furi;
   glob: string;
   experimentalModules: boolean;
   colors: boolean;

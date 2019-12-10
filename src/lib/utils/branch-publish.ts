@@ -6,18 +6,18 @@
 
 import del from "del";
 import fs from "fs-extra";
-import path from "path";
+import { fromSysPath, Furi, join as furiJoin } from "furi";
 import tmp from "tmp";
-import { toPosix } from "../project";
-import { AbsPosixPath, OsPath } from "../types";
+import { OsPath } from "../types";
 import { gitAdd, gitClone as gitClone, gitCommit, gitPush } from "./git";
+import { MatcherUri } from "./matcher";
 
 /**
  * Runs `handler` with a temporary directory.
  *
  * The temporary directory is cleaned automatically at the end.
  */
-async function withTmpDir(handler: (path: AbsPosixPath) => Promise<void>): Promise<void> {
+async function withTmpDir(handler: (path: Furi) => Promise<void>): Promise<void> {
   return new Promise<void>((resolve, reject): void => {
     tmp.dir({unsafeCleanup: true}, async (err: Error | null, dir: OsPath, done: (cb: any) => void): Promise<void> => {
       if (err !== null) {
@@ -25,7 +25,7 @@ async function withTmpDir(handler: (path: AbsPosixPath) => Promise<void>): Promi
         return;
       }
       try {
-        await handler(toPosix(dir) as AbsPosixPath);
+        await handler(new Furi(fromSysPath(dir)));
         done(() => {
           resolve();
         });
@@ -75,12 +75,15 @@ export interface BranchPublishOptions {
  * @return Promise resolved once the commit is pushed.
  */
 export async function branchPublish(options: BranchPublishOptions): Promise<void> {
-  return withTmpDir(async (tmpDirPath: AbsPosixPath): Promise<void> => {
+  return withTmpDir(async (tmpDirPath: Furi): Promise<void> => {
     console.log(`Using temporary directory: ${tmpDirPath}`);
-    const localPath: AbsPosixPath = path.posix.join(tmpDirPath, "repo");
+    const localPath: Furi = furiJoin(tmpDirPath, "repo");
     await gitClone({branch: options.branch, depth: 1, repository: options.repository, directory: localPath});
-    await del([path.posix.join(localPath, "**", "*"), `!${path.posix.join(localPath, ".git")}`], {force: true});
-    await fs.copy(options.dir, localPath);
+    await del(
+      [MatcherUri.from(localPath, "**/*").toMinimatchString(), MatcherUri.from(localPath, "!.git").toMinimatchString()],
+      {force: true},
+    );
+    await fs.copy(options.dir, localPath.toSysPath());
     await gitAdd({repository: localPath, paths: ["."]});
     await gitCommit({
       repository: localPath,

@@ -9,8 +9,8 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
+import { Furi } from "furi";
 import { Incident } from "incident";
-import { AbsPosixPath } from "../types";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
 export async function execGit(cmd: string, args: string[] = [], options?: SpawnOptions): Promise<SpawnResult> {
@@ -56,7 +56,7 @@ export interface GitCloneOptions {
   branch?: string;
   depth?: number;
   repository: string;
-  directory: AbsPosixPath;
+  directory: Furi;
 }
 
 /**
@@ -70,7 +70,7 @@ export async function gitClone(options: GitCloneOptions): Promise<void> {
   if (options.depth !== undefined) {
     args.push("--depth", options.depth.toString(10));
   }
-  args.push(options.repository, options.directory);
+  args.push(options.repository, options.directory.toSysPath());
   const result: SpawnResult = await execGit("clone", args);
   if (result.exit.type === "code" && result.exit.code !== 0) {
     const msg: string = result.stderr.toString("utf8");
@@ -83,7 +83,7 @@ export async function gitClone(options: GitCloneOptions): Promise<void> {
 
 export interface GitAddOptions {
   paths: string[];
-  repository: AbsPosixPath;
+  repository: Furi;
 }
 
 /**
@@ -91,7 +91,7 @@ export interface GitAddOptions {
  */
 export async function gitAdd(options: GitAddOptions): Promise<void> {
   const args: string[] = ["--", ...options.paths];
-  const result: SpawnResult = await execGit("add", args, {cwd: options.repository});
+  const result: SpawnResult = await execGit("add", args, {cwd: options.repository.toSysPath()});
   if (result.exit.type === "code" && result.exit.code !== 0) {
     throw new Incident("GitAdd", {options, result}, result.stderr.toString("utf8"));
   }
@@ -100,7 +100,7 @@ export async function gitAdd(options: GitAddOptions): Promise<void> {
 export interface GitCommitOptions {
   message: string;
   author?: string;
-  repository: AbsPosixPath;
+  repository: Furi;
 }
 
 export async function gitCommit(options: GitCommitOptions): Promise<void> {
@@ -108,19 +108,19 @@ export async function gitCommit(options: GitCommitOptions): Promise<void> {
   if (options.author !== undefined) {
     args.push("--author", options.author);
   }
-  const result: SpawnResult = await execGit("commit", args, {cwd: options.repository});
+  const result: SpawnResult = await execGit("commit", args, {cwd: options.repository.toSysPath()});
   if (result.exit.type === "code" && result.exit.code !== 0) {
     throw new Incident("GitCommit", {options, result}, result.stderr.toString("utf8"));
   }
 }
 
 export interface GitPushOptions {
-  local: AbsPosixPath;
+  local: Furi;
   remote: string;
 }
 
 export async function gitPush(options: GitPushOptions): Promise<void> {
-  const result: SpawnResult = await execGit("push", [options.remote], {cwd: options.local});
+  const result: SpawnResult = await execGit("push", [options.remote], {cwd: options.local.toSysPath()});
   if (result.exit.type === "code" && result.exit.code !== 0) {
     throw new Incident("GitPush", {options, result}, result.stderr.toString("utf8"));
   }

@@ -7,24 +7,24 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
+import { Furi } from "furi";
 import { TaskFunction } from "undertaker";
-import { AbsPosixPath } from "../types";
 import { C88Reporter, run as runCoverage } from "../utils/coverage";
 import { getCommand as getMochaCommand } from "../utils/mocha";
 import { MochaOptions, resolveMochaOptions } from "./mocha";
 
 export interface CoverageOptions {
   test: MochaOptions;
-  rootDir: AbsPosixPath;
-  tempDir: AbsPosixPath;
-  reportDir: AbsPosixPath;
+  rootDir: Furi;
+  tempDir: Furi;
+  reportDir: Furi;
   reporters: C88Reporter[];
   colors: boolean;
 }
 
 export function generateTask(options: CoverageOptions): TaskFunction {
   const testCommand: string[] = getMochaCommand(resolveMochaOptions(options.test));
-  const cwd: AbsPosixPath = options.rootDir;
+  const cwd: Furi = options.rootDir;
 
   const task: TaskFunction = async function (): Promise<void> {
     return runCoverage({

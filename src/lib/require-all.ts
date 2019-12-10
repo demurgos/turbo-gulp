@@ -10,13 +10,12 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
-import fs from "fs";
+import { Furi, join as furiJoin, parent as furiParent, relative as furiRelative } from "furi";
 import glob from "glob";
-import { Minimatch } from "minimatch";
-import path from "path";
-import { toPosix } from "./project";
-import { AbsPosixPath, RelPosixPath } from "./types";
-import * as matcher from "./utils/matcher";
+import { fileURLToPath, pathToFileURL } from "url";
+import { RelPosixPath } from "./types";
+import { MatcherUri } from "./utils/matcher";
+import { writeText } from "./utils/node-async";
 
 export interface RequireAllOptions {
   /**
@@ -29,7 +28,7 @@ export interface RequireAllOptions {
    *
    * Absolute POSIX path.
    */
-  base: AbsPosixPath;
+  base: Furi;
 
   /**
    * Target file where the result will be written.
@@ -53,9 +52,9 @@ export interface RequireAllOptions {
 }
 
 export async function requireAll(options: RequireAllOptions): Promise<void> {
-  const absSources: string = matcher.asString(matcher.join(options.base, new Minimatch(options.sources)));
-  const absTarget: AbsPosixPath = path.posix.join(options.base, options.target);
-  const absTargetDir: AbsPosixPath = path.posix.dirname(absTarget);
+  const absSources: string = MatcherUri.from(options.base, options.sources).toMinimatchString();
+  const absTarget: Furi = furiJoin(options.base, [options.target]);
+  const absTargetDir: Furi = new Furi(furiParent(absTarget).toString());
 
   const matches: string[] = await new Promise<string[]>((resolve, reject) => {
     glob(absSources, (err: Error | null, matches: string[]): void => {
@@ -68,15 +67,16 @@ export async function requireAll(options: RequireAllOptions): Promise<void> {
   });
 
   const specifiers: ReadonlyArray<string> = matches.map((match: string): string => {
-    const specifier: string = path.posix.relative(absTargetDir, toPosix(match));
-    if (path.posix.isAbsolute(specifier) || specifier.startsWith("./") || specifier.startsWith("../")) {
+    const specifier: string = furiRelative(absTargetDir,  pathToFileURL(match));
+    if (specifier.startsWith("file://")) {
+      return fileURLToPath(specifier);
+    } else {
       return specifier;
     }
-    return `./${specifier}`;
   });
 
   const sourceText: string = generateSourceText(specifiers, options.mode, options.suffix);
-  return fs.promises.writeFile(absTarget, Buffer.from(sourceText));
+  return writeText(absTarget, sourceText);
 }
 
 /**
@@ -90,7 +90,7 @@ export async function requireAll(options: RequireAllOptions): Promise<void> {
  * @param suffix Raw source text to execute after all the imports are completed.
  * @return Source text for the module body.
  */
-function generateSourceText(specifiers: ReadonlyArray<string>, mode: "esm" | "cjs", suffix?: string): string {
+function generateSourceText(specifiers: readonly string[], mode: "esm" | "cjs", suffix?: string): string {
   const lines: string[] = [];
   lines.push(mode === "esm" ? "(async () => {" : "(() => {");
   for (const specifier of specifiers) {

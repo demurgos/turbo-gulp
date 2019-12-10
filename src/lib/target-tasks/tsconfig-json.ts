@@ -7,10 +7,10 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
-import path from "path";
+import { Furi, relative as furiRelative } from "furi";
 import undertaker from "undertaker";
 import { toStandardTscOptions, TscOptions } from "../options/tsc";
-import { AbsPosixPath, RelPosixPath } from "../types";
+import { RelPosixPath } from "../types";
 import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "../typescript";
 import { writeJsonFile } from "../utils/project";
 
@@ -19,13 +19,13 @@ export function getTsconfigJsonTask(options: TypescriptConfig): undertaker.TaskF
   let typeRoots: RelPosixPath[] = [];
   if (resolved.typeRoots !== undefined) {
     typeRoots = resolved.typeRoots.map(
-      (abs: AbsPosixPath): RelPosixPath => path.posix.relative(resolved.tsconfigJsonDir, abs),
+      (abs: Furi): RelPosixPath => furiRelative(resolved.tsconfigJsonDir, abs),
     );
   }
   const tscOptions: TscOptions = {
     ...toStandardTscOptions(options.tscOptions),
-    rootDir: path.posix.relative(resolved.tsconfigJsonDir, resolved.rootDir),
-    outDir: path.posix.relative(resolved.tsconfigJsonDir, resolved.outDir),
+    rootDir: furiRelative(resolved.tsconfigJsonDir, resolved.rootDir),
+    outDir: furiRelative(resolved.tsconfigJsonDir, resolved.outDir),
     typeRoots,
   };
   const tsconfigData: any = {

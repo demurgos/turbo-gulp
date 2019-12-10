@@ -8,6 +8,7 @@
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import { FSWatcher } from "fs";
+import { Furi, toSysPath } from "furi";
 import globWatcher from "glob-watcher";
 import { Minimatch } from "minimatch";
 import { TaskFunction } from "undertaker";
@@ -31,23 +32,40 @@ export interface Options {
   to: string;
 }
 
-/**
- * Return a list of sources, prefixed by "from"
- */
-export function getSources({files, from}: Options): string[] {
-  return files.map((val: string): string => asString(join(from, new Minimatch(val))));
+export interface ResolvedCopyOptions {
+  /**
+   * An array of minimatch patterns
+   */
+  files: string[];
+
+  /**
+   * Base-directory for copy
+   */
+  from: Furi;
+
+  /**
+   * Target directory
+   */
+  to: Furi;
 }
 
-export function copy(options: Options): NodeJS.ReadableStream {
+/**
+ * Returns a list of sources, prefixed by "from"
+ */
+export function getSources({files, from}: ResolvedCopyOptions): string[] {
+  return files.map((val: string): string => asString(join(toSysPath(from.toString()), new Minimatch(val))));
+}
+
+export function copy(options: ResolvedCopyOptions): NodeJS.ReadableStream {
   return vinylFs
-    .src(getSources(options), {base: options.from})
-    .pipe(vinylFs.dest(options.to));
+    .src(getSources(options), {base: toSysPath(options.from.toString())})
+    .pipe(vinylFs.dest(toSysPath(options.to.toString())));
 }
 
 /**
  * Generate a task to copy files from one directory to an other.
  */
-export function generateTask(options: Options): TaskFunction {
+export function generateTask(options: ResolvedCopyOptions): TaskFunction {
   const task: TaskFunction = function (): NodeJS.ReadableStream {
     return copy(options);
   };
@@ -55,8 +73,8 @@ export function generateTask(options: Options): TaskFunction {
   return task;
 }
 
-export function watch(options: Options): FSWatcher {
+export function watch(options: ResolvedCopyOptions): FSWatcher {
   const buildTask: TaskFunction = generateTask(options);
   const sources: string[] = getSources(options);
-  return globWatcher(sources, {cwd: options.from}, buildTask) as FSWatcher;
+  return globWatcher(sources, {cwd: toSysPath(options.from.toString())}, buildTask);
 }

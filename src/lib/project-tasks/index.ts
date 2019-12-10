@@ -9,7 +9,7 @@
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import Undertaker from "undertaker";
-import { Project } from "../project";
+import { Project, ResolvedProject, resolveProject } from "../project";
 import * as bumpMajor from "./bump-major";
 import * as bumpMinor from "./bump-minor";
 import * as bumpPatch from "./bump-patch";
@@ -19,15 +19,17 @@ import * as tsconfigJson from "./tsconfig-json";
 import * as tslintJson from "./tslint-json";
 
 export function registerAll(taker: Undertaker, project: Project) {
-  bumpMajor.registerTask(taker, project);
-  bumpMinor.registerTask(taker, project);
-  bumpPatch.registerTask(taker, project);
-  lint.registerTask(taker, project);
-  lintFix.registerTask(taker, project);
-  if (project.typescript !== undefined && project.typescript.tsconfigJson !== undefined) {
-    tsconfigJson.registerTask(taker, project);
+  const resolved: ResolvedProject = resolveProject(project);
+
+  bumpMajor.registerTask(taker, resolved);
+  bumpMinor.registerTask(taker, resolved);
+  bumpPatch.registerTask(taker, resolved);
+  lint.registerTask(taker, resolved);
+  lintFix.registerTask(taker, resolved);
+  if (resolved.typescript !== undefined && resolved.typescript.tsconfigJson !== undefined) {
+    tsconfigJson.registerTask(taker, resolved);
   }
-  tslintJson.registerTask(taker, project);
+  tslintJson.registerTask(taker, resolved);
 }
 
 export {

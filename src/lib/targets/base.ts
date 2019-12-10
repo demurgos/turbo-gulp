@@ -9,8 +9,7 @@
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import { FSWatcher } from "fs";
-import { Minimatch } from "minimatch";
-import { posix as posixPath } from "path";
+import { Furi, join as furiJoin } from "furi";
 import { Readable as ReadableStream } from "stream";
 import * as typescript from "typescript";
 import Undertaker from "undertaker";
@@ -20,12 +19,12 @@ import { CopyOptions } from "../options/copy";
 import { CustomTscOptions, DEFAULT_TSC_OPTIONS, mergeTscOptions, TscOptions } from "../options/tsc";
 import { Project, ResolvedProject, resolveProject } from "../project";
 import { getBuildTypescriptTask, getBuildTypescriptWatchTask } from "../target-tasks/build-typescript";
-import { CleanOptions as _CleanOptions, generateTask as generateCleanTask } from "../target-tasks/clean";
+import { generateTask as generateCleanTask, ResolvedCleanOptions } from "../target-tasks/clean";
 import * as copy from "../target-tasks/copy";
 import { getTsconfigJsonTask } from "../target-tasks/tsconfig-json";
-import { AbsPosixPath, RelPosixPath } from "../types";
+import { RelPosixPath } from "../types";
 import { TypescriptConfig } from "../typescript";
-import * as matcher from "../utils/matcher";
+import { MatcherUri } from "../utils/matcher";
 
 export type WatchTaskFunction = (Undertaker.TaskFunction & (() => FSWatcher));
 
@@ -40,18 +39,18 @@ export type WatchTaskFunction = (Undertaker.TaskFunction & (() => FSWatcher));
  */
 export function getCopy(
   taker: Undertaker,
-  srcDir: string,
-  targetDir: string,
+  srcDir: Furi,
+  targetDir: Furi,
   copyOptions: Iterable<CopyOptions>,
 ): [Undertaker.TaskFunction, Undertaker.TaskFunction] {
   const tasks: Undertaker.TaskFunction[] = [];
   const watchTasks: WatchTaskFunction[] = [];
   for (const options of copyOptions) {
-    const from: string = options.src === undefined ? srcDir : posixPath.join(srcDir, options.src);
-    const files: string[] = options.files === undefined ? ["**/*"] : options.files;
-    const to: string = options.dest === undefined ? targetDir : posixPath.join(targetDir, options.dest);
+    const from: Furi = options.src !== undefined ? furiJoin(srcDir, options.src) : srcDir;
+    const files: string[] = options.files ?? ["**/*"];
+    const to: Furi = options.dest !== undefined ? furiJoin(targetDir, options.dest) : targetDir;
 
-    const completeOptions: copy.Options = {from, files, to};
+    const completeOptions: copy.ResolvedCopyOptions = {from, files, to};
     tasks.push(copy.generateTask(completeOptions));
     watchTasks.push(() => copy.watch(completeOptions));
   }
@@ -144,17 +143,17 @@ export interface ResolvedTargetBase {
 
   readonly project: ResolvedProject;
 
-  readonly srcDir: AbsPosixPath;
+  readonly srcDir: Furi;
 
-  readonly buildDir: AbsPosixPath;
+  readonly buildDir: Furi;
 
-  readonly scripts: Iterable<string>;
+  readonly scripts: Iterable<MatcherUri>;
 
-  readonly customTypingsDir?: AbsPosixPath;
+  readonly customTypingsDir?: Furi;
 
   readonly tscOptions: CustomTscOptions;
 
-  readonly tsconfigJson: AbsPosixPath;
+  readonly tsconfigJson: Furi;
 
   readonly dependencies: ResolvedBaseDependencies;
 
@@ -183,31 +182,31 @@ export interface ResolvedBaseDependencies extends BaseDependencies {
 export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
   const project: ResolvedProject = resolveProject(target.project);
 
-  const srcDir: AbsPosixPath = typeof target.srcDir === "string" ?
-    posixPath.join(project.absRoot, target.srcDir) :
-    project.srcDir;
+  const srcDir: Furi = target.srcDir !== undefined ?
+    furiJoin(project.absRoot, target.srcDir) :
+    project.absSrcDir;
 
-  const buildDir: AbsPosixPath = typeof target.buildDir === "string" ?
-    posixPath.join(project.absRoot, target.buildDir) :
-    posixPath.join(project.absBuildDir, target.name);
+  const buildDir: Furi = target.buildDir !== undefined ?
+    furiJoin(project.absRoot, target.buildDir) :
+    furiJoin(project.absBuildDir, target.name);
 
-  const scripts: string[] = [];
+  const scripts: MatcherUri[] = [];
   if (target.scripts === undefined) {
-    scripts.push(posixPath.join(srcDir, "**", "*.ts"));
+    scripts.push(MatcherUri.from(srcDir, "**/*.ts"));
   } else {
     for (const script of target.scripts) {
-      scripts.push(matcher.asString(matcher.join(srcDir, new Minimatch(script))));
+      scripts.push(MatcherUri.from(srcDir, script));
     }
   }
 
-  const customTypingsDir: AbsPosixPath | undefined = target.customTypingsDir !== undefined
-    ? posixPath.join(project.absRoot, target.customTypingsDir)
+  const customTypingsDir: Furi | undefined = target.customTypingsDir !== undefined
+    ? furiJoin(project.absRoot, target.customTypingsDir)
     : undefined;
   const tscOptions: TscOptions = mergeTscOptions(DEFAULT_TSC_OPTIONS, target.tscOptions);
 
-  const tsconfigJson: AbsPosixPath = target.tsconfigJson !== undefined
-    ? posixPath.join(project.absRoot, target.tsconfigJson)
-    : posixPath.join(srcDir, "tsconfig.json");
+  const tsconfigJson: Furi = target.tsconfigJson !== undefined
+    ? furiJoin(project.absRoot, target.tsconfigJson)
+    : furiJoin(srcDir, "tsconfig.json");
 
   const dependencies: ResolvedBaseDependencies = {typescript};
   if (target.dependencies !== undefined) {
@@ -330,7 +329,7 @@ export function generateBaseTasks(taker: Undertaker, targetOptions: TargetBase):
 
   // clean
   if (target.clean !== undefined) {
-    const cleanOptions: _CleanOptions = {
+    const cleanOptions: ResolvedCleanOptions = {
       base: target.project.absRoot,
       dirs: target.clean.dirs,
       files: target.clean.files,

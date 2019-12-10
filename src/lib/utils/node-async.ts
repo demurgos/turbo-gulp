@@ -10,14 +10,13 @@ import childProcess from "child_process";
 import fs from "fs";
 import { Incident } from "incident";
 import stream from "stream";
-import util from "util";
 
 export interface ExecFileOptions {
   cwd?: string;
   env?: {[key: string]: string};
   timeout?: number;
   maxBuffer?: number;
-  killSignal?: string;
+  killSignal?: NodeJS.Signals | number;
   uid?: number;
   gid?: number;
 }
@@ -76,15 +75,28 @@ export class ExecFileError extends Incident<ExecFileErrorData, "ExecFileError", 
   }
 }
 
-const _readFile: (filename: string, encoding: string) => Promise<string> = util.promisify(fs.readFile);
-const _writeFile: (filename: string, data: any) => Promise<any> = util.promisify(fs.writeFile);
-
-export async function readText(file: string): Promise<string> {
-  return _readFile(file, "UTF-8");
+export async function readText(file: fs.PathLike): Promise<string> {
+  return new Promise((resolve, reject) => {
+    fs.readFile(file, {encoding: "UTF-8"}, (err: NodeJS.ErrnoException | null, data: string): void => {
+      if (err !== null) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
 }
 
-export async function writeText(file: string, text: string): Promise<void> {
-  return _writeFile(file, text);
+export async function writeText(file: fs.PathLike, text: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(file, text, {encoding: "UTF-8"}, (err: NodeJS.ErrnoException | null): void => {
+      if (err !== null) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
 }
 
 export async function execFile(file: string, args: string[], options?: ExecFileOptions): Promise<ExecFileResult> {

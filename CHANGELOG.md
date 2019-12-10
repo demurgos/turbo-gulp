@@ -1,6 +1,7 @@
 # Next
 
 - **[Breaking change]** Require Node 13.2.
+- **[Breaking change]** Use file URI to represent paths.
 - **[Internal]** Migrate CI to `travis.com`.
 - **[Internal]** Fix continuous deployment script.
 

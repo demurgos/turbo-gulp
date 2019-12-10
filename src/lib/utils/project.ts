@@ -6,8 +6,10 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
+import { PathLike } from "fs";
+import { Furi } from "furi";
 import semver from "semver";
-import { Project } from "../project";
+import { Project, ResolvedProject } from "../project";
 import * as git from "./git";
 import { readText, writeText } from "./node-async";
 
@@ -52,12 +54,13 @@ export function getVersionMessage(version: string): string {
  * @param projectRoot Root of the project, must be inside a git repo. Default: `process.cwd()`.
  * @return Promise resolved once the commit is done.
  */
-export async function commitVersion(version: string, projectRoot?: string): Promise<void> {
+export async function commitVersion(version: string, projectRoot: Furi): Promise<void> {
+  const cwd: string = projectRoot.toSysPath();
   const tag: string = getVersionTag(version);
   const message: string = getVersionMessage(version);
-  await git.execGit("add", ["."], {cwd: projectRoot});
-  await git.execGit("commit", ["-m", message], {cwd: projectRoot});
-  await git.execGit("tag", ["-a", tag, "-m", message], {cwd: projectRoot});
+  await git.execGit("add", ["."], {cwd});
+  await git.execGit("commit", ["-m", message], {cwd});
+  await git.execGit("tag", ["-a", tag, "-m", message], {cwd});
 }
 
 /**
@@ -69,13 +72,13 @@ export async function commitVersion(version: string, projectRoot?: string): Prom
  * @param locations Project locations object.
  * @return Promise resolved once the release commit is created.
  */
-export async function release(version: string, locations: Project): Promise<void> {
+export async function release(version: string, locations: ResolvedProject): Promise<void> {
   await Promise.all([
     assertUnusedTag(getVersionTag(version)),
     git.assertCleanBranch(["master", getVersionTag(version)]),
   ]);
   await setPackageVersion(version, locations);
-  await commitVersion(version, locations.root);
+  await commitVersion(version, locations.absRoot);
 }
 
 /**
@@ -96,7 +99,7 @@ export interface PackageJson {
  * @param filePath Path of the file to read.
  * @return Promise for the content of the file.
  */
-export async function readJsonFile(filePath: string): Promise<any> {
+export async function readJsonFile(filePath: PathLike): Promise<any> {
   return JSON.parse(await readText(filePath));
 }
 
@@ -110,7 +113,7 @@ export async function readJsonFile(filePath: string): Promise<any> {
  * @param data Data to write.
  * @return Promise resolved once the data is written.
  */
-export async function writeJsonFile(filePath: string, data: any): Promise<void> {
+export async function writeJsonFile(filePath: PathLike, data: any): Promise<void> {
   return writeText(filePath, JSON.stringify(data, null, 2) + "\n");
 }
 
@@ -147,7 +150,7 @@ export async function getNextVersion(
   return result;
 }
 
-export async function bumpVersion(bumpKind: "major" | "minor" | "patch", locations: Project): Promise<void> {
+export async function bumpVersion(bumpKind: "major" | "minor" | "patch", locations: ResolvedProject): Promise<void> {
   const nextVersion: string = await getNextVersion(bumpKind, locations);
   await release(nextVersion, locations);
 }

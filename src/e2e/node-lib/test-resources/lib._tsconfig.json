@@ -56,7 +56,7 @@
     "typeRoots": []
   },
   "include": [
-    "**/*.ts"
+    "./**/*.ts"
   ],
   "exclude": []
 }

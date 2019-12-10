@@ -6,7 +6,7 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
-import { AbsPosixPath } from "../types";
+import { Furi } from "furi";
 import { execFile } from "./node-async";
 
 export interface NpmPublishOptions {
@@ -15,7 +15,7 @@ export interface NpmPublishOptions {
    *
    * It must contain a `package.json` file.
    */
-  directory: AbsPosixPath;
+  directory: Furi;
 
   /**
    * Tag to use for this publication.
@@ -36,7 +36,7 @@ export interface ResolvedNpmPublishOptions extends NpmPublishOptions {
   /**
    * Directory to publish.
    */
-  directory: AbsPosixPath;
+  directory: Furi;
 
   /**
    * Tag to use for this publication.
@@ -72,5 +72,5 @@ function resolveNpmPublishOptions(options: NpmPublishOptions): ResolvedNpmPublis
 export async function npmPublish(options: NpmPublishOptions): Promise<void> {
   const resolved: ResolvedNpmPublishOptions = resolveNpmPublishOptions(options);
   const args: string[] = ["--tag", resolved.tag];
-  await execFile(resolved.command, ["publish", ...args], {cwd: resolved.directory});
+  await execFile(resolved.command, ["publish", ...args], {cwd: resolved.directory.toSysPath()});
 }

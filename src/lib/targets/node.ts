@@ -23,14 +23,15 @@
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import { spawn } from "child_process";
-import { posix as posixPath } from "path";
+import { Furi, join as furiJoin } from "furi";
 import Undertaker from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
 import { CleanOptions } from "../options/clean";
 import { CopyOptions } from "../options/copy";
 import { TscOptions } from "../options/tsc";
 import { ResolvedProject } from "../project";
-import { AbsPosixPath, RelPosixPath } from "../types";
+import { RelPosixPath } from "../types";
+import { MatcherUri } from "../utils/matcher";
 import {
   BaseTasks,
   nameTask,
@@ -65,17 +66,17 @@ interface ResolvedNodeTarget extends ResolvedTargetBase {
 
   readonly project: ResolvedProject;
 
-  readonly srcDir: AbsPosixPath;
+  readonly srcDir: Furi;
 
-  readonly buildDir: AbsPosixPath;
+  readonly buildDir: Furi;
 
-  readonly scripts: Iterable<string>;
+  readonly scripts: Iterable<MatcherUri>;
 
-  readonly customTypingsDir?: AbsPosixPath;
+  readonly customTypingsDir?: Furi;
 
   readonly tscOptions: TscOptions;
 
-  readonly tsconfigJson: AbsPosixPath;
+  readonly tsconfigJson: Furi;
 
   readonly dependencies: ResolvedBaseDependencies;
 
@@ -110,13 +111,13 @@ export function generateNodeTasks(taker: Undertaker, targetOptions: NodeTarget):
   const target: ResolvedNodeTarget = resolveLibTarget(targetOptions);
   const result: NodeTasks = registerBaseTasks(taker, targetOptions) as NodeTasks;
 
-  const absMain: AbsPosixPath = posixPath.join(target.buildDir, `${target.mainModule}.js`);
+  const absMain: Furi = furiJoin(target.buildDir, `${target.mainModule}.js`);
 
   // run
   result.run = nameTask(`${target.name}:run`, () => {
     return spawn(
       process.execPath,
-      [absMain, ...process.argv.splice(1)],
+      [absMain.toSysPath(), ...process.argv.splice(1)],
       {stdio: "inherit"},
     );
   });

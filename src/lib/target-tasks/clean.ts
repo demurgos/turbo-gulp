@@ -8,16 +8,15 @@
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import del from "del";
-import { Minimatch } from "minimatch";
-import { posix as path } from "path";
+import { Furi } from "furi";
 import { TaskFunction } from "undertaker";
-import * as matcher from "../utils/matcher";
+import { MatcherUri } from "../utils/matcher";
 
-export interface CleanOptions {
+export interface ResolvedCleanOptions {
   /**
    * Base-directory for clean (usually `project.root`)
    */
-  base: string;
+  base: Furi;
 
   /**
    * An array of relative paths to directories to delete
@@ -33,18 +32,18 @@ export interface CleanOptions {
 /**
  * Return a list of files, prefixed by "base"
  */
-function getFiles(options: CleanOptions): string[] {
-  const files: string[] = [];
+function getFiles(options: ResolvedCleanOptions): MatcherUri[] {
+  const files: MatcherUri[] = [];
 
   if (options.dirs !== undefined) {
     for (const dir of options.dirs) {
-      files.push(path.join(options.base, dir));
+      files.push(MatcherUri.from(options.base, dir));
     }
   }
 
   if (options.files !== undefined) {
     for (const file of options.files) {
-      files.push(matcher.asString(matcher.join(options.base, new Minimatch(file))));
+      files.push(MatcherUri.from(options.base, file));
     }
   }
 
@@ -54,8 +53,8 @@ function getFiles(options: CleanOptions): string[] {
 /**
  * Generate a task to clean files
  */
-export function generateTask(options: CleanOptions): TaskFunction {
+export function generateTask(options: ResolvedCleanOptions): TaskFunction {
   return async function () {
-    return del(getFiles(options));
+    return del(getFiles(options).map(x => x.toMinimatchString()));
   };
 }

@@ -7,17 +7,17 @@
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import { execCli as execC88Cli } from "c88/cli";
+import { Furi } from "furi";
 import { Incident } from "incident";
-import { AbsPosixPath } from "../types";
 
 export type C88Reporter =  "html" | "lcov" | "lcov-file" | "text" | "text-file";
 
 export interface RunOptions {
-  cwd: AbsPosixPath;
+  cwd: Furi;
   command: string[];
   reporters: C88Reporter[];
-  reportDir: AbsPosixPath;
-  tempDir: AbsPosixPath;
+  reportDir: Furi;
+  tempDir: Furi;
   include?: string[];
   colors?: boolean;
 
@@ -37,7 +37,7 @@ export async function run(options: RunOptions): Promise<void> {
   }
   args.push("--", ...options.command);
 
-  const returnCode: number = await execC88Cli(args, options.cwd, process);
+  const returnCode: number = await execC88Cli(args, options.cwd.toSysPath(), process);
 
   if (returnCode !== 0) {
     throw Incident("CoverageError", {args});

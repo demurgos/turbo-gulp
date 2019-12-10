@@ -7,9 +7,10 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
+import { Furi } from "furi";
 import { TaskFunction } from "undertaker";
 import { requireAll } from "../require-all";
-import { AbsPosixPath, RelPosixPath } from "../types";
+import { RelPosixPath } from "../types";
 
 const DEFAULT_MOCHA_MAIN_TASK_NAME: string = "_:build:mocha-main";
 
@@ -24,7 +25,7 @@ export interface MochaMainOptions {
    *
    * Absolute POSIX path.
    */
-  base: AbsPosixPath;
+  base: Furi;
 
   /**
    * Target file where the result will be written.

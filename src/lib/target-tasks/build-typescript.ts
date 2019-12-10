@@ -8,6 +8,7 @@
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import fs from "fs";
+import { toSysPath } from "furi";
 import globWatcher from "glob-watcher";
 import gulpRename from "gulp-rename";
 import gulpSourceMaps from "gulp-sourcemaps";
@@ -17,6 +18,7 @@ import merge from "merge2";
 import path from "path";
 import { Tagged } from "ts-tagged";
 import { TaskFunction } from "undertaker";
+import { default as VinylFile } from "vinyl";
 import vinylFs from "vinyl-fs";
 import { CustomTscOptions, toStandardTscOptions, TscOptions } from "../options/tsc";
 import { ResolvedTsLocations, resolveTsLocations, TypescriptConfig } from "../typescript";
@@ -67,9 +69,9 @@ export function getBuildTypescriptTask(
   const resolved: ResolvedTsLocations = resolveTsLocations(options);
   const customTscOptions: CustomTscOptions = {
     ...options.tscOptions,
-    rootDir: resolved.rootDir,
-    outDir: resolved.outDir,
-    typeRoots: resolved.typeRoots,
+    rootDir: toSysPath(resolved.rootDir.toString()),
+    outDir: toSysPath(resolved.outDir.toString()),
+    typeRoots: resolved.typeRoots !== undefined ? resolved.typeRoots.map(x => toSysPath(x.toString())) : undefined,
   };
 
   const task: TaskFunction = function () {
@@ -78,7 +80,7 @@ export function getBuildTypescriptTask(
     let dtsStream: NodeJS.ReadableStream | undefined;
 
     const srcStream: NodeJS.ReadableStream = vinylFs
-      .src(resolved.absScripts, {base: options.srcDir})
+      .src(resolved.absScripts.map(x => x.toMinimatchString()), {base: options.srcDir.toSysPath()})
       .pipe(gulpSourceMaps.init());
 
     interface CompiledStream {
@@ -89,7 +91,7 @@ export function getBuildTypescriptTask(
     const reporter: TypescriptReporter = new TypescriptReporter(throwOnError);
     // TODO: update type definitions of `gulp-sourcemaps`
     const writeSourceMapsOptions: gulpSourceMaps.WriteOptions = <any> {
-      sourceRoot: (file: any /* VinylFile */): string => {
+      sourceRoot: (file: VinylFile): string => {
         return path.posix.relative(path.posix.dirname(file.relative), "");
       },
     };
@@ -116,7 +118,7 @@ export function getBuildTypescriptTask(
     }
 
     return merge([dtsStream, jsStream, mjsStream].filter(x => x !== undefined) as NodeJS.ReadableStream[])
-      .pipe(vinylFs.dest(options.buildDir));
+      .pipe(vinylFs.dest(toSysPath(options.buildDir.toString())));
   };
   task.displayName = "_build:scripts";
   return task;
@@ -126,7 +128,10 @@ export function getBuildTypescriptWatchTask(options: TypescriptConfig): () => fs
   return (): fs.FSWatcher => {
     const buildTask: TaskFunction = getBuildTypescriptTask(options, false);
     const resolved: ResolvedTsLocations = resolveTsLocations(options);
-    return globWatcher(resolved.absScripts, {cwd: options.srcDir}, buildTask) as fs.FSWatcher;
+    return globWatcher(
+      resolved.absScripts.map(x => x.toMinimatchString()),
+      {cwd: options.srcDir.toSysPath()}, buildTask,
+    );
   };
 }
 

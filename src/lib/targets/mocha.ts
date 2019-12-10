@@ -40,7 +40,7 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
-import { posix as posixPath } from "path";
+import { join as furiJoin } from "furi";
 import Undertaker, { TaskFunction } from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
 import { hasJsOutput, hasMjsOutput } from "../options/tsc";
@@ -170,8 +170,8 @@ export function generateMochaTasks(taker: Undertaker, targetOptions: MochaTarget
   // tslint:disable-next-line:typedef
   const coverageOptionsBase = {
     rootDir: target.project.absRoot,
-    reportDir: posixPath.join(target.project.absRoot, "coverage"),
-    tempDir: posixPath.join(target.project.absRoot, ".coverage"),
+    reportDir: furiJoin(target.project.absRoot, "coverage"),
+    tempDir: furiJoin(target.project.absRoot, ".coverage"),
     reporters: ["text", "lcov-file", "html"] as C88Reporter[],
     colors: true,
   };

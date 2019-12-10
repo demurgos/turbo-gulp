@@ -6,47 +6,46 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
+import { Furi, join as furiJoin, parent as furiParent } from "furi";
 import { IMinimatch, Minimatch } from "minimatch";
-import { posix as posixPath } from "path";
 import { CustomTscOptions } from "./options/tsc";
-import { AbsPosixPath } from "./types";
-import * as matcher from "./utils/matcher";
+import { MatcherUri } from "./utils/matcher";
 
 export interface TypescriptConfig {
   readonly tscOptions: CustomTscOptions;
-  readonly tsconfigJson: AbsPosixPath;
-  readonly customTypingsDir?: AbsPosixPath;
-  readonly packageJson: AbsPosixPath;
-  readonly buildDir: AbsPosixPath;
-  readonly srcDir: AbsPosixPath;
-  readonly scripts: Iterable<string>;
+  readonly tsconfigJson: Furi;
+  readonly customTypingsDir?: Furi;
+  readonly packageJson: Furi;
+  readonly buildDir: Furi;
+  readonly srcDir: Furi;
+  readonly scripts: Iterable<MatcherUri>;
 }
 
 export interface ResolvedTsLocations {
   /**
    * Absolute path for the directory containing the `tsconfig.json` file.
    */
-  readonly tsconfigJsonDir: AbsPosixPath;
+  readonly tsconfigJsonDir: Furi;
 
   /**
    * Absolute path for the `tsconfig.json` file.
    */
-  readonly tsconfigJson: AbsPosixPath;
+  readonly tsconfigJson: Furi;
 
   /**
    * Root directory containing the sources, relative to `tsconfigJsonDir`.
    */
-  readonly rootDir: AbsPosixPath;
+  readonly rootDir: Furi;
 
   /**
    * If the typeRoots are not just `@types`, an array of type root directories, relative to `tsconfigJsonDir`.
    */
-  readonly typeRoots: AbsPosixPath[] | undefined;
+  readonly typeRoots: Furi[] | undefined;
 
   /**
    * Directory containing the build, relative to `tsconfigJsonDir`
    */
-  readonly outDir: AbsPosixPath;
+  readonly outDir: Furi;
 
   /**
    * Patterns matching scripts to include, relative to `rootDir`.
@@ -61,27 +60,27 @@ export interface ResolvedTsLocations {
   /**
    * Patterns matching the scripts, relative to `rootDir`.
    */
-  readonly absScripts: string[];
+  readonly absScripts: MatcherUri[];
 }
 
 export function resolveTsLocations(options: TypescriptConfig): ResolvedTsLocations {
-  const tsconfigJson: AbsPosixPath = options.tsconfigJson;
-  const tsconfigJsonDir: AbsPosixPath = posixPath.dirname(tsconfigJson);
+  const tsconfigJson: Furi = options.tsconfigJson;
+  const tsconfigJsonDir: Furi = new Furi(furiParent(tsconfigJson));
 
-  const rootDir: AbsPosixPath = options.srcDir;
+  const rootDir: Furi = options.srcDir;
 
-  let typeRoots: AbsPosixPath[] | undefined = undefined;
+  let typeRoots: Furi[] | undefined = undefined;
   if (options.customTypingsDir !== undefined) {
-    const atTypesDir: AbsPosixPath = posixPath.join(posixPath.dirname(options.packageJson), "node_modules", "@types");
+    const atTypesDir: Furi = furiJoin(furiParent(options.packageJson), "node_modules", "@types");
     typeRoots = [atTypesDir, options.customTypingsDir];
   }
-  const outDir: AbsPosixPath = options.buildDir;
+  const outDir: Furi = options.buildDir;
   const relInclude: string[] = [];
   const relExclude: string[] = [];
-  const absScripts: string[] = [];
+  const absScripts: MatcherUri[] = [];
 
   for (const script of options.scripts) {
-    const pattern: IMinimatch = matcher.relative(tsconfigJsonDir, new Minimatch(script));
+    const pattern: IMinimatch = new Minimatch(script.relativeFrom(tsconfigJsonDir));
     if (pattern.negate) {
       relExclude.push(pattern.pattern);
     } else {

@@ -7,7 +7,7 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
-import { posix as posixPath } from "path";
+import { Furi, join as furiJoin } from "furi";
 import { default as Undertaker, TaskFunction } from "undertaker";
 import {
   CustomTscOptions,
@@ -16,14 +16,14 @@ import {
   toStandardTscOptions,
   TscOptions,
 } from "../options/tsc";
-import { Project } from "../project";
+import { ResolvedProject } from "../project";
 import { writeJsonFile } from "../utils/project";
 
 export interface Options {
   /**
    * The absolute path where to generate the project tsconfigJson file.
    */
-  readonly tsconfigJson: string;
+  readonly tsconfigJson: Furi;
 
   /**
    * The compiler options to apply, merged with the default project compiler options.
@@ -48,7 +48,7 @@ export function getTaskName(): string {
   return "tsconfig.json";
 }
 
-export function registerTask(taker: Undertaker, project: Project): TaskFunction {
+export function registerTask(taker: Undertaker, project: ResolvedProject): TaskFunction {
   if (project.typescript === undefined || project.typescript.tsconfigJson === undefined) {
     throw new Error("Cannot register project tsconfigJson task, missing required properties options");
   }
@@ -56,7 +56,7 @@ export function registerTask(taker: Undertaker, project: Project): TaskFunction 
   const subTasks: TaskFunction[] = [];
 
   for (const tsconfigPath of project.typescript.tsconfigJson) {
-    const tsconfigJson: string = posixPath.join(project.root, tsconfigPath);
+    const tsconfigJson: Furi = furiJoin(project.absRoot, [tsconfigPath]);
     const tscOptions: TscOptions | undefined = project.typescript.tscOptions;
     const subTask: TaskFunction = generateTask({tsconfigJson, tscOptions});
     subTask.displayName = `_tsconfig.json:${tsconfigPath}`;

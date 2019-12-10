@@ -6,18 +6,16 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
+import { fromSysPath, Furi } from "furi";
 import { Incident } from "incident";
-import { IMinimatch, Minimatch } from "minimatch";
-import { toPosix } from "../project";
 import { MochaReporter } from "../target-tasks/mocha";
-import { AbsPosixPath } from "../types";
-import * as matcher from "./matcher";
+import { MatcherUri } from "./matcher";
 import { SpawnedProcess, SpawnOptions, SpawnResult } from "./node-async";
 
 /**
  * Absolute path to the Mocha CLI script.
  */
-const MOCHA_BIN: AbsPosixPath = toPosix(require.resolve("mocha/bin/mocha")) as AbsPosixPath;
+const MOCHA_BIN: Furi = new Furi(fromSysPath(require.resolve("mocha/bin/mocha")));
 
 /**
  * Runs the Mocha CLI with the provided arguments.
@@ -38,7 +36,7 @@ export async function execMocha(
   }
   return new SpawnedProcess(
     process.execPath,
-    [MOCHA_BIN, ...args],
+    [MOCHA_BIN.toSysPath(), ...args],
     {stdio: "pipe", ...options},
   ).toPromise();
 }
@@ -50,14 +48,14 @@ export interface Sources {
   /**
    * Base directory containing the tests.
    */
-  baseDir: AbsPosixPath;
+  baseDir: Furi;
 
   /**
    * Array of absolute Minimatch patterns for spec files.
    *
    * They either end in `.spec.mjs` or `.spec.js`.
    */
-  specs: ReadonlyArray<string>;
+  specs: readonly MatcherUri[];
 }
 
 /**
@@ -67,9 +65,8 @@ export interface Sources {
  * @param specPattern Minimatch pattern for the spec files.
  * @return Resolved locations.
  */
-export function getSources(baseDir: AbsPosixPath, specPattern: string): Sources {
-  const glob: IMinimatch = new Minimatch(specPattern);
-  const specs: string = matcher.asString(matcher.join(baseDir, glob));
+export function getSources(baseDir: Furi, specPattern: string): Sources {
+  const specs: MatcherUri = MatcherUri.from(baseDir, specPattern);
 
   return {
     baseDir,
@@ -84,7 +81,7 @@ export function getSources(baseDir: AbsPosixPath, specPattern: string): Sources 
  * @return Command line arguments
  */
 export function getCommand(options: GetCommandArgsOptions): string[] {
-  return [process.execPath, MOCHA_BIN, ...getCommandArgs(options)];
+  return [process.execPath, MOCHA_BIN.toSysPath(), ...getCommandArgs(options)];
 }
 
 /**
@@ -94,7 +91,7 @@ export interface GetCommandArgsOptions {
   /**
    * Directory containing the tested files.
    */
-  testDir: AbsPosixPath;
+  testDir: Furi;
 
   /**
    * Mocha reporter used to display the test results.
@@ -136,7 +133,7 @@ export function getCommandArgs(options: GetCommandArgsOptions): string[] {
     result.push("--es-module-specifier-resolution=node");
     result.push("--delay");
   }
-  result.push(...sources.specs);
+  result.push(...sources.specs.map(x => x.toMinimatchString()));
   return result;
 }
 
@@ -147,12 +144,12 @@ export interface RunOptions {
   /**
    * Current working directory for the Mocha execution.
    */
-  cwd: AbsPosixPath;
+  cwd: Furi;
 
   /**
    * Directory containing the spec files.
    */
-  testDir: AbsPosixPath;
+  testDir: Furi;
 
   /**
    * Glob matching the spec files.
@@ -186,7 +183,7 @@ export interface RunOptions {
 export async function run(options: RunOptions): Promise<void> {
   const args: string[] = getCommandArgs(options);
 
-  const result: SpawnResult = await execMocha(args, options.experimentalModules, {cwd: options.cwd, stdio: "inherit"});
+  const result: SpawnResult = await execMocha(args, options.experimentalModules, {cwd: options.cwd.toSysPath(), stdio: "inherit"});
   if (result.exit.type === "code") {
     if (result.exit.code === 0) {
       return;

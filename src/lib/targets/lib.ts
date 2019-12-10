@@ -70,8 +70,7 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
-import { Minimatch } from "minimatch";
-import path from "path";
+import { Furi, join as furiJoin, toSysPath } from "furi";
 import Undertaker from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
 import vinylFs from "vinyl-fs";
@@ -81,11 +80,11 @@ import { CustomTscOptions, mergeTscOptions, TscOptions } from "../options/tsc";
 import { ResolvedProject } from "../project";
 import { getBuildTypescriptTask } from "../target-tasks/build-typescript";
 import { getTypedocTask } from "../target-tasks/typedoc";
-import { AbsPosixPath, RelPosixPath } from "../types";
+import { RelPosixPath } from "../types";
 import { TypescriptConfig } from "../typescript";
 import { branchPublish } from "../utils/branch-publish";
 import { getHeadHash } from "../utils/git";
-import * as matcher from "../utils/matcher";
+import { MatcherUri } from "../utils/matcher";
 import { npmPublish } from "../utils/npm-publish";
 import { PackageJson, readJsonFile } from "../utils/project";
 import {
@@ -134,17 +133,17 @@ export interface LibTarget extends TargetBase {
 interface ResolvedLibTarget extends ResolvedTargetBase {
   readonly project: ResolvedProject;
 
-  readonly srcDir: AbsPosixPath;
+  readonly srcDir: Furi;
 
-  readonly buildDir: AbsPosixPath;
+  readonly buildDir: Furi;
 
-  readonly scripts: Iterable<string>;
+  readonly scripts: Iterable<MatcherUri>;
 
-  readonly customTypingsDir?: AbsPosixPath;
+  readonly customTypingsDir?: Furi;
 
   readonly tscOptions: TscOptions;
 
-  readonly tsconfigJson: AbsPosixPath;
+  readonly tsconfigJson: Furi;
 
   readonly mainModule: RelPosixPath;
 
@@ -210,7 +209,7 @@ export interface ResolvedDistOptions {
   /**
    * Directory used for distribution builds.
    */
-  readonly distDir: AbsPosixPath;
+  readonly distDir: Furi;
 
   /**
    * Depending on the value:
@@ -254,7 +253,7 @@ export interface TypedocOptions {
 }
 
 export interface ResolvedTypedocOptions {
-  readonly dir: AbsPosixPath;
+  readonly dir: Furi;
 
   readonly name: string;
 
@@ -295,7 +294,7 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
   let typedoc: ResolvedTypedocOptions | undefined = undefined;
   if (target.typedoc !== undefined) {
     typedoc = {
-      dir: path.posix.join(base.project.absRoot, target.typedoc.dir),
+      dir: furiJoin(base.project.absRoot, target.typedoc.dir),
       name: target.typedoc.name,
       deploy: target.typedoc.deploy,
     };
@@ -305,9 +304,9 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
   if (target.dist === undefined || target.dist === false) {
     dist = false;
   } else {
-    const defaultDistDir: AbsPosixPath = path.posix.join(base.project.absDistDir, target.name);
+    const defaultDistDir: Furi = furiJoin(base.project.absDistDir, target.name);
     const defaultPackageJsonMap: (pkg: PackageJson) => PackageJson = pkg => pkg;
-    const defaultCopy: (dest: AbsPosixPath) => CopyOptions[] = (_: AbsPosixPath) => [{
+    const defaultCopy: (dest: Furi) => CopyOptions[] = (_: Furi) => [{
       files: ["./*.md"],
     }];
 
@@ -323,8 +322,8 @@ function resolveLibTarget(target: LibTarget): ResolvedLibTarget {
         copy: defaultCopy(defaultDistDir),
       };
     } else {
-      const distDir: AbsPosixPath = target.dist.distDir !== undefined
-        ? path.posix.join(base.project.absRoot, target.dist.distDir)
+      const distDir: Furi = target.dist.distDir !== undefined
+        ? furiJoin(base.project.absRoot, target.dist.distDir)
         : defaultDistDir;
       dist = {
         tscOptions: mergeTscOptions(
@@ -387,7 +386,7 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
 
       async function deployTypedocTask(): Promise<void> {
         const commitMessage: string = `Deploy documentation for ${await getHeadHash()}`;
-        return branchPublish({...deploy, dir: typedocOptions.dir, commitMessage});
+        return branchPublish({...deploy, dir: typedocOptions.dir.toSysPath(), commitMessage});
       }
 
       result.typedocDeploy = nameTask(
@@ -404,30 +403,33 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
     const copyTasks: Undertaker.TaskFunction[] = [];
 
     // Locations for compilation: default to the original sources but compile the copied files if copySrc is used
-    let srcDir: AbsPosixPath = target.srcDir;
-    let customTypingsDir: AbsPosixPath | undefined = target.customTypingsDir;
+    let srcDir: Furi = target.srcDir;
+    let customTypingsDir: Furi | undefined = target.customTypingsDir;
     // dist:copy:scripts
     if (target.dist.copySrc) {
-      srcDir = path.posix.join(dist.distDir, "_src");
+      srcDir = furiJoin(dist.distDir, "_src");
       copyTasks.push(nameTask(
         `${target.name}:dist:copy:scripts`,
         (): NodeJS.ReadableStream => {
           return vinylFs
-            .src([...target.scripts], {base: target.srcDir})
-            .pipe(vinylFs.dest(srcDir));
+            .src([...target.scripts].map(x => x.toMinimatchString()), {base: target.srcDir.toSysPath()})
+            .pipe(vinylFs.dest(srcDir.toSysPath()));
         },
       ));
       // dist:copy:custom-typings
       if (target.customTypingsDir !== undefined) {
-        const srcCustomTypingsDir: AbsPosixPath = target.customTypingsDir;
-        const destCustomTypingsDir: AbsPosixPath = path.posix.join(dist.distDir, "_custom-typings");
+        const srcCustomTypingsDir: Furi = target.customTypingsDir;
+        const destCustomTypingsDir: Furi = furiJoin(dist.distDir, "_custom-typings");
         customTypingsDir = destCustomTypingsDir;
         copyTasks.push(nameTask(
           `${target.name}:dist:copy:custom-typings`,
           (): NodeJS.ReadableStream => {
             return vinylFs
-              .src([path.posix.join(srcCustomTypingsDir, "**/*.d.ts")], {base: srcCustomTypingsDir})
-              .pipe(vinylFs.dest(destCustomTypingsDir!));
+              .src(
+                [toSysPath(furiJoin(srcCustomTypingsDir, "**/*.d.ts").toString())],
+                {base: toSysPath(srcCustomTypingsDir.toString())},
+              )
+              .pipe(vinylFs.dest(toSysPath(destCustomTypingsDir!.toString())));
           },
         ));
       }
@@ -462,16 +464,16 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
     result.distCopy = nameTask(`${target.name}:dist:copy`, taker.parallel(copyTasks));
 
     // Resolve tsconfig for `dist`
-    const tsconfigJson: AbsPosixPath = path.posix.join(srcDir, "tsconfig.json");
-    let scripts: string[] = [];
+    const tsconfigJson: Furi = furiJoin(srcDir, "tsconfig.json");
+    const scripts: MatcherUri[] = [];
     if (srcDir !== target.srcDir) {
       for (const script of target.scripts) {
-        scripts.push(
-          matcher.asString(matcher.join(srcDir, matcher.relative(target.srcDir, new Minimatch(script)))),
-        );
+        const relative: string = script.relativeFrom(target.srcDir);
+        const rebased: MatcherUri = MatcherUri.from(srcDir, relative);
+        scripts.push(rebased);
       }
     } else {
-      scripts = [...target.scripts];
+      scripts.push(...target.scripts);
     }
 
     const tsOptions: TypescriptConfig = {
@@ -504,7 +506,7 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
         }
 
         return gulpBufferSrc("package.json", Buffer.from(JSON.stringify(pkg, null, 2)))
-          .pipe(vinylFs.dest(dist.distDir));
+          .pipe(vinylFs.dest(dist.distDir.toSysPath()));
       }
 
       result.distPackageJson = nameTask(`${target.name}:dist:package.json`, distPackageJsonTask);
