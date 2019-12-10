@@ -1,4 +1,4 @@
-# Next
+# 0.21.1 (2019-12-10)
 
 - **[Feature]** Add `afterBuild` and `afterDist` options.
 
