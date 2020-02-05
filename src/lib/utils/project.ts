@@ -6,9 +6,9 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
-import { PathLike } from "fs";
 import { Furi } from "furi";
 import semver from "semver";
+import { URL } from "url";
 import { Project, ResolvedProject } from "../project";
 import * as git from "./git";
 import { readText, writeText } from "./node-async";
@@ -99,7 +99,7 @@ export interface PackageJson {
  * @param filePath Path of the file to read.
  * @return Promise for the content of the file.
  */
-export async function readJsonFile(filePath: PathLike): Promise<any> {
+export async function readJsonFile(filePath: string | URL): Promise<any> {
   return JSON.parse(await readText(filePath));
 }
 
@@ -113,7 +113,7 @@ export async function readJsonFile(filePath: PathLike): Promise<any> {
  * @param data Data to write.
  * @return Promise resolved once the data is written.
  */
-export async function writeJsonFile(filePath: PathLike, data: any): Promise<void> {
+export async function writeJsonFile(filePath: string | URL, data: any): Promise<void> {
   return writeText(filePath, JSON.stringify(data, null, 2) + "\n");
 }
 

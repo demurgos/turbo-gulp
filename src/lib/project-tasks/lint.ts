@@ -1,11 +1,10 @@
 /**
  * This module defines the `lint` project task.
  *
+ * @packageDocumentation
  * @module project-tasks/lint
  * @internal
  */
-
-/** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import { existsSync as fileExistsSync, readFileSync } from "fs";
 import { Furi, join as furiJoin } from "furi";

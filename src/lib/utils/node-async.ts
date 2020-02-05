@@ -8,8 +8,10 @@
 
 import childProcess from "child_process";
 import fs from "fs";
+import { toSysPath } from "furi";
 import { Incident } from "incident";
 import stream from "stream";
+import { URL } from "url";
 
 export interface ExecFileOptions {
   cwd?: string;
@@ -59,6 +61,10 @@ function asBuffer(val: string | Buffer): Buffer {
   return val instanceof Buffer ? val : Buffer.from(val, "utf8");
 }
 
+function asSysPath(pathLike: string | URL): string {
+  return pathLike instanceof URL ? toSysPath(pathLike) : pathLike;
+}
+
 export class ExecFileError extends Incident<ExecFileErrorData, "ExecFileError", Error> {
   constructor(nativeError: Error, stdout: Buffer | string, stderr: Buffer | string) {
     const data: ExecFileErrorData = {
@@ -75,9 +81,9 @@ export class ExecFileError extends Incident<ExecFileErrorData, "ExecFileError", 
   }
 }
 
-export async function readText(file: fs.PathLike): Promise<string> {
+export async function readText(file: string | URL): Promise<string> {
   return new Promise((resolve, reject) => {
-    fs.readFile(file, {encoding: "UTF-8"}, (err: NodeJS.ErrnoException | null, data: string): void => {
+    fs.readFile(asSysPath(file), {encoding: "UTF-8"}, (err: NodeJS.ErrnoException | null, data: string): void => {
       if (err !== null) {
         reject(err);
       } else {
@@ -87,9 +93,9 @@ export async function readText(file: fs.PathLike): Promise<string> {
   });
 }
 
-export async function writeText(file: fs.PathLike, text: string): Promise<void> {
+export async function writeText(file: string | URL, text: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    fs.writeFile(file, text, {encoding: "UTF-8"}, (err: NodeJS.ErrnoException | null): void => {
+    fs.writeFile(asSysPath(file), text, {encoding: "UTF-8"}, (err: NodeJS.ErrnoException | null): void => {
       if (err !== null) {
         reject(err);
       } else {

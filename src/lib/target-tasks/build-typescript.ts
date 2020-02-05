@@ -1,13 +1,12 @@
 /**
  * This module generates Typescript compilation tasks.
  *
+ * @packageDocumentation
  * @module target-tasks/build-typescript
  * @internal
  */
 
-/** (Placeholder comment, see TypeStrong/typedoc#603) */
-
-import fs from "fs";
+import { FSWatcher } from "fs";
 import { toSysPath } from "furi";
 import globWatcher from "glob-watcher";
 import gulpRename from "gulp-rename";
@@ -123,8 +122,8 @@ export function getBuildTypescriptTask(
   return task;
 }
 
-export function getBuildTypescriptWatchTask(options: TypescriptConfig): () => fs.FSWatcher {
-  return (): fs.FSWatcher => {
+export function getBuildTypescriptWatchTask(options: TypescriptConfig): () => FSWatcher {
+  return (): FSWatcher => {
     const buildTask: TaskFunction = getBuildTypescriptTask(options, false);
     const resolved: ResolvedTsLocations = resolveTsLocations(options);
     return globWatcher(
@@ -134,6 +133,6 @@ export function getBuildTypescriptWatchTask(options: TypescriptConfig): () => fs
   };
 }
 
-export function getBuildTypescriptWatcher(options: TypescriptConfig): fs.FSWatcher {
+export function getBuildTypescriptWatcher(options: TypescriptConfig): FSWatcher {
   return getBuildTypescriptWatchTask(options)();
 }

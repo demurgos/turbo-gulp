@@ -17,10 +17,9 @@
  *
  * Run the the Node application (without building it).
  *
+ * @packageDocumentation
  * @module targets/node
  */
-
-/** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import { spawn } from "child_process";
 import { Furi, join as furiJoin } from "furi";

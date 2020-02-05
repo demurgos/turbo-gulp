@@ -1,11 +1,10 @@
 /**
  * This module generates copy tasks.
  *
+ * @packageDocumentation
  * @module target-tasks/copy
  * @internal
  */
-
-/** (Placeholder comment, see TypeStrong/typedoc#603) */
 
 import { FSWatcher } from "fs";
 import { Furi, toSysPath } from "furi";

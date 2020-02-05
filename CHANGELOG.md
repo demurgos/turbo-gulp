@@ -2,6 +2,7 @@
 
 - **[Breaking change]** Drop support for `customTypingsDir` dir.
 - **[Fix]** Update dependencies.
+- **[Fix]** Add workaround for yarnpkg/berry#899.
 
 # 0.21.1 (2019-12-10)
 
