@@ -1,5 +1,6 @@
 # Next
 
+- **[Fix]** Fix coverage support.
 - **[Fix]** Remove debug message.
 
 # 0.22.0 (2020-02-05)

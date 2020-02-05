@@ -22,7 +22,8 @@
     "dist": "gulp lib:dist",
     "prepare": "gulp all:tsconfig.json && gulp tslint.json && gulp dist",
     "pretest": "gulp lint",
-    "prepublishOnly": "echo \"Use \\`gulp lib:publish\\`\" && exit 1"
+    "prepublishOnly": "echo \"Use \\`gulp lib:publish\\`\" && exit 1",
+    "cov": "c88 --reporter text --reporter lcov-file --reporter html --color -- /home/demurgos/.nvm/versions/node/v13.7.0/bin/node /data/projects/various/turbo-gulp/node_modules/mocha/bin/mocha --ui bdd --reporter spec --colors /data/projects/various/turbo-gulp/build/test/test.cjs.js"
   },
   "pre-commit": {
     "run": [
@@ -49,7 +50,7 @@
     "@types/vinyl": "^2.0.4",
     "@types/vinyl-fs": "^2.4.11",
     "async-done": "^1.3.2",
-    "c88": "^0.3.2",
+    "c88": "^0.3.4",
     "del": "^5.1.0",
     "fancy-log": "^1.3.3",
     "fs-extra": "^8.1.0",
@@ -100,7 +101,7 @@
     "minimist": "^1.2.0",
     "pre-commit": "^1.2.2",
     "ts-node": "^8.6.2",
-    "turbo-gulp": "next"
+    "turbo-gulp": "^0.22.0"
   },
   "c88": {
     "match": [
