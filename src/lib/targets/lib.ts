@@ -70,7 +70,7 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
-import { Furi, join as furiJoin, toSysPath } from "furi";
+import { Furi, join as furiJoin } from "furi";
 import Undertaker from "undertaker";
 import UndertakerRegistry from "undertaker-registry";
 import vinylFs from "vinyl-fs";
@@ -138,8 +138,6 @@ interface ResolvedLibTarget extends ResolvedTargetBase {
   readonly buildDir: Furi;
 
   readonly scripts: Iterable<MatcherUri>;
-
-  readonly customTypingsDir?: Furi;
 
   readonly tscOptions: TscOptions;
 
@@ -375,7 +373,6 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
   const tsOptions: TypescriptConfig = {
     tscOptions: target.tscOptions,
     tsconfigJson: target.tsconfigJson,
-    customTypingsDir: target.customTypingsDir,
     packageJson: target.project.absPackageJson,
     buildDir: target.buildDir,
     srcDir: target.srcDir,
@@ -415,7 +412,6 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
 
     // Locations for compilation: default to the original sources but compile the copied files if copySrc is used
     let srcDir: Furi = target.srcDir;
-    let customTypingsDir: Furi | undefined = target.customTypingsDir;
     // dist:copy:scripts
     if (target.dist.copySrc) {
       srcDir = furiJoin(dist.distDir, "_src");
@@ -427,23 +423,6 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
             .pipe(vinylFs.dest(srcDir.toSysPath()));
         },
       ));
-      // dist:copy:custom-typings
-      if (target.customTypingsDir !== undefined) {
-        const srcCustomTypingsDir: Furi = target.customTypingsDir;
-        const destCustomTypingsDir: Furi = furiJoin(dist.distDir, "_custom-typings");
-        customTypingsDir = destCustomTypingsDir;
-        copyTasks.push(nameTask(
-          `${target.name}:dist:copy:custom-typings`,
-          (): NodeJS.ReadableStream => {
-            return vinylFs
-              .src(
-                [toSysPath(furiJoin(srcCustomTypingsDir, "**/*.d.ts").toString())],
-                {base: toSysPath(srcCustomTypingsDir.toString())},
-              )
-              .pipe(vinylFs.dest(toSysPath(destCustomTypingsDir!.toString())));
-          },
-        ));
-      }
 
       // dist:copy:dist
       if (target.dist.copy !== undefined) {
@@ -490,7 +469,6 @@ export function generateLibTasks(taker: Undertaker, targetOptions: LibTarget): L
     const tsOptions: TypescriptConfig = {
       tscOptions: target.dist.tscOptions,
       tsconfigJson,
-      customTypingsDir,
       packageJson: target.project.absPackageJson,
       buildDir: dist.distDir,
       srcDir,

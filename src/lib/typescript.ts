@@ -6,7 +6,7 @@
 
 /** (Placeholder comment, see TypeStrong/typedoc#603) */
 
-import { Furi, join as furiJoin, parent as furiParent } from "furi";
+import { Furi, parent as furiParent } from "furi";
 import { IMinimatch, Minimatch } from "minimatch";
 import { CustomTscOptions } from "./options/tsc";
 import { MatcherUri } from "./utils/matcher";
@@ -14,7 +14,6 @@ import { MatcherUri } from "./utils/matcher";
 export interface TypescriptConfig {
   readonly tscOptions: CustomTscOptions;
   readonly tsconfigJson: Furi;
-  readonly customTypingsDir?: Furi;
   readonly packageJson: Furi;
   readonly buildDir: Furi;
   readonly srcDir: Furi;
@@ -36,11 +35,6 @@ export interface ResolvedTsLocations {
    * Root directory containing the sources, relative to `tsconfigJsonDir`.
    */
   readonly rootDir: Furi;
-
-  /**
-   * If the typeRoots are not just `@types`, an array of type root directories, relative to `tsconfigJsonDir`.
-   */
-  readonly typeRoots: Furi[] | undefined;
 
   /**
    * Directory containing the build, relative to `tsconfigJsonDir`
@@ -69,11 +63,6 @@ export function resolveTsLocations(options: TypescriptConfig): ResolvedTsLocatio
 
   const rootDir: Furi = options.srcDir;
 
-  let typeRoots: Furi[] | undefined = undefined;
-  if (options.customTypingsDir !== undefined) {
-    const atTypesDir: Furi = furiJoin(furiParent(options.packageJson), "node_modules", "@types");
-    typeRoots = [atTypesDir, options.customTypingsDir];
-  }
   const outDir: Furi = options.buildDir;
   const relInclude: string[] = [];
   const relExclude: string[] = [];
@@ -89,5 +78,5 @@ export function resolveTsLocations(options: TypescriptConfig): ResolvedTsLocatio
     absScripts.push(script);
   }
 
-  return {tsconfigJson, tsconfigJsonDir, rootDir, typeRoots, outDir, relInclude, relExclude, absScripts};
+  return {tsconfigJson, tsconfigJsonDir, rootDir, outDir, relInclude, relExclude, absScripts};
 }

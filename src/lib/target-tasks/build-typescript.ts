@@ -71,7 +71,6 @@ export function getBuildTypescriptTask(
     ...options.tscOptions,
     rootDir: toSysPath(resolved.rootDir.toString()),
     outDir: toSysPath(resolved.outDir.toString()),
-    typeRoots: resolved.typeRoots !== undefined ? resolved.typeRoots.map(x => toSysPath(x.toString())) : undefined,
   };
 
   const task: TaskFunction = function () {

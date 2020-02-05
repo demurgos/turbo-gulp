@@ -67,7 +67,6 @@ const lib: buildTools.LibTarget = {
   srcDir: "src/lib",
   scripts: ["**/*.ts"],
   mainModule: "index",
-  customTypingsDir: "src/custom-typings",
   tscOptions: {
     skipLibCheck: true,
   },
@@ -97,7 +96,7 @@ Check the documentation for the list of available tasks and configuration.
 
 ## Recommended project layout
 
-Here 
+Here
 
 ```text
 .

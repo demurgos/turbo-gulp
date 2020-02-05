@@ -52,8 +52,7 @@
     "target": "es2017",
     "traceResolution": false,
     "rootDir": "",
-    "outDir": "../../build/lib",
-    "typeRoots": []
+    "outDir": "../../build/lib"
   },
   "include": [
     "./**/*.ts"

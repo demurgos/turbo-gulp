@@ -72,8 +72,6 @@ interface ResolvedNodeTarget extends ResolvedTargetBase {
 
   readonly scripts: Iterable<MatcherUri>;
 
-  readonly customTypingsDir?: Furi;
-
   readonly tscOptions: TscOptions;
 
   readonly tsconfigJson: Furi;

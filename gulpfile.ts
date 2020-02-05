@@ -37,7 +37,6 @@ const lib: LibTarget = {
       tag: options.next !== undefined ? "next" : "latest",
     },
   },
-  customTypingsDir: "src/custom-typings",
   tscOptions: {
     declaration: true,
     skipLibCheck: true,
@@ -65,7 +64,6 @@ const test: MochaTarget = {
   name: "test",
   srcDir: "src",
   scripts: ["test/**/*.ts", "lib/**/*.ts", "e2e/*/*.ts"],
-  customTypingsDir: "src/custom-typings",
   tscOptions: {
     skipLibCheck: true,
   },

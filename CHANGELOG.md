@@ -1,6 +1,7 @@
 # Next
 
-- **[Fix]** Update dependencies
+- **[Breaking change]** Drop support for `customTypingsDir` dir.
+- **[Fix]** Update dependencies.
 
 # 0.21.1 (2019-12-10)
 

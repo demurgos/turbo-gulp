@@ -97,12 +97,6 @@ export interface TargetBase {
   afterBuild?: TaskFunction;
 
   /**
-   * Directory containing custom typings, relative to `project.rootDir`.
-   * Custom typings are typings that are not available on `@types`.
-   */
-  customTypingsDir?: RelPosixPath;
-
-  /**
    * Overrides for the options of the Typescript compiler.
    */
   tscOptions?: CustomTscOptions;
@@ -159,8 +153,6 @@ export interface ResolvedTargetBase {
    */
   readonly afterBuild?: Undertaker.TaskFunction;
 
-  readonly customTypingsDir?: Furi;
-
   readonly tscOptions: CustomTscOptions;
 
   readonly tsconfigJson: Furi;
@@ -209,9 +201,6 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
     }
   }
 
-  const customTypingsDir: Furi | undefined = target.customTypingsDir !== undefined
-    ? furiJoin(project.absRoot, target.customTypingsDir)
-    : undefined;
   const tscOptions: TscOptions = mergeTscOptions(DEFAULT_TSC_OPTIONS, target.tscOptions);
 
   const tsconfigJson: Furi = target.tsconfigJson !== undefined
@@ -230,7 +219,6 @@ export function resolveTargetBase(target: TargetBase): ResolvedTargetBase {
     buildDir,
     scripts,
     afterBuild: target.afterBuild,
-    customTypingsDir,
     tscOptions,
     tsconfigJson,
     dependencies,
@@ -305,7 +293,6 @@ export function generateBaseTasks(taker: Undertaker, targetOptions: TargetBase):
   const tsOptions: TypescriptConfig = {
     tscOptions: target.tscOptions,
     tsconfigJson: target.tsconfigJson,
-    customTypingsDir: target.customTypingsDir,
     packageJson: target.project.absPackageJson,
     buildDir: target.buildDir,
     srcDir: target.srcDir,
@@ -313,6 +300,8 @@ export function generateBaseTasks(taker: Undertaker, targetOptions: TargetBase):
   };
 
   const watchTasks: Undertaker.TaskFunction[] = [];
+
+  console.log(tsOptions);
 
   // build:scripts
   result.buildScripts = nameTask(`${target.name}:build:scripts`, getBuildTypescriptTask(tsOptions));
