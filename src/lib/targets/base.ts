@@ -301,8 +301,6 @@ export function generateBaseTasks(taker: Undertaker, targetOptions: TargetBase):
 
   const watchTasks: Undertaker.TaskFunction[] = [];
 
-  console.log(tsOptions);
-
   // build:scripts
   result.buildScripts = nameTask(`${target.name}:build:scripts`, getBuildTypescriptTask(tsOptions));
   watchTasks.push(nameTask(`${target.name}:watch:scripts`, getBuildTypescriptWatchTask(tsOptions)));

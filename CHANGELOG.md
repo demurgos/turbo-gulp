@@ -1,3 +1,7 @@
+# Next
+
+- **[Fix]** Remove debug message.
+
 # 0.22.0 (2020-02-05)
 
 - **[Breaking change]** Drop support for `customTypingsDir` dir.
