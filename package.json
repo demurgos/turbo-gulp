@@ -94,7 +94,7 @@
     "@types/npm": "^2.0.31",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "codecov": "^3.6.4",
+    "codecov": "^3.8.3",
     "from2": "^2.3.0",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
